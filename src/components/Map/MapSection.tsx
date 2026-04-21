@@ -5,8 +5,8 @@ import dynamic from "next/dynamic";
 import { useMap } from "react-leaflet";
 import { getPath } from "@/constants/paths";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
-import { mapList } from "@/components/scripts/Data/DataPack";
-import { MapPins } from "@/components/scripts/Data/MapPins";
+import { mapList } from "@/lib/Data/DataPack";
+import { MapPins } from "@/lib/Data/MapPins";
 import "leaflet/dist/leaflet.css";
 import "@/components/Map/map.css";
 

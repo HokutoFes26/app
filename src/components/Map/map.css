@@ -161,11 +161,15 @@
     width: 80px;
     padding: 10px;
   }
+  .maps-nav-cell-buttons {
+    padding: 8px;
+    gap: 5px;
+  }
   .maps-button {
-    padding: 5px 14px;
-    border-radius: 20px;
+    padding: 4px 12px;
+    border-radius: 9999px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 1.1em;
     transition: all 0.3s;
     border: 1px solid #1f1f1f;
   }

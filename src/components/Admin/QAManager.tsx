@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
-import { mockSupabase, Question } from "@/components/scripts/Server/mockSupabase";
-import { useData } from "@/components/contexts/DataContext";
-import "@/components/Admin/admin.css";
-import "@/components/App.css";
+import { mockSupabase, Question } from "@/lib/Server/mockSupabase";
+import { useData } from "@/contexts/DataContext";
+import "@/components/admin/admin.css";
+import "@/styles/global-app.css";
 
 export default function QAManager() {
   const { message, modal } = App.useApp();

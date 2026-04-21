@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { TabSelector, initSwipeHandlers, initIndicatorDrag } from "@/components/scripts/TabSelector";
+import { TabSelector, initSwipeHandlers, initIndicatorDrag } from "@/lib/TabSelector";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import "@/components/App.css";
-import { useRole } from "@/components/contexts/RoleContext";
+import "@/styles/global-app.css";
+import { useRole } from "@/contexts/RoleContext";
 
 const ALL_MENU_ITEMS = [
     { key: "0", icon: HomeOutlinedIcon, label: "Main" },

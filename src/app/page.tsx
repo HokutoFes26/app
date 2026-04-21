@@ -1,12 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import React, { Suspense } from "react";
+import AspectDetector from "@/lib/Misc/AspectDetector";
 
-const WebAppEntry = dynamic(() => import("@/components/WebAppEntry"), {
-  ssr: false,
-});
+const UserPC = React.lazy(() => import("@/app/_components/UserPC"));
+const UserPhone = React.lazy(() => import("@/app/_components/UserPhone"));
 
-export default function WebApp() {
-  return <WebAppEntry />;
+export default function WebPage() {
+  const isMobile = AspectDetector();
+
+  return (
+    <Suspense fallback={<div style={{ background: "#f4f7fc", height: "100vh" }} />}>
+      {isMobile ? <UserPhone /> : <UserPC />}
+    </Suspense>
+  );
 }

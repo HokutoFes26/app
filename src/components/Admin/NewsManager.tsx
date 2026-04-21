@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
-import { mockSupabase, NewsItem } from "@/components/scripts/Server/mockSupabase";
-import { useData } from "@/components/contexts/DataContext";
-import "@/components/Admin/admin.css";
+import { mockSupabase, NewsItem } from "@/lib/Server/mockSupabase";
+import { useData } from "@/contexts/DataContext";
+import "@/components/admin/admin.css";
 
 export default function NewsManager() {
   const { message, modal } = App.useApp();

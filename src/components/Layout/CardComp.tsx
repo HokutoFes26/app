@@ -1,6 +1,6 @@
 import React from "react";
-import { useRole } from "@/components/contexts/RoleContext";
-import { useTheme } from "@/components/ThemeContext";
+import { useRole } from "@/contexts/RoleContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 function CardBase(props: { title: string; children: React.ReactNode; SubjectUpdated?: React.ReactNode }) {
   return (

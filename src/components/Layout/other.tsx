@@ -1,5 +1,5 @@
 import React from "react";
-import "@/components/App.css";
+import "@/styles/global-app.css";
 import Settings from "@/components/Misc/Settings";
 import { CardBase, CardInside, SubList } from "@/components/Layout/CardComp";
 import { useTranslation } from "react-i18next";

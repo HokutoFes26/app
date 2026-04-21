@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
 import { Slider, App, Button } from "antd";
-import { useData } from "@/components/contexts/DataContext";
-import { supabase } from "@/components/scripts/Server/mockSupabase";
+import { useData } from "@/contexts/DataContext";
+import { supabase } from "@/lib/Server/mockSupabase";
 
 export default function ServerConfig() {
   const { message } = App.useApp();

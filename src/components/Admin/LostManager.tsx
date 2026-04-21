@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
-import { mockSupabase, LostItem } from "@/components/scripts/Server/mockSupabase";
-import { useData } from "@/components/contexts/DataContext";
-import "@/components/Admin/admin.css";
+import { mockSupabase, LostItem } from "@/lib/Server/mockSupabase";
+import { useData } from "@/contexts/DataContext";
+import "@/components/admin/admin.css";
 
 export default function LostManager() {
   const { message, modal } = App.useApp();

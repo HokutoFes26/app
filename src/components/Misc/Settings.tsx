@@ -1,16 +1,16 @@
 "use client";
 
 import React from "react";
-import { useTheme } from "@/components/ThemeContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { CardBase, CardInside, SubList } from "@/components/Layout/CardComp";
 import DarkSwitch from "@/components/Misc/DarkSwitch";
 import { Select, Button as AntButton, Modal, Switch } from "antd";
-import { languages } from "@/components/scripts/Data/DataPack";
+import { languages } from "@/lib/Data/DataPack";
 import { useTranslation } from "react-i18next";
 import enUS from "antd/lib/locale/en_US";
 import jaJP from "antd/lib/locale/ja_JP";
-import { useAppTime } from "@/components/contexts/TimeContext";
-import { useRole } from "@/components/contexts/RoleContext";
+import { useAppTime } from "@/contexts/TimeContext";
+import { useRole } from "@/contexts/RoleContext";
 import dayjs from "dayjs";
 
 export default function Settings() {

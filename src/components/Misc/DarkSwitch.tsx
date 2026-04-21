@@ -1,6 +1,6 @@
 import { Switch } from "antd";
-import { useTheme } from "@/components/ThemeContext";
-import DarkClick from "@/components/scripts/Data/DarkClick";
+import { useTheme } from "@/contexts/ThemeContext";
+import DarkClick from "@/lib/Data/DarkClick";
 
 export default function DarkSwitch() {
    const theme = useTheme();

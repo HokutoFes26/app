@@ -2,7 +2,7 @@
 
 import React, { Suspense } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import "@/components/App.css";
+import "@/styles/global-app.css";
 
 const MapSection = React.lazy(() => import("./MapSection"));
 
@@ -22,7 +22,7 @@ export default function MapModal({ isOpen, onClose, targetPlace }: MapModalProps
     >
       <div className="map-modal-content">
         <button className="map-modal-close" onClick={onClose}>
-          <CloseIcon style={{ fontSize: "24px" }} />
+          <CloseIcon className="close-icon" />
         </button>
 
         <div className="map-modal-body">

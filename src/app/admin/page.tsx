@@ -1,28 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import { mockSupabase } from "@/components/scripts/Server/mockSupabase";
+import { useState, useEffect, Suspense } from "react";
+import { mockSupabase } from "@/lib/Server/mockSupabase";
+import { useRole } from "@/contexts/RoleContext";
+import AspectDetector from "@/lib/Misc/AspectDetector";
+import React from "react";
+import FullPageLoader from "@/components/Layout/FullPageLoader";
 
-const WebAppEntry = dynamic(() => import("@/components/WebAppEntry"), {
-  ssr: false,
-  loading: () => (
-    <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      Loading Admin WebApp...
-    </div>
-  ),
-});
+const AdminPC = React.lazy(() => import("@/app/admin/_components/AdminPC"));
+const AdminPhone = React.lazy(() => import("@/app/admin/_components/AdminPhone"));
 
-interface PageProps {
-  params: Promise<any>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
-export default function AdminPage(props: PageProps) {
+export default function AdminPage() {
+  const { setRole } = useRole();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const isMobile = AspectDetector();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,10 +30,10 @@ export default function AdminPage(props: PageProps) {
 
     try {
       await mockSupabase.loginAsAdmin(password);
-      
-      setIsAuthenticated(true);
       localStorage.setItem("admin_auth", "true");
       localStorage.setItem("admin_pass", password);
+      setRole("admin");
+      setIsAuthenticated(true);
     } catch (err: any) {
       console.error("[Login] Failed:", err.message);
       setError("パスワードが正しくないか、ログインに失敗しました");
@@ -56,6 +50,7 @@ export default function AdminPage(props: PageProps) {
       if (adminAuth === "true" && savedPass) {
         try {
           await mockSupabase.loginAsAdmin(savedPass);
+          setRole("admin");
           setIsAuthenticated(true);
         } catch (e) {
           localStorage.removeItem("admin_auth");
@@ -64,10 +59,10 @@ export default function AdminPage(props: PageProps) {
       }
     };
     checkSession();
-  }, []);
+  }, [setRole]);
 
   if (isAuthenticated) {
-    return <WebAppEntry initialRole="admin" />;
+    return <Suspense fallback={<FullPageLoader />}>{isMobile ? <AdminPhone /> : <AdminPC />}</Suspense>;
   }
 
   return (
@@ -79,20 +74,17 @@ export default function AdminPage(props: PageProps) {
         alignItems: "center",
         justifyContent: "center",
         fontFamily: "sans-serif",
-        overflow: "hidden",
       }}
     >
       <form
         onSubmit={handleLogin}
         style={{
-          background: "none",
-          borderRadius: "20px",
           width: "70%",
           maxWidth: "400px",
           textAlign: "center",
         }}
       >
-        <h3 style={{ marginBottom: "30px", color: "#1f1f1f" }}>運営としてログイン</h3>
+        <h3 style={{ marginBottom: "30px", color: "#1f1f1f" }}>ログイン</h3>
         <input
           type="password"
           placeholder="パスワードを入力"
@@ -105,7 +97,6 @@ export default function AdminPage(props: PageProps) {
             borderRadius: "10px",
             border: "1px solid #ddd",
             fontSize: "16px",
-            boxSizing: "border-box",
           }}
           disabled={loading}
         />
@@ -122,7 +113,7 @@ export default function AdminPage(props: PageProps) {
             fontSize: "16px",
             fontWeight: "bold",
             cursor: "pointer",
-            opacity: loading ? 0.5 : 1
+            opacity: loading ? 0.5 : 1,
           }}
           disabled={loading}
         >
