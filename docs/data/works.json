@@ -3,54 +3,54 @@
         {
             "name": "Company1",
             "url": "google.com",
-            "image": "/img/products/products3.jpg"
+            "image": "/app/img/products/products3.jpg"
         },
         {
             "name": "Company2",
             "url": "google.com",
-            "image": "/img/products/products1.jpg"
+            "image": "/app/img/products/products1.jpg"
         },
         {
             "name": "Company3",
             "url": "google.com",
-            "image": "/img/products/products6.jpg"
+            "image": "/app/img/products/products6.jpg"
         },
         {
             "name": "Name",
             "url": "url.com",
-            "image": "/img/products/products9.jpg"
+            "image": "/app/img/products/products9.jpg"
         },
         {
             "name": "Company1",
             "url": "google.com",
-            "image": "/img/products/products3.jpg"
+            "image": "/app/img/products/products3.jpg"
         },
         {
             "name": "Company2",
             "url": "google.com",
-            "image": "/img/products/products1.jpg"
+            "image": "/app/img/products/products1.jpg"
         },
         {
             "name": "Company3",
             "url": "google.com",
-            "image": "/img/products/products6.jpg"
+            "image": "/app/img/products/products6.jpg"
         },
         {
             "name": "Name",
             "url": "url.com",
-            "image": "/img/products/products9.jpg"
+            "image": "/app/img/products/products9.jpg"
         }
     ],
     "thanks": [
         {
             "name": "Company3",
             "url": "google.com",
-            "image": "/img/products/products6.jpg"
+            "image": "/app/img/products/products6.jpg"
         },
         {
             "name": "Name",
             "url": "url.com",
-            "image": "/img/products/products9.jpg"
+            "image": "/app/img/products/products9.jpg"
         }
     ]
 }
