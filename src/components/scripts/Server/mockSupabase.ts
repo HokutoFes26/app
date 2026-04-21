@@ -1,0 +1,221 @@
+"use client";
+
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key";
+
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  console.warn("[Supabase] Environment variables for Supabase are missing. Ensure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set.");
+}
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
+
+export type StatusLevel = 0 | 1 | 2; // 0:green, 1:yellow, 2:red
+
+export interface StallStatus {
+  stallName: string;
+  crowdLevel: StatusLevel;
+  stockLevel: StatusLevel;
+}
+
+interface CacheEntry<T> {
+  data: T;
+  time: number;
+}
+
+const cache: Record<string, CacheEntry<unknown>> = {};
+const pendingRequests: Record<string, Promise<unknown> | null> = {};
+
+export const mockSupabase = {
+  loginAsAdmin: async (password: string) => {
+    const email = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+    if (!email) return;
+
+    console.log("[Supabase] Auth: Login Attempt");
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) throw error;
+    return data;
+  },
+
+  getJitter: () => Math.floor(Math.random() * 2000),
+
+  _fetchWithCache: async <T>(key: string, fetcher: () => Promise<T>, ttl: number): Promise<T> => {
+    const now = Date.now();
+
+    const pending = pendingRequests[key];
+    if (pending) return pending as Promise<T>;
+
+    const cached = cache[key] as CacheEntry<T> | undefined;
+    if (cached && now - cached.time < ttl) {
+      return cached.data;
+    }
+
+    console.log(`[Supabase] Network Request: ${key}`);
+    const requestPromise = fetcher()
+      .then((data) => {
+        cache[key] = { data, time: Date.now() };
+        pendingRequests[key] = null;
+        return data;
+      })
+      .catch((err) => {
+        pendingRequests[key] = null;
+        throw err;
+      });
+
+    pendingRequests[key] = requestPromise;
+    return requestPromise as Promise<T>;
+  },
+
+  fetchAllData: async (ttl: number = 0) => {
+    return mockSupabase._fetchWithCache(
+      "all",
+      async () => {
+        const { data, error } = await supabase.rpc("get_all_data");
+        if (error) throw error;
+        return data;
+      },
+      ttl,
+    );
+  },
+
+  fetchStallsOnly: async (ttl: number = 0) => {
+    return mockSupabase._fetchWithCache(
+      "stalls_only",
+      async () => {
+        const { data, error } = await supabase.rpc("get_stalls_only");
+        if (error) throw error;
+        return data;
+      },
+      ttl,
+    );
+  },
+
+  stalls: {
+    update: async (stallName: string, updates: Partial<StallStatus>) => {
+      console.log(`[Supabase] Update Sent: Stall (${stallName})`);
+      const dbUpdates: Record<string, number> = {};
+      if (updates.crowdLevel !== undefined) dbUpdates.crowd_level = updates.crowdLevel;
+      if (updates.stockLevel !== undefined) dbUpdates.stock_level = updates.stockLevel;
+      const { error } = await supabase.from("stalls_status").update(dbUpdates).eq("stall_name", stallName);
+      if (error) throw error;
+      delete cache["all"];
+      delete cache["stalls_only"];
+    },
+  },
+
+  lostAndFound: {
+    post: async (item: { name: string; place: string }) => {
+      console.log("[Supabase] Update Sent: New Lost Item");
+      const { error } = await supabase.from("lost_items").insert([item]);
+      if (error) throw error;
+      delete cache["all"];
+    },
+    update: async (id: string, updates: { name: string; place: string; reason: string }) => {
+      console.log(`[Supabase] Update Sent: Edit Lost Item (${id})`);
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+      const { error } = await supabase
+        .from("lost_items")
+        .update({
+          name: updates.name,
+          place: updates.place,
+          edit_reason: `${updates.reason} (${timeStr})`,
+        })
+        .eq("id", id);
+      if (error) throw error;
+      delete cache["all"];
+    },
+    delete: async (id: string) => {
+      console.log(`[Supabase] Update Sent: Delete Lost Item (${id})`);
+      const { error } = await supabase.from("lost_items").delete().eq("id", id);
+      if (error) throw error;
+      delete cache["all"];
+    },
+  },
+
+  qa: {
+    ask: async (text: string) => {
+      console.log("[Supabase] Update Sent: New Question");
+      const { error } = await supabase.from("questions").insert([{ text }]);
+      if (error) throw error;
+      delete cache["all"];
+    },
+    reply: async (id: string, answer: string, reason?: string) => {
+      console.log(`[Supabase] Update Sent: Reply/Edit Question (${id})`);
+      const updates: { answer: string; edit_reason?: string } = { answer };
+      if (reason && reason.trim() !== "") {
+        const now = new Date();
+        const timeStr = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+        updates.edit_reason = `${reason} (${timeStr})`;
+      }
+      const { error } = await supabase.from("questions").update(updates).eq("id", id);
+      if (error) throw error;
+      delete cache["all"];
+    },
+    delete: async (id: string) => {
+      console.log(`[Supabase] Update Sent: Delete Question (${id})`);
+      const { error } = await supabase.from("questions").delete().eq("id", id);
+      if (error) throw error;
+      delete cache["all"];
+    },
+  },
+
+  news: {
+    post: async (title: string, content: string) => {
+      console.log("[Supabase] Update Sent: New News");
+      const { error } = await supabase.from("news").insert([{ title, content }]);
+      if (error) throw error;
+      delete cache["all"];
+    },
+    update: async (id: string, updates: { title: string; content: string; reason: string }) => {
+      console.log(`[Supabase] Update Sent: Edit News (${id})`);
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+      const { error } = await supabase
+        .from("news")
+        .update({
+          title: updates.title,
+          content: updates.content,
+          edit_reason: `${updates.reason} (${timeStr})`,
+        })
+        .eq("id", id);
+      if (error) throw error;
+      delete cache["all"];
+    },
+    delete: async (id: string) => {
+      console.log(`[Supabase] Update Sent: Delete News (${id})`);
+      const { error } = await supabase.from("news").delete().eq("id", id);
+      if (error) throw error;
+      delete cache["all"];
+    },
+  },
+};
+
+export const mockSupabaseStalls = mockSupabase.stalls;
+
+export interface LostItem {
+  id: string;
+  name: string;
+  place: string;
+  created_at: string;
+  edit_reason?: string;
+}
+export interface Question {
+  id: string;
+  text: string;
+  answer: string | null;
+  created_at: string;
+  edit_reason?: string;
+}
+export interface NewsItem {
+  id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  edit_reason?: string;
+}
