@@ -152,10 +152,6 @@
     text-align: center;
     white-space: nowrap;
   }
-  .maps-container {
-    height: 500px !important;
-    border-radius: 20px;
-  }
   .maps-nav-cell-category {
     width: 80px;
     padding: 10px;

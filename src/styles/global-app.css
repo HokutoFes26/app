@@ -249,11 +249,12 @@ div,
     content: "";
     width: calc(100%);
     height: calc(100% - 12px);
-    background: var(--bottom-nav-indicator-bg);
     backdrop-filter: blur(10px);
     border-radius: 9999px;
     border: solid var(--text-sub-border) 0.5px;
-    box-shadow: inset var(--bottom-nav-indicator-shadow) 0 0 8px 5px;
+    background: var(--text-color);
+    /* background: var(--bottom-nav-indicator-bg);
+    box-shadow: inset var(--bottom-nav-indicator-shadow) 0 0 8px 6px; */
 }
 
 .footerRef {

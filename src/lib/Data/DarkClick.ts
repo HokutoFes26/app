@@ -21,7 +21,7 @@ export default function DarkClick(isDark: boolean) {
       root.style.setProperty("--bottom-nav", "rgba(60, 60, 64, 0.6)");
       root.style.setProperty("--bottom-nav-shadow", "rgba(240, 240, 240, 0) 0 0 0");
       root.style.setProperty("--bottom-nav-indicator-bg", "#fff");
-      root.style.setProperty("--bottom-nav-indicator-shadow", "#aaa");
+      root.style.setProperty("--bottom-nav-indicator-shadow", "#888");
       root.style.setProperty("--scheme", "dark");
    } else {
       root.style.setProperty("--bg-color", "#fff");
