@@ -18,18 +18,16 @@ export default function ClientProviders({ children }: { children: ReactNode }) {
 
   return (
     <div
-      className="webapp-root"
+      id="app-root"
       style={{
         opacity: mounted ? 1 : 0,
         transition: "opacity 0.2s ease-in",
-        background: "#f4f7fc",
-        minHeight: "100vh",
       }}
     >
       <ConfigProvider
         getPopupContainer={(triggerNode) => {
           if (typeof document !== "undefined") {
-            return (document.querySelector(".webapp-root") as HTMLElement) || document.body;
+            return document.getElementById("app-root") || document.body;
           }
           return triggerNode || (null as any);
         }}

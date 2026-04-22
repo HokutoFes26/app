@@ -19,7 +19,7 @@ export default function Settings() {
   const { currentTime, setCurrentTime, resetTime, isMocked } = useAppTime();
   const { isAdmin, isStallAdmin, setRole } = useRole();
   if (!theme) return <></>;
-  const { localeLang, setLocaleLang, isDebugMode, setIsDebugMode } = theme;
+  const { localeLang, setLocaleLang } = theme;
 
   const langChange = (e: string) => {
     setLocaleLang(e == "ja" ? jaJP : enUS);
@@ -39,7 +39,7 @@ export default function Settings() {
       okText: "リセットする",
       okType: "danger",
       cancelText: "キャンセル",
-      getContainer: () => document.querySelector(".webapp-root") || document.body,
+      getContainer: () => document.getElementById("app-root") || document.body,
       onOk: () => {
         localStorage.clear();
         document.cookie.split(";").forEach((c) => {
@@ -78,8 +78,6 @@ export default function Settings() {
             style={{ width: "auto", minWidth: 100, textAlign: "center" }}
           />,
         )}
-
-        {SettingOptionFC("Debug Mode", <Switch checked={isDebugMode} onChange={setIsDebugMode} size="small" />)}
 
         {SettingOptionFC(
           t("Settings.Reset"),

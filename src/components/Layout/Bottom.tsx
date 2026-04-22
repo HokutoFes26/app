@@ -78,7 +78,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
     }, [setValue, setIsMoving, isStallAdmin]);
 
     const tabCount = menuItems.length;
-    const indicatorWidth = 100 / tabCount;
+    const indicatorWidth = 100 / tabCount + 2.5;
     const getDisplayIndex = (key: string) => {
         if (!isStallAdmin) return Number(key);
         return key === "0" ? 0 : 1;
@@ -92,7 +92,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
                     ref={indicatorRef}
                     style={{
                         width: `${indicatorWidth}%`,
-                        transform: `translateX(${getDisplayIndex(value) * 100}%)`,
+                        transform: `translateX(${getDisplayIndex(value) * 83}%)`,
                         transition: isMoving ? "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)" : "none",
                         zIndex: 1,
                         cursor: isStallAdmin ? "default" : "grab",
@@ -107,13 +107,13 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
                             <div key={item.key} onClick={() => triggerMove(value, item.key)} className="nav-tab-btn">
                                 <Icon
                                     style={{
-                                        color: isActive ? "var(--main-color)" : "var(--text-sub-color)",
+                                        color: isActive ? "var(--bg-color)" : "var(--text-sub-color)",
                                         filter: isActive ? "drop-shadow(0 0 8px var(--main-color))" : "none",
                                     }}
                                 />
                                 <div
                                     style={{
-                                        color: isActive ? "var(--main-color)" : "var(--text-sub-color)",
+                                        color: isActive ? "var(--bg-color)" : "var(--text-sub-color)",
                                         fontWeight: isActive ? "600" : "400",
                                     }}
                                 >

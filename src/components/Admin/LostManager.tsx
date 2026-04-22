@@ -5,7 +5,7 @@ import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
 import { mockSupabase, LostItem } from "@/lib/Server/mockSupabase";
 import { useData } from "@/contexts/DataContext";
-import "@/components/admin/admin.css";
+import "@/components/Admin/admin.css";
 
 export default function LostManager() {
   const { message, modal } = App.useApp();
@@ -65,7 +65,7 @@ export default function LostManager() {
           </div>
         </div>
       ),
-      getContainer: () => document.querySelector(".webapp-root") || document.body,
+      getContainer: () => document.getElementById("app-root") || document.body,
       onOk: async () => {
         try {
           await mockSupabase.lostAndFound.delete(id);
@@ -177,7 +177,7 @@ export default function LostManager() {
           okText="更新"
           cancelText="キャンセル"
           confirmLoading={loading}
-          getContainer={() => document.querySelector(".webapp-root") || document.body}
+          getContainer={() => document.getElementById("app-root") || document.body}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "15px", paddingTop: "10px" }}>
             <div>

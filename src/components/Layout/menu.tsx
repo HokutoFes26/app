@@ -30,7 +30,7 @@ export default function MenuDrawer() {
         onClose={() => setOpen(false)}
         open={open}
         size="default"
-        getContainer={() => document.querySelector(".webapp-root") || document.body}
+        getContainer={() => document.getElementById("app-root") || document.body}
         style={{ borderRadius: "24px 0 0 24px" }}
       >
         <div style={{ padding: "0" }}>

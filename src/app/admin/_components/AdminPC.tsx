@@ -6,10 +6,10 @@ import Menu from "@/components/Layout/menu";
 import { useRole } from "@/contexts/RoleContext";
 import MapIcon from "@mui/icons-material/Map";
 
-const NewsManager = React.lazy(() => import("@/components/admin/NewsManager"));
-const BoothManager = React.lazy(() => import("@/components/admin/BoothManager"));
-const LostManager = React.lazy(() => import("@/components/admin/LostManager"));
-const QAManager = React.lazy(() => import("@/components/admin/QAManager"));
+const NewsManager = React.lazy(() => import("@/components/Admin/NewsManager"));
+const BoothManager = React.lazy(() => import("@/components/Admin/BoothManager"));
+const LostManager = React.lazy(() => import("@/components/Admin/LostManager"));
+const QAManager = React.lazy(() => import("@/components/Admin/QAManager"));
 const ServerConfig = React.lazy(() => import("@/components/Misc/ServerConfig"));
 const MapModal = React.lazy(() => import("@/components/Map/MapModal"));
 const NewsStatus = React.lazy(() => import("@/components/user/status/NewsStatus"));

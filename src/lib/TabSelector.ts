@@ -16,13 +16,21 @@ export const initSwipeHandlers = (onSwipe: (direction: number) => void) => {
   const minimumDistance = 30;
   let startX = 0;
   let startY = 0;
+  let ignoreSwipe = false;
 
   const handleTouchStart = (e: TouchEvent) => {
+    if ((e.target as HTMLElement).closest(".leaflet-container, .maps-container")) {
+      ignoreSwipe = true;
+      return;
+    }
+    ignoreSwipe = false;
     startX = e.touches[0].pageX;
     startY = e.touches[0].pageY;
   };
 
   const handleTouchEnd = (e: TouchEvent) => {
+    if (ignoreSwipe) return;
+    
     const endX = e.changedTouches[0].pageX;
     const endY = e.changedTouches[0].pageY;
     const distanceX = Math.abs(endX - startX);
@@ -33,8 +41,8 @@ export const initSwipeHandlers = (onSwipe: (direction: number) => void) => {
     }
   };
 
-  window.addEventListener("touchstart", handleTouchStart);
-  window.addEventListener("touchend", handleTouchEnd);
+  window.addEventListener("touchstart", handleTouchStart, { passive: true });
+  window.addEventListener("touchend", handleTouchEnd, { passive: true });
   return () => {
     window.removeEventListener("touchstart", handleTouchStart);
     window.removeEventListener("touchend", handleTouchEnd);
@@ -62,10 +70,19 @@ export const initIndicatorDrag = (
       initialLeft = matrix.m41;
     }
     indicator.style.transition = "none";
+    
+    window.addEventListener("touchmove", handleMove, { passive: false });
+    window.addEventListener("touchend", handleEnd);
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mouseup", handleEnd);
   };
 
   const handleMove = (e: TouchEvent | MouseEvent) => {
     if (!isDragging) return;
+    if ("touches" in e) {
+      e.preventDefault();
+    }
+
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const deltaX = clientX - startX;
     currentX = initialLeft + deltaX;
@@ -80,6 +97,11 @@ export const initIndicatorDrag = (
     if (!isDragging) return;
     isDragging = false;
 
+    window.removeEventListener("touchmove", handleMove);
+    window.removeEventListener("touchend", handleEnd);
+    window.removeEventListener("mousemove", handleMove);
+    window.removeEventListener("mouseup", handleEnd);
+
     const containerWidth = container.offsetWidth;
     const tabWidth = containerWidth / 3;
     const nearestTab = Math.round(currentX / tabWidth);
@@ -89,13 +111,15 @@ export const initIndicatorDrag = (
     onTabChange(finalTab);
   };
 
-  indicator.addEventListener("touchstart", handleStart);
-  window.addEventListener("touchmove", handleMove, { passive: false });
-  window.addEventListener("touchend", handleEnd);
+  indicator.addEventListener("touchstart", handleStart, { passive: true });
+  indicator.addEventListener("mousedown", handleStart);
 
   return () => {
     indicator.removeEventListener("touchstart", handleStart);
+    indicator.removeEventListener("mousedown", handleStart);
     window.removeEventListener("touchmove", handleMove);
     window.removeEventListener("touchend", handleEnd);
+    window.removeEventListener("mousemove", handleMove);
+    window.removeEventListener("mouseup", handleEnd);
   };
 };

@@ -5,7 +5,7 @@ import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { mockSupabase, Question } from "@/lib/Server/mockSupabase";
 import { useData } from "@/contexts/DataContext";
-import "@/components/admin/admin.css";
+import "@/components/Admin/admin.css";
 import "@/styles/global-app.css";
 
 export default function QAManager() {
@@ -72,7 +72,7 @@ export default function QAManager() {
       okText: "削除",
       okType: "danger",
       cancelText: "キャンセル",
-      getContainer: () => document.querySelector(".webapp-root") || document.body,
+      getContainer: () => document.getElementById("app-root") || document.body,
       onOk: async () => {
         try {
           await mockSupabase.qa.delete(id);
@@ -215,7 +215,7 @@ export default function QAManager() {
           okText="更新"
           cancelText="キャンセル"
           confirmLoading={loading}
-          getContainer={() => document.querySelector(".webapp-root") || document.body}
+          getContainer={() => document.getElementById("app-root") || document.body}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "15px", paddingTop: "10px" }}>
             <div>

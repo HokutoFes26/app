@@ -39,7 +39,7 @@ export default function BoothHandoverQR({ assignedStall }: BoothHandoverQRProps)
         onCancel={() => setShowQR(false)}
         footer={null}
         centered
-        getContainer={() => document.querySelector(".webapp-root") || document.body}
+        getContainer={() => document.getElementById("app-root") || document.body}
       >
         <div style={{ textAlign: "center", padding: "20px" }}>
           <p style={{ fontSize: "12px", color: "#666", marginBottom: "20px" }}>

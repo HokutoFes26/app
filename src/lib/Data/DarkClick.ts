@@ -1,6 +1,6 @@
 export default function DarkClick(isDark: boolean) {
    if (typeof document === "undefined") return;
-   const root = document.querySelector(".webapp-root") as HTMLElement || document.querySelector(":root") as HTMLElement;
+   const root = document.getElementById("app-root") as HTMLElement || document.querySelector(":root") as HTMLElement;
    if (!root) return;
    
    if (isDark) {
@@ -20,6 +20,8 @@ export default function DarkClick(isDark: boolean) {
       root.style.setProperty("--glass-shadow-1", "rgba(255, 255, 255, 0.2)");
       root.style.setProperty("--bottom-nav", "rgba(60, 60, 64, 0.6)");
       root.style.setProperty("--bottom-nav-shadow", "rgba(240, 240, 240, 0) 0 0 0");
+      root.style.setProperty("--bottom-nav-indicator-bg", "#fff");
+      root.style.setProperty("--bottom-nav-indicator-shadow", "#aaa");
       root.style.setProperty("--scheme", "dark");
    } else {
       root.style.setProperty("--bg-color", "#fff");
@@ -38,6 +40,8 @@ export default function DarkClick(isDark: boolean) {
       root.style.setProperty("--glass-shadow-1", "rgba(0, 0, 0, 0.2)");
       root.style.setProperty("--bottom-nav", "rgba(250, 250, 254, 0.6");
       root.style.setProperty("--bottom-nav-shadow", "rgba(0, 0, 0, 0.4) 0 0 20px");
+      root.style.setProperty("--bottom-nav-indicator-bg", "#444");
+      root.style.setProperty("--bottom-nav-indicator-shadow", "#000");
       root.style.setProperty("--scheme", "light");
    }
 }

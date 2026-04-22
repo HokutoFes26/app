@@ -12,14 +12,10 @@ import {
 } from "@/lib/Server/mockSupabase";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { useTheme } from "@/contexts/ThemeContext";
 
 dayjs.extend(customParseFormat);
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
-  const theme = useTheme();
-  const isDebugMode = theme?.isDebugMode || false;
-
   const [isLoading, setIsLoading] = useState(true);
   const [stalls, setStalls] = useState<StallStatus[]>([]);
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -43,10 +39,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const performRefresh = async (forceFull = false) => {
-    const fullRefreshFrequency = isDebugMode ? 2 : serverConfig.freq;
-    const isFullRefresh = forceFull || refreshCycle.current % fullRefreshFrequency === 0;
-
-    const currentTTL = (isDebugMode ? 10000 : serverConfig.interval) - 1000;
+    const isFullRefresh = forceFull || refreshCycle.current % serverConfig.freq === 0;
+    const currentTTL = serverConfig.interval - 1000;
 
     try {
       const allData = isFullRefresh
@@ -105,8 +99,10 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
             );
         }
       }
-    } catch (e) {
-      console.error("[DataProvider] Refresh Error:", e);
+    } catch (e: any) {
+      console.error("[DataProvider] Refresh Error:", e?.message || e);
+      if (e?.details) console.error("[DataProvider] Details:", e.details);
+      if (e?.hint) console.error("[DataProvider] Hint:", e.hint);
     } finally {
       setIsLoading(false);
       refreshCycle.current = (refreshCycle.current + 1) % 24;
@@ -153,21 +149,21 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       if (document.visibilityState === "visible") {
         const now = Date.now();
         const diff = now - lastFetchTime.current;
-        if (diff > (isDebugMode ? 10000 : serverConfig.interval)) {
+        if (diff > serverConfig.interval) {
           performRefresh(false);
         }
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [serverConfig.interval, isDebugMode]);
+  }, [serverConfig.interval]);
 
   useEffect(() => {
-    const interval = isDebugMode ? 10000 : serverConfig.interval;
-    const jitter = Math.floor(Math.random() * (isDebugMode ? 2000 : 10000));
+    const interval = serverConfig.interval;
+    const jitter = Math.floor(Math.random() * 10000);
     const timer = setInterval(() => performRefresh(), interval + jitter);
     return () => clearInterval(timer);
-  }, [isDebugMode, serverConfig.interval]);
+  }, [serverConfig.interval]);
 
   const value: DataContextType = {
     api: {
