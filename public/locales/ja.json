@@ -3,7 +3,7 @@
     "EVENTS": "イベント",
     "BOOTH": "模擬店",
     "BUS": "バス",
-    "NEWS": "お知らせ",
+    "NEWS": "お知らせリスト",
     "LOST_FOUND": "落とし物",
     "QA": "Q & A",
     "SETTINGS": "設定",
@@ -44,7 +44,7 @@
       "Yellow": "在庫少なめ",
       "Red": "品切れ"
     },
-    "Name": "模擬店名",
+    "Name": "模擬店名　(タップして詳細)",
     "CrowdLabel": "混雑",
     "StockLabel": "在庫",
     "NoData": "模擬店情報がありません",

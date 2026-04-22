@@ -173,6 +173,9 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       error: "",
       fetchData: async () => performRefresh(true),
       handlePost: () => {},
+      askQuestion: async (text: string) => {
+        await mockSupabase.qa.ask(text);
+      },
     },
     change: { serverConfig },
     work: {} as any,

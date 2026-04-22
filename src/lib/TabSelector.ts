@@ -9,6 +9,8 @@ export const TabSelector = (props: number) => {
         canvas.style.left = "-100%";
     } else if (props === 2) {
         canvas.style.left = "-200%";
+    } else if (props === 3) {
+        canvas.style.left = "-300%";
     }
 };
 

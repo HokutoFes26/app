@@ -13,7 +13,8 @@ interface TimeContextType {
 const TimeContext = createContext<TimeContextType | undefined>(undefined);
 
 export function TimeProvider({ children }: { children: ReactNode }) {
-  const [mockTime, setMockTime] = useState<Dayjs | null>(null);
+  const defaultMockTime = process.env.NEXT_PUBLIC_MOCK_TIME ? dayjs(process.env.NEXT_PUBLIC_MOCK_TIME) : null;
+  const [mockTime, setMockTime] = useState<Dayjs | null>(defaultMockTime);
   const [realTime, setRealTime] = useState(() => dayjs());
 
   useEffect(() => {

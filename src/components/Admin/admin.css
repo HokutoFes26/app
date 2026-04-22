@@ -1,4 +1,4 @@
-..main-push-btn {
+.main-push-btn {
     font-weight: bold !important;
     border-color: var(--text-color, #1f1f1f) !important;
     display: flex !important;
@@ -6,15 +6,15 @@
     justify-content: center !important;
 }
 
-..main-push-btn:hover {
+.main-push-btn:hover {
     background-color: var(--border-color, #444) !important;
 }
 
-..main-push-btn:active {
+.main-push-btn:active {
     transform: scale(0.98);
 }
 
-..section-text {
+.section-text {
     font-size: 16px !important;
     color: var(--main-color);
     margin: 0 0 20px 0;

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { ReactNode, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { ConfigProvider, App as AntdApp } from "antd";
 import { TimeProvider } from "@/contexts/TimeContext";
 import { RoleProvider } from "@/contexts/RoleContext";
@@ -11,10 +12,15 @@ import "@/i18n/i18n";
 
 export default function ClientProviders({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  const isDemo = pathname.startsWith("/demo");
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const DataWrapper = isDemo ? React.Fragment : DataProvider;
+  const MapWrapper = MapProvider;
 
   return (
     <div
@@ -35,11 +41,11 @@ export default function ClientProviders({ children }: { children: ReactNode }) {
         <TimeProvider>
           <RoleProvider>
             <ThemeProvider>
-              <DataProvider>
-                <MapProvider>
+              <DataWrapper>
+                <MapWrapper>
                   <AntdApp>{children}</AntdApp>
-                </MapProvider>
-              </DataProvider>
+                </MapWrapper>
+              </DataWrapper>
             </ThemeProvider>
           </RoleProvider>
         </TimeProvider>

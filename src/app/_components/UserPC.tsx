@@ -52,22 +52,26 @@ export default function UserPC() {
         </Suspense>
         <div className="main" id="main" ref={mainRef}>
           <div className="mainCards">
+            <BoothStatus />
+          </div>
+        </div>
+        <div className="main" id="main" ref={mainRef}>
+          <div className="mainCards">
             {hasHotNews && (
-              <div style={{ border: "2px solid #ff4d4f", borderRadius: "34px", marginBottom: "15px" }}>
-                <NewsStatus onlyHot={true} />
+              <div>
+                {/* <NewsStatus onlyHot={true} /> */}
               </div>
             )}
             <EventStatus />
-            <BoothStatus />
-            <NewsStatus />
+            <BusStatus />
           </div>
         </div>
         <div className="sche" id="sche" ref={scheRef}>
           <div className="mainCards">
             <Suspense fallback={<FallbackLoader />}>
-              <LostStatus />
-              <BusStatus />
+              <NewsStatus />
               <QAStatus />
+              <LostStatus />
             </Suspense>
           </div>
         </div>

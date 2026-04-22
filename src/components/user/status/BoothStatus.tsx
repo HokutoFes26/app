@@ -1,11 +1,20 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, SubList, Divider } from "@/components/Layout/CardComp";
 import { mockSupabaseStalls, StatusLevel } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
+import BoothDetailModal, { BoothItem } from "./BoothDetailModal";
+import stallsData from "@/../public/data/stalls.json";
+
+const allStalls: BoothItem[] = [
+  ...(stallsData.L1 || []),
+  ...(stallsData.L2 || []),
+  ...(stallsData.L3 || []),
+  ...(stallsData.L4 || []),
+];
 
 const TrafficLight = ({
   level,
@@ -58,6 +67,9 @@ export default function BoothStatus() {
   const { isAdmin } = useRole();
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [selectedBooth, setSelectedBooth] = useState<BoothItem | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const cycleStatus = (current: StatusLevel): StatusLevel => {
     if (current === 0) return 1;
     if (current === 1) return 2;
@@ -76,6 +88,14 @@ export default function BoothStatus() {
     const newLevel = cycleStatus(currentLevel);
     await mockSupabaseStalls.update(stallName, { stockLevel: newLevel });
     fetchData();
+  };
+
+  const handleStallClick = (stallName: string) => {
+    const found = allStalls.find((s) => s.name === stallName);
+    if (found) {
+      setSelectedBooth(found);
+      setIsModalOpen(true);
+    }
   };
 
   return (
@@ -111,8 +131,11 @@ export default function BoothStatus() {
                 {index !== 0 && <Divider />}
                 <SubList>
                   <div style={{ display: "flex", alignItems: "center", width: "100%", padding: "4px 0" }}>
-                    <div style={{ flex: 1, textAlign: "left" }}>
-                      <p style={{ fontSize: "14px", margin: 0, color: "#333" }}>{status.stallName}</p>
+                    <div 
+                      style={{ flex: 1, textAlign: "left", cursor: "pointer", textDecorationColor: "var(--md-sys-color-primary-container)" }} 
+                      onClick={() => handleStallClick(status.stallName)}
+                    >
+                      <p style={{ fontSize: "14px", margin: 0, color: "var(--text-color)" }}>{status.stallName}</p>
                     </div>
                     <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
                       <TrafficLight
@@ -139,6 +162,12 @@ export default function BoothStatus() {
           )}
         </CardInside>
       </CardBase>
+      
+      <BoothDetailModal 
+        item={selectedBooth} 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 }

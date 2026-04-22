@@ -16,6 +16,7 @@ export type DataContextType = {
     error: string;
     fetchData: () => Promise<void>;
     handlePost: (mode: number) => void;
+    askQuestion: (text: string) => Promise<void>;
   };
   change: any;
   work: any;

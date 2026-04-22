@@ -1,6 +1,7 @@
 import { getPath } from "@/constants/paths";
 import ClientProviders from "@/contexts/ClientProviders";
 import "@/styles/global-app.css";
+import Script from "next/script";
 
 export const metadata = {
   title: "北斗祭2026アプリ | 富山高専",
@@ -13,7 +14,7 @@ export const metadata = {
 
 export const viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: light)", color: "#18181a" },
     { media: "(prefers-color-scheme: dark)", color: "#18181a" },
   ],
 };
@@ -21,6 +22,9 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
+      {/* <head>
+        <Script src="//unpkg.com/react-scan/dist/auto.global.js" crossOrigin="anonymous" strategy="beforeInteractive" />
+      </head> */}
       <body>
         <ClientProviders>{children}</ClientProviders>
       </body>

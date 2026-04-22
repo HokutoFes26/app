@@ -73,7 +73,6 @@
 .maps-button.active {
   background-color: var(--text-color, #1f1f1f);
   color: var(--bg-color, #fff);
-  font-weight: bold;
 }
 
 .maps-button.inactive {
@@ -118,11 +117,11 @@
 .maps-control-btn {
   width: 44px;
   height: 44px;
-  background-color: var(--glass-bg, rgba(255, 255, 255, 0.7));
+  background-color: var(--bottom-nav, rgba(255, 255, 255, 0.6));
   -webkit-backdrop-filter: saturate(250%) blur(5px);
   backdrop-filter: saturate(250%) blur(5px);
   border: 1px solid var(--border-color, #ccc);
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -130,14 +129,13 @@
   font-size: 24px;
   font-weight: 300;
   color: var(--text-color, #1f1f1f);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .maps-control-btn.fs-btn {
   font-size: 10px;
-  font-weight: bold;
 }
 
 @media screen and (max-width: 767px) {

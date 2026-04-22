@@ -6,10 +6,10 @@ import Menu from "@/components/Layout/menu";
 import { useRole } from "@/contexts/RoleContext";
 import MapIcon from "@mui/icons-material/Map";
 
-const NewsManager = React.lazy(() => import("@/components/Admin/NewsManager"));
-const BoothManager = React.lazy(() => import("@/components/Admin/BoothManager"));
-const LostManager = React.lazy(() => import("@/components/Admin/LostManager"));
-const QAManager = React.lazy(() => import("@/components/Admin/QAManager"));
+const NewsManager = React.lazy(() => import("@/components/admin/NewsManager"));
+const BoothManager = React.lazy(() => import("@/components/admin/BoothManager"));
+const LostManager = React.lazy(() => import("@/components/admin/LostManager"));
+const QAManager = React.lazy(() => import("@/components/admin/QAManager"));
 const ServerConfig = React.lazy(() => import("@/components/Misc/ServerConfig"));
 const MapModal = React.lazy(() => import("@/components/Map/MapModal"));
 const NewsStatus = React.lazy(() => import("@/components/user/status/NewsStatus"));
@@ -50,7 +50,6 @@ export default function AdminPC() {
       return (
         <Suspense fallback={<FallbackLoader />}>
           <QAManager />
-          <LostManager />
         </Suspense>
       );
     }
@@ -64,6 +63,17 @@ export default function AdminPC() {
     return null;
   }, [isAdmin, isStallAdmin]);
 
+  const OtherContent = useMemo(() => {
+    if (isAdmin) {
+      return (
+        <Suspense fallback={<FallbackLoader />}>
+          <LostManager />
+        </Suspense>
+      );
+    }
+    return null;
+  }, [isAdmin]);
+
   return (
     <div className="mainCanvas">
       <div className="PCCanvas" ref={canvasRef}>
@@ -75,6 +85,9 @@ export default function AdminPC() {
         </div>
         <div className="sche" id="sche" ref={scheRef}>
           <div className="mainCards">{SubContent}</div>
+        </div>
+        <div className="main" id="main" ref={mainRef}>
+          <div className="mainCards">{OtherContent}</div>
         </div>
         <button className="map-float-btn" onClick={() => setIsMapMapOpen(true)}>
           <MapIcon style={{ fontSize: "28px" }} />

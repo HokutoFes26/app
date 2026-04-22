@@ -5,13 +5,15 @@ import { TabSelector, initSwipeHandlers, initIndicatorDrag } from "@/lib/TabSele
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import StorefrontIcon from '@mui/icons-material/Storefront';
 import "@/styles/global-app.css";
 import { useRole } from "@/contexts/RoleContext";
 
 const ALL_MENU_ITEMS = [
     { key: "0", icon: HomeOutlinedIcon, label: "Main" },
-    { key: "1", icon: WidgetsOutlinedIcon, label: "Other" },
-    { key: "2", icon: SettingsOutlinedIcon, label: "Settings" },
+    { key: "1", icon: StorefrontIcon, label: "Booth" },
+    { key: "2", icon: WidgetsOutlinedIcon, label: "Other" },
+    { key: "3", icon: SettingsOutlinedIcon, label: "Settings" },
 ];
 
 interface BottomNavigatorProps {
@@ -45,7 +47,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
 
         const cleanupSwipe = initSwipeHandlers((direction) => {
             const current = valueRef.current;
-            const nextValue = Math.min(Math.max(Number(current) + direction, 0), 2);
+            const nextValue = Math.min(Math.max(Number(current) + direction, 0), 3);
             const nextValueStr = String(nextValue);
 
             if (nextValueStr !== current) {

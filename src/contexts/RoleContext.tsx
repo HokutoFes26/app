@@ -14,7 +14,7 @@ interface RoleContextType {
   assignedStall: string | null;
 }
 
-const RoleContext = createContext<RoleContextType | undefined>(undefined);
+export const RoleContext = createContext<RoleContextType | undefined>(undefined);
 
 function RoleProviderInner({ children, initialRole = "user" }: { children: ReactNode; initialRole?: Role }) {
   const searchParams = useSearchParams();
