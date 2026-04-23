@@ -70,11 +70,9 @@ export default function BoothStatus() {
   const statuses = fetchedData?.stalls || [];
   const { isAdmin } = useRole();
   const containerRef = useRef<HTMLDivElement>(null);
-
   const [selectedBooth, setSelectedBooth] = useState<BoothItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Sync state from URL
   useEffect(() => {
     const boothName = searchParams.get("booth-info");
     if (boothName) {
@@ -88,17 +86,20 @@ export default function BoothStatus() {
     }
   }, [searchParams]);
 
-  const updateUrl = useCallback((name: string | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (name) {
-      params.set("booth-info", name);
-    } else {
-      params.delete("booth-info");
-    }
-    const query = params.toString();
-    const url = `${pathname}${query ? `?${query}` : ""}`;
-    router.push(url, { scroll: false });
-  }, [pathname, router, searchParams]);
+  const updateUrl = useCallback(
+    (name: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (name) {
+        params.set("booth-info", name);
+      } else {
+        params.delete("booth-info");
+      }
+      const query = params.toString();
+      const url = `${pathname}${query ? `?${query}` : ""}`;
+      router.push(url, { scroll: false });
+    },
+    [pathname, router, searchParams],
+  );
 
   const cycleStatus = (current: StatusLevel): StatusLevel => {
     if (current === 0) return 1;
@@ -159,14 +160,31 @@ export default function BoothStatus() {
             statuses.map((status, index) => (
               <React.Fragment key={`${status.stallName}-${index}`}>
                 {index !== 0 && <Divider />}
-                <SubList>
+                <div style={{ padding: "4px 0" }}>
                   <div style={{ display: "flex", alignItems: "center", width: "100%", padding: "4px 0" }}>
-                    <div 
-                      style={{ flex: 1, display: "flex", flexDirection: "column", textAlign: "left", cursor: "pointer", textDecorationColor: "var(--md-sys-color-primary-container)" }} 
+                    <div
+                      style={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        textAlign: "left",
+                        cursor: "pointer",
+                        textDecorationColor: "var(--md-sys-color-primary-container)",
+                      }}
                       onClick={() => handleStallClick(status.stallName)}
                     >
-                      <span style={{ fontSize: "14px", margin: 0, color: "var(--text-color)" }}>{status.stallName}</span>
-                      <span style={{ fontSize: "9px", color: "#676767"}}>タップして詳細</span>
+                      <span
+                        style={{
+                          fontSize: "16px",
+                          userSelect: "none",
+                          fontWeight: "700",
+                          margin: 0,
+                          color: "var(--text-color)",
+                        }}
+                      >
+                        {status.stallName}
+                      </span>
+                      <span style={{ fontSize: "9px", userSelect: "none", color: "#676767" }}>タップして詳細</span>
                     </div>
                     <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
                       <TrafficLight
@@ -183,7 +201,7 @@ export default function BoothStatus() {
                       />
                     </div>
                   </div>
-                </SubList>
+                </div>
               </React.Fragment>
             ))
           ) : (
@@ -193,12 +211,8 @@ export default function BoothStatus() {
           )}
         </CardInside>
       </CardBase>
-      
-      <BoothDetailModal 
-        item={selectedBooth} 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
-      />
+
+      <BoothDetailModal item={selectedBooth} isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
 }

@@ -95,6 +95,7 @@ export default function UserPhone() {
                     setValue={setTabValue}
                     isMoving={isMoving}
                     setIsMoving={setIsMoving}
+                    disabled={isMapOpen}
                 />
                 <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
                     <MapRoundedIcon style={{ fontSize: "28px" }} />

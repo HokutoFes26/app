@@ -65,16 +65,9 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         news: [
           {
             id: "1",
-            title: "エンディングの時刻を変更",
-            content: "エンディングを+2日間延期します。",
+            title: "バグ修正",
+            content: "iPhoneでのみ発生したマップを全画面表示できないバグを修正しました。",
             created_at: nowStrMinus10,
-            edit_reason: "",
-          },
-          {
-            id: "2",
-            title: "オープニングを変更",
-            content: "オープニングは行いません。",
-            created_at: dayjs("2026-05-23T08:23:00").toISOString(),
             edit_reason: "",
           },
         ],

@@ -35,9 +35,10 @@ interface BottomNavigatorProps {
     setValue: (val: string) => void;
     isMoving: boolean;
     setIsMoving: (val: boolean) => void;
+    disabled?: boolean;
 }
 
-export default function BottomNavigator({ value, setValue, isMoving, setIsMoving }: BottomNavigatorProps) {
+export default function BottomNavigator({ value, setValue, isMoving, setIsMoving, disabled }: BottomNavigatorProps) {
     const { isAdmin, isStallAdmin } = useRole();
     const pathname = usePathname();
     const isBooth = isStallAdmin || pathname === "/demo/booth" || pathname === "/demo/booth/";
@@ -52,7 +53,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
     }, [value]);
 
     const triggerMove = (prev: string, next: string) => {
-        if (prev === next) return;
+        if (prev === next || disabled) return;
         setIsMoving(true);
         TabSelector(Number(next));
         setValue(next);
@@ -60,9 +61,10 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
     };
 
     useEffect(() => {
-        if (isBooth) return;
+        if (isBooth || disabled) return;
 
         const cleanupSwipe = initSwipeHandlers((direction) => {
+            if (disabled) return;
             const current = valueRef.current;
             const nextValue = Math.min(Math.max(Number(current) + direction, 0), 3);
             const nextValueStr = String(nextValue);
@@ -78,6 +80,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
         const cleanupDrag =
             indicatorRef.current && footerRef.current
                 ? initIndicatorDrag(indicatorRef.current, footerRef.current, (nextTab) => {
+                      if (disabled) return;
                       const current = valueRef.current;
                       const nextTabStr = String(nextTab);
 
@@ -94,7 +97,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
             cleanupSwipe();
             if (cleanupDrag) cleanupDrag();
         };
-    }, [setValue, setIsMoving, isBooth]);
+    }, [setValue, setIsMoving, isBooth, disabled]);
 
     const tabCount = menuItems.length;
     const indicatorWidth = 100 / tabCount + 3.4;
@@ -114,7 +117,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
                         transform: `translateX(${getDisplayIndex(value) * 79}%)`,
                         transition: isMoving ? "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)" : "none",
                         zIndex: 1,
-                        cursor: isBooth ? "default" : "grab",
+                        cursor: (isBooth || disabled) ? "default" : "grab",
                     }}
                 ></div>
 

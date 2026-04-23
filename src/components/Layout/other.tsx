@@ -24,7 +24,7 @@ export default function Other() {
       <Settings />
       {cardMake(t("CardTitles.UPDATES"), [
         <h4 className="lastText" key="version" style={{ textAlign: "left" }}>
-          Added booth share. 4.23.26
+          Fix: Maps full screen bug. 4.23.26
         </h4>,
       ])}
     </div>

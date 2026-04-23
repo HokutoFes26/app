@@ -1,0 +1,33 @@
+body.map-pseudo-fullscreen-active {
+  overflow: hidden !important;
+}
+
+body.map-pseudo-fullscreen-active .map-modal-overlay,
+body.map-pseudo-fullscreen-active .map-modal-content,
+body.map-pseudo-fullscreen-active .map-modal-body,
+body.map-pseudo-fullscreen-active .mapCard,
+body.map-pseudo-fullscreen-active .webapp-map-wrapper,
+body.map-pseudo-fullscreen-active .carddiv {
+  overflow: visible !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+}
+
+body.map-pseudo-fullscreen-active .maps-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  z-index: 99999 !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  background-color: #fff !important;
+  transition: none !important;
+}
+
+body.map-pseudo-fullscreen-active .map-modal-close {
+  display: none !important;
+}

@@ -309,7 +309,7 @@ div,
 }
 
 .PCCanvas {
-    width: min(95%, 1200px);
+    width: min(95%, calc(100% - 340px));
     height: 100%;
     position: absolute;
     display: flex;

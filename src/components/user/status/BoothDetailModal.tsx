@@ -62,19 +62,40 @@ export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailM
 
     const handleShare = async () => {
         if (!item) return;
+        const shareUrl = window.location.href;
         const shareData = {
             title: `${item.name} | 模擬店詳細`,
             text: `${item.name} (${item.team || ""}) の詳細をチェック！`,
-            url: window.location.href,
+            url: shareUrl,
         };
+
         try {
-            if (navigator.share) await navigator.share(shareData);
-            else {
-                await navigator.clipboard.writeText(window.location.href);
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+                await navigator.clipboard.writeText(shareUrl);
                 alert("URLをクリップボードにコピーしました");
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = shareUrl;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                textArea.style.top = "0";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand("copy");
+                    alert("URLをクリップボードにコピーしました");
+                } catch (copyErr) {
+                    console.error("Copy fallback failed:", copyErr);
+                }
+                document.body.removeChild(textArea);
             }
         } catch (err) {
-            console.error("Share error:", err);
+            if ((err as Error).name !== "AbortError") {
+                console.error("Share error:", err);
+            }
         }
     };
 
