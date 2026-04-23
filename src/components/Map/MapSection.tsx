@@ -115,6 +115,10 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
                                     [-40, -40 * ratio],
                                     [1040, 1040 * ratio],
                                 ]}
+                                maxBounds={[
+                                    [-60, -60 * ratio],
+                                    [1060, 1060 * ratio],
+                                ]}
                                 style={{ height: "100%", width: "100%" }}
                                 zoomSnap={0}
                                 minZoom={-2}

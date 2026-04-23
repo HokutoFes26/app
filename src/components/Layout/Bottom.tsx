@@ -2,18 +2,32 @@
 
 import React, { useEffect, useRef } from "react";
 import { TabSelector, initSwipeHandlers, initIndicatorDrag } from "@/lib/TabSelector";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import StorefrontIcon from '@mui/icons-material/Storefront';
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import WidgetsRoundedIcon from '@mui/icons-material/WidgetsRounded';
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import StorefrontRoundedIcon from '@mui/icons-material/StorefrontRounded';
+import NewspaperRoundedIcon from "@mui/icons-material/NewspaperRounded";
+import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import "@/styles/global-app.css";
 import { useRole } from "@/contexts/RoleContext";
+import { usePathname } from "next/navigation";
 
-const ALL_MENU_ITEMS = [
-    { key: "0", icon: HomeOutlinedIcon, label: "Main" },
-    { key: "1", icon: StorefrontIcon, label: "Booth" },
-    { key: "2", icon: WidgetsOutlinedIcon, label: "Other" },
-    { key: "3", icon: SettingsOutlinedIcon, label: "Settings" },
+const user_items = [
+    { key: "0", icon: HomeRoundedIcon, label: "Main" },
+    { key: "1", icon: StorefrontRoundedIcon, label: "Booth" },
+    { key: "2", icon: WidgetsRoundedIcon, label: "Other" },
+    { key: "3", icon: SettingsRoundedIcon, label: "Settings" },
+];
+const admin_items = [
+    { key: "0", icon: NewspaperRoundedIcon, label: "News" },
+    { key: "1", icon: QuestionAnswerRoundedIcon, label: "Q & A" },
+    { key: "2", icon: SearchRoundedIcon, label: "Lost" },
+    { key: "3", icon: SettingsRoundedIcon, label: "Settings" },
+];
+const booth_items = [
+    { key: "0", icon: HomeRoundedIcon, label: "Main" },
+    { key: "1", icon: SettingsRoundedIcon, label: "Settings" },
 ];
 
 interface BottomNavigatorProps {
@@ -24,11 +38,14 @@ interface BottomNavigatorProps {
 }
 
 export default function BottomNavigator({ value, setValue, isMoving, setIsMoving }: BottomNavigatorProps) {
-    const { isStallAdmin } = useRole();
+    const { isAdmin, isStallAdmin } = useRole();
+    const pathname = usePathname();
+    const isBooth = isStallAdmin || pathname === "/demo/booth" || pathname === "/demo/booth/";
+
     const indicatorRef = useRef<HTMLDivElement>(null);
     const footerRef = useRef<HTMLDivElement>(null);
     const valueRef = useRef(value);
-    const menuItems = isStallAdmin ? ALL_MENU_ITEMS.filter((item) => item.key !== "1") : ALL_MENU_ITEMS;
+    const menuItems = isAdmin ? admin_items : isBooth ? booth_items : user_items;
 
     useEffect(() => {
         valueRef.current = value;
@@ -43,7 +60,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
     };
 
     useEffect(() => {
-        if (isStallAdmin) return;
+        if (isBooth) return;
 
         const cleanupSwipe = initSwipeHandlers((direction) => {
             const current = valueRef.current;
@@ -77,12 +94,12 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
             cleanupSwipe();
             if (cleanupDrag) cleanupDrag();
         };
-    }, [setValue, setIsMoving, isStallAdmin]);
+    }, [setValue, setIsMoving, isBooth]);
 
     const tabCount = menuItems.length;
     const indicatorWidth = 100 / tabCount + 2.5;
     const getDisplayIndex = (key: string) => {
-        if (!isStallAdmin) return Number(key);
+        if (!isBooth) return Number(key);
         return key === "0" ? 0 : 1;
     };
 
@@ -97,7 +114,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
                         transform: `translateX(${getDisplayIndex(value) * 83}%)`,
                         transition: isMoving ? "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)" : "none",
                         zIndex: 1,
-                        cursor: isStallAdmin ? "default" : "grab",
+                        cursor: isBooth ? "default" : "grab",
                     }}
                 ></div>
 

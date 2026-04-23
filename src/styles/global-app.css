@@ -113,6 +113,10 @@ div,
     text-align: left;
 }
 
+.ant-radio-button-label {
+    white-space: nowrap;
+}
+
 .mainCanvas {
     position: absolute;
     inset: 0;

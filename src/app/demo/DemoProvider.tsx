@@ -3,6 +3,7 @@
 import React, { ReactNode, useState, useEffect, useMemo } from "react";
 import { DataContext, DataContextType } from "@/contexts/DataContext";
 import { RoleContext } from "@/contexts/RoleContext";
+import { usePathname } from "next/navigation";
 import dayjs from "dayjs";
 import stallsData from "@/../public/data/stalls.json";
 
@@ -14,6 +15,8 @@ const allStalls = [
 ];
 
 export function DemoProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const isDemoBooth = pathname === "/demo/booth";
   const [nowStr, setNowStr] = useState(dayjs().toISOString());
   const [nowStrMinus10, setNowStrMinus10] = useState("2026-05-23T10:10:00");
 
@@ -102,11 +105,11 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   };
 
   const demoRole = {
-    role: "user" as const,
+    role: (isDemoBooth ? "stall-admin" : "user") as any,
     setRole: () => {},
     isAdmin: false,
-    isStallAdmin: false,
-    assignedStall: null,
+    isStallAdmin: isDemoBooth,
+    assignedStall: isDemoBooth ? "肉巻きおにぎり" : null,
   };
 
   return (
