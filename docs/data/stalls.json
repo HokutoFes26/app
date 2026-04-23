@@ -1,0 +1,142 @@
+{
+    "L1": [
+        {
+            "name": "チュロス",
+            "team": "バレーボール部",
+            "place": "場所名",
+            "image": "/app/img/products/products3.jpg"
+        },
+        {
+            "name": "たこ焼き",
+            "team": "漕艇部",
+            "place": "場所名",
+            "image": "/app/img/products/products4.jpg"
+        },
+        {
+            "name": "焼き鳥",
+            "team": "剣道部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "あんばやし",
+            "team": "野球部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "今川焼き",
+            "team": "ラグビー同好会",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "わたあめ",
+            "team": "ヨット部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "焼きそば",
+            "team": "テニス部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "揚げパン・いちごあめ・ラムネ",
+            "team": "水泳競技部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "ペットボトル",
+            "team": "サッカー部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "カステラ",
+            "team": "卓球部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "ワッフル",
+            "team": "バドミントン部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "唐揚げ",
+            "team": "バスケットボール部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "ドーナツ",
+            "team": "ダンス部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        }
+    ],
+    "L2": [
+        {
+            "name": "フランクフルト",
+            "team": "機関学同好会",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "どら焼き・お茶",
+            "team": "茶道同好会",
+            "place": "場所名",
+            "image": "/app/img/products/products4.jpg"
+        },
+        {
+            "name": "お茶会～２日目のみ～",
+            "team": "茶道同好会",
+            "place": "場所名",
+            "image": "/app/img/products/products2.jpg"
+        },
+        {
+            "name": "たい焼き",
+            "team": "新聞部",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "Cの誘惑",
+            "team": "アントレプレナー同好会",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        }
+    ],
+    "L3": [
+        {
+            "name": "肉巻きおにぎり",
+            "team": "電子情報工学科４年",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "冥途カフェ",
+            "team": "国際ビジネス科４年",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        },
+        {
+            "name": "カフェ",
+            "team": "国際ビジネス科５年",
+            "place": "場所名",
+            "image": "/app/img/products/products1.jpg"
+        }
+    ],
+    "L4": [
+        {
+            "name": "ポップコーン",
+            "team": "実行委員会",
+            "place": "場所名",
+            "image": "/app/img/products/products3.jpg"
+        }
+    ]
+}

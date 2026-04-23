@@ -41,6 +41,7 @@
   ],
   "exclude": [
     "node_modules",
-    "webapp_src"
+    "webapp_src",
+    "test"
   ]
 }

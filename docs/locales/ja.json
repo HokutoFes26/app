@@ -1,0 +1,100 @@
+{
+  "CardTitles": {
+    "EVENTS": "イベント",
+    "BOOTH": "模擬店",
+    "BUS": "バス",
+    "NEWS": "お知らせリスト",
+    "LOST_FOUND": "落とし物",
+    "QA": "Q & A",
+    "SETTINGS": "設定",
+    "UPDATES": "アップデート"
+  },
+  "Bus": {
+    "Departure": "発",
+    "Arrival": "着",
+    "FilterHour": "1時間以内",
+    "FilterAll": "すべて表示",
+    "Destinations": "行き先",
+    "From": "乗場",
+    "To": "降場",
+    "Departed": "出発済み",
+    "NoBuses": "指定区間で運行するバスはありません",
+    "ToImizu": "射水キャンパス 行",
+    "ToToyamaHongo": "富山駅・本郷 行",
+    "ToToyamaStation": "富山駅 行",
+    "ArriveShort": "着",
+    "InNMins": "あと {{count}} 分",
+    "Stops": {
+      "本郷キャンパス 発": "本郷キャンパス 発",
+      "本郷キャンパス 着": "本郷キャンパス 着",
+      "富山駅北口 発": "富山駅北口 発",
+      "富山駅北口 着": "富山駅北口 着",
+      "射水キャンパス 発": "射水キャンパス 発",
+      "射水キャンパス 着": "射水キャンパス 着"
+    }
+  },
+  "Booth": {
+    "Crowd": {
+      "Green": "空き",
+      "Yellow": "やや混雑",
+      "Red": "混雑"
+    },
+    "Stock": {
+      "Green": "在庫あり",
+      "Yellow": "在庫少なめ",
+      "Red": "品切れ"
+    },
+    "Name": "模擬店名　(タップして詳細)",
+    "CrowdLabel": "混雑",
+    "StockLabel": "在庫",
+    "NoData": "模擬店情報がありません",
+    "EmptyAvailable": "空き / あり",
+    "BusyFew": "やや混雑 / 少なめ",
+    "CrowdedSoldOut": "混雑 / 品切れ"
+  },
+  "LostFound": {
+    "NoItems": "落とし物はありません",
+    "Location": "場所",
+    "Time": "発見された時刻",
+    "NoData": "現在、落とし物はありません"
+  },
+  "QA": {
+    "AskAdmin": "運営チームに質問",
+    "Reply": "回答",
+    "Answered": "回答済み",
+    "Placeholder": "質問を入力",
+    "Send": "送信",
+    "Sent": "送信完了！",
+    "SuccessMsg": "質問を送信しました。",
+    "FailureMsg": "質問の送信に失敗",
+    "AnsweredSection": "回答済みの質問",
+    "NoData": "回答済みの質問はありません"
+  },
+  "Event": {
+    "Finished": "終了済み",
+    "NoData": "1時間以内にイベントはありません",
+    "Now": "NOW"
+  },
+  "Time": {
+    "HoursLater": "{{count}} 時間後",
+    "MinsLater": "{{count}} 分後",
+    "EditReason": "編集",
+    "HotNews": "{{count}} 分以内"
+  },
+  "Common": {
+    "Loading": "読み込み中...",
+    "Error": "エラーが発生しました",
+    "Edit": "編集",
+    "Delete": "削除",
+    "Cancel": "キャンセル",
+    "Confirm": "確定",
+    "HotNews": "新着",
+    "AppShare": "スマホで表示"
+  },
+  "Settings": {
+    "Dark": "ダークテーマ",
+    "Language": "Language",
+    "Reset": "アプリをリセット",
+    "Cache": "キャッシュ削除"
+  }
+}

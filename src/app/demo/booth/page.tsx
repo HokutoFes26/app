@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import { Button, App } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import BoothStatusSelector from "@/components/Admin/components/BoothStatusSelector";
@@ -8,8 +8,11 @@ import BoothHandoverQR from "@/components/Admin/components/BoothHandoverQR";
 
 import BottomNavigator from "@/components/Layout/Bottom";
 import { useMapControl } from "@/contexts/MapContext";
-import MapRoundedIcon from "@mui/icons-material/MapRounded";
+import MapIcon from "@mui/icons-material/Map";
 import { DemoProvider } from "../DemoProvider";
+import AspectDetector from "@/lib/Misc/AspectDetector";
+import Menu from "@/components/Layout/menu";
+import NewsStatus from "@/components/user/status/NewsStatus";
 
 const Other = React.lazy(() => import("@/components/Layout/other"));
 const MapModal = React.lazy(() => import("@/components/Map/MapModal"));
@@ -29,6 +32,14 @@ export default function DemoBoothManager() {
 }
 
 function DemoBoothManagerInner() {
+    const [isMobile, setIsMobile] = useState(true);
+    console.log(isMobile);
+    const detector = AspectDetector();
+
+    useEffect(() => {
+        setIsMobile(detector);
+    }, [detector]);
+
     const mapControl = useMapControl();
     const isMapOpen = mapControl?.isMapOpen || false;
     const setIsMapOpen = (open: boolean) => (open ? mapControl?.openMap() : mapControl?.closeMap());
@@ -56,7 +67,7 @@ function DemoBoothManagerInner() {
             <Suspense fallback={null}>
                 <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} />
             </Suspense>
-            <div className="canvas" id="canvas">
+            <div className={isMobile ? "canvas" : "PCCanvas"} id={isMobile ? "canvas" : ""}>
                 <div className="main" id="main">
                     <div className="mainCards">
                         <div>
@@ -126,31 +137,52 @@ function DemoBoothManagerInner() {
                                 </CardInside>
                             </CardBase>
                         </div>
+                        {isMobile && <NewsStatus />}
                     </div>
                 </div>
-                <div className="others" id="others">
+                {isMobile && (
+                    <>
+                        <div className="sche" id="sche">
+                            <div className="mainCards">
+                                <Suspense fallback={<FallbackLoader />}>
+                                    <Other />
+                                </Suspense>
+                            </div>
+                        </div>
+
+                        <div className="sche" id="sche"></div>
+                    </>
+                )}
+                <div className="sche" id="sche">
                     <div className="mainCards">
-                        <Suspense fallback={<FallbackLoader />}>
-                            <Other />
-                        </Suspense>
+                        <NewsStatus />
                     </div>
                 </div>
-                <div className="sche" id="sche"></div>
-                <div className="sche" id="sche"></div>
+                {!isMobile && <div className="sche" id="sche"></div>}
             </div>
 
-            <div className="bottomCanvas">
-                <BottomNavigator
-                    value={tabValue}
-                    setValue={setTabValue}
-                    isMoving={isMoving}
-                    setIsMoving={setIsMoving}
-                />
-                <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
-                    <MapRoundedIcon style={{ fontSize: "28px" }} />
-                    <span style={{ fontSize: "10px", fontWeight: "bold" }}>MAP</span>
-                </button>
-            </div>
+            {isMobile ? (
+                <div className="bottomCanvas">
+                    <BottomNavigator
+                        value={tabValue}
+                        setValue={setTabValue}
+                        isMoving={isMoving}
+                        setIsMoving={setIsMoving}
+                    />
+                    <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
+                        <MapIcon style={{ fontSize: "28px" }} />
+                        <span style={{ fontSize: "10px", fontWeight: "bold" }}>MAP</span>
+                    </button>
+                </div>
+            ) : (
+                <>
+                    <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
+                        <MapIcon style={{ fontSize: "28px" }} />
+                        <span style={{ fontSize: "10px", fontWeight: "bold" }}>MAP</span>
+                    </button>
+                    <Menu />
+                </>
+            )}
         </div>
     );
 }
