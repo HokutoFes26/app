@@ -4,6 +4,7 @@ import React, { Suspense, useMemo, useRef, useState } from "react";
 
 import Menu from "@/components/Layout/menu";
 import { useRole } from "@/contexts/RoleContext";
+import { useMapControl } from "@/contexts/MapContext";
 import MapRoundedIcon from "@mui/icons-material/MapRounded";
 
 const NewsManager = React.lazy(() => import("@/components/Admin/NewsManager"));
@@ -23,7 +24,10 @@ export default function AdminPC() {
     const mainRef = useRef<HTMLDivElement>(null);
     const scheRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLDivElement>(null);
-    const [isMapOpen, setIsMapMapOpen] = useState(false);
+
+    const mapControl = useMapControl();
+    const isMapOpen = mapControl?.isMapOpen || false;
+    const setIsMapOpen = (open: boolean) => (open ? mapControl?.openMap() : mapControl?.closeMap());
 
     const MainContent = useMemo(() => {
         const isServerAdmin = assignedStall === "server";
@@ -78,7 +82,11 @@ export default function AdminPC() {
         <div className="mainCanvas">
             <div className="PCCanvas" ref={canvasRef}>
                 <Suspense fallback={null}>
-                    <MapModal isOpen={isMapOpen} onClose={() => setIsMapMapOpen(false)} />
+                    <MapModal 
+                        isOpen={isMapOpen} 
+                        onClose={() => setIsMapOpen(false)} 
+                        targetPlace={mapControl?.targetPlace}
+                    />
                 </Suspense>
                 <div className="main" id="main" ref={mainRef}>
                     <div className="mainCards">{MainContent}</div>
@@ -89,7 +97,7 @@ export default function AdminPC() {
                 <div className="main" id="main" ref={mainRef}>
                     <div className="mainCards">{OtherContent}</div>
                 </div>
-                <button className="map-float-btn" onClick={() => setIsMapMapOpen(true)}>
+                <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
                     <MapRoundedIcon style={{ fontSize: "28px" }} />
                     <span style={{ fontSize: "10px", fontWeight: "bold" }}>MAP</span>
                 </button>

@@ -44,7 +44,7 @@
       "Yellow": "在庫少なめ",
       "Red": "品切れ"
     },
-    "Name": "模擬店名　(タップして詳細)",
+    "Name": "模擬店名",
     "CrowdLabel": "混雑",
     "StockLabel": "在庫",
     "NoData": "模擬店情報がありません",

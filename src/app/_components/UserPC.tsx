@@ -8,6 +8,7 @@ import BoothStatus from "@/components/user/status/BoothStatus";
 import NewsStatus from "@/components/user/status/NewsStatus";
 import { useData } from "@/contexts/DataContext";
 import { useAppTime } from "@/contexts/TimeContext";
+import { useMapControl } from "@/contexts/MapContext";
 import MapRoundedIcon from "@mui/icons-material/MapRounded";
 import dayjs from "dayjs";
 
@@ -30,7 +31,10 @@ export default function UserPC() {
     const mainRef = useRef<HTMLDivElement>(null);
     const scheRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLDivElement>(null);
-    const [isMapOpen, setIsMapMapOpen] = useState(false);
+    
+    const mapControl = useMapControl();
+    const isMapOpen = mapControl?.isMapOpen || false;
+    const setIsMapOpen = (open: boolean) => (open ? mapControl?.openMap() : mapControl?.closeMap());
 
     const news = fetchedData?.news || [];
     const hotTime = 20;
@@ -48,11 +52,17 @@ export default function UserPC() {
         <div className="mainCanvas">
             <div className="PCCanvas" ref={canvasRef}>
                 <Suspense fallback={null}>
-                    <MapModal isOpen={isMapOpen} onClose={() => setIsMapMapOpen(false)} />
+                    <MapModal 
+                        isOpen={isMapOpen} 
+                        onClose={() => setIsMapOpen(false)} 
+                        targetPlace={mapControl?.targetPlace}
+                    />
                 </Suspense>
                 <div className="main" id="main" ref={mainRef}>
                     <div className="mainCards">
-                        <BoothStatus />
+                        <Suspense fallback={<FallbackLoader />}>
+                            <BoothStatus />
+                        </Suspense>
                     </div>
                 </div>
                 <div className="main" id="main" ref={mainRef}>
@@ -72,7 +82,7 @@ export default function UserPC() {
                     </div>
                 </div>
                 <AppShare />
-                <button className="map-float-btn" onClick={() => setIsMapMapOpen(true)}>
+                <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
                     <MapRoundedIcon className="map-icon" />
                     <span style={{ fontWeight: "bold" }}>MAP</span>
                 </button>

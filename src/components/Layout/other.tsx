@@ -24,7 +24,7 @@ export default function Other() {
       <Settings />
       {cardMake(t("CardTitles.UPDATES"), [
         <h4 className="lastText" key="version" style={{ textAlign: "left" }}>
-          Demo page supported. 4.23.26
+          Added booth share. 4.23.26
         </h4>,
       ])}
     </div>

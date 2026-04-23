@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, SubList, Divider } from "@/components/Layout/CardComp";
 import { mockSupabaseStalls, StatusLevel } from "@/lib/Server/mockSupabase";
@@ -8,6 +8,7 @@ import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import BoothDetailModal, { BoothItem } from "./BoothDetailModal";
 import stallsData from "@/../public/data/stalls.json";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 const allStalls: BoothItem[] = [
   ...(stallsData.L1 || []),
@@ -60,6 +61,9 @@ const LegendItem = ({ level, crowd, stock }: { level: StatusLevel; crowd: string
 
 export default function BoothStatus() {
   const { t } = useTranslation();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const {
     api: { fetchedData, isLoading, fetchData },
   } = useData();
@@ -69,6 +73,32 @@ export default function BoothStatus() {
 
   const [selectedBooth, setSelectedBooth] = useState<BoothItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Sync state from URL
+  useEffect(() => {
+    const boothName = searchParams.get("booth-info");
+    if (boothName) {
+      const found = allStalls.find((s) => s.name === boothName);
+      if (found) {
+        setSelectedBooth(found);
+        setIsModalOpen(true);
+      }
+    } else {
+      setIsModalOpen(false);
+    }
+  }, [searchParams]);
+
+  const updateUrl = useCallback((name: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (name) {
+      params.set("booth-info", name);
+    } else {
+      params.delete("booth-info");
+    }
+    const query = params.toString();
+    const url = `${pathname}${query ? `?${query}` : ""}`;
+    router.push(url, { scroll: false });
+  }, [pathname, router, searchParams]);
 
   const cycleStatus = (current: StatusLevel): StatusLevel => {
     if (current === 0) return 1;
@@ -91,11 +121,11 @@ export default function BoothStatus() {
   };
 
   const handleStallClick = (stallName: string) => {
-    const found = allStalls.find((s) => s.name === stallName);
-    if (found) {
-      setSelectedBooth(found);
-      setIsModalOpen(true);
-    }
+    updateUrl(stallName);
+  };
+
+  const handleCloseModal = () => {
+    updateUrl(null);
   };
 
   return (
@@ -132,10 +162,11 @@ export default function BoothStatus() {
                 <SubList>
                   <div style={{ display: "flex", alignItems: "center", width: "100%", padding: "4px 0" }}>
                     <div 
-                      style={{ flex: 1, textAlign: "left", cursor: "pointer", textDecorationColor: "var(--md-sys-color-primary-container)" }} 
+                      style={{ flex: 1, display: "flex", flexDirection: "column", textAlign: "left", cursor: "pointer", textDecorationColor: "var(--md-sys-color-primary-container)" }} 
                       onClick={() => handleStallClick(status.stallName)}
                     >
-                      <p style={{ fontSize: "14px", margin: 0, color: "var(--text-color)" }}>{status.stallName}</p>
+                      <span style={{ fontSize: "14px", margin: 0, color: "var(--text-color)" }}>{status.stallName}</span>
+                      <span style={{ fontSize: "9px", color: "#676767"}}>タップして詳細</span>
                     </div>
                     <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
                       <TrafficLight
@@ -166,7 +197,7 @@ export default function BoothStatus() {
       <BoothDetailModal 
         item={selectedBooth} 
         isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        onClose={handleCloseModal} 
       />
     </div>
   );

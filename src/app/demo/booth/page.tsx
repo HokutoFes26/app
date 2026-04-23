@@ -65,7 +65,11 @@ function DemoBoothManagerInner() {
     return (
         <div className="mainCanvas">
             <Suspense fallback={null}>
-                <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} />
+                <MapModal 
+                    isOpen={isMapOpen} 
+                    onClose={() => setIsMapOpen(false)} 
+                    targetPlace={mapControl?.targetPlace}
+                />
             </Suspense>
             <div className={isMobile ? "canvas" : "PCCanvas"} id={isMobile ? "canvas" : ""}>
                 <div className="main" id="main">

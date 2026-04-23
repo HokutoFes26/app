@@ -5,6 +5,7 @@ import React, { Suspense, useState, useMemo } from "react";
 import BottomNavigator from "@/components/Layout/Bottom";
 import ServerConfig from "@/components/Misc/ServerConfig";
 import { useRole } from "@/contexts/RoleContext";
+import { useMapControl } from "@/contexts/MapContext";
 import MapRoundedIcon from "@mui/icons-material/MapRounded";
 
 const NewsManager = React.lazy(() => import("@/components/Admin/NewsManager"));
@@ -25,7 +26,10 @@ export default function AdminPhone() {
     const { isAdmin, isStallAdmin, assignedStall } = useRole();
     const [tabValue, setTabValue] = useState("0");
     const [isMoving, setIsMoving] = useState(false);
-    const [isMapOpen, setIsMapMapOpen] = useState(false);
+    
+    const mapControl = useMapControl();
+    const isMapOpen = mapControl?.isMapOpen || false;
+    const setIsMapOpen = (open: boolean) => (open ? mapControl?.openMap() : mapControl?.closeMap());
 
     const MainContent = useMemo(() => {
         const isServerAdmin = assignedStall === "server";
@@ -64,7 +68,11 @@ export default function AdminPhone() {
     return (
         <div className="mainCanvas">
             <Suspense fallback={null}>
-                <MapModal isOpen={isMapOpen} onClose={() => setIsMapMapOpen(false)} />
+                <MapModal 
+                    isOpen={isMapOpen} 
+                    onClose={() => setIsMapOpen(false)} 
+                    targetPlace={mapControl?.targetPlace}
+                />
             </Suspense>
 
             <div className="canvas" id="canvas">
@@ -97,7 +105,7 @@ export default function AdminPhone() {
                     isMoving={isMoving}
                     setIsMoving={setIsMoving}
                 />
-                <button className="map-float-btn" onClick={() => setIsMapMapOpen(true)}>
+                <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
                     <MapRoundedIcon style={{ fontSize: "28px" }} />
                     <span style={{ fontSize: "10px", fontWeight: "bold" }}>MAP</span>
                 </button>

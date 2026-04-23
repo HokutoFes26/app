@@ -47,7 +47,11 @@ export default function UserPhone() {
     return (
         <div className="mainCanvas">
             <Suspense fallback={null}>
-                <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} />
+                <MapModal 
+                    isOpen={isMapOpen} 
+                    onClose={() => setIsMapOpen(false)} 
+                    targetPlace={mapControl?.targetPlace} 
+                />
             </Suspense>
 
             <div className="canvas" id="canvas">

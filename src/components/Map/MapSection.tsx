@@ -105,7 +105,7 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
                     <div
                         ref={containerRef}
                         className="maps-container"
-                        style={{ height: "400px", position: "relative" }}
+                        style={{ height: "45vh", maxHeight: "450px", position: "relative" }}
                     >
                         {L && isReady ? (
                             <MapContainer
