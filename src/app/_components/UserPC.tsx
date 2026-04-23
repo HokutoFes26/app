@@ -6,6 +6,7 @@ import Menu from "@/components/Layout/menu";
 import EventStatus from "@/components/user/status/EventStatus";
 import BoothStatus from "@/components/user/status/BoothStatus";
 import NewsStatus from "@/components/user/status/NewsStatus";
+import Homepage from "@/components/Layout/Homepage";
 import { useData } from "@/contexts/DataContext";
 import { useAppTime } from "@/contexts/TimeContext";
 import { useMapControl } from "@/contexts/MapContext";
@@ -31,7 +32,7 @@ export default function UserPC() {
     const mainRef = useRef<HTMLDivElement>(null);
     const scheRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLDivElement>(null);
-    
+
     const mapControl = useMapControl();
     const isMapOpen = mapControl?.isMapOpen || false;
     const setIsMapOpen = (open: boolean) => (open ? mapControl?.openMap() : mapControl?.closeMap());
@@ -52,9 +53,9 @@ export default function UserPC() {
         <div className="mainCanvas">
             <div className="PCCanvas" ref={canvasRef}>
                 <Suspense fallback={null}>
-                    <MapModal 
-                        isOpen={isMapOpen} 
-                        onClose={() => setIsMapOpen(false)} 
+                    <MapModal
+                        isOpen={isMapOpen}
+                        onClose={() => setIsMapOpen(false)}
                         targetPlace={mapControl?.targetPlace}
                     />
                 </Suspense>
@@ -78,6 +79,7 @@ export default function UserPC() {
                             <NewsStatus />
                             <QAStatus />
                             <LostStatus />
+                            {/* <Homepage /> */}
                         </Suspense>
                     </div>
                 </div>

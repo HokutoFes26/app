@@ -5,7 +5,7 @@ import { DataContext, DataContextType } from "@/contexts/DataContext";
 import { RoleContext } from "@/contexts/RoleContext";
 import { usePathname } from "next/navigation";
 import dayjs from "dayjs";
-import stallsData from "@/../public/data/stalls.json";
+import stallsData from "@/../public/data/booth.json";
 
 const allStalls = [
   ...(stallsData.L1 || []),

@@ -44,7 +44,7 @@
 
 .maps-nav-cell-category {
   width: 120px;
-  padding: 20px;
+  padding: 10px;
     background-color: var(--bottom-nav);
   font-weight: bold;
   color: var(--text-color, #1f1f1f);
@@ -52,7 +52,7 @@
 }
 
 .maps-nav-cell-buttons {
-  padding: 15px;
+  padding: 8px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;

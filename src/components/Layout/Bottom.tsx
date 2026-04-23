@@ -3,9 +3,9 @@
 import React, { useEffect, useRef } from "react";
 import { TabSelector, initSwipeHandlers, initIndicatorDrag } from "@/lib/TabSelector";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import WidgetsRoundedIcon from '@mui/icons-material/WidgetsRounded';
+import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import StorefrontRoundedIcon from '@mui/icons-material/StorefrontRounded';
+import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
 import NewspaperRoundedIcon from "@mui/icons-material/NewspaperRounded";
 import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -97,7 +97,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
     }, [setValue, setIsMoving, isBooth]);
 
     const tabCount = menuItems.length;
-    const indicatorWidth = 100 / tabCount + 2.5;
+    const indicatorWidth = 100 / tabCount + 3.4;
     const getDisplayIndex = (key: string) => {
         if (!isBooth) return Number(key);
         return key === "0" ? 0 : 1;
@@ -111,7 +111,7 @@ export default function BottomNavigator({ value, setValue, isMoving, setIsMoving
                     ref={indicatorRef}
                     style={{
                         width: `${indicatorWidth}%`,
-                        transform: `translateX(${getDisplayIndex(value) * 83}%)`,
+                        transform: `translateX(${getDisplayIndex(value) * 79}%)`,
                         transition: isMoving ? "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)" : "none",
                         zIndex: 1,
                         cursor: isBooth ? "default" : "grab",

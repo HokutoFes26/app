@@ -6,6 +6,7 @@ import BottomNavigator from "@/components/Layout/Bottom";
 import EventStatus from "@/components/user/status/EventStatus";
 import BoothStatus from "@/components/user/status/BoothStatus";
 import NewsStatus from "@/components/user/status/NewsStatus";
+import Homepage from "@/components/Layout/Homepage";
 import { useAppTime } from "@/contexts/TimeContext";
 import { useData } from "@/contexts/DataContext";
 import { useMapControl } from "@/contexts/MapContext";
@@ -82,6 +83,7 @@ export default function UserPhone() {
                     <div className="mainCards">
                         <Suspense fallback={<FallbackLoader />}>
                             <Other />
+                            {/* <Homepage/> */}
                         </Suspense>
                     </div>
                 </div>

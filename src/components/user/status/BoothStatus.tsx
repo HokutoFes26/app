@@ -7,7 +7,7 @@ import { mockSupabaseStalls, StatusLevel } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import BoothDetailModal, { BoothItem } from "./BoothDetailModal";
-import stallsData from "@/../public/data/stalls.json";
+import stallsData from "@/../public/data/booth.json";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 const allStalls: BoothItem[] = [
