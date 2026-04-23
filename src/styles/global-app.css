@@ -183,8 +183,8 @@ div,
     width: 80%;
     height: 100%;
     background-color: var(--bottom-nav);
-    -webkit-backdrop-filter: saturate(180%) blur(5px);
-    backdrop-filter: saturate(180%) blur(5px);
+    -webkit-backdrop-filter: saturate(240%) blur(5px);
+    backdrop-filter: saturate(240%) blur(5px);
     z-index: 3;
     border-radius: 9999px;
     border: solid var(--glass-border) 0.5px;
@@ -309,14 +309,14 @@ div,
 }
 
 .PCCanvas {
-    width: min(95%, calc(100% - 340px));
+    width: calc(100% - 200px);
     height: 100%;
     position: absolute;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     inset: 0;
-    margin: 0 auto;
+    margin-left: 40px;
 }
 .main,
 .sche,

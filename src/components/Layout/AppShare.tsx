@@ -16,9 +16,9 @@ export default function AppShare() {
 
   return (
     <>
-      <div style={{ textAlign: "center", position: "fixed", bottom: "40px", left: "40px" }}>
+      <div style={{ textAlign: "center", position: "fixed", bottom: "195px", right: "45px" }}>
         <p style={{ fontSize: "12px", color: "#666", marginBottom: "10px", whiteSpace: "nowrap" }}>{t("Common.AppShare")}</p>
-        <img src={qrUrl} alt="App Share QR" style={{ width: "120px", height: "120px" }} />
+        <img src={qrUrl} alt="App Share QR" style={{ width: "110px", height: "110px" }} />
       </div>
     </>
   );
