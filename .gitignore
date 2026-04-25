@@ -36,5 +36,6 @@ next-env.d.ts
 
 test
 database
+handover
 
 *.sql

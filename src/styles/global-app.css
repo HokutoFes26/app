@@ -132,7 +132,8 @@ div,
     justify-content: space-between;
     inset: 0;
     overflow: hidden;
-    transition: 0.3s;
+    /* transition: 0.3s; */
+    transition: none;
 }
 
 .bottomCanvas {
@@ -194,7 +195,7 @@ div,
 .nav-wrapper,
 .bottom-nav-custom {
     display: flex;
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     z-index: 2;
     position: relative;
@@ -404,8 +405,7 @@ div,
     padding: 0 5% !important;
 }
 
-.card,
-.mainCards > div > .ant-picker-panel {
+.card {
     box-shadow: var(--shadow-in);
     margin: 0 10px 10px !important;
     border-radius: 24px !important;
@@ -558,7 +558,7 @@ div,
     margin: 0.5em 0;
 }
 .map-icon {
-    font-size: 2.6em !important;
+    font-size: 48px !important;
     color: var(--text-color) !important;
 }
 .map-icon span {

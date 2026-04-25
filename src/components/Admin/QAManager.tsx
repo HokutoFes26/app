@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { mockSupabase, Question } from "@/lib/Server/mockSupabase";
 import { useData } from "@/contexts/DataContext";
-import "@/components/Admin/admin.css";
+import "@/components/admin/admin.css";
 import "@/styles/global-app.css";
 
 export default function QAManager() {
@@ -21,6 +21,13 @@ export default function QAManager() {
   const [editReason, setEditReason] = useState("");
 
   const questions = fetchedData?.questions || [];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      fetchData();
+    }, 2 * 60 * 1000);
+    return () => clearInterval(timer);
+  }, [fetchData]);
 
   const handleReply = async (id: string) => {
     const answer = replies[id];

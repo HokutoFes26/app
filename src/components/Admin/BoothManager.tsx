@@ -6,8 +6,8 @@ import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { mockSupabaseStalls, StatusLevel } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
-import BoothStatusSelector from "./components/BoothStatusSelector";
-import BoothHandoverQR from "./components/BoothHandoverQR";
+import BoothStatusSelector from "./components/boothstatusselector";
+import BoothHandoverQR from "./components/boothhandoverqr";
 
 export default function BoothManager() {
   const { message } = App.useApp();

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode, Suspense } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode, Suspense, useCallback, useRef } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
-import { mockSupabase } from "@/lib/Server/mockSupabase";
+import { supabase } from "@/lib/Server/mockSupabase";
 
 type Role = "user" | "admin" | "stall-admin";
 
@@ -12,6 +12,7 @@ interface RoleContextType {
   isAdmin: boolean;
   isStallAdmin: boolean;
   assignedStall: string | null;
+  isAuthenticating: boolean;
 }
 
 export const RoleContext = createContext<RoleContextType | undefined>(undefined);
@@ -19,55 +20,69 @@ export const RoleContext = createContext<RoleContextType | undefined>(undefined)
 function RoleProviderInner({ children, initialRole = "user" }: { children: ReactNode; initialRole?: Role }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const [role, setRoleState] = useState<Role>(initialRole);
-  const [assignedStall, setAssignedStall] = useState<string | null>(null);
-  const stallParam = searchParams.get("booth");
-  const adminAuth = typeof window !== "undefined" ? localStorage.getItem("admin_auth") : null;
-  const isAdminPath = pathname?.includes("/admin");
+  const authAttempted = useRef(false);
 
-  let targetRole: Role = "user";
-  let targetStall: string | null = null;
+  const getInitialState = () => {
+    const stallParam = searchParams.get("booth");
+    const adminAuth = typeof window !== "undefined" ? localStorage.getItem("admin_auth") : null;
+    const isAdminPath = pathname?.includes("/admin");
 
-  if (stallParam) {
-    if (stallParam === "server") {
-      targetRole = "admin";
-      targetStall = "server";
-    } else {
-      targetRole = "stall-admin";
-      targetStall = stallParam;
+    let role: Role = initialRole;
+    let assignedStall: string | null = null;
+
+    if (stallParam) {
+      role = "stall-admin";
+      assignedStall = stallParam;
+    } else if (isAdminPath && adminAuth === "true") {
+      role = "admin";
     }
-  } else if (isAdminPath && adminAuth === "true") {
-    targetRole = "admin";
-  }
 
-  if (targetRole !== role) setRoleState(targetRole);
-  if (targetStall !== assignedStall) setAssignedStall(targetStall);
+    return { role, assignedStall };
+  };
+
+  const [state, setState] = useState<{ role: Role; assignedStall: string | null }>(getInitialState);
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
+
+  const setRole = useCallback((newRole: Role) => {
+    setState(prev => ({ ...prev, role: newRole }));
+    if (typeof window !== "undefined") {
+      if (newRole === "admin") localStorage.setItem("admin_auth", "true");
+      if (newRole === "user") {
+        localStorage.removeItem("admin_auth");
+        supabase.auth.signOut();
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    if (role === "admin" || role === "stall-admin") {
-      const savedPass = typeof window !== "undefined" ? localStorage.getItem("admin_pass") : null;
-      if (savedPass) {
-        mockSupabase.loginAsAdmin(savedPass).catch(() => {
+    if (authAttempted.current) return;
+    authAttempted.current = true;
+
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (session) {
+        console.log("[RoleContext] Session valid.");
+      } else {
+        console.log("[RoleContext] No active session.");
+        if (!searchParams.get("booth")) {
           localStorage.removeItem("admin_auth");
-          localStorage.removeItem("admin_pass");
-          setRoleState("user");
-        });
+          setState({ role: "user", assignedStall: null });
+        }
       }
-    }
-  }, [role]);
+      setIsAuthenticating(false);
+    };
+
+    checkSession();
+  }, [searchParams]);
 
   const value = {
-    role,
-    setRole: (newRole: Role) => {
-      setRoleState(newRole);
-      if (typeof window !== "undefined") {
-        if (newRole === "admin") localStorage.setItem("admin_auth", "true");
-        if (newRole === "user") localStorage.removeItem("admin_auth");
-      }
-    },
-    isAdmin: role === "admin",
-    isStallAdmin: role === "stall-admin",
-    assignedStall,
+    role: state.role,
+    setRole,
+    isAdmin: state.role === "admin",
+    isStallAdmin: state.role === "stall-admin",
+    assignedStall: state.assignedStall,
+    isAuthenticating
   };
 
   return <RoleContext.Provider value={value}>{children}</RoleContext.Provider>;

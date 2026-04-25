@@ -93,7 +93,7 @@ export default function UserPC() {
                 <AppShare />
                 <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
                     <MapRoundedIcon className="map-icon" />
-                    <span style={{ fontWeight: "bold" }}>MAP</span>
+                    <span style={{ fontSize: "16px", fontWeight: "bold" }}>MAP</span>
                 </button>
             </div>
             <Menu />

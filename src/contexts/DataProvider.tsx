@@ -12,8 +12,12 @@ import {
 } from "@/lib/Server/mockSupabase";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { usePathname } from "next/navigation";
 
 dayjs.extend(customParseFormat);
+
+const FETCH_INTERVAL_MS = 30000;
+const FULL_REFRESH_FREQ = 3;
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,15 +25,13 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [lostItems, setLostItems] = useState<LostItem[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [lastUpdated, setLastUpdated] = useState<number>(Date.now());
+  const pathname = usePathname();
+  const isAdminPage = pathname?.includes("/admin");
 
   const isInitialRefreshStarted = useRef(false);
   const refreshCycle = useRef(0);
   const lastFetchTime = useRef(0);
-
-  const [serverConfig, setServerConfig] = useState({
-    interval: 30000,
-    freq: 2,
-  });
 
   const parseCompactDate = (compactDateStr: string) => {
     if (!compactDateStr) return new Date().toISOString();
@@ -39,8 +41,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const performRefresh = async (forceFull = false) => {
-    const isFullRefresh = forceFull || refreshCycle.current % serverConfig.freq === 0;
-    const currentTTL = serverConfig.interval - 1000;
+    const isFullRefresh = forceFull || refreshCycle.current % FULL_REFRESH_FREQ === 0;
+    const currentTTL = FETCH_INTERVAL_MS - 1000;
 
     try {
       const allData = isFullRefresh
@@ -49,13 +51,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (allData) {
         lastFetchTime.current = Date.now();
-
-        if (allData.config) {
-          setServerConfig({
-            interval: allData.config.fetch_interval_ms || 30000,
-            freq: allData.config.full_refresh_freq || 2,
-          });
-        }
+        setLastUpdated(Date.now());
 
         if (allData.s) {
           setStalls(
@@ -101,8 +97,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       }
     } catch (e: any) {
       console.error("[DataProvider] Refresh Error:", e?.message || e);
-      if (e?.details) console.error("[DataProvider] Details:", e.details);
-      if (e?.hint) console.error("[DataProvider] Hint:", e.hint);
     } finally {
       setIsLoading(false);
       refreshCycle.current = (refreshCycle.current + 1) % 24;
@@ -149,21 +143,22 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       if (document.visibilityState === "visible") {
         const now = Date.now();
         const diff = now - lastFetchTime.current;
-        if (diff > serverConfig.interval) {
-          performRefresh(false);
+        if (diff > FETCH_INTERVAL_MS) {
+          if (!isAdminPage) performRefresh(false);
         }
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [serverConfig.interval]);
+  }, [isAdminPage]);
 
   useEffect(() => {
-    const interval = serverConfig.interval;
-    const jitter = Math.floor(Math.random() * 10000);
-    const timer = setInterval(() => performRefresh(), interval + jitter);
+    if (isAdminPage) return;
+
+    const jitter = Math.floor(Math.random() * 5000);
+    const timer = setInterval(() => performRefresh(), FETCH_INTERVAL_MS + jitter);
     return () => clearInterval(timer);
-  }, [serverConfig.interval]);
+  }, [isAdminPage]);
 
   const value: DataContextType = {
     api: {
@@ -176,8 +171,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       askQuestion: async (text: string) => {
         await mockSupabase.qa.ask(text);
       },
+      lastUpdated,
     },
-    change: { serverConfig },
     work: {} as any,
   };
 

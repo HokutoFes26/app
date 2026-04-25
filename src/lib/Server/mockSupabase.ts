@@ -6,7 +6,9 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key";
 
 if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-  console.warn("[Supabase] Environment variables for Supabase are missing. Ensure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set.");
+  console.warn(
+    "[Supabase] Environment variables for Supabase are missing. Ensure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set.",
+  );
 }
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
@@ -27,19 +29,35 @@ interface CacheEntry<T> {
 const cache: Record<string, CacheEntry<unknown>> = {};
 const pendingRequests: Record<string, Promise<unknown> | null> = {};
 
+let loginPromise: Promise<any> | null = null;
+
 export const mockSupabase = {
   loginAsAdmin: async (password: string) => {
     const email = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
     if (!email) return;
-
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (sessionData.session) {
+      console.log("[Supabase] Auth: Already logged in");
+      return { user: sessionData.session.user };
+    }
+    if (loginPromise) return loginPromise;
     console.log("[Supabase] Auth: Login Attempt");
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    loginPromise = supabase.auth
+      .signInWithPassword({
+        email,
+        password,
+      })
+      .then((res) => {
+        loginPromise = null;
+        if (res.error) throw res.error;
+        return res.data;
+      })
+      .catch((err) => {
+        loginPromise = null;
+        throw err;
+      });
 
-    if (error) throw error;
-    return data;
+    return loginPromise;
   },
 
   getJitter: () => Math.floor(Math.random() * 2000),
@@ -192,6 +210,44 @@ export const mockSupabase = {
       const { error } = await supabase.from("news").delete().eq("id", id);
       if (error) throw error;
       delete cache["all"];
+    },
+  },
+
+  voting: {
+    getVoterId: () => {
+      if (typeof window === "undefined") return "";
+      let id = localStorage.getItem("voter_id");
+      if (!id) {
+        id = crypto.randomUUID();
+        localStorage.setItem("voter_id", id);
+      }
+      return id;
+    },
+
+    getTargets: async () => {
+      const { data, error } = await supabase
+        .from("vote_targets")
+        .select("*")
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+
+    submitVote: async (targetId: string, category: string) => {
+      const voterId = mockSupabase.voting.getVoterId();
+      const { data, error } = await supabase.rpc("vote_for_target", {
+        p_voter_id: voterId,
+        p_target_id: targetId,
+        p_category: category,
+      });
+      if (error) throw error;
+      return data;
+    },
+
+    getResults: async () => {
+      const { data, error } = await supabase.from("vote_results").select("*");
+      if (error) throw error;
+      return data;
     },
   },
 };

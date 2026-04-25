@@ -4,7 +4,7 @@ export default function DarkClick(isDark: boolean) {
    if (!root) return;
    
    if (isDark) {
-      root.style.setProperty("--bg-color", "#18181a");
+      root.style.setProperty("--bg-color", "#20201f");
       root.style.setProperty("--bg-sub-color", "#39383c");
       root.style.setProperty("--mainCanvas-color", "#080809");
       root.style.setProperty("--text-color", "#fff");

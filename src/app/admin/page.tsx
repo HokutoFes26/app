@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { mockSupabase } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
-import { ThemeProvider } from "@/contexts/ThemeContext";
 import AspectDetector from "@/lib/Misc/AspectDetector";
 import React from "react";
 import FullPageLoader from "@/components/Layout/FullPageLoader";
@@ -12,8 +11,7 @@ const AdminPC = React.lazy(() => import("@/app/admin/_components/AdminPC"));
 const AdminPhone = React.lazy(() => import("@/app/admin/_components/AdminPhone"));
 
 export default function AdminPage() {
-    const { setRole } = useRole();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const { setRole, isAdmin, isStallAdmin, isAuthenticating } = useRole();
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -32,9 +30,7 @@ export default function AdminPage() {
         try {
             await mockSupabase.loginAsAdmin(password);
             localStorage.setItem("admin_auth", "true");
-            localStorage.setItem("admin_pass", password);
             setRole("admin");
-            setIsAuthenticated(true);
         } catch (err: any) {
             console.error("[Login] Failed:", err.message);
             setError("パスワードが正しくないか、ログインに失敗しました");
@@ -42,28 +38,15 @@ export default function AdminPage() {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        const checkSession = async () => {
-            const adminAuth = localStorage.getItem("admin_auth");
-            const savedPass = localStorage.getItem("admin_pass");
-
-            if (adminAuth === "true" && savedPass) {
-                try {
-                    await mockSupabase.loginAsAdmin(savedPass);
-                    setRole("admin");
-                    setIsAuthenticated(true);
-                } catch (e) {
-                    localStorage.removeItem("admin_auth");
-                    localStorage.removeItem("admin_pass");
-                }
-            }
-        };
-        checkSession();
-    }, [setRole]);
-
-    if (isAuthenticated) {
-        return <Suspense fallback={<FullPageLoader />}>{isMobile ? <AdminPhone /> : <AdminPC />}</Suspense>;
+    if (isAuthenticating) {
+        return <FullPageLoader />;
+    }
+    if (isAdmin || isStallAdmin) {
+        return (
+            <Suspense fallback={<FullPageLoader />}>
+                {isMobile ? <AdminPhone /> : <AdminPC />}
+            </Suspense>
+        );
     }
 
     return (
@@ -97,6 +80,9 @@ export default function AdminPage() {
                         marginBottom: "20px",
                         borderRadius: "10px",
                         fontSize: "16px",
+                        border: "1px solid #ddd",
+                        background: "var(--bg-color)",
+                        color: "var(--text-color)"
                     }}
                     disabled={loading}
                 />

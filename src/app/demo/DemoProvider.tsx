@@ -99,8 +99,8 @@ export function DemoProvider({ children }: { children: ReactNode }) {
           ...prev,
         ]);
       },
+      lastUpdated: 20260523,
     },
-    change: { serverConfig: { interval: 30000, freq: 2 } },
     work: {} as any,
   };
 
@@ -110,6 +110,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     isAdmin: false,
     isStallAdmin: isDemoBooth,
     assignedStall: isDemoBooth ? "肉巻きおにぎり" : null,
+    isAuthenticating: false,
   };
 
   return (

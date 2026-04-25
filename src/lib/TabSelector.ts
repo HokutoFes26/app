@@ -55,6 +55,7 @@ export const initIndicatorDrag = (
     indicator: HTMLElement,
     container: HTMLElement,
     onTabChange: (index: number) => void,
+    tabCount: number = 3,
 ) => {
     let isDragging = false;
     let startX = 0;
@@ -89,7 +90,7 @@ export const initIndicatorDrag = (
         const deltaX = clientX - startX;
         currentX = initialLeft + deltaX;
 
-        const maxDelta = container.offsetWidth * 0.666;
+        const maxDelta = container.offsetWidth * ((tabCount - 1) / tabCount);
         currentX = Math.max(0, Math.min(currentX, maxDelta));
 
         indicator.style.transform = `translateX(${currentX}px) scaleX(1.1)`;
@@ -105,9 +106,9 @@ export const initIndicatorDrag = (
         window.removeEventListener("mouseup", handleEnd);
 
         const containerWidth = container.offsetWidth;
-        const tabWidth = containerWidth / 3;
+        const tabWidth = containerWidth / tabCount;
         const nearestTab = Math.round(currentX / tabWidth);
-        const finalTab = Math.min(Math.max(nearestTab, 0), 2);
+        const finalTab = Math.min(Math.max(nearestTab, 0), tabCount - 1);
 
         indicator.style.transition = "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)";
         onTabChange(finalTab);
