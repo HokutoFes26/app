@@ -7,6 +7,7 @@ import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import busData from "@/../public/data/bus.json";
 import { useAppTime } from "@/contexts/TimeContext";
 import dayjs from "dayjs";
+import { motion, AnimatePresence } from "framer-motion";
 
 const allStops = Array.from(new Set([...busData.HongoToImizu.route, ...busData.ImizuToHongo.route]));
 
@@ -23,17 +24,25 @@ export default function BusStatus() {
   const { currentTime } = useAppTime();
   const nowTimeStr = currentTime.format("HH:mm");
   const oneHourLaterStr = currentTime.add(1, "hour").format("HH:mm");
-  const lastArrivalAtImizu = useMemo(() => {
-    const imizuArrivalIdx = busData.HongoToImizu.route.indexOf("射水キャンパス 着");
-    if (imizuArrivalIdx === -1) return "00:00";
-    const arrivalTimes = busData.HongoToImizu.time[imizuArrivalIdx].filter((t) => t !== "");
-    return arrivalTimes.length > 0 ? arrivalTimes[arrivalTimes.length - 1] : "00:00";
-  }, []);
-
-  const isAfternoon = nowTimeStr > lastArrivalAtImizu;
+  const isAfternoon = nowTimeStr >= "12:00";
   const [fromStop, setFromStop] = useState(isAfternoon ? "射水キャンパス 発" : "富山駅北口 発");
   const [toStop, setToStop] = useState(isAfternoon ? "富山駅北口 着" : "射水キャンパス 着");
+  const [lastAutoPeriod, setLastAutoPeriod] = useState(isAfternoon ? "PM" : "AM");
   const [filterMode, setFilterMode] = useState<"hour" | "all">("hour");
+
+  React.useEffect(() => {
+    const currentPeriod = nowTimeStr >= "12:00" ? "PM" : "AM";
+    if (currentPeriod !== lastAutoPeriod) {
+      if (currentPeriod === "PM") {
+        setFromStop("射水キャンパス 発");
+        setToStop("富山駅北口 着");
+      } else {
+        setFromStop("富山駅北口 発");
+        setToStop("射水キャンパス 着");
+      }
+      setLastAutoPeriod(currentPeriod);
+    }
+  }, [nowTimeStr, lastAutoPeriod]);
 
   const normalizeTime = (t: string) => {
     if (!t) return "";
@@ -107,7 +116,7 @@ export default function BusStatus() {
               onChange={setFromStop}
               style={{ flex: 1 }}
               size="large"
-              getPopupContainer={(trigger) => trigger.parentElement}
+              placement="bottomLeft"
             />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -118,76 +127,97 @@ export default function BusStatus() {
               onChange={setToStop}
               style={{ flex: 1 }}
               size="large"
-              getPopupContainer={(trigger) => trigger.parentElement}
+              placement="bottomLeft"
             />
           </div>
         </div>
 
-        <div style={{ marginTop: "15px" }}>
-          {filteredBuses.length > 0 ? (
-            filteredBuses.map((bus, index) => {
-              const isPast = bus.isoTime <= nowTimeStr;
-              return (
-                <React.Fragment key={index}>
-                  {index !== 0 && (
-                    <div style={{ padding: "8px 0" }}>
-                      <Divider />
-                    </div>
-                  )}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "4px 0",
-                      opacity: isPast ? 0.4 : 1,
+        <div style={{ marginTop: "15px", position: "relative" }}>
+          <AnimatePresence initial={false} mode="popLayout">
+            {filteredBuses.length > 0 ? (
+              filteredBuses.map((bus, index) => {
+                const isPast = bus.isoTime <= nowTimeStr;
+                return (
+                  <motion.div
+                    key={index}
+                    layout
+                    initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                    animate={{ opacity: isPast ? 0.4 : 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -30, scale: 0.8 }}
+                    transition={{
+                      delay: index * 0.05,
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
                     }}
                   >
-                    <div style={{ textAlign: "left" }}>
-                      <Tag
-                        color={bus.direction === "to-imizu" ? "blue" : "orange"}
-                        style={{ fontSize: "10px", marginBottom: "4px" }}
-                      >
-                        {bus.routeTitle}
-                      </Tag>
-                      <p style={{ fontSize: "20px", fontWeight: "bold", margin: 0, color: "var(--text-color)" }}>
-                        {bus.time}
-                        <span style={{ fontSize: "12px", fontWeight: "normal", color: "#666", marginLeft: "4px" }}>
-                          {t("Bus.Departure")}
-                        </span>
-                        <span style={{ fontSize: "12px", color: "#888", fontWeight: "normal" }}> →</span>{" "}
-                        {bus.arrivalTime}
-                        <span style={{ fontSize: "12px", fontWeight: "normal", color: "#666", marginLeft: "4px" }}>
-                          {t("Bus.Arrival")}
-                        </span>
-                      </p>
-                    </div>
-                    <div style={{ textAlign: "right" }}>
-                      {!isPast ? (
-                        <p style={{ fontSize: "11px", color: "var(--main-color)", margin: 0 }}>
-                          {(() => {
-                            const diffMin = dayjs(`2000-01-01 ${bus.isoTime}`).diff(
-                              dayjs(`2000-01-01 ${nowTimeStr}`),
-                              "minute",
-                            );
-                            if (diffMin >= 60) {
-                              const hours = Math.floor(diffMin / 60);
-                              return t("Time.HoursLater", { count: hours });
-                            }
-                            return t("Time.MinsLater", { count: diffMin });
-                          })()}
+                    {index !== 0 && (
+                      <div style={{ padding: "8px 0" }}>
+                        <Divider />
+                      </div>
+                    )}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "4px 0",
+                      }}
+                    >
+                      <div style={{ textAlign: "left" }}>
+                        <Tag
+                          color={bus.direction === "to-imizu" ? "blue" : "orange"}
+                          style={{ fontSize: "10px", marginBottom: "4px" }}
+                        >
+                          {bus.routeTitle}
+                        </Tag>
+                        <p style={{ fontSize: "20px", fontWeight: "bold", margin: 0, color: "var(--text-color)" }}>
+                          {bus.time}
+                          <span style={{ fontSize: "12px", fontWeight: "normal", color: "#666", marginLeft: "4px" }}>
+                            {t("Bus.Departure")}
+                          </span>
+                          <span style={{ fontSize: "12px", color: "#888", fontWeight: "normal" }}> →</span>{" "}
+                          {bus.arrivalTime}
+                          <span style={{ fontSize: "12px", fontWeight: "normal", color: "#666", marginLeft: "4px" }}>
+                            {t("Bus.Arrival")}
+                          </span>
                         </p>
-                      ) : (
-                        <p style={{ fontSize: "11px", color: "#999", margin: 0 }}>{t("Bus.Departed")}</p>
-                      )}
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        {!isPast ? (
+                          <p style={{ fontSize: "11px", color: "var(--main-color)", margin: 0 }}>
+                            {(() => {
+                              const diffMin = dayjs(`2000-01-01 ${bus.isoTime}`).diff(
+                                dayjs(`2000-01-01 ${nowTimeStr}`),
+                                "minute",
+                              );
+                              if (diffMin >= 60) {
+                                const hours = Math.floor(diffMin / 60);
+                                return t("Time.HoursLater", { count: hours });
+                              }
+                              return t("Time.MinsLater", { count: diffMin });
+                            })()}
+                          </p>
+                        ) : (
+                          <p style={{ fontSize: "11px", color: "#999", margin: 0 }}>{t("Bus.Departed")}</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </React.Fragment>
-              );
-            })
-          ) : (
-            <p style={{ fontSize: "13px", color: "#999", padding: "10px 0" }}>{t("Bus.NoBuses")}</p>
-          )}
+                  </motion.div>
+                );
+              })
+            ) : (
+              <motion.p
+                key="no-buses"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={{ fontSize: "13px", color: "#999", padding: "10px 0", textAlign: "center" }}
+              >
+                {t("Bus.NoBuses")}
+              </motion.p>
+            )}
+          </AnimatePresence>
         </div>
       </CardInside>
     </CardBase>

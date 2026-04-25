@@ -19,8 +19,10 @@ export default function WebPage() {
   }
 
   return (
-    <Suspense fallback={<div style={{ background: "var(--mainCanvas-color)", height: "100vh" }} />}>
-      {isMobile ? <UserPhone /> : <UserPC />}
-    </Suspense>
+    <div className={isMobile ? "mode-phone" : "mode-pc"}>
+      <Suspense fallback={<div style={{ background: "var(--mainCanvas-color)", height: "100vh" }} />}>
+        {isMobile ? <UserPhone /> : <UserPC />}
+      </Suspense>
+    </div>
   );
 }

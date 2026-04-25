@@ -106,7 +106,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
 
   const demoRole = {
     role: (isDemoBooth ? "stall-admin" : "user") as any,
-    setRole: () => {},
+    setRole: (role: any) => {}, // 引数を追加
     isAdmin: false,
     isStallAdmin: isDemoBooth,
     assignedStall: isDemoBooth ? "肉巻きおにぎり" : null,

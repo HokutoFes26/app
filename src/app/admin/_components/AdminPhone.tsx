@@ -120,13 +120,11 @@ export default function AdminPhone() {
   );
 
   const renderVoteSection = () => (
-    <div className="canvas" id="canvas" style={{ width: "300%"}}>
+    <div className="canvas" id="canvas" style={{ width: "300%" }}>
       {["stall", "exhibition", "other"].map((cat) => (
         <div key={cat} className="main" id="main" style={{ width: "100%" }}>
           <Suspense fallback={<FallbackLoader text={`Fetching ${cat}...`} />}>
-            <div className="canvas">
-              <VoteAdmin filterCategory={cat} />
-            </div>
+            <VoteAdmin filterCategory={cat} />
           </Suspense>
         </div>
       ))}

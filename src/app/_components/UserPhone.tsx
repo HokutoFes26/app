@@ -17,6 +17,7 @@ const LostStatus = React.lazy(() => import("@/components/user/status/LostStatus"
 const QAStatus = React.lazy(() => import("@/components/user/status/QAStatus"));
 const Other = React.lazy(() => import("@/components/Layout/other"));
 const MapModal = React.lazy(() => import("@/components/Map/MapModal"));
+const BoothModalManager = React.lazy(() => import("@/components/user/status/BoothModalManager"));
 
 const FallbackLoader = () => (
   <div style={{ textAlign: "center", padding: "20px", color: "var(--text-sub-color)" }}>Loading Panel...</div>
@@ -25,9 +26,7 @@ const FallbackLoader = () => (
 export default function UserPhone() {
   const { isStallAdmin } = useRole();
   const { currentTime } = useAppTime();
-  const {
-    api: { fetchedData },
-  } = useData();
+  const { api: { fetchedData } } = useData();
   const mapControl = useMapControl();
   const isMapOpen = mapControl?.isMapOpen || false;
   const setIsMapOpen = (open: boolean) => (open ? mapControl?.openMap() : mapControl?.closeMap());
@@ -49,6 +48,7 @@ export default function UserPhone() {
     <div className="mainCanvas">
       <Suspense fallback={null}>
         <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} targetPlace={mapControl?.targetPlace} />
+        <BoothModalManager />
       </Suspense>
 
       <div className="canvas" id="canvas" style={{ width: `${isStallAdmin ? 200 : 400}%` }}>
@@ -79,7 +79,6 @@ export default function UserPhone() {
           <div className="mainCards">
             <Suspense fallback={<FallbackLoader />}>
               <Other />
-              {/* <Homepage/> */}
             </Suspense>
           </div>
         </div>

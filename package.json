@@ -16,6 +16,7 @@
     "@supabase/supabase-js": "^2.103.3",
     "antd": "^6.3.6",
     "dayjs": "^1.11.20",
+    "framer-motion": "^12.38.0",
     "html-to-image": "^1.11.13",
     "i18next": "^26.0.5",
     "i18next-browser-languagedetector": "^8.2.1",

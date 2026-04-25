@@ -8,6 +8,8 @@ import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import BoothStatusSelector from "./components/boothstatusselector";
 import BoothHandoverQR from "./components/boothhandoverqr";
+import { motion, AnimatePresence } from "framer-motion";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 
 export default function BoothManager() {
   const { message } = App.useApp();
@@ -20,6 +22,7 @@ export default function BoothManager() {
   const [isDirty, setIsDirtyInternal] = useState(false);
   const isDirtyRef = React.useRef(false);
   const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const lastStallRef = React.useRef<string | null>(null);
 
   const checkDirty = (currentCrowd: StatusLevel, currentStock: StatusLevel) => {
@@ -66,10 +69,11 @@ export default function BoothManager() {
     setLoading(true);
     try {
       await mockSupabaseStalls.update(assignedStall, { crowdLevel: crowd, stockLevel: stock });
-      message.success("ステータスを更新しました");
       setIsDirtyInternal(false);
       isDirtyRef.current = false;
       await fetchData();
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 2000);
     } catch (e) {
       message.error("更新に失敗しました");
     } finally {
@@ -83,7 +87,7 @@ export default function BoothManager() {
   const statusColors = ["#52c41a", "#faad14", "#ff4d4f"];
 
   return (
-    <CardBase title="Booth Manager">
+    <CardBase title="Booth Manager" disableTapAnimation={true}>
       <CardInside>
         <div style={{ display: "flex", flexDirection: "column", gap: "25px", padding: "10px 0" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -120,18 +124,37 @@ export default function BoothManager() {
             options={stockOptions}
           />
 
-          <Button
-            type="primary"
-            block
-            size="large"
-            onClick={handleUpdate}
-            loading={loading}
-            style={{ fontWeight: "bold", height: "50px", borderRadius: "12px" }}
-          >
-            情報を更新する
-          </Button>
-          {isDirty && (
-            <div
+          <div style={{ position: "relative" }}>
+            <Button
+              type="primary"
+              block
+              size="large"
+              onClick={handleUpdate}
+              loading={loading}
+              style={{
+                fontWeight: "bold",
+                height: "50px",
+                borderRadius: "12px",
+                backgroundColor: showSuccess ? "#52c41a" : undefined,
+                borderColor: showSuccess ? "#52c41a" : undefined,
+                transition: "all 0.3s",
+              }}
+            >
+              {showSuccess ? (
+                <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+                  <CheckCircleRoundedIcon /> 更新完了
+                </span>
+              ) : (
+                "情報を更新する"
+              )}
+            </Button>
+          </div>
+
+          {isDirty && !showSuccess && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -140,19 +163,12 @@ export default function BoothManager() {
                 padding: "10px",
                 background: "rgba(255, 77, 79, 0.05)",
                 borderRadius: "8px",
+                overflow: "hidden",
               }}
             >
-              <span
-                style={{
-                  color: "#ff4d4f",
-                  fontSize: "1.1em",
-                  fontWeight: "bold",
-                }}
-              >
-                変更が未反映です
-              </span>
+              <span style={{ color: "#ff4d4f", fontSize: "1.1em", fontWeight: "bold" }}>変更が未反映です</span>
               <span style={{ color: "#888", fontSize: "0.85em" }}>「情報を更新する」ボタンを押すと公開されます</span>
-            </div>
+            </motion.div>
           )}
           <Divider />
           <BoothHandoverQR assignedStall={assignedStall} />

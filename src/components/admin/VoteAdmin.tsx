@@ -6,6 +6,8 @@ import { mockSupabase } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
+import useColumnDetector from "@/lib/Misc/ColumnDetector";
+import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 
 const { Text } = Typography;
 
@@ -24,15 +26,15 @@ let globalLastFetchTime = 0;
 
 export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
   const { isAdmin } = useRole();
-  const { message } = App.useApp();
   const {
-    api: { lastUpdated },
+    api: { lastUpdated, isLoading },
   } = useData();
   const [results, setResults] = useState<VoteResult[]>(globalCachedResults);
   const [localLoading, setLocalLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [lastUpdatedDisplay, setLastUpdatedDisplay] = useState<number>(globalLastFetchTime);
   const isFirstMount = useRef(true);
+  const columns = useColumnDetector();
 
   useEffect(() => {
     setMounted(true);
@@ -53,10 +55,8 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
       console.log("[VoteAdmin] Fetching fresh vote results...");
       const data = await mockSupabase.voting.getResults();
       const newResults = data || [];
-
       globalCachedResults = newResults;
       globalLastFetchTime = now;
-
       setResults(newResults);
       setLastUpdatedDisplay(now);
     } catch (e) {
@@ -84,11 +84,11 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
       })
     : "-";
 
-  const columns = [
+  const tableColumns = [
     {
       title: "順位",
       key: "rank",
-      width: 80,
+      width: 70,
       render: (_: any, record: VoteResult) => {
         const rank =
           results.filter((item) => item.category === record.category && item.vote_count > record.vote_count).length + 1;
@@ -120,37 +120,56 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
     other: "その他部門",
   };
 
-  const displayCategories = filterCategory ? [filterCategory] : ["stall", "exhibition", "other"];
+  const renderCard = (cat: string) => {
+    const categoryData = results.filter((r) => r.category === cat).sort((a, b) => b.vote_count - a.vote_count);
+    return (
+      <CardBase
+        key={cat}
+        title={categoryLabels[cat] || cat}
+        SubjectUpdated={
+          <span style={{ fontSize: "11px", color: "var(--text-sub-color)", marginRight: "10px" }}>
+            最終: {lastUpdatedStr}
+          </span>
+        }
+      >
+        <CardInside>
+          <Table
+            dataSource={categoryData}
+            columns={tableColumns as any}
+            rowKey="name"
+            pagination={false}
+            loading={localLoading || isLoading}
+            size="small"
+          />
+        </CardInside>
+      </CardBase>
+    );
+  };
 
-  return (<>
-      {displayCategories.map((cat) => {
-        const categoryData = results.filter((r) => r.category === cat).sort((a, b) => b.vote_count - a.vote_count);
-        return (
-          <div className="main" key={cat}>
-            <div className="mainCards">
-              <CardBase
-                title={categoryLabels[cat] || cat}
-                SubjectUpdated={
-                  <span style={{ fontSize: "12px", color: "var(--text-sub-color)", marginRight: "20px" }}>
-                    最終更新: {lastUpdatedStr}
-                  </span>
-                }
-              >
-                <CardInside>
-                  <Table
-                    dataSource={categoryData}
-                    columns={columns as any}
-                    rowKey="name"
-                    pagination={false}
-                    loading={localLoading}
-                    size="small"
-                  />
-                </CardInside>
-              </CardBase>
-            </div>
-          </div>
-        );
-      })}
-      </>
+  if (filterCategory) {
+    return <div className="mainCards">{renderCard(filterCategory)}</div>;
+  }
+
+  return (
+    <div className="mainCanvas">
+      <div className="PCCanvas" style={{ width: "100%", marginLeft: 0, paddingLeft: "40px" }}>
+        {columns >= 3 && (
+          <>
+            <PCCanvasColumn width="33.3%">{renderCard("stall")}</PCCanvasColumn>
+            <PCCanvasColumn width="33.3%">{renderCard("exhibition")}</PCCanvasColumn>
+            <PCCanvasColumn width="33.3%">{renderCard("other")}</PCCanvasColumn>
+          </>
+        )}
+        {columns === 2 && (
+          <>
+            <PCCanvasColumn width="50%">
+              {renderCard("stall")}
+              {renderCard("exhibition")}
+            </PCCanvasColumn>
+            <PCCanvasColumn width="50%">{renderCard("other")}</PCCanvasColumn>
+          </>
+        )}
+      </div>
+    </div>
   );
 }

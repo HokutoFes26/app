@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useMemo, useRef, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 import { Tabs, Button, App as AntdApp, Space, Typography } from "antd";
 import Menu from "@/components/Layout/menu";
 import { useRole, RoleProvider } from "@/contexts/RoleContext";
@@ -11,6 +11,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import PollIcon from "@mui/icons-material/Poll";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import useColumnDetector from "@/lib/Misc/ColumnDetector";
+import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 
 const { Title } = Typography;
 
@@ -34,6 +36,7 @@ export default function AdminPC() {
   } = useData();
   const { message } = AntdApp.useApp();
   const [activeTab, setActiveTab] = useState("1");
+  const columns = useColumnDetector();
 
   const mapControl = useMapControl();
   const isMapOpen = mapControl?.isMapOpen || false;
@@ -48,36 +51,51 @@ export default function AdminPC() {
     }
   };
 
-  const DashboardContent = useMemo(
-    () => (
+  const DashboardLayout = useMemo(() => {
+    const News = (
+      <Suspense fallback={<FallbackLoader />}>
+        <NewsManager />
+      </Suspense>
+    );
+    const QA = (
+      <Suspense fallback={<FallbackLoader />}>
+        <QAManager />
+      </Suspense>
+    );
+    const Lost = (
+      <Suspense fallback={<FallbackLoader />}>
+        <LostManager />
+      </Suspense>
+    );
+    const Booth = (
+      <Suspense fallback={<FallbackLoader />}>
+        <BoothManager />
+      </Suspense>
+    );
+
+    return (
       <div className="mainCanvas">
         <div className="PCCanvas">
-          <div className="main">
-            <div className="mainCards">
-              <Suspense fallback={<FallbackLoader />}>
-                <NewsManager />
-              </Suspense>
-            </div>
-          </div>
-          <div className="main">
-            <div className="mainCards">
-              <Suspense fallback={<FallbackLoader />}>
-                <QAManager />
-              </Suspense>
-            </div>
-          </div>
-          <div className="main">
-            <div className="mainCards">
-              <Suspense fallback={<FallbackLoader />}>
-                <LostManager />
-              </Suspense>
-            </div>
-          </div>
+          {columns >= 3 && (
+            <>
+              <PCCanvasColumn width="33.3%">{News}</PCCanvasColumn>
+              <PCCanvasColumn width="33.3%">{QA}</PCCanvasColumn>
+              <PCCanvasColumn width="33.3%">{Lost}</PCCanvasColumn>
+            </>
+          )}
+          {columns === 2 && (
+            <>
+              <PCCanvasColumn width="50%">{News}</PCCanvasColumn>
+              <PCCanvasColumn width="50%">
+                {QA}
+                {Lost}
+              </PCCanvasColumn>
+            </>
+          )}
         </div>
       </div>
-    ),
-    [],
-  );
+    );
+  }, [columns]);
 
   const items = [
     {
@@ -110,7 +128,7 @@ export default function AdminPC() {
   ];
 
   return (
-    <div className="mainCanvas" style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div className="mainCanvas">
       <Suspense fallback={null}>
         <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} targetPlace={mapControl?.targetPlace} />
       </Suspense>
@@ -148,40 +166,38 @@ export default function AdminPC() {
         )}
       </div>
 
-      <div style={{ flex: 1, position: "relative", overflow: "hidden", background: "var(--mainCanvas-color)" }}>
+      <div
+        style={{
+          flex: 1,
+          position: "relative",
+          height: "100%",
+          overflow: "hidden",
+          background: "var(--mainCanvas-color)",
+        }}
+      >
         {isStallAdmin ? (
           <div className="mainCanvas">
             <div className="PCCanvas" style={{ justifyContent: "center" }}>
-              <div className="main">
-                <div className="mainCards">
-                  <Suspense fallback={<FallbackLoader />}>
-                    <BoothManager />
-                  </Suspense>
-                </div>
-              </div>
-              <div className="sche">
-                <div className="mainCards">
-                  <Suspense fallback={<FallbackLoader />}>
-                    <NewsStatus />
-                  </Suspense>
-                </div>
-              </div>
-              <div className="main">
-                <div className="mainCards"></div>
-              </div>
+              <PCCanvasColumn>
+                <Suspense fallback={<FallbackLoader />}>
+                  <BoothManager />
+                </Suspense>
+              </PCCanvasColumn>
+              <PCCanvasColumn>
+                <Suspense fallback={<FallbackLoader />}>
+                  <NewsStatus />
+                </Suspense>
+              </PCCanvasColumn>
+              <PCCanvasColumn>{<></>}</PCCanvasColumn>
             </div>
           </div>
         ) : (
           <>
-            {activeTab === "1" && DashboardContent}
+            {activeTab === "1" && DashboardLayout}
             {activeTab === "2" && (
-              <div style={{ height: "100%", overflowY: "auto" }}>
-                <Suspense fallback={<FallbackLoader />}>
-                  <div className="PCCanvas">
-                    <VoteAdmin />
-                  </div>
-                </Suspense>
-              </div>
+              <Suspense fallback={<FallbackLoader />}>
+                <VoteAdmin />
+              </Suspense>
             )}
             {activeTab === "3" && (
               <div style={{ position: "absolute", inset: 0 }}>

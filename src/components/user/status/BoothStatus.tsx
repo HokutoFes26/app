@@ -1,21 +1,12 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, SubList, Divider } from "@/components/Layout/CardComp";
 import { mockSupabaseStalls, StatusLevel } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
-import BoothDetailModal, { BoothItem } from "./BoothDetailModal";
-import stallsData from "@/../public/data/booth.json";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-
-const allStalls: BoothItem[] = [
-  ...(stallsData.L1 || []),
-  ...(stallsData.L2 || []),
-  ...(stallsData.L3 || []),
-  ...(stallsData.L4 || []),
-];
 
 const TrafficLight = ({
   level,
@@ -59,7 +50,7 @@ const LegendItem = ({ level, crowd, stock }: { level: StatusLevel; crowd: string
   </div>
 );
 
-export default function BoothStatus() {
+export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
@@ -67,24 +58,14 @@ export default function BoothStatus() {
   const {
     api: { fetchedData, isLoading, fetchData },
   } = useData();
-  const statuses = fetchedData?.stalls || [];
   const { isAdmin } = useRole();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [selectedBooth, setSelectedBooth] = useState<BoothItem | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const boothName = searchParams.get("booth-info");
-    if (boothName) {
-      const found = allStalls.find((s) => s.name === boothName);
-      if (found) {
-        setSelectedBooth(found);
-        setIsModalOpen(true);
-      }
-    } else {
-      setIsModalOpen(false);
-    }
-  }, [searchParams]);
+  const allStatuses = fetchedData?.stalls || [];
+  const statuses = useMemo(() => {
+    if (!split) return allStatuses;
+    const mid = Math.ceil(allStatuses.length / 2);
+    return split === "first" ? allStatuses.slice(0, mid) : allStatuses.slice(mid);
+  }, [allStatuses, split]);
 
   const updateUrl = useCallback(
     (name: string | null) => {
@@ -125,13 +106,9 @@ export default function BoothStatus() {
     updateUrl(stallName);
   };
 
-  const handleCloseModal = () => {
-    updateUrl(null);
-  };
-
   return (
     <div ref={containerRef}>
-      <CardBase title={t("CardTitles.BOOTH")}>
+      <CardBase title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`}>
         <CardInside className="no-vertical-padding">
           <div
             style={{
@@ -211,8 +188,6 @@ export default function BoothStatus() {
           )}
         </CardInside>
       </CardBase>
-
-      <BoothDetailModal item={selectedBooth} isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
 }
