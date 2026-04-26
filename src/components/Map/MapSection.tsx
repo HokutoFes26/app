@@ -9,7 +9,6 @@ import { mapList } from "@/lib/Data/DataPack";
 import { MapPins } from "@/lib/Data/MapPins";
 import "leaflet/dist/leaflet.css";
 import "@/components/Map/map.css";
-import "@/components/Map/map-fullscreen.css";
 
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
 const ImageOverlay = dynamic(() => import("react-leaflet").then((mod) => mod.ImageOverlay), { ssr: false });

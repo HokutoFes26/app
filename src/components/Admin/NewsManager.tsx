@@ -5,7 +5,7 @@ import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { mockSupabase, NewsItem } from "@/lib/Server/mockSupabase";
 import { useData } from "@/contexts/DataContext";
-import "@/components/admin/admin.css";
+import "@/components/Admin/Admin.css";
 
 export default function NewsManager() {
     const { message, modal } = App.useApp();

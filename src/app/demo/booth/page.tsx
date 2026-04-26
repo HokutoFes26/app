@@ -3,8 +3,8 @@
 import React, { useState, Suspense, useEffect } from "react";
 import { Button, App } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
-import BoothStatusSelector from "@/components/admin/components/boothstatusselector";
-import BoothHandoverQR from "@/components/admin/components/boothhandoverqr";
+import BoothStatusSelector from "@/components/Admin/components/BoothStatusSelector";
+import BoothHandoverQR from "@/components/Admin/components/BoothHandoverQR";
 
 import BottomNavigator from "@/components/Layout/Bottom";
 import { useMapControl } from "@/contexts/MapContext";

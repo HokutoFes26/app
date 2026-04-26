@@ -143,9 +143,7 @@ a:hover {
 
 .mainCards,
 .main,
-.sche,
-.others,
-.otherCards {
+.sche {
   -ms-overflow-style: none;
   scrollbar-width: none;
   overflow-x: hidden;
@@ -155,9 +153,7 @@ a:hover {
 }
 .mainCards::-webkit-scrollbar,
 .main::-webkit-scrollbar,
-.sche::-webkit-scrollbar,
-.others::-webkit-scrollbar,
-.otherCards::-webkit-scrollbar {
+.sche::-webkit-scrollbar {
   display: none;
 }
 
@@ -364,8 +360,7 @@ div,
   display: flex;
 }
 
-.cardTitle,
-.ant-picker-calendar-header {
+.cardTitle {
   display: flex;
   margin: 0 1.5em;
   white-space: nowrap;
@@ -412,16 +407,14 @@ div,
   margin-left: 40px;
 }
 .main,
-.sche,
-.others {
+.sche {
   width: calc(100% / 4);
   text-align: center;
 }
 
 @media (max-width: 1400px) {
   .main,
-  .sche,
-  .others {
+  .sche {
     width: 50%;
   }
 }
@@ -449,68 +442,10 @@ div,
   height: auto;
 }
 
-.ant-list-item {
-  padding: 12px 16px !important;
-  border-block-end: none !important;
-  gap: 16px;
-}
-.ant-avatar-string {
-  display: flex;
-}
-.ant-space-item:has(.datePicker),
-.ant-picker,
-.ant-spin-nested-loading {
-  width: 100% !important;
-}
-.ant-spin-nested-loading {
-  text-align: left;
-}
-.ant-picker-body {
-  padding: 8px !important;
-}
-.ant-picker-cell-inner {
-  aspect-ratio: 1;
-  height: 32px !important;
-  line-height: 32px !important;
-}
-.ant-avatar {
-  background: var(--bg-color);
-  color: var(--main-color);
-  border: var(--main-color) solid 0.5px;
-}
-.ant-tabs-nav {
-  margin: 0 16px !important;
-}
-
-.ant-picker-calendar .ant-picker-calendar-header .ant-picker-calendar-month-select,
-.ant-picker-calendar .ant-picker-calendar-header .ant-picker-calendar-mode-switch,
-.ant-picker-calendar .ant-picker-calendar-header .ant-picker-calendar-year-select,
-.ant-picker-calendar .ant-picker-calendar-header .ant-picker-calendar-mode-switch > label {
-  width: auto !important;
-}
-
-.ant-picker-calendar .ant-picker-calendar-header .ant-picker-calendar-mode-switch {
-  margin: 0 0 0 8px !important;
-  padding-inline-start: 0 !important;
-}
-.ant-space-item {
-  height: 100% !important;
-  position: relative;
-}
 .drawerBar {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
-.ant-notification-notice {
-  text-align: left;
-}
-.allow-wrap h3,
-.allow-wrap h4 {
-  white-space: normal;
-}
-.card.no-vertical-padding {
-  padding: 0 5% !important;
 }
 
 .card {
@@ -579,7 +514,7 @@ div,
 
 .map-modal-close {
   position: absolute;
-  inset: 0.8em 0.8em auto auto;
+  inset: 0.5em 0.5em auto auto;
   width: 40px;
   aspect-ratio: 1;
   border-radius: 50%;

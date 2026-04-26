@@ -16,13 +16,13 @@ import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 
 const { Title } = Typography;
 
-const NewsManager = React.lazy(() => import("@/components/admin/newsmanager"));
-const BoothManager = React.lazy(() => import("@/components/admin/boothmanager"));
-const LostManager = React.lazy(() => import("@/components/admin/lostmanager"));
-const QAManager = React.lazy(() => import("@/components/admin/qamanager"));
+const NewsManager = React.lazy(() => import("@/components/Admin/NewsManager"));
+const BoothManager = React.lazy(() => import("@/components/Admin/BoothManager"));
+const LostManager = React.lazy(() => import("@/components/Admin/LostManager"));
+const QAManager = React.lazy(() => import("@/components/Admin/QAManager"));
 const MapModal = React.lazy(() => import("@/components/Map/MapModal"));
 const NewsStatus = React.lazy(() => import("@/components/user/status/NewsStatus"));
-const VoteAdmin = React.lazy(() => import("@/components/admin/VoteAdmin"));
+const VoteAdmin = React.lazy(() => import("@/components/Admin/VoteAdmin"));
 const UserPC = React.lazy(() => import("@/app/_components/UserPC"));
 
 const FallbackLoader = () => (

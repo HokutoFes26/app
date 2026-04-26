@@ -1,180 +1,178 @@
 {
-    "L1": [
-        {
-            "name": "チュロス",
-            "team": "バレーボール部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "たこ焼き",
-            "team": "漕艇部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "焼き鳥",
-            "team": "剣道部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "あんばやし",
-            "team": "野球部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "今川焼き",
-            "team": "ラグビー同好会",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "わたあめ",
-            "team": "ヨット部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "焼きそば",
-            "team": "テニス部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "揚げパン・いちごあめ・ラムネ",
-            "team": "水泳競技部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "ペットボトル",
-            "team": "サッカー部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "カステラ",
-            "team": "卓球部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "ワッフル",
-            "team": "バドミントン部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "唐揚げ",
-            "team": "バスケットボール部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "ドーナツ",
-            "team": "ダンス部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        }
-    ],
-    "L2": [
-        {
-            "name": "フランクフルト",
-            "team": "機関学同好会",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "どら焼き・お茶",
-            "team": "茶道同好会",
-            "place": "場所名",
-            "image": "/img/temporary.jpg"
-        },
-        {
-            "name": "お茶会～２日目のみ～",
-            "team": "茶道同好会",
-            "place": "場所名",
-            "image": "/img/temporary.jpg"
-        },
-        {
-            "name": "たい焼き",
-            "team": "新聞部",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "Cの誘惑",
-            "team": "アントレプレナー同好会",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        }
-    ],
-    "L3": [
-        {
-            "name": "肉巻きおにぎり",
-            "team": "電子情報工学科４年",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "冥途カフェ",
-            "team": "国際ビジネス科４年",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        },
-        {
-            "name": "カフェ",
-            "team": "国際ビジネス科５年",
-            "place": "場所名",
-            "image": "/img/temporary.jpg",
-            "menu": "チュロス",
-            "price": "???ドル"
-        }
-    ],
-    "L4": [
-        {
-            "name": "ポップコーン",
-            "team": "実行委員会",
-            "place": "場所名",
-            "image": "/img/temporary.jpg"
-        }
-    ]
+  "L1": [
+    {
+      "name": "チュロス",
+      "team": "バレーボール部",
+      "place": "テント番号9",
+      "image": "/img/temporary.jpg",
+      "menu": "チュロス",
+      "price": ""
+    },
+    {
+      "name": "たこ焼き",
+      "team": "漕艇部",
+      "place": "テント番号7",
+      "image": "/img/temporary.jpg",
+      "menu": "たこ焼き",
+      "price": ""
+    },
+    {
+      "name": "焼き鳥",
+      "team": "剣道部",
+      "place": "テント番号5",
+      "image": "/img/temporary.jpg",
+      "menu": "焼き鳥",
+      "price": ""
+    },
+    {
+      "name": "あんばやし",
+      "team": "野球部",
+      "place": "テント番号19",
+      "image": "/img/temporary.jpg",
+      "menu": "あんばやし",
+      "price": ""
+    },
+    {
+      "name": "大判焼き",
+      "team": "ラグビー同好会",
+      "place": "テント番号13",
+      "image": "/img/temporary.jpg",
+      "menu": "大判焼き",
+      "price": ""
+    },
+    {
+      "name": "わたあめ",
+      "team": "ヨット部",
+      "place": "テント番号15",
+      "image": "/img/temporary.jpg",
+      "menu": "わたあめ",
+      "price": ""
+    },
+    {
+      "name": "焼きそば",
+      "team": "テニス部",
+      "place": "テント番号8",
+      "image": "/img/temporary.jpg",
+      "menu": "焼きそば",
+      "price": ""
+    },
+    {
+      "name": "揚げパン・いちごあめ・ラムネ",
+      "team": "水泳競技部",
+      "place": "テント番号10",
+      "image": "/img/temporary.jpg",
+      "menu": "揚げパン・いちごあめ・ラムネ",
+      "price": ""
+    },
+    {
+      "name": "ペットボトル飲料",
+      "team": "サッカー部",
+      "place": "テント番号14",
+      "image": "/img/booth/サッカー.jpg",
+      "menu": "ペットボトル飲料",
+      "price": ""
+    },
+    {
+      "name": "カステラ",
+      "team": "卓球部",
+      "place": "テント番号21",
+      "image": "/img/temporary.jpg",
+      "menu": "カステラ",
+      "price": ""
+    },
+    {
+      "name": "ワッフル",
+      "team": "バドミントン部",
+      "place": "テント番号18",
+      "image": "/img/booth/バドミントン部.jpg",
+      "menu": "クロッフル",
+      "price": ""
+    },
+    {
+      "name": "唐揚げ",
+      "team": "バスケットボール部",
+      "place": "テント番号20",
+      "image": "/img/temporary.jpg",
+      "menu": "唐揚げ",
+      "price": ""
+    }
+  ],
+  "L2": [
+    {
+      "name": "フランクフルト",
+      "team": "機関学同好会",
+      "place": "テント番号17",
+      "image": "/img/temporary.jpg",
+      "menu": "フランクフルト",
+      "price": ""
+    },
+    {
+      "name": "どら焼き・お茶",
+      "team": "茶道同好会",
+      "place": "テント番号12",
+      "image": "/img/booth/茶道部.jpg",
+      "menu": "冷抹茶・和菓子「清流」",
+      "price": "200円・250円"
+    },
+    {
+      "name": "お茶会～２日目のみ～",
+      "team": "茶道同好会",
+      "place": "奈古の浦会館2F和室",
+      "image": "/img/booth/お茶会.jpg",
+      "menu": "お茶会～２日目のみ～",
+      "price": ""
+    },
+    {
+      "name": "たい焼き",
+      "team": "新聞部",
+      "place": "テント番号6",
+      "image": "/img/temporary.jpg",
+      "menu": "たい焼き",
+      "price": ""
+    },
+    {
+      "name": "Cの誘惑",
+      "team": "アントレプレナー同好会",
+      "place": "テント番号16",
+      "image": "/img/booth/アントレプレナー.jpg",
+      "menu": "Cの誘惑",
+      "price": "コーヒー&クレープ"
+    }
+  ],
+  "L3": [
+    {
+      "name": "肉巻きおにぎり",
+      "team": "電子情報工学科４年",
+      "place": "テント番号11",
+      "image": "/img/booth/I4.jpg",
+      "menu": "肉巻きおにぎり",
+      "price": ""
+    },
+    {
+      "name": "冥土カフェ",
+      "team": "国際ビジネス科４年",
+      "place": "I5教室",
+      "image": "/img/booth/K4.jpg",
+      "menu": "冥土カフェ",
+      "price": ""
+    },
+    {
+      "name": "カフェ",
+      "team": "国際ビジネス科５年",
+      "place": "共通講義室1",
+      "image": "/img/temporary.jpg",
+      "menu": "カフェ",
+      "price": ""
+    }
+  ],
+  "L4": [
+    {
+      "name": "ポップコーン",
+      "team": "実行委員会",
+      "place": "場所名",
+      "image": "/img/temporary.jpg",
+      "menu": "ポップコーン",
+      "price": ""
+    }
+  ]
 }

@@ -13,13 +13,13 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { TabSelector } from "@/lib/TabSelector";
 import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 
-const NewsManager = React.lazy(() => import("@/components/admin/newsmanager"));
-const BoothManager = React.lazy(() => import("@/components/admin/boothmanager"));
-const LostManager = React.lazy(() => import("@/components/admin/lostmanager"));
-const QAManager = React.lazy(() => import("@/components/admin/qamanager"));
+const NewsManager = React.lazy(() => import("@/components/Admin/NewsManager"));
+const BoothManager = React.lazy(() => import("@/components/Admin/BoothManager"));
+const LostManager = React.lazy(() => import("@/components/Admin/LostManager"));
+const QAManager = React.lazy(() => import("@/components/Admin/QAManager"));
 const Other = React.lazy(() => import("@/components/Layout/other"));
 const MapModal = React.lazy(() => import("@/components/Map/MapModal"));
-const VoteAdmin = React.lazy(() => import("@/components/admin/VoteAdmin"));
+const VoteAdmin = React.lazy(() => import("@/components/Admin/VoteAdmin"));
 
 const FallbackLoader = ({ text = "Loading..." }: { text?: string }) => (
   <div style={{ textAlign: "center", padding: "40px 20px", color: "var(--text-sub-color)", fontSize: "13px" }}>

@@ -6,8 +6,8 @@ import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { mockSupabaseStalls, StatusLevel } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
-import BoothStatusSelector from "./components/boothstatusselector";
-import BoothHandoverQR from "./components/boothhandoverqr";
+import BoothStatusSelector from "@/components/Admin/components/BoothStatusSelector";
+import BoothHandoverQR from "@/components/Admin/components/BoothHandoverQR";
 import { motion, AnimatePresence } from "framer-motion";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 
