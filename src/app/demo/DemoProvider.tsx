@@ -62,15 +62,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     api: {
       fetchedData: {
         stalls: randomStalls,
-        news: [
-          {
-            id: "1",
-            title: "バグ修正",
-            content: "iPhoneでのみ発生したマップを全画面表示できないバグを修正しました。",
-            created_at: nowStrMinus10,
-            edit_reason: "",
-          },
-        ],
+        news: [],
         lostItems: [
           {
             id: "1",
@@ -106,7 +98,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
 
   const demoRole = {
     role: (isDemoBooth ? "stall-admin" : "user") as any,
-    setRole: (role: any) => {}, // 引数を追加
+    setRole: (role: any) => {},
     isAdmin: false,
     isStallAdmin: isDemoBooth,
     assignedStall: isDemoBooth ? "肉巻きおにぎり" : null,

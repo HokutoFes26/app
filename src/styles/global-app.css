@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Kosugi&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Kosugi&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kosugi&family=Outfit:wght@100..900&display=swap");
 
 #app-root {
   --main-color: #007aff;
@@ -22,6 +23,8 @@
   --bottom-nav-indicator-shadow: #000;
   --scheme: light;
   --screen-width: 100dvw;
+
+  --pop-main-color: #95c202;
 
   display: block;
   box-sizing: border-box;
@@ -70,6 +73,43 @@ a {
 }
 a:hover {
   opacity: 0.8 !important;
+}
+
+.header {
+  width: 100%;
+  height: auto;
+  padding: 10px 2% 0;
+  justify-content: space-between;
+  align-items: last baseline;
+  display: flex;
+}
+
+.title {
+  margin: 0 !important;
+  font-size: 3.7em;
+  font-weight: 900;
+  color: var(--pop-main-color);
+  font-family: "inter", sans-serif !important;
+}
+
+.date {
+  justify-items: end;
+}
+
+.day {
+  margin: 0;
+  font-family: "inter", sans-serif !important;
+  font-size: 1.4em !important;
+  letter-spacing: 0.07em !important;
+}
+
+.time {
+  margin: 0 !important;
+  line-height: 1em !important;
+  letter-spacing: 0.05em !important;
+  font-size: 3.6em !important;
+  font-weight: 800 !important;
+  font-family: "inter", sans-serif !important;
 }
 
 .pc-view {

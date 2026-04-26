@@ -10,6 +10,8 @@ import { useData } from "@/contexts/DataContext";
 import { useRole } from "@/contexts/RoleContext";
 import { useMapControl } from "@/contexts/MapContext";
 import MapRoundedIcon from "@mui/icons-material/MapRounded";
+import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
+import Header from "@/components/Layout/Header";
 import dayjs from "dayjs";
 
 const BusStatus = React.lazy(() => import("@/components/user/status/BusStatus"));
@@ -26,7 +28,9 @@ const FallbackLoader = () => (
 export default function UserPhone() {
   const { isStallAdmin } = useRole();
   const { currentTime } = useAppTime();
-  const { api: { fetchedData } } = useData();
+  const {
+    api: { fetchedData },
+  } = useData();
   const mapControl = useMapControl();
   const isMapOpen = mapControl?.isMapOpen || false;
   const setIsMapOpen = (open: boolean) => (open ? mapControl?.openMap() : mapControl?.closeMap());
@@ -52,36 +56,29 @@ export default function UserPhone() {
       </Suspense>
 
       <div className="canvas" id="canvas" style={{ width: `${isStallAdmin ? 200 : 400}%` }}>
-        <div className="main" id="main">
-          <div className="mainCards">
-            {hasHotNews && <NewsStatus onlyHot={true} hotTime={hotTime} />}
-            <EventStatus />
-            <NewsStatus />
-          </div>
-        </div>
+        <PCCanvasColumn>
+          {/* <Header /> */}
+          {hasHotNews && <NewsStatus onlyHot={true} hotTime={hotTime} />}
+          <EventStatus />
+          <NewsStatus />
+        </PCCanvasColumn>
         {!isStallAdmin && (
-          <div className="main" id="main">
-            <div className="mainCards">
-              <BoothStatus />
-            </div>
-          </div>
+          <PCCanvasColumn>
+            <BoothStatus />
+          </PCCanvasColumn>
         )}
-        <div className="sche" id="sche">
-          <div className="mainCards">
-            <Suspense fallback={<FallbackLoader />}>
-              <BusStatus />
-              <QAStatus />
-              <LostStatus />
-            </Suspense>
-          </div>
-        </div>
-        <div className="others" id="others">
-          <div className="mainCards">
-            <Suspense fallback={<FallbackLoader />}>
-              <Other />
-            </Suspense>
-          </div>
-        </div>
+        <PCCanvasColumn>
+          <Suspense fallback={<FallbackLoader />}>
+            <BusStatus />
+            <QAStatus />
+            <LostStatus />
+          </Suspense>
+        </PCCanvasColumn>
+        <PCCanvasColumn>
+          <Suspense fallback={<FallbackLoader />}>
+            <Other />
+          </Suspense>
+        </PCCanvasColumn>
       </div>
 
       <div className="bottomCanvas">

@@ -11,6 +11,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import PollIcon from "@mui/icons-material/Poll";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { TabSelector } from "@/lib/TabSelector";
+import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 
 const NewsManager = React.lazy(() => import("@/components/admin/newsmanager"));
 const BoothManager = React.lazy(() => import("@/components/admin/boothmanager"));
@@ -63,59 +64,47 @@ export default function AdminPhone() {
 
   const renderBoothManager = () => (
     <div className="canvas" id="canvas">
-      <div className="main" id="main">
-        <div className="mainCards">
-          <Suspense fallback={<FallbackLoader text="Booth Manager..." />}>
-            <BoothManager />
-          </Suspense>
-        </div>
-      </div>
-      <div className="others" id="others">
-        <div className="mainCards">
-          <Suspense fallback={<FallbackLoader text="Settings..." />}>
-            <Other />
-          </Suspense>
-        </div>
-      </div>
-      <div className="main" id="main">
-        <div className="mainCards"></div>
-      </div>
-      <div className="main" id="main">
-        <div className="mainCards"></div>
-      </div>
+      <PCCanvasColumn>
+        <Suspense fallback={<FallbackLoader text="Booth Manager..." />}>
+          <BoothManager />
+        </Suspense>
+      </PCCanvasColumn>
+      <PCCanvasColumn>
+        <Suspense fallback={<FallbackLoader text="Settings..." />}>
+          <Other />
+        </Suspense>
+      </PCCanvasColumn>
+      <PCCanvasColumn>
+        <></>
+      </PCCanvasColumn>
+      <PCCanvasColumn>
+        <></>
+      </PCCanvasColumn>
     </div>
   );
 
   const renderDashboard = () => (
     <div className="canvas" id="canvas">
-      <div className="main" id="main">
-        <div className="mainCards">
-          <Suspense fallback={<FallbackLoader />}>
-            <NewsManager />
-          </Suspense>
-        </div>
-      </div>
-      <div className="sche" id="sche">
-        <div className="mainCards">
-          <Suspense fallback={<FallbackLoader />}>
-            <QAManager />
-          </Suspense>
-        </div>
-      </div>
-      <div className="main" id="main">
-        <div className="mainCards">
-          <Suspense fallback={<FallbackLoader />}>
-            <LostManager />
-          </Suspense>
-        </div>
-      </div>
-      <div className="others" id="others">
-        <div className="mainCards">
-          <Suspense fallback={<FallbackLoader />}>
-            <Other />
-          </Suspense>
-        </div>
-      </div>
+      <PCCanvasColumn>
+        <Suspense fallback={<FallbackLoader />}>
+          <NewsManager />
+        </Suspense>
+      </PCCanvasColumn>
+      <PCCanvasColumn>
+        <Suspense fallback={<FallbackLoader />}>
+          <QAManager />
+        </Suspense>
+      </PCCanvasColumn>
+      <PCCanvasColumn>
+        <Suspense fallback={<FallbackLoader />}>
+          <LostManager />
+        </Suspense>
+      </PCCanvasColumn>
+      <PCCanvasColumn>
+        <Suspense fallback={<FallbackLoader />}>
+          <Other />
+        </Suspense>
+      </PCCanvasColumn>
     </div>
   );
 
