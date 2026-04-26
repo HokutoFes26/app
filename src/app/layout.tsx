@@ -16,6 +16,9 @@ export const viewport = {
     { media: "(prefers-color-scheme: light)", color: "#f1f0f5" },
     { media: "(prefers-color-scheme: dark)", color: "#18181a" },
   ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -26,10 +29,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                var viewport = document.querySelector("meta[name=viewport]");
-                if (viewport) {
-                  viewport.setAttribute("content", viewport.content + ", height=" + window.innerHeight);
-                }
+                var fixViewport = function() {
+                  var viewport = document.querySelector("meta[name=viewport]");
+                  if (viewport) {
+                    var content = viewport.getAttribute("content");
+                    if (content.indexOf("height=") === -1) {
+                      viewport.setAttribute("content", content + ", height=" + window.innerHeight);
+                    }
+                  }
+                };
+                fixViewport();
+                window.addEventListener('load', fixViewport);
               })();
             `,
           }}

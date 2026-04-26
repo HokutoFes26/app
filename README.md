@@ -3,6 +3,10 @@
 **ホームページ :** [https://hokutofes26.github.io/](https://hokutofes26.github.io/)  
 **Web App :** [https://hokutofes26.github.io/app](https://hokutofes26.github.io/app)
 
+## 外観
+
+![スマホ外観](./public/img/demo.png "スマホ外観")
+
 ## 特徴
 
 ### 1. 操作可能なキャンパスマップ
