@@ -38,17 +38,30 @@ export default function EventStatus() {
 
   const FilterSwitcher = (
     <div style={{ marginRight: "16px" }}>
-      <Radio.Group value={filterMode} onChange={(e) => setFilterMode(e.target.value)} buttonStyle="solid" size="small">
+      <Radio.Group
+        value={filterMode}
+        onChange={(e) => setFilterMode(e.target.value)}
+        buttonStyle="solid"
+        size="small"
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         <Radio.Button
           value="hour"
           style={{
-            background: filterMode === "hour" ? "#1d1d1d" : "#ffffff",
-            color: filterMode === "hour" ? "#ffffff" : "#000000",
+            background: filterMode === "hour" ? "var(--text-color)" : "var(--card-color)",
+            color: filterMode === "hour" ? "var(--card-color)" : "var(--text-color)",
             border: "solid 0.5px var(--text-sub-color)",
             fontWeight: "bold",
             borderRadius: "999px 0 0 999px",
             fontSize: "12px",
             width: "80px",
+            margin: "auto",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           In 1 hour
@@ -56,13 +69,17 @@ export default function EventStatus() {
         <Radio.Button
           value="all"
           style={{
-            background: filterMode === "hour" ? "var(--card-color)" : "#1d1d1d",
-            color: filterMode === "hour" ? "#000000" : "#ffffff",
+            background: filterMode === "hour" ? "var(--card-color)" : "var(--text-color)",
+            color: filterMode === "hour" ? "var(--text-color)" : "var(--card-color)",
             border: "solid 0.5px var(--text-sub-color)",
             fontWeight: "bold",
             borderRadius: "0 999px 999px 0",
             fontSize: "12px",
             width: "80px",
+            margin: "auto",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           All
@@ -96,23 +113,24 @@ export default function EventStatus() {
                       damping: 30,
                     }}
                   >
-                    {index !== 0 && <Divider margin="20px 0" height="0px"/>}
+                    {index !== 0 && <Divider margin="20px 0" height="0px" />}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                       <div>
-                        <h4 style={{ color: "var(--text-color)", margin: 0, fontSize: "22px", fontWeight: "700" }}>
+                        <h4 style={{ color: "var(--text-color)", margin: 0, fontSize: "18px", fontWeight: "600" }}>
                           {event.name}
                         </h4>
                       </div>
                       {isOngoing ? (
                         <span
                           style={{
-                            background: "#ff4daf",
+                            background: "#ff4d4d",
                             color: "var(--bg-color)",
-                            padding: "4px 16px 1.5px",
-                            borderRadius: "20px",
+                            padding: "3px 16px 3px",
+                            borderRadius: "9999px",
                             fontSize: "14px",
                             fontWeight: "900",
                             margin: "auto 0",
+                            boxShadow: "0 0 8px #ff4d4d",
                           }}
                         >
                           NOW
@@ -145,7 +163,6 @@ export default function EventStatus() {
                       upcoming={isUpcoming}
                       isOngoing={isOngoing}
                     />
-
                   </motion.div>
                 );
               })

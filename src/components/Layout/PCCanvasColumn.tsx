@@ -9,23 +9,16 @@ interface PCCanvasColumnProps {
   className?: string;
 }
 
-export default function PCCanvasColumn({ 
-  children, 
-  width, 
-  style, 
-  className = "" 
-}: PCCanvasColumnProps) {
+export default function PCCanvasColumn({ children, width, style, className = "" }: PCCanvasColumnProps) {
   return (
-    <div 
-      className={`main ${className}`} 
-      style={{ 
-        width: width || "100%", 
-        ...style 
+    <div
+      className={`main ${className}`}
+      style={{
+        width: width || "100%",
+        ...style,
       }}
     >
-      <div className="mainCards">
-        {children}
-      </div>
+      <div className="mainCards">{children}</div>
     </div>
   );
 }

@@ -160,7 +160,7 @@ export default function BottomNavigator({
                 <Icon
                   style={{
                     color: isActive ? "var(--bg-color)" : "var(--text-sub-color)",
-                    filter: isActive ? "drop-shadow(0 0 8px var(--main-color))" : "none",
+                    // filter: isActive ? "drop-shadow(0 0 8px var(--main-color))" : "none",
                     fontSize: "26px",
                     zIndex: 2,
                   }}

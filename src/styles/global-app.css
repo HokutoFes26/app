@@ -7,7 +7,9 @@
   --bg-color: #fff;
   --bg-sub-color: #ddd;
   --mainCanvas-color: #f1f0f5;
+  --header-text: #1f1f1d
   --card-color: #fff;
+  --card-divider-color: #ededed;
   --text-color: #000;
   --text-sub-color: rgba(0, 0, 0, 0.65);
   --clock-color: #556;
@@ -77,6 +79,7 @@ a:hover {
   opacity: 0.8 !important;
 }
 
+
 .header {
   width: 100%;
   height: auto;
@@ -88,15 +91,16 @@ a:hover {
 
 .title {
   margin: 0 !important;
-  font-size: 4.5em;
-  font-weight: 900;
-  /* color: var(--pop-main-color); */
-  color: var(--mainCanvas-color);
-  font-family: "Inter", "Noto Sans JP", sans-serif !important;
+  bottom: 0.3em;
+  font-size: 3.4em;
+  font-weight: 600;
+  color: var(--header-text);
+  /* color: var(--mainCanvas-color); */
+  font-family: "Outfit", "Noto Sans JP", sans-serif !important;
 }
 
 .date {
-  justify-items: end;
+  text-align: right;
 }
 
 .day {
@@ -104,7 +108,7 @@ a:hover {
   font-family: "Inter", sans-serif !important;
   font-weight: 500 !important;
   font-size: 1.4em !important;
-  margin-right: 0.1em !important;
+  margin-right: 0.2em !important;
   letter-spacing: -0.01em !important;
 }
 
@@ -112,9 +116,9 @@ a:hover {
   margin: 0 !important;
   line-height: 1em !important;
   letter-spacing: 0.05em !important;
-  font-size: 3.6em !important;
-  font-weight: 800 !important;
-  font-family: "inter", sans-serif !important;
+  font-size: 3em !important;
+  font-weight: 700 !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 .pc-view {
@@ -509,7 +513,7 @@ div,
   border-radius: 0 0 24px 24px;
   background-color: var(--card-color);
   padding: 3% 6.5% 5%;
-  border-top: solid #ededed 2px;
+  border-top: solid var(--card-divider-color) 1px;
 }
 
 .cardTitle p {
@@ -522,6 +526,7 @@ div,
   width: 100% !important;
   border-radius: 28px;
   margin: 3% 0;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.04);
   background-color: var(--card-color);
   color: var(--text-color);
 }

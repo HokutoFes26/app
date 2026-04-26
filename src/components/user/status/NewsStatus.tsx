@@ -71,19 +71,18 @@ export default function NewsStatus({ onlyHot = false, hotTime = 10 }: { onlyHot?
                         }}
                       >
                         <div className="subProp">
-                          <p
+                          <span
                             style={{
-                              fontSize: "14px",
+                              fontSize: "18px",
                               fontWeight: "bold",
                               color: item.isHot ? "#ff4d4f" : "var(--main-color)",
-                              margin: "0 0 4px 0",
                             }}
                           >
                             {item.isHot && !onlyHot && (
                               <span style={{ marginRight: "8px", color: "#ff4d4f" }}>{t("Common.HotNews")}</span>
                             )}
                             {item.title}
-                          </p>
+                          </span>
                           <p style={{ fontSize: "10px", color: "#999", margin: 0, textAlign: "right" }}>
                             {dayjs(item.created_at).format("HH:mm")}
                           </p>

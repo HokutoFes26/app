@@ -1,7 +1,6 @@
 import { getPath } from "@/constants/paths";
 import ClientProviders from "@/contexts/ClientProviders";
 import "@/styles/global-app.css";
-import Script from "next/script";
 
 export const metadata = {
   title: "北斗祭2026アプリ | 富山高専",
@@ -22,9 +21,20 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      {/* <head>
-        <Script src="//unpkg.com/react-scan/dist/auto.global.js" crossOrigin="anonymous" strategy="beforeInteractive" />
-      </head> */}
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var viewport = document.querySelector("meta[name=viewport]");
+                if (viewport) {
+                  viewport.setAttribute("content", viewport.content + ", height=" + window.innerHeight);
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body>
         <ClientProviders>{children}</ClientProviders>
       </body>

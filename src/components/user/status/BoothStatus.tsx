@@ -1,12 +1,22 @@
 "use client";
 
-import React, { useRef, useCallback, useMemo } from "react";
+import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, SubList, Divider } from "@/components/Layout/CardComp";
-import { mockSupabaseStalls, StatusLevel } from "@/lib/Server/mockSupabase";
+import { mockSupabaseStalls, StatusLevel, supabase } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
+import BoothDetailModal, { BoothItem } from "./BoothDetailModal";
+import stallsData from "@/../public/data/booth.json";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import dayjs from "dayjs";
+
+const allStalls: BoothItem[] = [
+  ...(stallsData.L1 || []),
+  ...(stallsData.L2 || []),
+  ...(stallsData.L3 || []),
+  ...(stallsData.L4 || []),
+];
 
 const TrafficLight = ({
   level,
@@ -56,16 +66,49 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const {
-    api: { fetchedData, isLoading, fetchData },
+    api: { fetchedData, isLoading, fetchData, lastUpdated },
   } = useData();
   const { isAdmin } = useRole();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedBooth, setSelectedBooth] = useState<BoothItem | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLive, setIsLive] = useState(false);
   const allStatuses = fetchedData?.stalls || [];
   const statuses = useMemo(() => {
     if (!split) return allStatuses;
     const mid = Math.ceil(allStatuses.length / 2);
     return split === "first" ? allStatuses.slice(0, mid) : allStatuses.slice(mid);
   }, [allStatuses, split]);
+
+  useEffect(() => {
+    const channelName = `booth-status-sync-${split || "all"}`;
+    const channel = supabase
+      .channel(channelName)
+      .on("postgres_changes", { event: "*", schema: "public", table: "stalls_status" }, () => {})
+      .subscribe((status) => {
+        if (status === "SUBSCRIBED") {
+          setIsLive(true);
+        } else {
+          setIsLive(false);
+        }
+      });
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [split]);
+
+  useEffect(() => {
+    const boothName = searchParams.get("booth-info");
+    if (boothName) {
+      const found = allStalls.find((s) => s.name === boothName);
+      if (found) {
+        setSelectedBooth(found);
+        setIsModalOpen(true);
+      }
+    } else {
+      setIsModalOpen(false);
+    }
+  }, [searchParams]);
 
   const updateUrl = useCallback(
     (name: string | null) => {
@@ -106,15 +149,59 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
     updateUrl(stallName);
   };
 
+  const handleCloseModal = () => {
+    updateUrl(null);
+  };
+
+  const LiveStatus = (
+    <div style={{ marginRight: "20px", display: "flex", alignItems: "center" }}>
+      {isLive ? (
+        <span
+          style={{
+            fontSize: "12px",
+            fontWeight: "bold",
+            color: "#ff4d4f",
+            display: "flex",
+            alignItems: "center",
+            gap: "4px",
+          }}
+        >
+          <span className="live-dot" /> Live
+        </span>
+      ) : (
+        <span style={{ fontSize: "11px", color: "var(--text-sub-color)" }}>
+          最終更新: {dayjs(lastUpdated).format("HH:mm:ss")}
+        </span>
+      )}
+      <style>{`
+        .live-dot {
+          width: 8px;
+          height: 8px;
+          background-color: #ff4d4f;
+          border-radius: 50%;
+          display: inline-block;
+          animation: pulse-live 1.5s infinite;
+        }
+        @keyframes pulse-live {
+          0% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.2); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
+    </div>
+  );
+
   return (
-    <div ref={containerRef}>
-      <CardBase title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`}>
+    <div>
+      <CardBase
+        title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`}
+        SubjectUpdated={LiveStatus}
+      >
         <CardInside>
           <div
             style={{
               display: "flex",
               justifyContent: "space-evenly",
-              padding: "0",
               gap: "10px",
             }}
           >
@@ -136,47 +223,47 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
           ) : statuses.length > 0 ? (
             statuses.map((status, index) => (
               <React.Fragment key={`${status.stallName}-${index}`}>
-                {index !== 0 && <Divider margin="8px 0" height="1px"/>}
-                  <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
-                    <div
+                {index !== 0 && <Divider margin="8px 0" height="1px" />}
+                <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+                  <div
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      textAlign: "left",
+                      cursor: "pointer",
+                      textDecorationColor: "var(--md-sys-color-primary-container)",
+                    }}
+                    onClick={() => handleStallClick(status.stallName)}
+                  >
+                    <span
                       style={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        textAlign: "left",
-                        cursor: "pointer",
-                        textDecorationColor: "var(--md-sys-color-primary-container)",
+                        fontSize: "16px",
+                        userSelect: "none",
+                        fontWeight: "700",
+                        margin: 0,
+                        color: "var(--text-color)",
                       }}
-                      onClick={() => handleStallClick(status.stallName)}
                     >
-                      <span
-                        style={{
-                          fontSize: "16px",
-                          userSelect: "none",
-                          fontWeight: "700",
-                          margin: 0,
-                          color: "var(--text-color)",
-                        }}
-                      >
-                        {status.stallName}
-                      </span>
-                      <span style={{ fontSize: "9px", userSelect: "none", color: "#676767" }}>タップして詳細</span>
-                    </div>
-                    <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
-                      <TrafficLight
-                        level={status.crowdLevel}
-                        disabled={!isAdmin}
-                        onClick={() => handleCrowdClick(status.stallName, status.crowdLevel)}
-                      />
-                    </div>
-                    <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
-                      <TrafficLight
-                        level={status.stockLevel}
-                        disabled={!isAdmin}
-                        onClick={() => handleStockClick(status.stallName, status.stockLevel)}
-                      />
-                    </div>
+                      {status.stallName}
+                    </span>
+                    <span style={{ fontSize: "9px", userSelect: "none", color: "#676767" }}>タップして詳細</span>
                   </div>
+                  <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
+                    <TrafficLight
+                      level={status.crowdLevel}
+                      disabled={!isAdmin}
+                      onClick={() => handleCrowdClick(status.stallName, status.crowdLevel)}
+                    />
+                  </div>
+                  <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
+                    <TrafficLight
+                      level={status.stockLevel}
+                      disabled={!isAdmin}
+                      onClick={() => handleStockClick(status.stallName, status.stockLevel)}
+                    />
+                  </div>
+                </div>
               </React.Fragment>
             ))
           ) : (
@@ -186,6 +273,8 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
           )}
         </CardInside>
       </CardBase>
+
+      <BoothDetailModal item={selectedBooth} isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
 }

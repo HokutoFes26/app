@@ -7,6 +7,9 @@ export default function DarkClick(isDark: boolean) {
       root.style.setProperty("--bg-color", "#20201f");
       root.style.setProperty("--bg-sub-color", "#39383c");
       root.style.setProperty("--mainCanvas-color", "#080809");
+      root.style.setProperty("--header-text", "#ededed");
+      root.style.setProperty("--card-color", "#1d1d1d");
+      root.style.setProperty("--card-divider-color", "#494949");
       root.style.setProperty("--text-color", "#fff");
       root.style.setProperty("--text-sub-color", "rgba(255, 255, 255, 0.65)");
       root.style.setProperty("--clock-color", "#97969c");
@@ -27,6 +30,9 @@ export default function DarkClick(isDark: boolean) {
       root.style.setProperty("--bg-color", "#fff");
       root.style.setProperty("--bg-sub-color", "#ddd");
       root.style.setProperty("--mainCanvas-color", "#f1f0f5");
+      root.style.setProperty("--header-text", "#1f1f1f");
+      root.style.setProperty("--card-color", "#fff");
+      root.style.setProperty("--card-divider-color", "#ededed");
       root.style.setProperty("--text-color", "#000");
       root.style.setProperty("--text-sub-color", "rgba(0, 0, 0, 0.65)");
       root.style.setProperty("--clock-color", "#556");

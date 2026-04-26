@@ -56,7 +56,13 @@ export default function UserPhone() {
       </Suspense>
 
       <div className="canvas" id="canvas" style={{ width: `${isStallAdmin ? 200 : 400}%` }}>
-        <PCCanvasColumn>
+        <PCCanvasColumn
+          style={{
+            background:
+              "linear-gradient( to bottom,rgba(20, 247, 141, 0.3) 0%,rgba(20, 247, 141, 0.05) 25%,rgba(132, 204, 22, 0.00) 42%)",
+            backgroundColor: "var(--mainCanvas-color)",
+          }}
+        >
           <Header />
           {hasHotNews && <NewsStatus onlyHot={true} hotTime={hotTime} />}
           <EventStatus />

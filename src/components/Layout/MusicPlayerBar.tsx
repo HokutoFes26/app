@@ -34,11 +34,21 @@ export default function MusicPlayerBar({
 
   const isFinished = !upcoming && !isOngoing && progress >= 100;
 
-  const neonLime = "#99D100";
-  const neonPink = "#F217C6";
+  const neonLime = "#09dd9a";
+  const neonPink = "#d95bf3";
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "10px", width: "100%", marginTop: "6px", padding: "0" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+        width: "100%",
+        marginTop: "6px",
+        padding: "0",
+        ...style,
+      }}
+    >
       <span style={{ fontSize: "15px", fontWeight: "600", color: "var(--text-color)", opacity: 0.6, minWidth: "35px" }}>
         {start}
       </span>
@@ -58,7 +68,7 @@ export default function MusicPlayerBar({
             right: 0,
             width: `${100 - progress}%`,
             height: "2px",
-            background: neonPink,
+            background: !upcoming ? neonPink : "var(--text-sub-color)",
             opacity: 0.6,
             transition: "width 0.5s ease-out",
           }}
@@ -77,18 +87,28 @@ export default function MusicPlayerBar({
           <div
             style={{
               width: "100%",
-              height: isOngoing ? "100%" : "2px",
-              background: isFinished ? "#666" : isOngoing ? neonLime : neonPink,
-              maskImage: isOngoing
-                ? `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20"><path d="M0 10 Q 10 -2, 20 10 T 40 10 T 60 10 T 80 10" fill="none" stroke="black" stroke-width="2.4" stroke-linecap="round"/></svg>')`
-                : "none",
-              maskSize: "40px 100%",
-              maskRepeat: "repeat-x",
-              filter: `drop-shadow(0 0 6px ${neonLime})`,
-              animation: isOngoing ? "sin-move-smooth-neon 1.2s linear infinite" : "none",
-              borderRadius: isOngoing ? "0" : "1px",
+              height: "100%",
+              // filter: isOngoing ? `drop-shadow(0 0 4px ${neonLime}) drop-shadow(0 0 4px ${neonLime})` : "none",
+              display: "flex",
+              alignItems: "center",
             }}
-          />
+          >
+            <div
+              style={{
+                width: "100%",
+                height: isOngoing ? "100%" : "2px",
+                background: isFinished ? "#666" : isOngoing ? neonLime : neonPink,
+                maskImage: isOngoing
+                  ? `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20"><path d="M0 10 Q 10 -2, 20 10 T 40 10 T 60 10 T 80 10" fill="none" stroke="black" stroke-width="2.4" stroke-linecap="round"/></svg>')`
+                  : "none",
+                maskSize: "40px 100%",
+                maskRepeat: "repeat-x",
+                animation: isOngoing ? "sin-move-smooth-neon 1.2s linear infinite" : "none",
+                borderRadius: isOngoing ? "0" : "1px",
+              }}
+            />
+          </div>
+
           <div
             style={{
               position: "absolute",
@@ -97,8 +117,9 @@ export default function MusicPlayerBar({
               transform: "translateY(-50%)",
               width: "5px",
               height: "20px",
-              background: isFinished ? "#666" : isOngoing ? neonLime : neonPink,
+              background: isFinished || upcoming ? "var(--text-sub-color)" : neonLime,
               borderRadius: "9999px",
+              boxShadow: isOngoing ? `0 0 6px 2px ${neonLime}` : "none",
               zIndex: 10,
             }}
           />
