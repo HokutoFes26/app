@@ -57,7 +57,7 @@ export default function UserPhone() {
 
       <div className="canvas" id="canvas" style={{ width: `${isStallAdmin ? 200 : 400}%` }}>
         <PCCanvasColumn>
-          {/* <Header /> */}
+          <Header />
           {hasHotNews && <NewsStatus onlyHot={true} hotTime={hotTime} />}
           <EventStatus />
           <NewsStatus />

@@ -3,7 +3,12 @@ import { useRole } from "@/contexts/RoleContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion } from "framer-motion";
 
-function CardBase(props: { title: string; children: React.ReactNode; SubjectUpdated?: React.ReactNode; disableTapAnimation?: boolean }) {
+function CardBase(props: {
+  title: string;
+  children: React.ReactNode;
+  SubjectUpdated?: React.ReactNode;
+  disableTapAnimation?: boolean;
+}) {
   return (
     <motion.div
       className="carddiv"
@@ -32,10 +37,11 @@ function CardTitle(props: { title: string }) {
 
   return (
     <div className="cardTitle">
-      <p>
+      {/* <p>
         <span style={{ color: firstCharColor }}>{props.title.slice(0, 1)}</span>
-        <span>{props.title.slice(1)}</span>
-      </p>
+        <span>{props.title.slice(1)}</span> */}
+        <p>{props.title}</p>
+      {/* </p> */}
     </div>
   );
 }
@@ -50,7 +56,7 @@ function SubList(props: { SubNumber?: number; children: React.ReactNode }) {
 
   return (
     <div>
-      <div style={{ padding: "12px 0", display: "flex", alignItems: "center", width: "100%" }}>{props.children}</div>
+      <div style={{ display: "flex", alignItems: "center", width: "100%" }}>{props.children}</div>
       {link}
     </div>
   );
@@ -75,7 +81,7 @@ function CardInside(props: { className?: string; children: React.ReactNode; styl
       const bt = parseFloat(containerStyle.borderTopWidth) || 0;
       const bb = parseFloat(containerStyle.borderBottomWidth) || 0;
       const isBorderBox = containerStyle.boxSizing === "border-box";
-      
+
       if (isBorderBox) {
         setHeight(contentHeight + pt + pb + bt + bb);
       } else {
@@ -102,13 +108,15 @@ function CardInside(props: { className?: string; children: React.ReactNode; styl
         damping: 30,
       }}
     >
-      <div ref={contentRef} style={{ display: "flow-root" }}>{props.children}</div>
+      <div ref={contentRef} style={{ display: "flow-root" }}>
+        {props.children}
+      </div>
     </motion.div>
   );
 }
 
-function Divider() {
-  return <div className="scheList"></div>;
+function Divider(props: { margin?: string; height?: string }) {
+  return <div style={{backgroundColor: "var(--border-color)", height: props.height || "2px", width: "100%", margin: props.margin || "16px 0"}}></div>;
 }
 
 export { CardBase, CardInside, SubList, Divider };

@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 function cardMake(title: string, children: React.ReactNode) {
   return (
     <CardBase title={title}>
-      <CardInside className="no-vertical-padding">
+      <CardInside>
         <SubList>
           <div className="cardRight othercardtext">{children}</div>
         </SubList>

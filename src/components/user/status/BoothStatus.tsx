@@ -109,12 +109,12 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   return (
     <div ref={containerRef}>
       <CardBase title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`}>
-        <CardInside className="no-vertical-padding">
+        <CardInside>
           <div
             style={{
               display: "flex",
               justifyContent: "space-evenly",
-              padding: "5% 0 0",
+              padding: "0",
               gap: "10px",
             }}
           >
@@ -136,9 +136,8 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
           ) : statuses.length > 0 ? (
             statuses.map((status, index) => (
               <React.Fragment key={`${status.stallName}-${index}`}>
-                {index !== 0 && <Divider />}
-                <div style={{ padding: "4px 0" }}>
-                  <div style={{ display: "flex", alignItems: "center", width: "100%", padding: "4px 0" }}>
+                {index !== 0 && <Divider margin="8px 0" height="1px"/>}
+                  <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
                     <div
                       style={{
                         flex: 1,
@@ -178,7 +177,6 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
                       />
                     </div>
                   </div>
-                </div>
               </React.Fragment>
             ))
           ) : (

@@ -31,7 +31,7 @@ export default function MenuDrawer() {
         open={open}
         size="default"
         getContainer={() => document.getElementById("app-root") || document.body}
-        style={{ borderRadius: "24px 0 0 24px" }}
+        style={{ borderRadius: "24px 0 0 24px", overflow: "hidden", backgroundColor: "var(--mainCanvas-color)" }}
       >
         <div style={{ padding: "0" }}>
           {open && (

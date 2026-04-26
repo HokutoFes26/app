@@ -1,11 +1,13 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Kosugi&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kosugi&family=Outfit:wght@100..900&display=swap");
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+JP:wght@100..900&display=swap'); */
 
 #app-root {
   --main-color: #007aff;
   --bg-color: #fff;
   --bg-sub-color: #ddd;
-  --mainCanvas-color: #f4f7fc;
+  --mainCanvas-color: #f1f0f5;
+  --card-color: #fff;
   --text-color: #000;
   --text-sub-color: rgba(0, 0, 0, 0.65);
   --clock-color: #556;
@@ -86,10 +88,11 @@ a:hover {
 
 .title {
   margin: 0 !important;
-  font-size: 3.7em;
+  font-size: 4.5em;
   font-weight: 900;
-  color: var(--pop-main-color);
-  font-family: "inter", sans-serif !important;
+  /* color: var(--pop-main-color); */
+  color: var(--mainCanvas-color);
+  font-family: "Inter", "Noto Sans JP", sans-serif !important;
 }
 
 .date {
@@ -99,8 +102,10 @@ a:hover {
 .day {
   margin: 0;
   font-family: "inter", sans-serif !important;
+  font-weight: 500 !important;
   font-size: 1.4em !important;
-  letter-spacing: 0.07em !important;
+  margin-right: 8px;
+  letter-spacing: -0.01em !important;
 }
 
 .time {
@@ -354,7 +359,7 @@ div,
 .cardTitle,
 .ant-picker-calendar-header {
   display: flex;
-  margin: 0 2em;
+  margin: 0 1.5em;
   white-space: nowrap;
 }
 .cardRight {
@@ -501,23 +506,23 @@ div,
 }
 
 .card {
-  box-shadow: var(--shadow-in);
-  margin: 0 10px 10px !important;
-  border-radius: 24px;
-  background-color: var(--bg-color);
-  padding: 5%;
+  border-radius: 0 0 24px 24px;
+  background-color: var(--card-color);
+  padding: 3% 6.5% 5%;
+  border-top: solid #ededed 3px;
 }
 
 .cardTitle p {
-  margin: 1em 0;
+  margin: 0.74em 0 0.68em;
+  font-size: 1.1em !important;
+  font-weight: 600 !important;
 }
+
 .carddiv {
   width: 100% !important;
-  border-radius: 34px;
+  border-radius: 28px;
   margin: 3% 0;
-  background-color: var(--bg-color);
-  border: solid var(--bg-color) 0.5px;
-  box-shadow: var(--shadow-out);
+  background-color: var(--card-color);
   color: var(--text-color);
 }
 
@@ -611,7 +616,7 @@ div,
 }
 
 .mapCard .maps-container {
-  border-radius: 0 0 24px 24px !important;
+  border-radius: 0 0 28px 28px !important;
   border: none !important;
   background-color: transparent !important;
 }

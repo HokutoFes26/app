@@ -26,7 +26,7 @@ export default function DarkClick(isDark: boolean) {
    } else {
       root.style.setProperty("--bg-color", "#fff");
       root.style.setProperty("--bg-sub-color", "#ddd");
-      root.style.setProperty("--mainCanvas-color", "#f4f7fc");
+      root.style.setProperty("--mainCanvas-color", "#f1f0f5");
       root.style.setProperty("--text-color", "#000");
       root.style.setProperty("--text-sub-color", "rgba(0, 0, 0, 0.65)");
       root.style.setProperty("--clock-color", "#556");

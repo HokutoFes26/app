@@ -85,11 +85,7 @@ export default function QAStatus() {
             {answeredQuestions.length > 0 ? (
               answeredQuestions.map((q, index) => (
                 <React.Fragment key={q.id}>
-                  {index !== 0 && (
-                    <div style={{ padding: "8px 0" }}>
-                      <Divider />
-                    </div>
-                  )}
+                  {index !== 0 && <Divider margin="20px 0" height="0px" />}
                   <div style={{ textAlign: "left", width: "100%" }}>
                     <p style={{ fontSize: "14px", margin: "0 0 8px 0" }}>
                       <span style={{ color: "#007AFF" }}>Q.&ensp;</span>

@@ -15,7 +15,7 @@ export default function LostStatus() {
 
     return (
         <CardBase title={t("CardTitles.LOST_FOUND")}>
-            <CardInside className="no-vertical-padding">
+            <CardInside>
                 {isLoading ? (
                     <SubList>
                         <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
@@ -25,7 +25,7 @@ export default function LostStatus() {
                 ) : items.length > 0 ? (
                     items.map((item, index) => (
                         <React.Fragment key={item.id}>
-                            {index !== 0 && <Divider />}
+                            {index !== 0 && <Divider margin="20px 0" height="0px" />}
                             <SubList>
                                 <div style={{ textAlign: "left", width: "100%" }}>
                                     <p style={{ fontSize: "16px", fontWeight: "bold", margin: "0 0 4px 0" }}>

@@ -53,7 +53,7 @@ export default function Settings() {
   const SettingOptionFC = (title: string, children: React.ReactNode) => {
     return (
       <SubList>
-        <div className="cardRight othercardtext">
+        <div className="cardRight othercardtext" style={{margin: "8px 0"}}>
           <div className="subProp">
             <p>{title}</p>
             {children}
@@ -65,7 +65,7 @@ export default function Settings() {
 
   return (
     <CardBase title={t("CardTitles.SETTINGS")}>
-      <CardInside className="no-vertical-padding">
+      <CardInside>
         {SettingOptionFC(t("Settings.Dark"), <DarkSwitch />)}
 
         {SettingOptionFC(

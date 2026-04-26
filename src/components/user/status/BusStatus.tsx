@@ -52,7 +52,6 @@ export default function BusStatus() {
 
   const filteredBuses = useMemo(() => {
     const results: BusTrip[] = [];
-
     const processRoute = (routeData: any, direction: "to-imizu" | "to-hongo") => {
       const fromIdx = routeData.route.indexOf(fromStop);
       const toIdx = routeData.route.indexOf(toStop);
@@ -91,6 +90,41 @@ export default function BusStatus() {
     return results.sort((a, b) => a.isoTime.localeCompare(b.isoTime));
   }, [fromStop, toStop, nowTimeStr, oneHourLaterStr, filterMode, t]);
 
+  const FilterSwitcher = (
+    <div style={{ marginRight: "16px" }}>
+      <Radio.Group value={filterMode} onChange={(e) => setFilterMode(e.target.value)} buttonStyle="solid" size="small">
+        <Radio.Button
+          value="hour"
+          style={{
+            background: filterMode === "hour" ? "#1d1d1d" : "#ffffff",
+            color: filterMode === "hour" ? "#ffffff" : "#000000",
+            border: "solid 0.5px var(--text-sub-color)",
+            fontWeight: "bold",
+            borderRadius: "999px 0 0 999px",
+            fontSize: "12px",
+            width: "80px",
+          }}
+        >
+          In 1 hour
+        </Radio.Button>
+        <Radio.Button
+          value="all"
+          style={{
+            background: filterMode === "hour" ? "var(--card-color)" : "#1d1d1d",
+            color: filterMode === "hour" ? "#000000" : "#ffffff",
+            border: "solid 0.5px var(--text-sub-color)",
+            fontWeight: "bold",
+            borderRadius: "0 999px 999px 0",
+            fontSize: "12px",
+            width: "80px",
+          }}
+        >
+          All
+        </Radio.Button>
+      </Radio.Group>
+    </div>
+  );
+
   const stopOptions = allStops
     .filter((s) => s.includes("発") || s.includes("着"))
     .map((s) => ({
@@ -99,15 +133,9 @@ export default function BusStatus() {
     }));
 
   return (
-    <CardBase title={t("CardTitles.BUS")}>
-      <CardInside style={{ padding: "15px" }}>
+    <CardBase title={t("CardTitles.BUS")} SubjectUpdated={FilterSwitcher}>
+      <CardInside>
         <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "15px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Radio.Group value={filterMode} onChange={(e) => setFilterMode(e.target.value)} buttonStyle="solid">
-              <Radio.Button value="hour">{t("Bus.FilterHour")}</Radio.Button>
-              <Radio.Button value="all">{t("Bus.FilterAll")}</Radio.Button>
-            </Radio.Group>
-          </div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <span style={{ fontSize: "1.2em", width: "40px" }}>{t("Bus.From")}</span>
             <Select
@@ -132,7 +160,7 @@ export default function BusStatus() {
           </div>
         </div>
 
-        <div style={{ marginTop: "15px", position: "relative" }}>
+        <div style={{ position: "relative", gap: "15px" }}>
           <AnimatePresence initial={false} mode="popLayout">
             {filteredBuses.length > 0 ? (
               filteredBuses.map((bus, index) => {
@@ -151,11 +179,7 @@ export default function BusStatus() {
                       damping: 30,
                     }}
                   >
-                    {index !== 0 && (
-                      <div style={{ padding: "8px 0" }}>
-                        <Divider />
-                      </div>
-                    )}
+                    {index !== 0 && <Divider margin="20px 0" height="0px" />}
                     <div
                       style={{
                         display: "flex",

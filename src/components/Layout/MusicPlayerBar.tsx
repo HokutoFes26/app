@@ -32,12 +32,14 @@ export default function MusicPlayerBar({
   const current = nowMin - startMin;
   const progress = upcoming ? 0 : Math.min(Math.max((current / total) * 100, 0), 100);
 
-  const neonLime = "#2a2a2a";
-  const neonPink = "#999";
+  const isFinished = !upcoming && !isOngoing && progress >= 100;
+
+  const neonLime = "#99D100";
+  const neonPink = "#F217C6";
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "10px", width: "100%", marginTop: "6px", padding: "0" }}>
-      <span style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-color)", opacity: 0.6, minWidth: "35px" }}>
+      <span style={{ fontSize: "15px", fontWeight: "600", color: "var(--text-color)", opacity: 0.6, minWidth: "35px" }}>
         {start}
       </span>
 
@@ -76,9 +78,9 @@ export default function MusicPlayerBar({
             style={{
               width: "100%",
               height: isOngoing ? "100%" : "2px",
-              background: neonLime,
+              background: isFinished ? "#666" : isOngoing ? neonLime : neonPink,
               maskImage: isOngoing
-                ? `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20"><path d="M0 10 Q 10 -2, 20 10 T 40 10 T 60 10 T 80 10" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"/></svg>')`
+                ? `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20"><path d="M0 10 Q 10 -2, 20 10 T 40 10 T 60 10 T 80 10" fill="none" stroke="black" stroke-width="2.4" stroke-linecap="round"/></svg>')`
                 : "none",
               maskSize: "40px 100%",
               maskRepeat: "repeat-x",
@@ -95,7 +97,7 @@ export default function MusicPlayerBar({
               transform: "translateY(-50%)",
               width: "5px",
               height: "20px",
-              background: isOngoing ? neonLime : "#999",
+              background: isFinished ? "#666" : isOngoing ? neonLime : neonPink,
               borderRadius: "9999px",
               zIndex: 10,
             }}
@@ -105,7 +107,7 @@ export default function MusicPlayerBar({
 
       <span
         style={{
-          fontSize: "14px",
+          fontSize: "15px",
           fontWeight: "600",
           color: "var(--text-color)",
           opacity: 0.6,

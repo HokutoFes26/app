@@ -48,7 +48,7 @@ export default function EventStatus() {
             fontWeight: "bold",
             borderRadius: "999px 0 0 999px",
             fontSize: "12px",
-            width: "60px",
+            width: "80px",
           }}
         >
           In 1 hour
@@ -56,13 +56,13 @@ export default function EventStatus() {
         <Radio.Button
           value="all"
           style={{
-            background: filterMode === "hour" ? "#ffffff" : "#1d1d1d",
+            background: filterMode === "hour" ? "var(--card-color)" : "#1d1d1d",
             color: filterMode === "hour" ? "#000000" : "#ffffff",
             border: "solid 0.5px var(--text-sub-color)",
             fontWeight: "bold",
             borderRadius: "0 999px 999px 0",
             fontSize: "12px",
-            width: "60px",
+            width: "80px",
           }}
         >
           All
@@ -84,7 +84,7 @@ export default function EventStatus() {
 
                 return (
                   <motion.div
-                    key={event.name}
+                    key={index}
                     layout
                     initial={{ opacity: 0, y: 30, scale: 0.8 }}
                     animate={{ opacity: isFinished ? 0.4 : 1, y: 0, scale: 1 }}
@@ -96,27 +96,29 @@ export default function EventStatus() {
                       damping: 30,
                     }}
                   >
+                    {index !== 0 && <Divider margin="20px 0" height="0px"/>}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                       <div>
-                        <h4 style={{ color: "var(--text-color)", margin: 0, fontSize: "18px", fontWeight: "600" }}>
+                        <h4 style={{ color: "var(--text-color)", margin: 0, fontSize: "22px", fontWeight: "700" }}>
                           {event.name}
                         </h4>
                       </div>
                       {isOngoing ? (
                         <span
                           style={{
-                            background: "#ff4d4f",
+                            background: "#ff4daf",
                             color: "var(--bg-color)",
-                            padding: "5px 18px",
+                            padding: "4px 16px 1.5px",
                             borderRadius: "20px",
-                            fontSize: "12px",
+                            fontSize: "14px",
                             fontWeight: "900",
+                            margin: "auto 0",
                           }}
                         >
                           NOW
                         </span>
                       ) : isUpcoming ? (
-                        <span style={{ fontSize: "16px", color: "#999", margin: "auto 0" }}>
+                        <span style={{ fontSize: "16px", fontWeight: "500", color: "#666", margin: "auto 0" }}>
                           {(() => {
                             const diffMin = dayjs(`2000-01-01 ${event.start}`).diff(
                               dayjs(`2000-01-01 ${nowTimeStr}`),
@@ -130,7 +132,9 @@ export default function EventStatus() {
                           })()}
                         </span>
                       ) : (
-                        <span style={{ color: "#666", fontSize: "12px" }}>終了</span>
+                        <span style={{ fontSize: "16px", fontWeight: "500", color: "#666", margin: "auto 0" }}>
+                          終了
+                        </span>
                       )}
                     </div>
 
@@ -142,11 +146,6 @@ export default function EventStatus() {
                       isOngoing={isOngoing}
                     />
 
-                    {index !== filteredEvents.length - 1 && (
-                      <div style={{ padding: "12px 0" }}>
-                        <Divider />
-                      </div>
-                    )}
                   </motion.div>
                 );
               })

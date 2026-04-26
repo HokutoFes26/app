@@ -75,6 +75,11 @@
     "NoData": "1時間以内にイベントはありません",
     "Now": "NOW"
   },
+  "News": {
+    "NoData": "お知らせはありません",
+    "Updated": "更新",
+    "New": "新着"
+  },
   "Time": {
     "HoursLater": "{{count}} 時間後",
     "MinsLater": "{{count}} 分後",

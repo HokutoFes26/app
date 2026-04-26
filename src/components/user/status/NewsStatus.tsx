@@ -37,7 +37,7 @@ export default function NewsStatus({ onlyHot = false, hotTime = 10 }: { onlyHot?
     <CardBase
       title={onlyHot ? `${t("CardTitles.NEWS")} / ${t("Time.HotNews", { count: hotTime })}` : t("CardTitles.NEWS")}
     >
-      <CardInside className="no-vertical-padding">
+      <CardInside>
         {isLoading ? (
           <SubList>
             <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>Loading...</p>
@@ -105,7 +105,7 @@ export default function NewsStatus({ onlyHot = false, hotTime = 10 }: { onlyHot?
                   style={{ padding: "20px 0" }}
                 >
                   <SubList>
-                    <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>{t("QA.NoData")}</p>
+                    <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>{t("News.NoData")}</p>
                   </SubList>
                 </motion.div>
               )}

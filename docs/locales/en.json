@@ -75,6 +75,11 @@
     "NoData": "No events in 1 hour",
     "Now": "NOW"
   },
+  "News": {
+    "NoData": "No news available",
+    "Updated": "Updated",
+    "New": "New"
+  },
   "Time": {
     "HoursLater": "In {{count}} hours",
     "MinsLater": "In {{count}} mins",
