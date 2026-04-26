@@ -6,17 +6,8 @@ import { CardBase, CardInside, SubList, Divider } from "@/components/Layout/Card
 import { mockSupabaseStalls, StatusLevel, supabase } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
-import BoothDetailModal, { BoothItem } from "./BoothDetailModal";
-import stallsData from "@/../public/data/booth.json";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import dayjs from "dayjs";
-
-const allStalls: BoothItem[] = [
-  ...(stallsData.L1 || []),
-  ...(stallsData.L2 || []),
-  ...(stallsData.L3 || []),
-  ...(stallsData.L4 || []),
-];
 
 const TrafficLight = ({
   level,
@@ -69,8 +60,6 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
     api: { fetchedData, isLoading, fetchData, lastUpdated },
   } = useData();
   const { isAdmin } = useRole();
-  const [selectedBooth, setSelectedBooth] = useState<BoothItem | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLive, setIsLive] = useState(false);
   const allStatuses = fetchedData?.stalls || [];
   const statuses = useMemo(() => {
@@ -80,16 +69,12 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   }, [allStatuses, split]);
 
   useEffect(() => {
-    const channelName = `booth-status-sync-${split || "all"}`;
+    const channelName = `booth-status-sync-${split || 'all'}`;
     const channel = supabase
       .channel(channelName)
-      .on("postgres_changes", { event: "*", schema: "public", table: "stalls_status" }, () => {})
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'stalls_status' }, () => {})
       .subscribe((status) => {
-        if (status === "SUBSCRIBED") {
-          setIsLive(true);
-        } else {
-          setIsLive(false);
-        }
+        setIsLive(status === 'SUBSCRIBED');
       });
 
     return () => {
@@ -97,33 +82,11 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
     };
   }, [split]);
 
-  useEffect(() => {
-    const boothName = searchParams.get("booth-info");
-    if (boothName) {
-      const found = allStalls.find((s) => s.name === boothName);
-      if (found) {
-        setSelectedBooth(found);
-        setIsModalOpen(true);
-      }
-    } else {
-      setIsModalOpen(false);
-    }
-  }, [searchParams]);
-
-  const updateUrl = useCallback(
-    (name: string | null) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (name) {
-        params.set("booth-info", name);
-      } else {
-        params.delete("booth-info");
-      }
-      const query = params.toString();
-      const url = `${pathname}${query ? `?${query}` : ""}`;
-      router.push(url, { scroll: false });
-    },
-    [pathname, router, searchParams],
-  );
+  const handleStallClick = (stallName: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("booth-info", stallName);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const cycleStatus = (current: StatusLevel): StatusLevel => {
     if (current === 0) return 1;
@@ -145,27 +108,10 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
     fetchData();
   };
 
-  const handleStallClick = (stallName: string) => {
-    updateUrl(stallName);
-  };
-
-  const handleCloseModal = () => {
-    updateUrl(null);
-  };
-
   const LiveStatus = (
     <div style={{ marginRight: "20px", display: "flex", alignItems: "center" }}>
       {isLive ? (
-        <span
-          style={{
-            fontSize: "12px",
-            fontWeight: "bold",
-            color: "#ff4d4f",
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
-          }}
-        >
+        <span style={{ fontSize: "12px", fontWeight: "bold", color: "#ff4d4f", display: "flex", alignItems: "center", gap: "4px" }}>
           <span className="live-dot" /> Live
         </span>
       ) : (
@@ -192,89 +138,44 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   );
 
   return (
-    <div>
-      <CardBase
-        title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`}
-        SubjectUpdated={LiveStatus}
-      >
-        <CardInside>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              gap: "10px",
-            }}
-          >
-            <LegendItem level={0} crowd={t("Booth.Crowd.Green")} stock={t("Booth.Stock.Green")} />
-            <LegendItem level={1} crowd={t("Booth.Crowd.Yellow")} stock={t("Booth.Stock.Yellow")} />
-            <LegendItem level={2} crowd={t("Booth.Crowd.Red")} stock={t("Booth.Stock.Red")} />
-          </div>
+    <CardBase title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`} SubjectUpdated={LiveStatus}>
+      <CardInside>
+        <div style={{ display: "flex", justifyContent: "space-evenly", gap: "10px" }}>
+          <LegendItem level={0} crowd={t("Booth.Crowd.Green")} stock={t("Booth.Stock.Green")} />
+          <LegendItem level={1} crowd={t("Booth.Crowd.Yellow")} stock={t("Booth.Stock.Yellow")} />
+          <LegendItem level={2} crowd={t("Booth.Crowd.Red")} stock={t("Booth.Stock.Red")} />
+        </div>
 
-          <div style={{ display: "flex", padding: "12px 5% 0", fontSize: "12px", color: "var(--clock-color)" }}>
-            <div style={{ flex: 1, textAlign: "left" }}>{t("Booth.Name")}</div>
-            <div style={{ width: "50px", textAlign: "right" }}>{t("Booth.CrowdLabel")}</div>
-            <div style={{ width: "50px", textAlign: "right" }}>{t("Booth.StockLabel")}</div>
-          </div>
+        <div style={{ display: "flex", padding: "12px 5% 0", fontSize: "12px", color: "var(--clock-color)" }}>
+          <div style={{ flex: 1, textAlign: "left" }}>{t("Booth.Name")}</div>
+          <div style={{ width: "50px", textAlign: "right" }}>{t("Booth.CrowdLabel")}</div>
+          <div style={{ width: "50px", textAlign: "right" }}>{t("Booth.StockLabel")}</div>
+        </div>
 
-          {isLoading ? (
-            <SubList>
-              <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>Loading...</p>
-            </SubList>
-          ) : statuses.length > 0 ? (
-            statuses.map((status, index) => (
-              <React.Fragment key={`${status.stallName}-${index}`}>
-                {index !== 0 && <Divider margin="8px 0" height="1px" />}
-                <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
-                  <div
-                    style={{
-                      flex: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      textAlign: "left",
-                      cursor: "pointer",
-                      textDecorationColor: "var(--md-sys-color-primary-container)",
-                    }}
-                    onClick={() => handleStallClick(status.stallName)}
-                  >
-                    <span
-                      style={{
-                        fontSize: "16px",
-                        userSelect: "none",
-                        fontWeight: "700",
-                        margin: 0,
-                        color: "var(--text-color)",
-                      }}
-                    >
-                      {status.stallName}
-                    </span>
-                    <span style={{ fontSize: "9px", userSelect: "none", color: "#676767" }}>タップして詳細</span>
-                  </div>
-                  <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
-                    <TrafficLight
-                      level={status.crowdLevel}
-                      disabled={!isAdmin}
-                      onClick={() => handleCrowdClick(status.stallName, status.crowdLevel)}
-                    />
-                  </div>
-                  <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
-                    <TrafficLight
-                      level={status.stockLevel}
-                      disabled={!isAdmin}
-                      onClick={() => handleStockClick(status.stallName, status.stockLevel)}
-                    />
-                  </div>
+        {isLoading ? (
+          <SubList><p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>Loading...</p></SubList>
+        ) : statuses.length > 0 ? (
+          statuses.map((status, index) => (
+            <React.Fragment key={`${status.stallName}-${index}`}>
+              {index !== 0 && <Divider margin="8px 0" height="1px" />}
+              <div style={{ display: "flex", alignItems: "center", width: "100%"}}>
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", textAlign: "left", cursor: "pointer" }} onClick={() => handleStallClick(status.stallName)}>
+                  <span style={{ fontSize: "16px", fontWeight: "700", color: "var(--text-color)" }}>{status.stallName}</span>
+                  <span style={{ fontSize: "9px", color: "#676767" }}>タップして詳細</span>
                 </div>
-              </React.Fragment>
-            ))
-          ) : (
-            <SubList>
-              <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>{t("Booth.NoData")}</p>
-            </SubList>
-          )}
-        </CardInside>
-      </CardBase>
-
-      <BoothDetailModal item={selectedBooth} isOpen={isModalOpen} onClose={handleCloseModal} />
-    </div>
+                <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
+                  <TrafficLight level={status.crowdLevel} disabled={!isAdmin} onClick={() => handleCrowdClick(status.stallName, status.crowdLevel)} />
+                </div>
+                <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
+                  <TrafficLight level={status.stockLevel} disabled={!isAdmin} onClick={() => handleStockClick(status.stallName, status.stockLevel)} />
+                </div>
+              </div>
+            </React.Fragment>
+          ))
+        ) : (
+          <SubList><p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>{t("Booth.NoData")}</p></SubList>
+        )}
+      </CardInside>
+    </CardBase>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useState, useMemo } from "react";
+import React, { Suspense, useState, useMemo, useEffect } from "react";
 import "@/styles/global-app.css";
 import Menu from "@/components/Layout/menu";
 import EventStatus from "@/components/user/status/EventStatus";
@@ -12,6 +12,9 @@ import MapIcon from "@mui/icons-material/Map";
 import dayjs from "dayjs";
 import useColumnDetector from "@/lib/Misc/ColumnDetector";
 import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
+import BoothDetailModal, { BoothItem } from "@/components/user/status/BoothDetailModal";
+import stallsData from "@/../public/data/booth.json";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 const BusStatus = React.lazy(() => import("@/components/user/status/BusStatus"));
 const LostStatus = React.lazy(() => import("@/components/user/status/LostStatus"));
@@ -23,13 +26,44 @@ const FallbackLoader = () => (
   <div style={{ textAlign: "center", padding: "20px", color: "var(--text-sub-color)" }}>Loading...</div>
 );
 
+const allStalls: BoothItem[] = [
+  ...(stallsData.L1 || []),
+  ...(stallsData.L2 || []),
+  ...(stallsData.L3 || []),
+  ...(stallsData.L4 || []),
+];
+
 export default function UserPC() {
   const {
     api: { fetchedData },
   } = useData();
   const { currentTime } = useAppTime();
   const columns = useColumnDetector();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const [isMapOpen, setIsMapOpen] = useState(false);
+  const [selectedBooth, setSelectedBooth] = useState<BoothItem | null>(null);
+  const [isBoothModalOpen, setIsBoothModalOpen] = useState(false);
+
+  useEffect(() => {
+    const boothName = searchParams.get("booth-info");
+    if (boothName) {
+      const found = allStalls.find((s) => s.name === boothName);
+      if (found) {
+        setSelectedBooth(found);
+        setIsBoothModalOpen(true);
+      }
+    } else {
+      setIsBoothModalOpen(false);
+    }
+  }, [searchParams]);
+
+  const handleCloseBoothModal = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("booth-info");
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const news = fetchedData?.news || [];
   const hotTime = 20;
@@ -71,6 +105,7 @@ export default function UserPC() {
         <Suspense fallback={null}>
           <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} />
         </Suspense>
+        <BoothDetailModal item={selectedBooth} isOpen={isBoothModalOpen} onClose={handleCloseBoothModal} />
 
         {columns === 4 && (
           <>
