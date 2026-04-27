@@ -51,15 +51,18 @@ export default function UserPhone() {
   return (
     <div className="mainCanvas">
       <Suspense fallback={null}>
-        <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} targetPlace={mapControl?.targetPlace} />
+        <MapModal
+          isOpen={isMapOpen}
+          onClose={() => setIsMapOpen(false)}
+          targetPlace={mapControl?.targetPlace}
+        />
         <BoothModalManager />
       </Suspense>
 
       <div className="canvas" id="canvas" style={{ width: `${isStallAdmin ? 200 : 400}%` }}>
         <PCCanvasColumn
           style={{
-            background:
-              "linear-gradient( to bottom,rgba(20, 247, 141, 0.3) 0%,rgba(20, 247, 141, 0.05) 25%,rgba(132, 204, 22, 0.00) 42%)",
+            background: "var(--header-grad)",
             backgroundColor: "var(--mainCanvas-color)",
           }}
         >

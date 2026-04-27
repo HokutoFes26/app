@@ -34,9 +34,6 @@ export default function MusicPlayerBar({
 
   const isFinished = !upcoming && !isOngoing && progress >= 100;
 
-  const neonLime = "#09dd9a";
-  const neonPink = "#d95bf3";
-
   return (
     <div
       style={{
@@ -68,7 +65,7 @@ export default function MusicPlayerBar({
             right: 0,
             width: `${100 - progress}%`,
             height: "2px",
-            background: !upcoming ? neonPink : "var(--text-sub-color)",
+            background: !upcoming ? "var(--pop-accent-sub)" : "var(--text-sub-color)",
             opacity: 0.6,
             transition: "width 0.5s ease-out",
           }}
@@ -97,7 +94,7 @@ export default function MusicPlayerBar({
               style={{
                 width: "100%",
                 height: isOngoing ? "100%" : "2px",
-                background: isFinished ? "#666" : isOngoing ? neonLime : neonPink,
+                background: isFinished ? "#666" : isOngoing ? "var(--pop-accent-main)" : "var(--pop-accent-sub)",
                 maskImage: isOngoing
                   ? `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20"><path d="M0 10 Q 10 -2, 20 10 T 40 10 T 60 10 T 80 10" fill="none" stroke="black" stroke-width="2.4" stroke-linecap="round"/></svg>')`
                   : "none",
@@ -117,9 +114,9 @@ export default function MusicPlayerBar({
               transform: "translateY(-50%)",
               width: "5px",
               height: "20px",
-              background: isFinished || upcoming ? "var(--text-sub-color)" : neonLime,
+              background: isFinished || upcoming ? "var(--text-sub-color)" : "var(--pop-accent-main)",
               borderRadius: "9999px",
-              boxShadow: isOngoing ? `0 0 6px 2px ${neonLime}` : "none",
+              boxShadow: isOngoing ? `0 0 6px 2px var(--pop-accent-main)` : "none",
               zIndex: 10,
             }}
           />
