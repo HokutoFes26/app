@@ -4,31 +4,37 @@
             "name": "VS嵐",
             "team": "I2",
             "place": "I2教室",
-            "image": "/img/products/products1.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "恋みくじ・フォトスポット",
             "team": "K2",
             "place": "K2教室",
-            "image": "/img/products/products2.jpg"
+            "image": "/img/products/K2.jpg"
         },
         {
             "name": "キッキングスナイパー",
             "team": "S2",
             "place": "S2教室",
-            "image": "/img/products/products3.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "縁日",
-            "team": "I3・K3",
-            "place": "I3・K3教室",
-            "image": "/img/products/products4.jpg"
+            "team": "I3",
+            "place": "I3教室",
+            "image": "/img/products/"
+        },
+        {
+            "name": "縁日",
+            "team": "K3",
+            "place": "K3教室",
+            "image": "/img/products/K3.jpg"
         },
         {
             "name": "お化け屋敷",
             "team": "S3",
             "place": "S3教室",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         }
     ],
     "L2": [
@@ -36,7 +42,7 @@
             "name": "ゲーム・イラスト展示",
             "team": "デジタルメディア創作部",
             "place": "第２プラザ",
-            "image": "/img/products/products3.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "ロボット操作体験",
@@ -48,37 +54,37 @@
             "name": "新聞展示",
             "team": "新聞部",
             "place": "ラウンジC",
-            "image": "/img/products/products1.jpg"
+            "image": "/img/products/新聞部.jpg"
         },
         {
             "name": "部誌・読書スペース",
             "team": "文芸同好会",
             "place": "ラウンジA",
-            "image": "/img/products/products2.jpg"
+            "image": "/img/products/文芸.jpg"
         },
         {
             "name": "書道作品展示",
             "team": "書道同好会",
             "place": "学生昇降口",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "写真展示",
             "team": "写真同好会",
             "place": "ラウンジA",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "ジオラマ展示",
             "team": "鉄道部",
             "place": "第１体育館",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "全国高専のロボット展示",
             "team": "メカテック部",
             "place": "第１体育館",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         }
     ],
     "L3": [
@@ -86,55 +92,55 @@
             "name": "電子情報工学科展示",
             "team": "電子情報工学科",
             "place": "電子情報第１実験室",
-            "image": "/img/products/products1.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "国際ビジネス学科紹介",
             "team": "国際ビジネス学科",
             "place": "K5紹介",
-            "image": "/img/products/products2.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "機関実習室ツアー",
             "team": "商船学科機関コース",
             "place": "ETS演習室・蒸気実験室・補機実験室・内燃機関実験室",
-            "image": "/img/products/products3.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "操船シミュレータ体験など",
             "team": "商船学科航海コース",
             "place": "航海学演習室・公開計測演習室・レーダーシミュレーター演習室",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "若潮丸Ⅳ・Ⅴ世の紹介など",
             "team": "若潮丸委員会",
             "place": "ラウンジB",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "写真展",
             "team": "商船OB",
             "place": "S4教室",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "若潮丸Ⅳ・Ⅴ世の紹介など",
             "team": "若潮丸委員会",
             "place": "ラウンジB",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "本郷３学科紹介展示",
             "team": "本郷３学科",
             "place": "ものづくり教室",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "専攻科活動紹介",
             "team": "専攻科",
             "place": "K4紹介",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         }
     ],
     "L4": [
@@ -142,25 +148,25 @@
             "name": "連携事業・活動実績など",
             "team": "研究開発共創センター",
             "place": "ものづくり教室",
-            "image": "/img/products/products1.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "富山高専の国際化への取り組み紹介",
             "team": "国際教育センター",
             "place": "K4教室",
-            "image": "/img/products/products2.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "展示名",
             "team": "入試センター",
             "place": "ものづくり教室",
-            "image": "/img/products/products3.jpg"
+            "image": "/img/products/"
         },
         {
             "name": "校長先生ポスター",
             "team": "団体名",
             "place": "ものづくり教室",
-            "image": "/img/products/products4.jpg"
+            "image": "/img/products/"
         }
     ]
 }

@@ -7,15 +7,21 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import ListRoundedIcon from "@mui/icons-material/ListRounded";
+import ListIcon from '@mui/icons-material/List';
 import { useMapControl } from "@/contexts/MapContext";
+
+type ProductModalPropsMenu = {
+  content: string;
+  price: number;
+};
 
 export interface BoothItem {
   name: string;
   team?: string;
   place?: string;
+  menu?: ProductModalPropsMenu[];
   image?: string;
-  menu?: string;
-  price?: string;
+  image2?: string;
 }
 
 interface BoothDetailModalProps {
@@ -106,7 +112,9 @@ export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailM
           <button className={styles.closeBtn} onClick={handleClose}>
             <CloseIcon />
           </button>
-          {item.image && <img src={getPath(item.image)} alt={`${item.name}の画像`} className={styles.image} />}
+          {item.image && (
+            <img src={getPath(item.image)} alt={`${item.name}の画像`} className={styles.image} />
+          )}
           <div className={styles.content}>
             <span className={styles.name}>{item.name}</span>
             {item.team && <p className={styles.team}>{item.team}</p>}
@@ -118,7 +126,9 @@ export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailM
                   onClick={handleLocationClick}
                 >
                   <div className={styles.iconWrapper}>
-                    <LocationOnOutlinedIcon style={{ fontSize: "24px", color: "var(--text-color)" }} />
+                    <LocationOnOutlinedIcon
+                      style={{ fontSize: "24px", color: "var(--text-color)" }}
+                    />
                   </div>
                   <div>
                     <span className={styles.label}>場所</span>
@@ -141,16 +151,23 @@ export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailM
                   </div>
                 </div>
               )}
-              {(item.menu || item.price) && (
-                <div className={styles.detailItem}>
+              {item.menu && (
+                <div
+                  className={`${styles.detailItem} ${mapControl ? styles.clickable : ""}`}
+                  onClick={handleLocationClick}
+                >
                   <div className={styles.iconWrapper}>
-                    <ListRoundedIcon style={{ fontSize: "24px", color: "var(--text-color)" }} />
+                    <ListIcon style={{ fontSize: "24px", color: "var(--text-color)" }} />
                   </div>
                   <div>
                     <span className={styles.label}>メニュー / 値段</span>
-                    <p className={styles.value}>
-                      {(item.menu && item.name) || "-"} / {item.price ? `(${item.price})` : ""}
-                    </p>
+                    {item.menu.map((item_menu, index) => (
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                        <p className={styles.value}>
+                          {item_menu.content} / {item_menu.price}円
+                        </p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
