@@ -4,7 +4,12 @@
             "name": "チュロス",
             "team": "バレーボール部",
             "place": "テント番号9",
-            "menu": [{ "content": "チュロス", "price": 0 }],
+            "menu": [
+                {
+                    "content": "チュロス",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/バレー１.jpg",
             "image2": "/img/booth/バレー２.jpg"
         },
@@ -12,28 +17,48 @@
             "name": "たこ焼き",
             "team": "漕艇部",
             "place": "テント番号7",
-            "menu": [{ "content": "たこ焼き", "price": 0 }],
+            "menu": [
+                {
+                    "content": "たこ焼き",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/漕艇.jpg"
         },
         {
             "name": "焼き鳥",
             "team": "剣道部",
             "place": "テント番号5",
-            "menu": [{ "content": "焼き鳥", "price": 0 }],
+            "menu": [
+                {
+                    "content": "焼き鳥",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/剣道.jpg"
         },
         {
             "name": "あんばやし",
             "team": "野球部",
             "place": "テント番号19",
-            "menu": [{ "content": "あんばやし", "price": 0 }],
+            "menu": [
+                {
+                    "content": "あんばやし",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/野球.jpg"
         },
         {
             "name": "大判焼き",
             "team": "ラグビー同好会",
             "place": "テント番号13",
-            "menu": [{ "content": "大判焼き", "price": 0 }],
+            "menu": [
+                {
+                    "content": "大判焼き",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/ラグビー１.jpg",
             "image2": "/img/booth/ラグビー２.jpg"
         },
@@ -41,14 +66,24 @@
             "name": "わたあめ",
             "team": "ヨット部",
             "place": "テント番号15",
-            "menu": [{ "content": "わたあめ", "price": 0 }],
+            "menu": [
+                {
+                    "content": "わたあめ",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/ヨット.jpg"
         },
         {
             "name": "焼きそば",
             "team": "テニス部",
             "place": "テント番号8",
-            "menu": [{ "content": "焼きそば", "price": 0 }],
+            "menu": [
+                {
+                    "content": "焼きそば",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/テニス.jpg"
         },
         {
@@ -56,9 +91,18 @@
             "team": "水泳競技部",
             "place": "テント番号10",
             "menu": [
-                { "content": "揚げパン", "price": 0 },
-                { "content": "いちごあめ", "price": 0 },
-                { "content": "ラムネ", "price": 0 }
+                {
+                    "content": "揚げパン",
+                    "price": 0
+                },
+                {
+                    "content": "いちごあめ",
+                    "price": 0
+                },
+                {
+                    "content": "ラムネ",
+                    "price": 0
+                }
             ],
             "image": "/img/booth/水泳.jpg"
         },
@@ -66,28 +110,48 @@
             "name": "ペットボトル飲料",
             "team": "サッカー部",
             "place": "テント番号14",
-            "menu": [{ "content": "ペットボトル飲料", "price": 0 }],
+            "menu": [
+                {
+                    "content": "ペットボトル飲料",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/サッカー.jpg"
         },
         {
             "name": "カステラ",
             "team": "卓球部",
             "place": "テント番号21",
-            "menu": [{ "content": "カステラ", "price": 0 }],
+            "menu": [
+                {
+                    "content": "カステラ",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/卓球.jpg"
         },
         {
             "name": "クロッフル",
             "team": "バドミントン部",
             "place": "テント番号18",
-            "menu": [{ "content": "クロッフル", "price": 0 }],
+            "menu": [
+                {
+                    "content": "クロッフル",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/バドミントン部.jpg"
         },
         {
             "name": "唐揚げ",
             "team": "バスケットボール部",
             "place": "テント番号20",
-            "menu": [{ "content": "唐揚げ", "price": 0 }],
+            "menu": [
+                {
+                    "content": "唐揚げ",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/バスケ.jpg"
         }
     ],
@@ -96,7 +160,12 @@
             "name": "フランクフルト",
             "team": "機関学同好会",
             "place": "テント番号17",
-            "menu": [{ "content": "フランクフルト", "price": 0 }],
+            "menu": [
+                {
+                    "content": "フランクフルト",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/機関学.jpg"
         },
         {
@@ -104,9 +173,18 @@
             "team": "茶道同好会",
             "place": "テント番号12",
             "menu": [
-                { "content": "冷抹茶", "price": 0 },
-                { "content": "和菓子「清流」", "price": 0 },
-                { "content": "セット", "price": 0 }
+                {
+                    "content": "冷抹茶",
+                    "price": 0
+                },
+                {
+                    "content": "和菓子「清流」",
+                    "price": 0
+                },
+                {
+                    "content": "セット",
+                    "price": 0
+                }
             ],
             "image": "/img/booth/茶道部.jpg"
         },
@@ -114,14 +192,24 @@
             "name": "お茶会～２日目のみ～",
             "team": "茶道同好会",
             "place": "奈古の浦会館2F和室",
-            "menu": [{ "content": "", "price": 0 }],
+            "menu": [
+                {
+                    "content": "",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/お茶会.jpg"
         },
         {
             "name": "たい焼き",
             "team": "新聞部",
             "place": "テント番号6",
-            "menu": [{ "content": "たい焼き", "price": 0 }],
+            "menu": [
+                {
+                    "content": "たい焼き",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/新聞.jpg"
         },
         {
@@ -129,9 +217,18 @@
             "team": "アントレプレナー同好会",
             "place": "テント番号16",
             "menu": [
-                { "content": "抹茶", "price": 0 },
-                { "content": "紅茶", "price": 0 },
-                { "content": "ほうじ茶・焼き芋", "price": 0 }
+                {
+                    "content": "抹茶",
+                    "price": 0
+                },
+                {
+                    "content": "紅茶",
+                    "price": 0
+                },
+                {
+                    "content": "ほうじ茶・焼き芋",
+                    "price": 0
+                }
             ],
             "image": "/img/booth/アントレプレナー.jpg"
         }
@@ -141,21 +238,36 @@
             "name": "肉巻きおにぎり",
             "team": "電子情報工学科４年",
             "place": "テント番号11",
-            "menu": [{ "content": "肉巻きおにぎり", "price": 0 }],
+            "menu": [
+                {
+                    "content": "肉巻きおにぎり",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/I4.jpg"
         },
         {
             "name": "冥土カフェ",
             "team": "国際ビジネス科４年",
             "place": "I5教室",
-            "menu": [{ "content": "カフェ", "price": 0 }],
+            "menu": [
+                {
+                    "content": "カフェ",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/K4.jpg"
         },
         {
             "name": "カフェ",
             "team": "国際ビジネス科５年",
             "place": "共通講義室1",
-            "menu": [{ "content": "カフェ", "price": 0 }],
+            "menu": [
+                {
+                    "content": "カフェ",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/K5.jpg"
         }
     ],
@@ -164,7 +276,12 @@
             "name": "ポップコーン",
             "team": "実行委員会",
             "place": "場所名",
-            "menu": [{ "content": "ポップコーン", "price": 0 }],
+            "menu": [
+                {
+                    "content": "ポップコーン",
+                    "price": 0
+                }
+            ],
             "image": "/img/booth/"
         }
     ]

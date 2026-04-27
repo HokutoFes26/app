@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, SubList, Divider } from "@/components/Layout/CardComp";
-import { mockSupabaseStalls, StatusLevel, supabase } from "@/lib/Server/mockSupabase";
+import { api, StatusLevel, supabase } from "@/lib/Server/api";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
@@ -57,31 +57,17 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const {
-    api: { fetchedData, isLoading, fetchData, lastUpdated },
+    api: { fetchedData, isLoading, fetchData, lastUpdated, isStallsLive },
   } = useData();
   const { isAdmin } = useRole();
-  const [isLive, setIsLive] = useState(false);
   const allStatuses = fetchedData?.stalls || [];
-const statuses = useMemo(() => {
-  const sortedStatuses = [...allStatuses].sort((a, b) => Number(a.id) - Number(b.id));
+  const statuses = useMemo(() => {
+    const sortedStatuses = [...allStatuses].sort((a, b) => Number(a.id) - Number(b.id));
 
-  if (!split) return sortedStatuses;
-  const mid = Math.ceil(sortedStatuses.length / 2);
-  return split === "first" ? sortedStatuses.slice(0, mid) : sortedStatuses.slice(mid);
-}, [allStatuses, split]);
-  useEffect(() => {
-    const channelName = `booth-status-sync-${split || "all"}`;
-    const channel = supabase
-      .channel(channelName)
-      .on("postgres_changes", { event: "*", schema: "public", table: "stalls_status" }, () => { })
-      .subscribe((status) => {
-        setIsLive(status === "SUBSCRIBED");
-      });
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [split]);
+    if (!split) return sortedStatuses;
+    const mid = Math.ceil(sortedStatuses.length / 2);
+    return split === "first" ? sortedStatuses.slice(0, mid) : sortedStatuses.slice(mid);
+  }, [allStatuses, split]);
 
   const handleStallClick = (stallName: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -98,28 +84,28 @@ const statuses = useMemo(() => {
   const handleCrowdClick = async (stallName: string, currentLevel: StatusLevel) => {
     if (!isAdmin) return;
     const newLevel = cycleStatus(currentLevel);
-    await mockSupabaseStalls.update(stallName, { crowdLevel: newLevel });
+    await api.stalls.update(stallName, { crowdLevel: newLevel });
     fetchData();
   };
 
   const handleStockClick = async (stallName: string, currentLevel: StatusLevel) => {
     if (!isAdmin) return;
     const newLevel = cycleStatus(currentLevel);
-    await mockSupabaseStalls.update(stallName, { stockLevel: newLevel });
+    await api.stalls.update(stallName, { stockLevel: newLevel });
     fetchData();
   };
 
   const LiveStatus = (
     <div style={{ marginRight: "20px", display: "flex", alignItems: "center" }}>
-      {isLive ? (
+      {isStallsLive ? (
         <span
           style={{
-            fontSize: "12px",
+            fontSize: "16px",
             fontWeight: "bold",
             color: "#ff4d4f",
             display: "flex",
             alignItems: "center",
-            gap: "4px",
+            gap: "6px",
           }}
         >
           <span className="live-dot" /> Live
@@ -131,8 +117,8 @@ const statuses = useMemo(() => {
       )}
       <style>{`
         .live-dot {
-          width: 8px;
-          height: 8px;
+          width: 10px;
+          height: 10px;
           background-color: #ff4d4f;
           border-radius: 50%;
           display: inline-block;
@@ -167,9 +153,7 @@ const statuses = useMemo(() => {
 
         {isLoading ? (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
-              Loading...
-            </p>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>Loading...</p>
           </SubList>
         ) : statuses.length > 0 ? (
           statuses.map((status, index) => (
@@ -210,9 +194,7 @@ const statuses = useMemo(() => {
           ))
         ) : (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
-              {t("Booth.NoData")}
-            </p>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>{t("Booth.NoData")}</p>
           </SubList>
         )}
       </CardInside>

@@ -1,5 +1,5 @@
 import { Radio } from "antd";
-import { StatusLevel } from "@/lib/Server/mockSupabase";
+import { StatusLevel } from "@/lib/Server/api";
 
 interface BoothStatusSelectorProps {
   label: string;

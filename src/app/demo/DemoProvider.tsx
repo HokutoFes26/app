@@ -101,6 +101,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         ]);
       },
       lastUpdated: 20260523,
+      isStallsLive: true,
     },
     work: {} as any,
   };

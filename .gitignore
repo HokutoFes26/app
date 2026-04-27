@@ -39,3 +39,4 @@ database
 handover
 
 *.sql
+src/constants/booth-ids.ts

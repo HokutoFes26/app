@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { mockSupabase } from "@/lib/Server/mockSupabase";
+import { api } from "@/lib/Server/api";
 import { useRole } from "@/contexts/RoleContext";
 import AspectDetector from "@/lib/Misc/AspectDetector";
 import React, { useEffect } from "react";
@@ -36,7 +36,7 @@ export default function AdminPage() {
     setError("");
 
     try {
-      await mockSupabase.loginAsAdmin(password);
+      await api.auth.loginAsAdmin(password);
       localStorage.setItem("admin_auth", "true");
       setRole("admin");
     } catch (err: any) {

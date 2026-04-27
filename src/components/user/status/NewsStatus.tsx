@@ -56,10 +56,10 @@ export default function NewsStatus({ onlyHot = false, hotTime = 10 }: { onlyHot?
                       delay: index * 0.04,
                       type: "spring",
                       stiffness: 300,
-                      damping: 30
+                      damping: 30,
                     }}
                   >
-                    {index !== 0 && <Divider />}
+                    {index !== 0 && <Divider margin="24px 0" height="0px" />}
                     <SubList>
                       <div
                         style={{
@@ -83,28 +83,22 @@ export default function NewsStatus({ onlyHot = false, hotTime = 10 }: { onlyHot?
                             )}
                             {item.title}
                           </span>
-                          <p style={{ fontSize: "10px", color: "#999", margin: 0, textAlign: "right" }}>
+                          <p style={{ fontSize: "16px", color: "var(--text-sub-color)", margin: 0, textAlign: "right" }}>
                             {dayjs(item.created_at).format("HH:mm")}
                           </p>
                         </div>
-                        <p style={{ fontSize: "13px", margin: "0 0 8px 0", whiteSpace: "pre-wrap" }}>{item.content}</p>
-                        {item.edit_reason && (
-                          <p style={{ fontSize: "10px", color: "#999", margin: 0, fontStyle: "italic" }}>
-                            ({t("Time.EditReason")}: {item.edit_reason})
-                          </p>
-                        )}
+                        <p style={{ fontSize: "14px", color: "var(--text-sub-color)", margin: "0 0 8px 0", whiteSpace: "pre-wrap" }}>{item.content}</p>
+                        {item.edit_reason && <p className="edited-text">編集済み: {item.edit_reason}</p>}
                       </div>
                     </SubList>
                   </motion.div>
                 ))
               ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  style={{ padding: "20px 0" }}
-                >
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ padding: "20px 0" }}>
                   <SubList>
-                    <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>{t("News.NoData")}</p>
+                    <p style={{ fontSize: "14px", color: "var(--text-sub-color)", textAlign: "center", width: "100%" }}>
+                      {t("News.NoData")}
+                    </p>
                   </SubList>
                 </motion.div>
               )}

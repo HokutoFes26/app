@@ -2,14 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { DataContext, DataContextType } from "./DataContext";
-import {
-  supabase,
-  mockSupabase,
-  StallStatus,
-  NewsItem,
-  LostItem,
-  Question,
-} from "@/lib/Server/mockSupabase";
+import { supabase, api, StallStatus, NewsItem, LostItem, Question } from "@/lib/Server/api";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { usePathname } from "next/navigation";
@@ -26,6 +19,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [lostItems, setLostItems] = useState<LostItem[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [lastUpdated, setLastUpdated] = useState<number>(Date.now());
+  const [isStallsLive, setIsStallsLive] = useState(false);
+  const isStallsLiveRef = useRef(false);
   const pathname = usePathname();
   const isAdminPage = pathname?.includes("/admin") || pathname?.includes("/booth");
 
@@ -44,10 +39,16 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     const isFullRefresh = forceFull || refreshCycle.current % FULL_REFRESH_FREQ === 0;
     const currentTTL = FETCH_INTERVAL_MS - 1000;
 
+    if (!isFullRefresh && isStallsLiveRef.current) {
+      console.log("[DataProvider] Skipping stalls-only polling (Realtime is active)");
+      refreshCycle.current = (refreshCycle.current + 1) % 24;
+      return;
+    }
+
     try {
       const allData = isFullRefresh
-        ? await mockSupabase.fetchAllData(forceFull ? 0 : currentTTL)
-        : await mockSupabase.fetchStallsOnly(currentTTL);
+        ? await api.fetchAllData(forceFull ? 0 : currentTTL)
+        : await api.fetchStallsOnly(currentTTL);
 
       if (allData) {
         lastFetchTime.current = Date.now();
@@ -117,7 +118,11 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           ),
         );
       })
-      .subscribe();
+      .subscribe((status) => {
+        const isLive = status === "SUBSCRIBED";
+        setIsStallsLive(isLive);
+        isStallsLiveRef.current = isLive;
+      });
 
     const tables = ["news", "lost_items", "questions"];
     const otherChannels = tables.map((tableName) =>
@@ -170,9 +175,10 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       fetchData: async () => performRefresh(true),
       handlePost: () => {},
       askQuestion: async (text: string) => {
-        await mockSupabase.qa.ask(text);
+        await api.qa.ask(text);
       },
       lastUpdated,
+      isStallsLive,
     },
     work: {} as any,
   };

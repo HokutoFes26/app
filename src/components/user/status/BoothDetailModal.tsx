@@ -162,7 +162,10 @@ export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailM
                   <div>
                     <span className={styles.label}>メニュー / 値段</span>
                     {item.menu.map((item_menu, index) => (
-                      <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                      <div
+                        key={`${item_menu.content}-${index}`}
+                        style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                      >
                         <p className={styles.value}>
                           {item_menu.content} / {item_menu.price}円
                         </p>

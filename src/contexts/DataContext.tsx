@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { StallStatus, NewsItem, LostItem, Question } from "@/lib/Server/mockSupabase";
+import { StallStatus, NewsItem, LostItem, Question } from "@/lib/Server/api";
 
 export interface FetchedData {
   stalls: StallStatus[];
@@ -18,6 +18,7 @@ export type DataContextType = {
     handlePost: (mode: number) => void;
     askQuestion: (text: string) => Promise<void>;
     lastUpdated: number;
+    isStallsLive: boolean;
   };
   work: any;
 };

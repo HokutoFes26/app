@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Button, App, Tag, Segmented, Space, Spin } from "antd";
-import { mockSupabase } from "@/lib/Server/mockSupabase";
+import { api } from "@/lib/Server/api";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
 
 interface VoteTarget {
@@ -23,7 +23,7 @@ export default function VotePage() {
     const fetchData = async () => {
       try {
         console.log("[Vote] Fetching targets...");
-        const data = await mockSupabase.voting.getTargets();
+        const data = await api.voting.getTargets();
         console.log("[Vote] Targets received:", data);
         setTargets(data || []);
 
@@ -47,7 +47,7 @@ export default function VotePage() {
 
     setVotingId(target.id);
     try {
-      const success = await mockSupabase.voting.submitVote(target.id, target.category);
+      const success = await api.voting.submitVote(target.id, target.category);
       if (success) {
         message.success(`${target.name} に投票しました！`);
         const newVoted = [...votedCategories, target.category];

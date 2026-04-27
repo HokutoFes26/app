@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
-import { mockSupabase, Question } from "@/lib/Server/mockSupabase";
+import { api, Question } from "@/lib/Server/api";
 import { useData } from "@/contexts/DataContext";
 import "@/components/Admin/Admin.css";
 import "@/styles/global-app.css";
@@ -23,9 +23,12 @@ export default function QAManager() {
   const questions = fetchedData?.questions || [];
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      fetchData();
-    }, 2 * 60 * 1000);
+    const timer = setInterval(
+      () => {
+        fetchData();
+      },
+      2 * 60 * 1000,
+    );
     return () => clearInterval(timer);
   }, [fetchData]);
 
@@ -38,7 +41,7 @@ export default function QAManager() {
 
     setLoading(true);
     try {
-      await mockSupabase.qa.reply(id, answer);
+      await api.qa.reply(id, answer);
       message.success("回答を送信しました");
       setIsSuccess(true);
       setTimeout(() => setIsSuccess(false), 1500);
@@ -82,7 +85,7 @@ export default function QAManager() {
       getContainer: () => document.getElementById("app-root") || document.body,
       onOk: async () => {
         try {
-          await mockSupabase.qa.delete(id);
+          await api.qa.delete(id);
           message.success("削除しました");
           await fetchData();
         } catch (error) {
@@ -107,7 +110,7 @@ export default function QAManager() {
     const id = editingItem!.id;
     setLoading(true);
     try {
-      await mockSupabase.qa.reply(id, editAnswer, editReason);
+      await api.qa.reply(id, editAnswer, editReason);
       message.success("編集しました");
       setEditingItem(null);
       await fetchData();

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode, Suspense, useCallback, useRef } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
-import { supabase } from "@/lib/Server/mockSupabase";
+import { supabase } from "@/lib/Server/api";
 
 type Role = "user" | "admin" | "stall-admin";
 
@@ -72,13 +72,15 @@ function RoleProviderInner({ children, initialRole = "user" }: { children: React
     authAttempted.current = true;
 
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
       if (session) {
         console.log("[RoleContext] Session valid.");
       } else {
         console.log("[RoleContext] No active session.");
-        if (!searchParams.get("booth")) {
+        if (!searchParams.get("booth") && !searchParams.get("id")) {
           localStorage.removeItem("admin_auth");
           setState({ role: "user", assignedStall: null });
         }
@@ -95,7 +97,7 @@ function RoleProviderInner({ children, initialRole = "user" }: { children: React
     isAdmin: state.role === "admin",
     isStallAdmin: state.role === "stall-admin",
     assignedStall: state.assignedStall,
-    isAuthenticating
+    isAuthenticating,
   };
 
   return <RoleContext.Provider value={value}>{children}</RoleContext.Provider>;

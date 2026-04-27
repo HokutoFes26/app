@@ -69,7 +69,7 @@ export default function QAStatus() {
         <p
           style={{
             fontSize: "12px",
-            color: "#666",
+            color: "var(--text-sub-color)",
             padding: "15px 0 0",
             textAlign: "left",
             fontWeight: "bold",
@@ -88,18 +88,14 @@ export default function QAStatus() {
                   {index !== 0 && <Divider margin="20px 0" height="0px" />}
                   <div style={{ textAlign: "left", width: "100%" }}>
                     <p style={{ fontSize: "14px", margin: "0 0 8px 0" }}>
-                      <span style={{ color: "#007AFF" }}>Q.&ensp;</span>
+                      <span style={{ color: "#1b7fea" }}>Q.&ensp;</span>
                       {q.text}
                     </p>
                     <p style={{ fontSize: "14px", margin: 0 }}>
                       <span style={{ color: "#ff4d4f" }}>A.&ensp;</span>
                       {q.answer}
                     </p>
-                    {q.edit_reason && (
-                      <p style={{ fontSize: "10px", color: "#999", margin: "4px 0 0 0", fontStyle: "italic" }}>
-                        ({t("Time.EditReason")}: {q.edit_reason})
-                      </p>
-                    )}
+                    {q.edit_reason && <p className="edited-text">編集済み: {q.edit_reason}</p>}
                   </div>
                 </React.Fragment>
               ))
@@ -112,7 +108,7 @@ export default function QAStatus() {
                 <p
                   style={{
                     fontSize: "12px",
-                    color: "#666",
+                    color: "var(--text-sub-color)",
                     margin: "24px 0 10px 0",
                     padding: "15px 0 0",
                     textAlign: "left",

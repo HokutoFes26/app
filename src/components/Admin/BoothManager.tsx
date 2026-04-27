@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { Button, App } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
-import { mockSupabaseStalls, StatusLevel } from "@/lib/Server/mockSupabase";
+import { api, StatusLevel } from "@/lib/Server/api";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import BoothStatusSelector from "@/components/Admin/components/BoothStatusSelector";
 import BoothHandoverQR from "@/components/Admin/components/BoothHandoverQR";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 
 export default function BoothManager() {
@@ -68,7 +68,7 @@ export default function BoothManager() {
     if (!assignedStall) return;
     setLoading(true);
     try {
-      await mockSupabaseStalls.update(assignedStall, { crowdLevel: crowd, stockLevel: stock });
+      await api.stalls.update(assignedStall, { crowdLevel: crowd, stockLevel: stock });
       setIsDirtyInternal(false);
       isDirtyRef.current = false;
       await fetchData();

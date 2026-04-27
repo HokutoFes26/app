@@ -77,8 +77,8 @@ div {
 }
 
 p {
-    font-size: 1rem !important;
-    color: var(--text-color) !important;
+    /* font-size: 1rem !important; */
+    /* color: var(--text-color) !important; */
     margin: 1em 0;
 }
 a {
@@ -604,7 +604,8 @@ div,
 }
 .edited-text {
     font-size: 0.9em !important;
-    color: #555 !important;
+    color: var(--text-sub-color) !important;
+    opacity: 0.5 !important;
     margin: 0.5em 0;
 }
 .map-icon {

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
-import { mockSupabase, LostItem } from "@/lib/Server/mockSupabase";
+import { api, LostItem } from "@/lib/Server/api";
 import { useData } from "@/contexts/DataContext";
 import "@/components/Admin/Admin.css";
 
@@ -30,7 +30,7 @@ export default function LostManager() {
     }
     setLoading(true);
     try {
-      await mockSupabase.lostAndFound.post({ name, place });
+      await api.lostAndFound.post({ name, place });
       message.success("落とし物を登録しました");
       setIsSuccess(true);
       setTimeout(() => setIsSuccess(false), 1500);
@@ -68,7 +68,7 @@ export default function LostManager() {
       getContainer: () => document.getElementById("app-root") || document.body,
       onOk: async () => {
         try {
-          await mockSupabase.lostAndFound.delete(id);
+          await api.lostAndFound.delete(id);
           message.success("削除しました");
           await fetchData();
         } catch (error) {
@@ -93,7 +93,7 @@ export default function LostManager() {
     }
     setLoading(true);
     try {
-      await mockSupabase.lostAndFound.update(editingItem!.id, {
+      await api.lostAndFound.update(editingItem!.id, {
         name: editName,
         place: editPlace,
         reason: editReason,

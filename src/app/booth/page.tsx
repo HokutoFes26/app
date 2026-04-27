@@ -1,27 +1,19 @@
 "use client";
 
 import { useState, Suspense, useEffect } from "react";
-import { mockSupabase } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import AspectDetector from "@/lib/Misc/AspectDetector";
 import React from "react";
 import FullPageLoader from "@/components/Layout/FullPageLoader";
-import stallsData from "@/../public/data/booth.json";
 import { useSearchParams, useRouter } from "next/navigation";
+import { verifyToken } from "@/lib/Misc/QRAuth";
+import { BOOTH_IDS } from "@/constants/booth-ids";
 
 const AdminPC = React.lazy(() => import("@/app/admin/_components/AdminPC"));
 const AdminPhone = React.lazy(() => import("@/app/admin/_components/AdminPhone"));
 
-const allStalls = [
-  ...(stallsData.L1 || []),
-  ...(stallsData.L2 || []),
-  ...(stallsData.L3 || []),
-  ...(stallsData.L4 || []),
-];
-
 export default function BoothAdminPage() {
   const { setRole, isStallAdmin, isAdmin, assignedStall, isAuthenticating } = useRole();
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const searchParams = useSearchParams();
@@ -34,53 +26,47 @@ export default function BoothAdminPage() {
     }
   }, [isAdmin, router]);
 
-  const [selectedStall, setSelectedStall] = useState(assignedStall || searchParams.get("booth") || "");
+  const [selectedStall, setSelectedStall] = useState("");
 
   useEffect(() => {
-    const booth = searchParams.get("booth");
-    if (booth) setSelectedStall(booth);
-  }, [searchParams]);
+    const id = searchParams.get("id");
+    const token = searchParams.get("token");
+    const stallName = Object.keys(BOOTH_IDS).find(name => BOOTH_IDS[name] === id);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedStall) {
-      setError("模擬店を選択してください");
-      return;
+    const checkAuth = async (stallId: string, name: string) => {
+      if (token && !isStallAdmin) {
+        setLoading(true);
+        const isValid = await verifyToken(stallId, token);
+        if (isValid) {
+          console.log("[Booth Page] Authorized via secure QR token.");
+          setRole("stall-admin", name);
+          const params = new URLSearchParams(searchParams.toString());
+          params.delete("token");
+          router.replace(`/booth?${params.toString()}`);
+        } else {
+          console.error("[Booth Page] Invalid or expired QR token.");
+          setError("QRコードの期限切れまたは無効です。もう一度表示し直してください。");
+        }
+        setLoading(false);
+      }
+    };
+
+    if (stallName && id) {
+      setSelectedStall(stallName);
+      checkAuth(id, stallName);
+    } else if (assignedStall) {
+      setSelectedStall(assignedStall);
+    } else {
+      if (!isAuthenticating && !isStallAdmin) {
+        const timer = setTimeout(() => {
+          if (!isStallAdmin) router.replace("/");
+        }, 1000);
+        return () => clearTimeout(timer);
+      }
     }
+  }, [searchParams, assignedStall, isStallAdmin, setRole, router, isAuthenticating]);
 
-    const boothAuth = localStorage.getItem("booth_auth");
-    if (boothAuth === "true") {
-      setRole("stall-admin", selectedStall);
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("booth", selectedStall);
-      router.replace(`/booth?${params.toString()}`);
-      return;
-    }
-
-    if (!password) {
-      setError("パスワードを入力してください");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    try {
-      await mockSupabase.loginAsStallAdmin(password);
-      setRole("stall-admin", selectedStall);
-      
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("booth", selectedStall);
-      router.replace(`/booth?${params.toString()}`);
-    } catch (err: any) {
-      console.error("[Booth Login] Failed:", err.message);
-      setError("パスワードが正しくないか、ログインに失敗しました");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (isAuthenticating) {
+  if (isAuthenticating || loading) {
     return <FullPageLoader />;
   }
 
@@ -101,86 +87,21 @@ export default function BoothAdminPage() {
         alignItems: "center",
         justifyContent: "center",
         fontFamily: "sans-serif",
+        padding: "20px",
+        textAlign: "center"
       }}
     >
-      <form
-        onSubmit={handleLogin}
-        style={{
-          width: "80%",
-          maxWidth: "400px",
-          textAlign: "center",
-        }}
-      >
-        <h3 style={{ marginBottom: "30px", color: "var(--text-color)" }}>
-          {localStorage.getItem("booth_auth") === "true" ? "担当ブースの選択" : "模擬店ログイン"}
-        </h3>
-        
-        <select
-          value={selectedStall}
-          onChange={(e) => setSelectedStall(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "12px",
-            marginBottom: "15px",
-            borderRadius: "10px",
-            fontSize: "16px",
-            border: "1px solid #ddd",
-            background: "var(--bg-color)",
-            color: "var(--text-color)",
-          }}
-          disabled={loading}
-        >
-          <option value="">模擬店を選択してください</option>
-          {allStalls.map((s) => (
-            <option key={s.name} value={s.name}>
-              {s.name}
-            </option>
-          ))}
-        </select>
-
-        {localStorage.getItem("booth_auth") !== "true" && (
-          <input
-            type="password"
-            placeholder="模擬店用パスワードを入力"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "12px",
-              marginBottom: "20px",
-              borderRadius: "10px",
-              fontSize: "16px",
-              border: "1px solid #ddd",
-              background: "var(--bg-color)",
-              color: "var(--text-color)",
-            }}
-            disabled={loading}
-          />
-        )}
+      <div style={{ maxWidth: "400px" }}>
+        <h3 style={{ color: "var(--text-color)", marginBottom: "20px" }}>アクセス制限</h3>
+        <p style={{ color: "var(--text-sub-color)", fontSize: "14px", lineHeight: "1.6" }}>
+          前の担当者が表示した「交代用QR」を読み取るか、運営チームからログインQRを取得してください。
+        </p>
         {error && (
-          <div style={{ marginBottom: "1em" }}>
-            <span style={{ color: "red", fontSize: "14px" }}>{error}</span>
+          <div style={{ marginTop: "20px", padding: "15px", background: "rgba(255,0,0,0.05)", borderRadius: "10px", border: "1px solid rgba(255,0,0,0.1)" }}>
+            <span style={{ color: "#ff4d4f", fontSize: "14px", fontWeight: "bold" }}>{error}</span>
           </div>
         )}
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "none",
-            background: "var(--text-color)",
-            color: "var(--mainCanvas-color)",
-            fontSize: "16px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            opacity: loading || !selectedStall ? 0.5 : 1,
-          }}
-          disabled={loading || !selectedStall}
-        >
-          {loading ? "認証中..." : localStorage.getItem("booth_auth") === "true" ? "確定して管理画面へ" : "ログイン"}
-        </button>
-      </form>
+      </div>
     </div>
   );
 }

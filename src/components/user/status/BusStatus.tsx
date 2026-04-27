@@ -96,8 +96,8 @@ export default function BusStatus() {
         <Radio.Button
           value="hour"
           style={{
-            background: filterMode === "hour" ? "#1d1d1d" : "#ffffff",
-            color: filterMode === "hour" ? "#ffffff" : "#000000",
+            background: filterMode === "hour" ? "var(--text-color)" : "var(--card-color)",
+            color: filterMode === "hour" ? "var(--card-color)" : "var(--text-color)",
             border: "solid 0.5px var(--text-sub-color)",
             fontWeight: "bold",
             borderRadius: "999px 0 0 999px",
@@ -110,8 +110,8 @@ export default function BusStatus() {
         <Radio.Button
           value="all"
           style={{
-            background: filterMode === "hour" ? "var(--card-color)" : "#1d1d1d",
-            color: filterMode === "hour" ? "#000000" : "#ffffff",
+            background: filterMode === "hour" ? "var(--card-color)" : "var(--text-color)",
+            color: filterMode === "hour" ? "var(--text-color)" : "var(--card-color)",
             border: "solid 0.5px var(--text-sub-color)",
             fontWeight: "bold",
             borderRadius: "0 999px 999px 0",
@@ -195,21 +195,21 @@ export default function BusStatus() {
                         >
                           {bus.routeTitle}
                         </Tag>
-                        <p style={{ fontSize: "20px", fontWeight: "bold", margin: 0, color: "var(--text-color)" }}>
+                        <p style={{ fontSize: "18px", fontWeight: "bold", margin: 0, color: "var(--text-color)" }}>
                           {bus.time}
-                          <span style={{ fontSize: "12px", fontWeight: "normal", color: "#666", marginLeft: "4px" }}>
+                          <span style={{ fontSize: "12px", fontWeight: "normal", color: "var(--text-sub-color)", marginLeft: "4px" }}>
                             {t("Bus.Departure")}
                           </span>
-                          <span style={{ fontSize: "12px", color: "#888", fontWeight: "normal" }}> →</span>{" "}
+                          <span style={{ fontSize: "12px", color: "var(--text-sub-color)", fontWeight: "normal" }}> →</span>{" "}
                           {bus.arrivalTime}
-                          <span style={{ fontSize: "12px", fontWeight: "normal", color: "#666", marginLeft: "4px" }}>
+                          <span style={{ fontSize: "12px", fontWeight: "normal", color: "var(--text-sub-color)", marginLeft: "4px" }}>
                             {t("Bus.Arrival")}
                           </span>
                         </p>
                       </div>
                       <div style={{ textAlign: "right" }}>
                         {!isPast ? (
-                          <p style={{ fontSize: "11px", color: "var(--main-color)", margin: 0 }}>
+                          <p style={{ fontSize: "14px", color: "var(--text-sub-color)", margin: 0 }}>
                             {(() => {
                               const diffMin = dayjs(`2000-01-01 ${bus.isoTime}`).diff(
                                 dayjs(`2000-01-01 ${nowTimeStr}`),
@@ -223,7 +223,7 @@ export default function BusStatus() {
                             })()}
                           </p>
                         ) : (
-                          <p style={{ fontSize: "11px", color: "#999", margin: 0 }}>{t("Bus.Departed")}</p>
+                          <p style={{ fontSize: "12px", color: "var(--text-sub-color)", margin: 0 }}>{t("Bus.Departed")}</p>
                         )}
                       </div>
                     </div>
@@ -236,7 +236,7 @@ export default function BusStatus() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                style={{ fontSize: "13px", color: "#999", padding: "10px 0", textAlign: "center" }}
+                style={{ fontSize: "13px", color: "var(--text-sub-color)", padding: "10px 0", textAlign: "center" }}
               >
                 {t("Bus.NoBuses")}
               </motion.p>

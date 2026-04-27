@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Table, Tag, Space, Typography, App } from "antd";
-import { mockSupabase } from "@/lib/Server/mockSupabase";
+import { api } from "@/lib/Server/api";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
@@ -53,7 +53,7 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
     setLocalLoading(true);
     try {
       console.log("[VoteAdmin] Fetching fresh vote results...");
-      const data = await mockSupabase.voting.getResults();
+      const data = await api.voting.getResults();
       const newResults = data || [];
       globalCachedResults = newResults;
       globalLastFetchTime = now;

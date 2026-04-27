@@ -11,8 +11,10 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import PollIcon from "@mui/icons-material/Poll";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import QrCodeIcon from "@mui/icons-material/QrCode";
 import useColumnDetector from "@/lib/Misc/ColumnDetector";
 import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
+import BoothQRManager from "@/components/Admin/BoothQRManager";
 
 const { Title } = Typography;
 
@@ -117,11 +119,20 @@ export default function AdminPC() {
       ),
     },
     {
+      key: "4",
+      label: (
+        <Space>
+          <QrCodeIcon style={{ fontSize: "18px" }} />
+          模擬店QR生成
+        </Space>
+      ),
+    },
+    {
       key: "3",
       label: (
         <Space>
           <VisibilityIcon style={{ fontSize: "18px" }} />
-          プレビュー
+          利用者プレビュー
         </Space>
       ),
     },
@@ -154,14 +165,16 @@ export default function AdminPC() {
               size="large"
               tabBarStyle={{ marginBottom: 0, fontWeight: "bold" }}
             />
-            <Button
-              icon={<RefreshIcon style={{ fontSize: "16px" }} />}
-              onClick={handleManualRefresh}
-              loading={isLoading}
-              type="text"
-            >
-              全体更新
-            </Button>
+            <Space size="middle">
+              <Button
+                icon={<RefreshIcon style={{ fontSize: "16px" }} />}
+                onClick={handleManualRefresh}
+                loading={isLoading}
+                type="text"
+              >
+                全体更新
+              </Button>
+            </Space>
           </>
         )}
       </div>
@@ -197,6 +210,11 @@ export default function AdminPC() {
             {activeTab === "2" && (
               <Suspense fallback={<FallbackLoader />}>
                 <VoteAdmin />
+              </Suspense>
+            )}
+            {activeTab === "4" && (
+              <Suspense fallback={<FallbackLoader />}>
+                <BoothQRManager />
               </Suspense>
             )}
             {activeTab === "3" && (

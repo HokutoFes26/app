@@ -10,6 +10,7 @@ import MapRoundedIcon from "@mui/icons-material/MapRounded";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PollIcon from "@mui/icons-material/Poll";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import QrCodeIcon from "@mui/icons-material/QrCode";
 import { TabSelector } from "@/lib/TabSelector";
 import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 
@@ -20,6 +21,7 @@ const QAManager = React.lazy(() => import("@/components/Admin/QAManager"));
 const Other = React.lazy(() => import("@/components/Layout/other"));
 const MapModal = React.lazy(() => import("@/components/Map/MapModal"));
 const VoteAdmin = React.lazy(() => import("@/components/Admin/VoteAdmin"));
+const BoothQRManager = React.lazy(() => import("@/components/Admin/BoothQRManager"));
 
 const FallbackLoader = ({ text = "Loading..." }: { text?: string }) => (
   <div style={{ textAlign: "center", padding: "40px 20px", color: "var(--text-sub-color)", fontSize: "13px" }}>
@@ -48,8 +50,11 @@ export default function AdminPhone() {
       TabSelector(Number(dashTab));
     } else if (activeTab === "1") {
       TabSelector(Number(dashTab));
-    } else {
+    } else if (activeTab === "2") {
       TabSelector(Number(voteTab));
+    } else if (activeTab === "3") {
+      const canvas = document.getElementById("canvas");
+      if (canvas) canvas.style.left = "0";
     }
   }, [activeTab, dashTab, voteTab, isStallAdmin]);
 
@@ -120,6 +125,14 @@ export default function AdminPhone() {
     </div>
   );
 
+  const renderQRSection = () => (
+    <div className="canvas" id="canvas" style={{ width: "100%" }}>
+      <Suspense fallback={<FallbackLoader text="Loading QR Manager..." />}>
+        <BoothQRManager />
+      </Suspense>
+    </div>
+  );
+
   return (
     <div className="mainCanvas" style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Suspense fallback={null}>
@@ -166,6 +179,15 @@ export default function AdminPhone() {
                     </Space>
                   ),
                 },
+                {
+                  key: "3",
+                  label: (
+                    <Space>
+                      <QrCodeIcon style={{ fontSize: "16px" }} />
+                      QR
+                    </Space>
+                  ),
+                },
               ]}
               tabBarStyle={{ marginBottom: 0 }}
             />
@@ -177,10 +199,16 @@ export default function AdminPhone() {
       )}
 
       <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
-        {isStallAdmin ? renderBoothManager() : activeTab === "1" ? renderDashboard() : renderVoteSection()}
+        {isStallAdmin
+          ? renderBoothManager()
+          : activeTab === "1"
+            ? renderDashboard()
+            : activeTab === "2"
+              ? renderVoteSection()
+              : renderQRSection()}
       </div>
 
-      <div className="bottomCanvas">
+      <div className="bottomCanvas" style={{ display: activeTab === "3" ? "none" : "" }}>
         <BottomNavigator
           mode={isStallAdmin ? "booth" : activeTab === "1" ? "admin" : "vote"}
           value={isStallAdmin ? dashTab : activeTab === "1" ? dashTab : voteTab}

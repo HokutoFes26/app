@@ -28,7 +28,7 @@ export default function DarkClick(isDark: boolean) {
         root.style.setProperty("--bottom-nav-indicator-shadow", "#888");
         root.style.setProperty(
             "--header-grad",
-            "linear-gradient( to bottom,rgba(66, 178, 26, 0.35) 0%,rgba(66, 178, 26, 0.2) 25%,rgba(0, 0, 0, 0) 42%",
+            "linear-gradient( to bottom,rgba(112, 26, 178, 0.35) 0%,rgba(112, 26, 178, 0.2) 25%,rgba(0, 0, 0, 0) 42%",
         );
         root.style.setProperty("--pop-accent-main", "#AEFF00");
         root.style.setProperty("--pop-accent-sub", "#FF37D0");

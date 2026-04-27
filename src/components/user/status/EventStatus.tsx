@@ -136,7 +136,7 @@ export default function EventStatus() {
                           NOW
                         </span>
                       ) : isUpcoming ? (
-                        <span style={{ fontSize: "16px", fontWeight: "500", color: "#666", margin: "auto 0" }}>
+                        <span style={{ fontSize: "16px", fontWeight: "500", color: "var(--text-sub-color)", margin: "auto 0" }}>
                           {(() => {
                             const diffMin = dayjs(`2000-01-01 ${event.start}`).diff(
                               dayjs(`2000-01-01 ${nowTimeStr}`),
@@ -150,7 +150,7 @@ export default function EventStatus() {
                           })()}
                         </span>
                       ) : (
-                        <span style={{ fontSize: "16px", fontWeight: "500", color: "#666", margin: "auto 0" }}>
+                        <span style={{ fontSize: "16px", fontWeight: "500", color: "var(--text-sub-color)", margin: "auto 0" }}>
                           終了
                         </span>
                       )}
