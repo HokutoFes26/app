@@ -4,8 +4,9 @@ import { useState, Suspense } from "react";
 import { mockSupabase } from "@/lib/Server/mockSupabase";
 import { useRole } from "@/contexts/RoleContext";
 import AspectDetector from "@/lib/Misc/AspectDetector";
-import React from "react";
+import React, { useEffect } from "react";
 import FullPageLoader from "@/components/Layout/FullPageLoader";
+import { useRouter } from "next/navigation";
 
 const AdminPC = React.lazy(() => import("@/app/admin/_components/AdminPC"));
 const AdminPhone = React.lazy(() => import("@/app/admin/_components/AdminPhone"));
@@ -16,6 +17,13 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const isMobile = AspectDetector();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isStallAdmin) {
+      router.replace("/booth");
+    }
+  }, [isStallAdmin, router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,16 +40,18 @@ export default function AdminPage() {
       localStorage.setItem("admin_auth", "true");
       setRole("admin");
     } catch (err: any) {
-      console.error("[Login] Failed:", err.message);
-      setError("パスワードが正しくないか、ログインに失敗しました");
+      console.error("[Admin Login] Failed:", err.message);
+      setError("管理者パスワードが正しくないか、ログインに失敗しました");
     } finally {
       setLoading(false);
     }
   };
-  if (isAuthenticating) {
+
+  if (isAuthenticating || isStallAdmin) {
     return <FullPageLoader />;
   }
-  if (isAdmin || isStallAdmin) {
+
+  if (isAdmin) {
     return (
       <div className={isMobile ? "mode-phone" : "mode-pc"}>
         <Suspense fallback={<FullPageLoader />}>{isMobile ? <AdminPhone /> : <AdminPC />}</Suspense>

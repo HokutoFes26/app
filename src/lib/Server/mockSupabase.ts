@@ -34,14 +34,42 @@ let loginPromise: Promise<any> | null = null;
 export const mockSupabase = {
   loginAsAdmin: async (password: string) => {
     const email = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-    if (!email) return;
+    if (!email) throw new Error("Admin email is not configured");
     const { data: sessionData } = await supabase.auth.getSession();
-    if (sessionData.session) {
-      console.log("[Supabase] Auth: Already logged in");
+    if (sessionData.session?.user.email === email) {
+      console.log("[Supabase] Auth: Already logged in as Admin");
       return { user: sessionData.session.user };
     }
     if (loginPromise) return loginPromise;
-    console.log("[Supabase] Auth: Login Attempt");
+    console.log("[Supabase] Auth: Admin Login Attempt");
+    loginPromise = supabase.auth
+      .signInWithPassword({
+        email,
+        password,
+      })
+      .then((res) => {
+        loginPromise = null;
+        if (res.error) throw res.error;
+        return res.data;
+      })
+      .catch((err) => {
+        loginPromise = null;
+        throw err;
+      });
+
+    return loginPromise;
+  },
+
+  loginAsStallAdmin: async (password: string) => {
+    const email = process.env.NEXT_PUBLIC_BOOTH_ADMIN_EMAIL;
+    if (!email) throw new Error("Booth admin email is not configured");
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (sessionData.session?.user.email === email) {
+      console.log("[Supabase] Auth: Already logged in as Booth Admin");
+      return { user: sessionData.session.user };
+    }
+    if (loginPromise) return loginPromise;
+    console.log("[Supabase] Auth: Booth Admin Login Attempt");
     loginPromise = supabase.auth
       .signInWithPassword({
         email,

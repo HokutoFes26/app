@@ -27,7 +27,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [lastUpdated, setLastUpdated] = useState<number>(Date.now());
   const pathname = usePathname();
-  const isAdminPage = pathname?.includes("/admin");
+  const isAdminPage = pathname?.includes("/admin") || pathname?.includes("/booth");
 
   const isInitialRefreshStarted = useRef(false);
   const refreshCycle = useRef(0);

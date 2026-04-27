@@ -8,7 +8,7 @@ type Role = "user" | "admin" | "stall-admin";
 
 interface RoleContextType {
   role: Role;
-  setRole: (role: Role) => void;
+  setRole: (role: Role, stallName?: string) => void;
   isAdmin: boolean;
   isStallAdmin: boolean;
   assignedStall: string | null;
@@ -25,14 +25,18 @@ function RoleProviderInner({ children, initialRole = "user" }: { children: React
   const getInitialState = () => {
     const stallParam = searchParams.get("booth");
     const adminAuth = typeof window !== "undefined" ? localStorage.getItem("admin_auth") : null;
+    const boothAuth = typeof window !== "undefined" ? localStorage.getItem("booth_auth") : null;
+    const savedStall = typeof window !== "undefined" ? localStorage.getItem("assigned_stall") : null;
+    const pathname = typeof window !== "undefined" ? window.location.pathname : "";
     const isAdminPath = pathname?.includes("/admin");
+    const isBoothPath = pathname?.includes("/booth");
 
     let role: Role = initialRole;
     let assignedStall: string | null = null;
 
-    if (stallParam) {
+    if (isBoothPath && boothAuth === "true") {
       role = "stall-admin";
-      assignedStall = stallParam;
+      assignedStall = stallParam || savedStall;
     } else if (isAdminPath && adminAuth === "true") {
       role = "admin";
     }
@@ -43,12 +47,21 @@ function RoleProviderInner({ children, initialRole = "user" }: { children: React
   const [state, setState] = useState<{ role: Role; assignedStall: string | null }>(getInitialState);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 
-  const setRole = useCallback((newRole: Role) => {
-    setState(prev => ({ ...prev, role: newRole }));
+  const setRole = useCallback((newRole: Role, stallName?: string) => {
+    setState({ role: newRole, assignedStall: stallName || null });
     if (typeof window !== "undefined") {
-      if (newRole === "admin") localStorage.setItem("admin_auth", "true");
-      if (newRole === "user") {
+      if (newRole === "admin") {
+        localStorage.setItem("admin_auth", "true");
+        localStorage.removeItem("booth_auth");
+        localStorage.removeItem("assigned_stall");
+      } else if (newRole === "stall-admin") {
+        localStorage.setItem("booth_auth", "true");
         localStorage.removeItem("admin_auth");
+        if (stallName) localStorage.setItem("assigned_stall", stallName);
+      } else if (newRole === "user") {
+        localStorage.removeItem("admin_auth");
+        localStorage.removeItem("booth_auth");
+        localStorage.removeItem("assigned_stall");
         supabase.auth.signOut();
       }
     }
