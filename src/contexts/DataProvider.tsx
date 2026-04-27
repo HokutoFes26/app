@@ -56,6 +56,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         if (allData.s) {
           setStalls(
             allData.s.map((row: any) => ({
+              id: row.i,
               stallName: row.n,
               crowdLevel: row.c,
               stockLevel: row.l,

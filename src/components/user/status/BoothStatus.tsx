@@ -62,19 +62,20 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   const { isAdmin } = useRole();
   const [isLive, setIsLive] = useState(false);
   const allStatuses = fetchedData?.stalls || [];
-  const statuses = useMemo(() => {
-    if (!split) return allStatuses;
-    const mid = Math.ceil(allStatuses.length / 2);
-    return split === "first" ? allStatuses.slice(0, mid) : allStatuses.slice(mid);
-  }, [allStatuses, split]);
+const statuses = useMemo(() => {
+  const sortedStatuses = [...allStatuses].sort((a, b) => Number(a.id) - Number(b.id));
 
+  if (!split) return sortedStatuses;
+  const mid = Math.ceil(sortedStatuses.length / 2);
+  return split === "first" ? sortedStatuses.slice(0, mid) : sortedStatuses.slice(mid);
+}, [allStatuses, split]);
   useEffect(() => {
-    const channelName = `booth-status-sync-${split || 'all'}`;
+    const channelName = `booth-status-sync-${split || "all"}`;
     const channel = supabase
       .channel(channelName)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'stalls_status' }, () => {})
+      .on("postgres_changes", { event: "*", schema: "public", table: "stalls_status" }, () => { })
       .subscribe((status) => {
-        setIsLive(status === 'SUBSCRIBED');
+        setIsLive(status === "SUBSCRIBED");
       });
 
     return () => {
@@ -111,7 +112,16 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   const LiveStatus = (
     <div style={{ marginRight: "20px", display: "flex", alignItems: "center" }}>
       {isLive ? (
-        <span style={{ fontSize: "12px", fontWeight: "bold", color: "#ff4d4f", display: "flex", alignItems: "center", gap: "4px" }}>
+        <span
+          style={{
+            fontSize: "12px",
+            fontWeight: "bold",
+            color: "#ff4d4f",
+            display: "flex",
+            alignItems: "center",
+            gap: "4px",
+          }}
+        >
           <span className="live-dot" /> Live
         </span>
       ) : (
@@ -138,7 +148,10 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   );
 
   return (
-    <CardBase title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`} SubjectUpdated={LiveStatus}>
+    <CardBase
+      title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`}
+      SubjectUpdated={LiveStatus}
+    >
       <CardInside>
         <div style={{ display: "flex", justifyContent: "space-evenly", gap: "10px" }}>
           <LegendItem level={0} crowd={t("Booth.Crowd.Green")} stock={t("Booth.Stock.Green")} />
@@ -153,27 +166,54 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
         </div>
 
         {isLoading ? (
-          <SubList><p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>Loading...</p></SubList>
+          <SubList>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
+              Loading...
+            </p>
+          </SubList>
         ) : statuses.length > 0 ? (
           statuses.map((status, index) => (
             <React.Fragment key={`${status.stallName}-${index}`}>
               {index !== 0 && <Divider margin="8px 0" height="1px" />}
-              <div style={{ display: "flex", alignItems: "center", width: "100%"}}>
-                <div style={{ flex: 1, display: "flex", flexDirection: "column", textAlign: "left", cursor: "pointer" }} onClick={() => handleStallClick(status.stallName)}>
-                  <span style={{ fontSize: "16px", fontWeight: "700", color: "var(--text-color)" }}>{status.stallName}</span>
+              <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+                <div
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "left",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleStallClick(status.stallName)}
+                >
+                  <span style={{ fontSize: "16px", fontWeight: "700", color: "var(--text-color)" }}>
+                    {status.stallName}
+                  </span>
                   <span style={{ fontSize: "9px", color: "#676767" }}>タップして詳細</span>
                 </div>
                 <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
-                  <TrafficLight level={status.crowdLevel} disabled={!isAdmin} onClick={() => handleCrowdClick(status.stallName, status.crowdLevel)} />
+                  <TrafficLight
+                    level={status.crowdLevel}
+                    disabled={!isAdmin}
+                    onClick={() => handleCrowdClick(status.stallName, status.crowdLevel)}
+                  />
                 </div>
                 <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
-                  <TrafficLight level={status.stockLevel} disabled={!isAdmin} onClick={() => handleStockClick(status.stallName, status.stockLevel)} />
+                  <TrafficLight
+                    level={status.stockLevel}
+                    disabled={!isAdmin}
+                    onClick={() => handleStockClick(status.stallName, status.stockLevel)}
+                  />
                 </div>
               </div>
             </React.Fragment>
           ))
         ) : (
-          <SubList><p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>{t("Booth.NoData")}</p></SubList>
+          <SubList>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
+              {t("Booth.NoData")}
+            </p>
+          </SubList>
         )}
       </CardInside>
     </CardBase>

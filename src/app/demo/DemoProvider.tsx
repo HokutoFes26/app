@@ -43,7 +43,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const randomStalls = useMemo(() => {
-    return allStalls.map((stall) => {
+    return allStalls.map((stall, index) => {
       const getRand = () => {
         const r = Math.random();
         if (r < 0.5) return 0;
@@ -51,6 +51,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         return 2;
       };
       return {
+        id: index + 1,
         stallName: stall.name,
         crowdLevel: getRand() as 0 | 1 | 2,
         stockLevel: getRand() as 0 | 1 | 2,

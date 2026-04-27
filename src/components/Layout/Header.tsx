@@ -1,13 +1,17 @@
+"use client";
+
 import "@/styles/global-app.css";
-import { useEffect, useState } from "react";
+import { useAppTime } from "@/contexts/TimeContext";
 
 export default function Header() {
+  const { currentTime } = useAppTime();
+
   return (
     <div className="header">
       <h1 className="title">Today</h1>
       <div className="date">
-        <p className="day">2026/5/23</p>
-        <p className="time">10:14</p>
+        <p className="day">{currentTime.format("YYYY/M/D")}</p>
+        <p className="time">{currentTime.format("HH:mm")}</p>
       </div>
     </div>
   );
