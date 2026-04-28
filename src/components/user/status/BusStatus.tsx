@@ -92,12 +92,7 @@ export default function BusStatus() {
 
   const FilterSwitcher = (
     <div style={{ marginRight: "16px" }}>
-      <Radio.Group
-        value={filterMode}
-        onChange={(e) => setFilterMode(e.target.value)}
-        buttonStyle="solid"
-        size="small"
-      >
+      <Radio.Group value={filterMode} onChange={(e) => setFilterMode(e.target.value)} buttonStyle="solid" size="small">
         <Radio.Button
           value="hour"
           style={{
@@ -137,6 +132,24 @@ export default function BusStatus() {
       label: t(`Bus.Stops.${s}`, s),
     }));
 
+  const isInHourRange = (bus: BusTrip) => {
+    const isUpcoming = bus.isoTime > nowTimeStr;
+    return isUpcoming && bus.isoTime <= oneHourLaterStr;
+  };
+
+  const newIndexMap = useMemo(() => {
+    if (filterMode !== "all") return new Map<string, number>();
+    const map = new Map<string, number>();
+    let i = 0;
+    for (const bus of filteredBuses) {
+      if (!isInHourRange(bus)) {
+        map.set(bus.isoTime, i++);
+      }
+    }
+
+    return map;
+  }, [filteredBuses, filterMode, nowTimeStr, oneHourLaterStr]);
+
   return (
     <CardBase title={t("CardTitles.BUS")} SubjectUpdated={FilterSwitcher}>
       <CardInside>
@@ -166,22 +179,43 @@ export default function BusStatus() {
         </div>
 
         <div style={{ position: "relative", gap: "15px" }}>
-          <AnimatePresence initial={false} mode="popLayout">
+          <AnimatePresence initial={false} mode="sync">
             {filteredBuses.length > 0 ? (
               filteredBuses.map((bus, index) => {
                 const isPast = bus.isoTime <= nowTimeStr;
+                const newIndex = newIndexMap.get(bus.isoTime);
+                const isNewItem = newIndex !== undefined;
+                const enterDelay = isNewItem ? 0.1 + newIndex * 0.06 : 0;
                 return (
                   <motion.div
-                    key={index}
+                    key={bus.isoTime}
                     layout
-                    initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                    initial={isNewItem ? { opacity: 0, y: 30, scale: 0.8 } : false}
                     animate={{ opacity: isPast ? 0.4 : 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -30, scale: 0.8 }}
+                    exit={{
+                      opacity: 0,
+                      y: -20,
+                      scale: 0.9,
+                      transition: { duration: 0.08 },
+                    }}
                     transition={{
-                      delay: index * 0.05,
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 30,
+                      layout: {
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 40,
+                      },
+                      opacity: {
+                        delay: enterDelay,
+                        duration: isNewItem ? 0.25 : 0.08,
+                      },
+                      y: {
+                        delay: enterDelay,
+                        duration: isNewItem ? 0.25 : 0.08,
+                      },
+                      scale: {
+                        delay: enterDelay,
+                        duration: isNewItem ? 0.25 : 0.08,
+                      },
                     }}
                   >
                     {index !== 0 && <Divider margin="20px 0" height="0px" />}

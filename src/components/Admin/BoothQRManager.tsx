@@ -57,9 +57,8 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
 
               <div style={{ marginBottom: "24px" }}>
                 <Select
-                  showSearch
                   style={{ width: "100%" }}
-                  placeholder="模擬店名を入力または選択"
+                  placeholder="模擬店を選択"
                   optionFilterProp="children"
                   onChange={handleStallChange}
                   options={stallOptions}

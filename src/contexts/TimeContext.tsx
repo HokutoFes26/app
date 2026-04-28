@@ -20,7 +20,7 @@ export function TimeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const timer = setInterval(() => {
       setRealTime(dayjs());
-    }, 1000 * 60);
+    }, 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -30,6 +30,7 @@ export function TimeProvider({ children }: { children: ReactNode }) {
 
   const resetTime = useCallback(() => {
     setMockTime(null);
+    setRealTime(dayjs());
   }, []);
 
   const value = useMemo(

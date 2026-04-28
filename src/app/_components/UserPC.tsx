@@ -15,6 +15,7 @@ import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 import BoothDetailModal, { BoothItem } from "@/components/user/status/BoothDetailModal";
 import stallsData from "@/../public/data/booth.json";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import BoothModalManager from "@/components/user/status/BoothModalManager";
 
 const BusStatus = React.lazy(() => import("@/components/user/status/BusStatus"));
 const LostStatus = React.lazy(() => import("@/components/user/status/LostStatus"));
@@ -105,7 +106,7 @@ export default function UserPC() {
         <Suspense fallback={null}>
           <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} />
         </Suspense>
-        <BoothDetailModal item={selectedBooth} isOpen={isBoothModalOpen} onClose={handleCloseBoothModal} />
+        <BoothModalManager />
 
         {columns === 4 && (
           <>

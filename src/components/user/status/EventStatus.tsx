@@ -20,21 +20,29 @@ export default function EventStatus() {
   const { t } = useTranslation();
   const [filterMode, setFilterMode] = useState<"hour" | "all">("hour");
   const { currentTime } = useAppTime();
-  const nowTimeStr = currentTime.format("H:mm");
   const currentDate = currentTime.date();
-  const oneHourLaterStr = currentTime.add(1, "hour").format("H:mm");
+
+  // イベントの時間を当日の日付と組み合わせたdayjsオブジェクトに変換するヘルパー
+  const getEventTime = (timeStr: string) => {
+    return dayjs(currentTime.format("YYYY-MM-DD") + " " + timeStr);
+  };
 
   const filteredEvents = useMemo(() => {
     const dayKey = currentDate === 24 ? "day2" : "day1";
     const events: Event[] = (eventData as any)[dayKey] || [];
+    const oneHourLater = currentTime.add(1, "hour");
 
     return events.filter((e) => {
       if (filterMode === "all") return true;
-      const isOngoing = nowTimeStr >= e.start && nowTimeStr <= e.end;
-      const isUpcoming = e.start > nowTimeStr && e.start <= oneHourLaterStr;
+      const start = getEventTime(e.start);
+      const end = getEventTime(e.end);
+
+      // 10:10:00になった瞬間に isOngoing は false になる
+      const isOngoing = (currentTime.isAfter(start) || currentTime.isSame(start)) && currentTime.isBefore(end);
+      const isUpcoming = start.isAfter(currentTime) && (start.isBefore(oneHourLater) || start.isSame(oneHourLater));
       return isOngoing || isUpcoming;
     });
-  }, [nowTimeStr, oneHourLaterStr, currentDate, filterMode]);
+  }, [currentTime, currentDate, filterMode]);
 
   const FilterSwitcher = (
     <div style={{ marginRight: "16px" }}>
@@ -88,29 +96,76 @@ export default function EventStatus() {
     </div>
   );
 
+  const isInHourRange = (e: Event) => {
+    const start = getEventTime(e.start);
+    const end = getEventTime(e.end);
+    const oneHourLater = currentTime.add(1, "hour");
+    const isOngoing = (currentTime.isAfter(start) || currentTime.isSame(start)) && currentTime.isBefore(end);
+    const isUpcoming = start.isAfter(currentTime) && (start.isBefore(oneHourLater) || start.isSame(oneHourLater));
+    return isOngoing || isUpcoming;
+  };
+
+  const newIndexMap = useMemo(() => {
+    if (filterMode !== "all") return new Map<string, number>();
+    const map = new Map<string, number>();
+    let i = 0;
+    for (const e of filteredEvents) {
+      if (!isInHourRange(e)) {
+        map.set(e.name, i++);
+      }
+    }
+
+    return map;
+  }, [filteredEvents, filterMode, currentTime]);
+
   return (
     <CardBase title={t("CardTitles.EVENTS")} SubjectUpdated={FilterSwitcher}>
       <CardInside>
         <div style={{ position: "relative", gap: "15px" }}>
-          <AnimatePresence initial={false} mode="popLayout">
+          <AnimatePresence initial={false} mode="sync">
             {filteredEvents.length > 0 ? (
               filteredEvents.map((event, index) => {
-                const isOngoing = nowTimeStr >= event.start && nowTimeStr <= event.end;
-                const isFinished = nowTimeStr > event.end;
-                const isUpcoming = !isOngoing && !isFinished;
+                const start = getEventTime(event.start);
+                const end = getEventTime(event.end);
+                
+                const isOngoing = (currentTime.isAfter(start) || currentTime.isSame(start)) && currentTime.isBefore(end);
+                const isFinished = currentTime.isAfter(end) || currentTime.isSame(end);
+                const isUpcoming = start.isAfter(currentTime);
+
+                const newIndex = newIndexMap.get(event.name);
+                const isNewItem = newIndex !== undefined;
+                const enterDelay = isNewItem ? 0.1 + newIndex * 0.06: 0;
 
                 return (
                   <motion.div
-                    key={index}
+                    key={event.name}
                     layout
-                    initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                    initial={isNewItem ? { opacity: 0, y: 30, scale: 0.8 } : false}
                     animate={{ opacity: isFinished ? 0.4 : 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -30, scale: 0.8 }}
+                    exit={{
+                      opacity: 0,
+                      y: -30,
+                      scale: 0.8,
+                      transition: { duration: 0.1 },
+                    }}
                     transition={{
-                      delay: index * 0.05,
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 30,
+                      layout: {
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 40,
+                      },
+                      opacity: {
+                        delay: enterDelay,
+                        duration: isNewItem ? 0.25 : 0.08,
+                      },
+                      y: {
+                        delay: enterDelay,
+                        duration: isNewItem ? 0.25 : 0.08,
+                      },
+                      scale: {
+                        delay: enterDelay,
+                        duration: isNewItem ? 0.25 : 0.08,
+                      },
                     }}
                   >
                     {index !== 0 && <Divider margin="20px 0" height="0px" />}
@@ -158,10 +213,7 @@ export default function EventStatus() {
                           }}
                         >
                           {(() => {
-                            const diffMin = dayjs(`2000-01-01 ${event.start}`).diff(
-                              dayjs(`2000-01-01 ${nowTimeStr}`),
-                              "minute",
-                            );
+                            const diffMin = start.diff(currentTime, "minute");
                             if (diffMin >= 60) {
                               const hours = Math.floor(diffMin / 60);
                               return t("Time.HoursLater", { count: hours });
@@ -186,7 +238,7 @@ export default function EventStatus() {
                     <MusicPlayerBar
                       start={event.start}
                       end={event.end}
-                      now={nowTimeStr}
+                      now={currentTime.format("H:mm")}
                       upcoming={isUpcoming}
                       isOngoing={isOngoing}
                     />

@@ -1,14 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getPath } from "@/constants/paths";
 import styles from "./BoothDetailModal.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import ListRoundedIcon from "@mui/icons-material/ListRounded";
-import ListIcon from '@mui/icons-material/List';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useMapControl } from "@/contexts/MapContext";
+import ListIcon from "@mui/icons-material/List";
 
 type ProductModalPropsMenu = {
   content: string;
@@ -22,17 +22,29 @@ export interface BoothItem {
   menu?: ProductModalPropsMenu[];
   image?: string;
   image2?: string;
+  image_hidden?: string;
 }
 
 interface BoothDetailModalProps {
-  item: BoothItem | null;
-  isOpen: boolean;
-  onClose: () => void;
+  item: BoothItem;
 }
 
-export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailModalProps) {
+export default function BoothDetailModal({ item }: BoothDetailModalProps) {
   const [show, setShow] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isHiddenFromUrl = searchParams.get("hidden") === "true";
+  const [showHidden, setShowHidden] = useState(isHiddenFromUrl);
+  const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const mapControl = useMapControl();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isHiddenFromUrl && item?.image_hidden && Math.random() < 0.35) {
+      setShowHidden(true);
+    }
+  }, [isHiddenFromUrl, item?.name, item?.image_hidden]);
 
   useEffect(() => {
     if (isOpen) {
@@ -43,31 +55,39 @@ export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailM
       setShow(false);
       if (mapControl) mapControl.setProductModalOpen(false);
     }
-  }, [isOpen]);
+  }, [isOpen, mapControl]);
 
-  if (!item && !isOpen) return null;
+  useEffect(() => {
+    if (isMenuExpanded && modalRef.current) {
+      const scrollTarget = modalRef.current;
+      const timer = setTimeout(() => {
+        scrollTarget.scrollTo({
+          top: scrollTarget.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isMenuExpanded]);
 
   const handleClose = () => {
-    setShow(false);
-    if (mapControl) mapControl.setProductModalOpen(false);
+    setIsOpen(false);
     setTimeout(() => {
-      onClose();
-    }, 300);
+      router.back();
+    }, 200);
   };
 
   const handleLocationClick = () => {
-    if (mapControl && item?.place) {
-      setShow(false);
-      mapControl.setProductModalOpen(false);
+    if (mapControl && item.place) {
+      setIsOpen(false);
+      mapControl.openMap(item.place);
       setTimeout(() => {
-        onClose();
-        mapControl.openMap(item.place);
+        router.back();
       }, 300);
     }
   };
 
   const handleShare = async () => {
-    if (!item) return;
     const shareUrl = window.location.href;
     const shareData = {
       title: `${item.name} | 模擬店詳細`,
@@ -78,25 +98,9 @@ export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailM
     try {
       if (navigator.share) {
         await navigator.share(shareData);
-      } else if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      } else {
         await navigator.clipboard.writeText(shareUrl);
         alert("URLをクリップボードにコピーしました");
-      } else {
-        const textArea = document.createElement("textarea");
-        textArea.value = shareUrl;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-9999px";
-        textArea.style.top = "0";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-          document.execCommand("copy");
-          alert("URLをクリップボードにコピーしました");
-        } catch (copyErr) {
-          console.error("Copy fallback failed:", copyErr);
-        }
-        document.body.removeChild(textArea);
       }
     } catch (err) {
       if ((err as Error).name !== "AbortError") {
@@ -105,18 +109,27 @@ export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailM
     }
   };
 
+  const isAccordion = (item.menu?.length ?? 0) >= 4;
+
   return (
     <div className={`${styles.overlay} ${show ? styles.open : ""}`} onClick={handleClose}>
-      {item && (
-        <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-          <button className={styles.closeBtn} onClick={handleClose}>
-            <CloseIcon />
-          </button>
-          {item.image && (
-            <img src={getPath(item.image)} alt={`${item.name}の画像`} className={styles.image} />
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.closeBtn} onClick={handleClose}>
+          <CloseIcon />
+        </button>
+        <div className={styles.scrollArea} ref={modalRef}>
+          {showHidden && item.image_hidden ? (
+            <img src={getPath(item.image_hidden)} alt={item.name} className={styles.image} />
+          ) : (
+            item.image && (
+              <>
+                <img src={getPath(item.image)} alt={item.name} className={styles.image} />
+                <img src={getPath(item.image)} alt={item.name} className={styles.imageback} />
+              </>
+            )
           )}
           <div className={styles.content}>
-            <span className={styles.name}>{item.name}</span>
+            <p className={styles.name}>{item.name}</p>
             {item.team && <p className={styles.team}>{item.team}</p>}
 
             <div className={styles.details}>
@@ -124,65 +137,71 @@ export default function BoothDetailModal({ item, isOpen, onClose }: BoothDetailM
                 <div
                   className={`${styles.detailItem} ${mapControl ? styles.clickable : ""}`}
                   onClick={handleLocationClick}
+                  style={{ alignItems: "center" }}
                 >
                   <div className={styles.iconWrapper}>
-                    <LocationOnOutlinedIcon
-                      style={{ fontSize: "24px", color: "var(--text-color)" }}
-                    />
+                    <LocationOnOutlinedIcon style={{ fontSize: "20px", color: "var(--text-color)" }} />
                   </div>
                   <div>
-                    <span className={styles.label}>場所</span>
-                    <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                      <span className={styles.value}>{item.place}</span>
+                    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "4px" }}>
+                      <p className={styles.value}>{item.place}&ensp;</p>
                       {mapControl && (
-                        <span
-                          style={{
-                            cursor: "pointer",
-                            fontSize: "12px",
-                            color: "#007aff",
-                            marginLeft: "4px",
-                          }}
-                          className={styles.mapLink}
-                        >
+                        <p style={{ color: "#174ef5", textDecoration: "underline" }} className={styles.mapLink}>
                           地図で見る ↗
-                        </span>
+                        </p>
                       )}
                     </div>
                   </div>
                 </div>
               )}
-              {item.menu && (
-                <div
-                  className={`${styles.detailItem} ${mapControl ? styles.clickable : ""}`}
-                  onClick={handleLocationClick}
-                >
+
+              {item.menu && item.menu.length > 0 && (
+                <div className={styles.detailItem}>
                   <div className={styles.iconWrapper}>
-                    <ListIcon style={{ fontSize: "24px", color: "var(--text-color)" }} />
+                    <ListIcon style={{ fontSize: "20px", color: "var(--text-color)" }} />
                   </div>
-                  <div>
-                    <span className={styles.label}>メニュー / 値段</span>
-                    {item.menu.map((item_menu, index) => (
-                      <div
-                        key={`${item_menu.content}-${index}`}
-                        style={{ display: "flex", alignItems: "center", gap: "4px" }}
-                      >
-                        <p className={styles.value}>
-                          {item_menu.content} / {item_menu.price}円
-                        </p>
-                      </div>
-                    ))}
+                  <div style={{ flex: 1, marginTop: "0.5em" }}>
+                    {isAccordion ? (
+                      <>
+                        <div className={styles.accordionHeader} onClick={() => setIsMenuExpanded(!isMenuExpanded)}>
+                          <p className={styles.value}>メニューを見る ({item.menu.length}件)</p>
+                          <ExpandMoreIcon
+                            className={`${styles.accordionIcon} ${isMenuExpanded ? styles.expanded : ""}`}
+                          />
+                        </div>
+                        <div className={`${styles.accordionContent} ${isMenuExpanded ? styles.expanded : ""}`}>
+                          {item.menu.map((item_menu, index) => (
+                            <div
+                              key={index}
+                              style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "4px" }}
+                            >
+                              <p className={styles.value}>
+                                {item_menu.content} : {item_menu.price}円
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      item.menu.map((item_menu, index) => (
+                        <div key={index} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                          <p className={styles.value}>
+                            {item_menu.content} : {item_menu.price}円
+                          </p>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               )}
             </div>
-
             <button className={styles.shareBtn} onClick={handleShare}>
               <ShareOutlinedIcon style={{ fontSize: "20px" }} />
               共有する
             </button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
