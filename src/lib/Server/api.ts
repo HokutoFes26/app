@@ -81,9 +81,14 @@ export const api = {
       return loginPromise;
     },
 
-    loginAsStallAdmin: async (password: string) => {
+    loginAsStallAdmin: async (password?: string) => {
       const email = process.env.NEXT_PUBLIC_BOOTH_ADMIN_EMAIL;
+      const defaultPassword = process.env.NEXT_PUBLIC_BOOTH_ADMIN_PASSWORD;
+      const pass = password || defaultPassword;
+
       if (!email) throw new Error("Booth admin email is not configured");
+      if (!pass) throw new Error("Booth admin password is not configured");
+
       const { data: sessionData } = await supabase.auth.getSession();
       if (sessionData.session?.user.email === email) {
         console.log("[API] Auth: Already logged in as Booth Admin");
@@ -92,7 +97,7 @@ export const api = {
       if (loginPromise) return loginPromise;
       console.log("[API] Auth: Booth Admin Login Attempt");
       loginPromise = supabase.auth
-        .signInWithPassword({ email, password })
+        .signInWithPassword({ email, password: pass })
         .then((res) => {
           loginPromise = null;
           if (res.error) throw res.error;

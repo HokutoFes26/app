@@ -59,7 +59,7 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   const {
     api: { fetchedData, isLoading, fetchData, lastUpdated, isStallsLive },
   } = useData();
-  const { isAdmin } = useRole();
+  const { isAdmin, isStallAdmin, assignedStall } = useRole();
   const allStatuses = fetchedData?.stalls || [];
   const statuses = useMemo(() => {
     const sortedStatuses = [...allStatuses].sort((a, b) => Number(a.id) - Number(b.id));
@@ -81,15 +81,21 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
     return 0;
   };
 
+  const canEdit = (stallName: string) => {
+    if (isAdmin) return true;
+    if (isStallAdmin && assignedStall === stallName) return true;
+    return false;
+  };
+
   const handleCrowdClick = async (stallName: string, currentLevel: StatusLevel) => {
-    if (!isAdmin) return;
+    if (!canEdit(stallName)) return;
     const newLevel = cycleStatus(currentLevel);
     await api.stalls.update(stallName, { crowdLevel: newLevel });
     fetchData();
   };
 
   const handleStockClick = async (stallName: string, currentLevel: StatusLevel) => {
-    if (!isAdmin) return;
+    if (!canEdit(stallName)) return;
     const newLevel = cycleStatus(currentLevel);
     await api.stalls.update(stallName, { stockLevel: newLevel });
     fetchData();
@@ -180,14 +186,14 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
                 <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
                   <TrafficLight
                     level={status.crowdLevel}
-                    disabled={!isAdmin}
+                    disabled={!canEdit(status.stallName)}
                     onClick={() => handleCrowdClick(status.stallName, status.crowdLevel)}
                   />
                 </div>
                 <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
                   <TrafficLight
                     level={status.stockLevel}
-                    disabled={!isAdmin}
+                    disabled={!canEdit(status.stallName)}
                     onClick={() => handleStockClick(status.stallName, status.stockLevel)}
                   />
                 </div>

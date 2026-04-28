@@ -8,6 +8,7 @@ import FullPageLoader from "@/components/Layout/FullPageLoader";
 import { useSearchParams, useRouter } from "next/navigation";
 import { verifyToken } from "@/lib/Misc/QRAuth";
 import { BOOTH_IDS } from "@/constants/booth-ids";
+import { api } from "@/lib/Server/api";
 
 const AdminPC = React.lazy(() => import("@/app/admin/_components/AdminPC"));
 const AdminPhone = React.lazy(() => import("@/app/admin/_components/AdminPhone"));
@@ -37,10 +38,16 @@ export default function BoothAdminPage() {
         const isValid = await verifyToken(stallId, token);
         if (isValid) {
           console.log("[Booth Page] Authorized via secure QR token.");
-          setRole("stall-admin", name);
-          const params = new URLSearchParams(searchParams.toString());
-          params.delete("token");
-          router.replace(`/booth?${params.toString()}`);
+          try {
+            await api.auth.loginAsStallAdmin();
+            setRole("stall-admin", name);
+            const params = new URLSearchParams(searchParams.toString());
+            params.delete("token");
+            router.replace(`/booth?${params.toString()}`);
+          } catch (loginErr) {
+            console.error("[Booth Page] Background login failed:", loginErr);
+            setError("ログインに失敗しました。ネットワーク状況を確認してください。");
+          }
         } else {
           console.error("[Booth Page] Invalid or expired QR token.");
           setError("QRコードの期限切れまたは無効です。もう一度表示し直してください。");
