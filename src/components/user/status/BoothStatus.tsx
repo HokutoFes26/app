@@ -112,7 +112,7 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
         </span>
       ) : (
         <span style={{ fontSize: "11px", color: "var(--text-sub-color)" }}>
-          最終更新: {dayjs(lastUpdated).format("HH:mm:ss")}
+          最終更新: {dayjs(lastUpdated).format("H:mm:ss")}
         </span>
       )}
       <style>{`
@@ -153,7 +153,9 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
 
         {isLoading ? (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>Loading...</p>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
+              Loading...
+            </p>
           </SubList>
         ) : statuses.length > 0 ? (
           statuses.map((status, index) => (
@@ -194,7 +196,9 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
           ))
         ) : (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>{t("Booth.NoData")}</p>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
+              {t("Booth.NoData")}
+            </p>
           </SubList>
         )}
       </CardInside>

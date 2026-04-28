@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 import { Input, Button, App, Modal, Spin } from "antd";
-import { CardBase, CardInside } from "@/components/Layout/CardComp";
+import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { api, LostItem } from "@/lib/Server/api";
 import { useData } from "@/contexts/DataContext";
+import dayjs from "dayjs";
 import "@/components/Admin/Admin.css";
 
 export default function LostManager() {
@@ -124,10 +125,22 @@ export default function LostManager() {
   return (
     <CardBase title="Lost Manager (Admin)">
       <CardInside>
-        <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-          <p style={{ textAlign: "left", margin: 0 }}>新規登録</p>
-          <Input placeholder="落とし物の名前" value={name} onChange={(e) => setName(e.target.value)} size="large" />
-          <Input placeholder="落ちていた場所" value={place} onChange={(e) => setPlace(e.target.value)} size="large" />
+        <div style={{ display: "flex", flexDirection: "column", gap: "15px", marginBottom: "10%" }}>
+          <p className="section-text" style={{ fontWeight: "bold", textAlign: "left" }}>
+            新規登録
+          </p>
+          <Input
+            placeholder="落とし物の名前"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            size="large"
+          />
+          <Input
+            placeholder="落ちていた場所"
+            value={place}
+            onChange={(e) => setPlace(e.target.value)}
+            size="large"
+          />
           <Button
             type={isSuccess ? "default" : "primary"}
             block
@@ -140,29 +153,37 @@ export default function LostManager() {
             {isSuccess ? "投稿完了！" : "落とし物を登録"}
           </Button>
         </div>
-        <p style={{ textAlign: "left", margin: "20px 0 10px", paddingTop: "10%" }}>登録済みアイテム</p>
+
+        <p className="section-text" style={{ fontWeight: "bold", textAlign: "left" }}>
+          登録済みアイテム
+        </p>
         {items.length > 0 ? (
-          items.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                textAlign: "left",
-                padding: "15px",
-                background: "var(--mainCanvas-color)",
-                borderRadius: "8px",
-                marginTop: "5%",
-              }}
-            >
-              <p style={{ fontWeight: "bold", margin: 0 }}>{item.name}</p>
-              <p style={{ fontSize: "12px", color: "#666", margin: "4px 0" }}>場所: {item.place}</p>
-              {item.edit_reason && <p className="edited-text">編集済み: {item.edit_reason}</p>}
-              <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
-                <Button onClick={() => startEdit(item)}>編集</Button>
-                <Button danger onClick={() => handleDelete(item.id, item.name)}>
-                  削除
-                </Button>
+          items.map((item, index) => (
+            <React.Fragment key={item.id}>
+              {index !== 0 && <Divider margin="20px 0" height="0px" />}
+              <div
+                key={item.id}
+                style={{
+                  textAlign: "left",
+                  marginTop: "1%",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <p style={{ fontWeight: "bold", margin: 0 }}>{item.name}</p>
+                  <p style={{ fontSize: "16px", color: "var(--text-sub-color)", margin: 0 }}>
+                    {dayjs(item.created_at).format("H:mm")}
+                  </p>
+                </div>
+                <p style={{ fontSize: "12px", color: "#666", margin: "4px 0" }}>場所: {item.place}</p>
+                {item.edit_reason && <p className="edited-text">編集済み: {item.edit_reason}</p>}
+                <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
+                  <Button onClick={() => startEdit(item)}>編集</Button>
+                  <Button danger onClick={() => handleDelete(item.id, item.name)}>
+                    削除
+                  </Button>
+                </div>
               </div>
-            </div>
+            </React.Fragment>
           ))
         ) : (
           <p style={{ fontSize: "12px", color: "#999", textAlign: "center", padding: "20px" }}>
@@ -182,11 +203,21 @@ export default function LostManager() {
           <div style={{ display: "flex", flexDirection: "column", gap: "15px", paddingTop: "10px" }}>
             <div>
               <p style={{ fontSize: "12px", marginBottom: "5px" }}>・落とし物の名前</p>
-              <Input size="large" placeholder="品名" value={editName} onChange={(e) => setEditName(e.target.value)} />
+              <Input
+                size="large"
+                placeholder="品名"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+              />
             </div>
             <div>
               <p style={{ fontSize: "12px", marginBottom: "5px" }}>・落ちていた場所</p>
-              <Input size="large" placeholder="場所" value={editPlace} onChange={(e) => setEditPlace(e.target.value)} />
+              <Input
+                size="large"
+                placeholder="場所"
+                value={editPlace}
+                onChange={(e) => setEditPlace(e.target.value)}
+              />
             </div>
             <div>
               <p style={{ fontSize: "12px", marginBottom: "5px" }}>・編集理由</p>

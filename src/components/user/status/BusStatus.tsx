@@ -22,8 +22,8 @@ interface BusTrip {
 export default function BusStatus() {
   const { t } = useTranslation();
   const { currentTime } = useAppTime();
-  const nowTimeStr = currentTime.format("HH:mm");
-  const oneHourLaterStr = currentTime.add(1, "hour").format("HH:mm");
+  const nowTimeStr = currentTime.format("H:mm");
+  const oneHourLaterStr = currentTime.add(1, "hour").format("H:mm");
   const isAfternoon = nowTimeStr >= "12:00";
   const [fromStop, setFromStop] = useState(isAfternoon ? "射水キャンパス 発" : "富山駅北口 発");
   const [toStop, setToStop] = useState(isAfternoon ? "富山駅北口 着" : "射水キャンパス 着");
@@ -92,7 +92,12 @@ export default function BusStatus() {
 
   const FilterSwitcher = (
     <div style={{ marginRight: "16px" }}>
-      <Radio.Group value={filterMode} onChange={(e) => setFilterMode(e.target.value)} buttonStyle="solid" size="small">
+      <Radio.Group
+        value={filterMode}
+        onChange={(e) => setFilterMode(e.target.value)}
+        buttonStyle="solid"
+        size="small"
+      >
         <Radio.Button
           value="hour"
           style={{
@@ -195,21 +200,57 @@ export default function BusStatus() {
                         >
                           {bus.routeTitle}
                         </Tag>
-                        <p style={{ fontSize: "18px", fontWeight: "bold", margin: 0, color: "var(--text-color)" }}>
+                        <p
+                          style={{
+                            fontSize: "18px",
+                            fontWeight: "bold",
+                            margin: 0,
+                            color: "var(--text-color)",
+                          }}
+                        >
                           {bus.time}
-                          <span style={{ fontSize: "12px", fontWeight: "normal", color: "var(--text-sub-color)", marginLeft: "4px" }}>
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              fontWeight: "normal",
+                              color: "var(--text-sub-color)",
+                              marginLeft: "4px",
+                            }}
+                          >
                             {t("Bus.Departure")}
                           </span>
-                          <span style={{ fontSize: "12px", color: "var(--text-sub-color)", fontWeight: "normal" }}> →</span>{" "}
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "var(--text-sub-color)",
+                              fontWeight: "normal",
+                            }}
+                          >
+                            {" "}
+                            →
+                          </span>{" "}
                           {bus.arrivalTime}
-                          <span style={{ fontSize: "12px", fontWeight: "normal", color: "var(--text-sub-color)", marginLeft: "4px" }}>
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              fontWeight: "normal",
+                              color: "var(--text-sub-color)",
+                              marginLeft: "4px",
+                            }}
+                          >
                             {t("Bus.Arrival")}
                           </span>
                         </p>
                       </div>
                       <div style={{ textAlign: "right" }}>
                         {!isPast ? (
-                          <p style={{ fontSize: "14px", color: "var(--text-sub-color)", margin: 0 }}>
+                          <p
+                            style={{
+                              fontSize: "14px",
+                              color: "var(--text-sub-color)",
+                              margin: 0,
+                            }}
+                          >
                             {(() => {
                               const diffMin = dayjs(`2000-01-01 ${bus.isoTime}`).diff(
                                 dayjs(`2000-01-01 ${nowTimeStr}`),
@@ -223,7 +264,15 @@ export default function BusStatus() {
                             })()}
                           </p>
                         ) : (
-                          <p style={{ fontSize: "12px", color: "var(--text-sub-color)", margin: 0 }}>{t("Bus.Departed")}</p>
+                          <p
+                            style={{
+                              fontSize: "12px",
+                              color: "var(--text-sub-color)",
+                              margin: 0,
+                            }}
+                          >
+                            {t("Bus.Departed")}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -236,7 +285,12 @@ export default function BusStatus() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                style={{ fontSize: "13px", color: "var(--text-sub-color)", padding: "10px 0", textAlign: "center" }}
+                style={{
+                  fontSize: "13px",
+                  color: "var(--text-sub-color)",
+                  padding: "10px 0",
+                  textAlign: "center",
+                }}
               >
                 {t("Bus.NoBuses")}
               </motion.p>

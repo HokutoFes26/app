@@ -5,6 +5,7 @@ import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { api, Question } from "@/lib/Server/api";
 import { useData } from "@/contexts/DataContext";
+import dayjs from "dayjs";
 import "@/components/Admin/Admin.css";
 import "@/styles/global-app.css";
 
@@ -146,14 +147,23 @@ export default function QAManager() {
         {pendingQuestions.length > 0 ? (
           pendingQuestions.map((q, index) => (
             <React.Fragment key={q.id}>
-              {index !== 0 && <Divider />}
-              <div style={{ textAlign: "left", padding: "20px 0" }}>
-                <h4 style={{ margin: "0 0 10px 0", whiteSpace: "normal" }}>{q.text}</h4>
-                <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+              {index !== 0 && <Divider margin="20px 0" height="0px" />}
+              <div style={{ textAlign: "left", padding: "0 0 20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <p style={{ fontSize: "14px", color: "var(--text-sub-color)" }}>
+                    <span style={{ color: "#007AFF", marginRight: "8px" }}>Q:</span>
+                    {q.text}
+                  </p>
+                  <p style={{ fontSize: "16px", color: "var(--text-sub-color)", margin: 0 }}>
+                    {dayjs(q.created_at).format("H:mm")}
+                  </p>
+                </div>
+                <div style={{ display: "flex", gap: "10px", margin: "4px 0 10px" }}>
                   <Input
                     placeholder="回答を入力..."
                     value={replies[q.id] || ""}
                     onChange={(e) => setReplies((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                    size="large"
                   />
                   <Button
                     type={isSuccess ? "default" : "primary"}
@@ -161,11 +171,12 @@ export default function QAManager() {
                     className="main-push-btn"
                     loading={loading}
                     disabled={isSuccess}
+                    size="large"
                   >
                     {isSuccess ? "返信完了！" : "返信"}
                   </Button>
                 </div>
-                <Button size="small" danger onClick={() => handleDelete(q.id, q.text)}>
+                <Button danger onClick={() => handleDelete(q.id, q.text)}>
                   削除
                 </Button>
               </div>
@@ -176,28 +187,42 @@ export default function QAManager() {
             未回答の質問はありません
           </p>
         )}
-        <p className="section-text" style={{ fontWeight: "bold" }}>
+        <p className="section-text" style={{ fontWeight: "bold", textAlign: "left" }}>
           回答済みの質問 ({answeredQuestions.length}件)
         </p>
         {answeredQuestions.length > 0 ? (
           answeredQuestions.map((q, index) => (
             <React.Fragment key={q.id}>
+              {index !== 0 && <Divider margin="20px 0" height="0px" />}
               <div
                 key={q.id}
                 style={{
                   textAlign: "left",
-                  padding: "15px",
-                  background: "var(--mainCanvas-color)",
-                  borderRadius: "8px",
-                  marginTop: "5%",
                 }}
               >
                 <div style={{ textAlign: "left" }}>
-                  <p style={{ fontSize: "11px", color: "#666" }}>
-                    <span style={{ color: "#007AFF", marginRight: "8px" }}>Q:</span>
-                    {q.text}
-                  </p>
-                  <p style={{ fontSize: "11px", color: "#666", whiteSpace: "pre-wrap" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p style={{ fontSize: "14px", color: "var(--text-sub-color)" }}>
+                      <span style={{ color: "#007AFF", marginRight: "8px" }}>Q:</span>
+                      {q.text}
+                    </p>
+                    <p style={{ fontSize: "16px", color: "var(--text-sub-color)", margin: 0 }}>
+                      {dayjs(q.created_at).format("H:mm")}
+                    </p>
+                  </div>
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      color: "var(--text-sub-color)",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
                     <span style={{ color: "#ff4d4f", marginRight: "8px" }}>A:</span>
                     {q.answer}
                   </p>

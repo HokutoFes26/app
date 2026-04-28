@@ -35,12 +35,16 @@ export default function NewsStatus({ onlyHot = false, hotTime = 10 }: { onlyHot?
 
   return (
     <CardBase
-      title={onlyHot ? `${t("CardTitles.NEWS")} / ${t("Time.HotNews", { count: hotTime })}` : t("CardTitles.NEWS")}
+      title={
+        onlyHot ? `${t("CardTitles.NEWS")} / ${t("Time.HotNews", { count: hotTime })}` : t("CardTitles.NEWS")
+      }
     >
       <CardInside>
         {isLoading ? (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>Loading...</p>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
+              Loading...
+            </p>
           </SubList>
         ) : (
           <div style={{ position: "relative" }}>
@@ -79,24 +83,55 @@ export default function NewsStatus({ onlyHot = false, hotTime = 10 }: { onlyHot?
                             }}
                           >
                             {item.isHot && !onlyHot && (
-                              <span style={{ marginRight: "8px", color: "#ff4d4f" }}>{t("Common.HotNews")}</span>
+                              <span style={{ marginRight: "8px", color: "#ff4d4f" }}>
+                                {t("Common.HotNews")}
+                              </span>
                             )}
                             {item.title}
                           </span>
-                          <p style={{ fontSize: "16px", color: "var(--text-sub-color)", margin: 0, textAlign: "right" }}>
-                            {dayjs(item.created_at).format("HH:mm")}
+                          <p
+                            style={{
+                              fontSize: "16px",
+                              color: "var(--text-sub-color)",
+                              margin: 0,
+                              textAlign: "right",
+                            }}
+                          >
+                            {dayjs(item.created_at).format("H:mm")}
                           </p>
                         </div>
-                        <p style={{ fontSize: "14px", color: "var(--text-sub-color)", margin: "0 0 8px 0", whiteSpace: "pre-wrap" }}>{item.content}</p>
-                        {item.edit_reason && <p className="edited-text">編集済み: {item.edit_reason}</p>}
+                        <p
+                          style={{
+                            fontSize: "14px",
+                            color: "var(--text-sub-color)",
+                            margin: "0 0 8px 0",
+                            whiteSpace: "pre-wrap",
+                          }}
+                        >
+                          {item.content}
+                        </p>
+                        {item.edit_reason && (
+                          <p className="edited-text">編集済み: {item.edit_reason}</p>
+                        )}
                       </div>
                     </SubList>
                   </motion.div>
                 ))
               ) : (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ padding: "20px 0" }}>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  style={{ padding: "20px 0" }}
+                >
                   <SubList>
-                    <p style={{ fontSize: "14px", color: "var(--text-sub-color)", textAlign: "center", width: "100%" }}>
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        color: "var(--text-sub-color)",
+                        textAlign: "center",
+                        width: "100%",
+                      }}
+                    >
                       {t("News.NoData")}
                     </p>
                   </SubList>

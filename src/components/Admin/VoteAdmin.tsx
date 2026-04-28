@@ -127,8 +127,8 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
         key={cat}
         title={categoryLabels[cat] || cat}
         SubjectUpdated={
-          <span style={{ fontSize: "11px", color: "var(--text-sub-color)", marginRight: "10px" }}>
-            最終: {lastUpdatedStr}
+          <span style={{ fontSize: "12px", color: "var(--text-sub-color)", marginRight: "2em" }}>
+            更新: {lastUpdatedStr}
           </span>
         }
       >

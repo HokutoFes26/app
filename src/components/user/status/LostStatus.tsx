@@ -18,7 +18,9 @@ export default function LostStatus() {
       <CardInside>
         {isLoading ? (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>読み込み中...</p>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
+              読み込み中...
+            </p>
           </SubList>
         ) : items.length > 0 ? (
           items.map((item, index) => (
@@ -26,10 +28,18 @@ export default function LostStatus() {
               {index !== 0 && <Divider margin="20px 0" height="0px" />}
               <SubList>
                 <div style={{ textAlign: "left", width: "100%" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <p style={{ fontSize: "16px", fontWeight: "bold", margin: "0 0 4px 0" }}>{item.name}</p>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p style={{ fontSize: "16px", fontWeight: "bold", margin: "0 0 4px 0" }}>
+                      {item.name}
+                    </p>
                     <p style={{ fontSize: "16px", color: "var(--text-sub-color)", margin: 0 }}>
-                      {dayjs(item.created_at).format("HH:mm")}
+                      {dayjs(item.created_at).format("H:mm")}
                     </p>
                   </div>
                   <div
@@ -39,7 +49,9 @@ export default function LostStatus() {
                       alignItems: "center",
                     }}
                   >
-                    <p style={{ fontSize: "12px", color: "var(--text-sub-color)", margin: 0 }}>場所: {item.place}</p>
+                    <p style={{ fontSize: "12px", color: "var(--text-sub-color)", margin: 0 }}>
+                      場所: {item.place}
+                    </p>
                   </div>
                   {item.edit_reason && <p className="edited-text">編集済み: {item.edit_reason}</p>}
                 </div>

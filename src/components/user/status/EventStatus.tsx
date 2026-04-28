@@ -20,9 +20,9 @@ export default function EventStatus() {
   const { t } = useTranslation();
   const [filterMode, setFilterMode] = useState<"hour" | "all">("hour");
   const { currentTime } = useAppTime();
-  const nowTimeStr = currentTime.format("HH:mm");
+  const nowTimeStr = currentTime.format("H:mm");
   const currentDate = currentTime.date();
-  const oneHourLaterStr = currentTime.add(1, "hour").format("HH:mm");
+  const oneHourLaterStr = currentTime.add(1, "hour").format("H:mm");
 
   const filteredEvents = useMemo(() => {
     const dayKey = currentDate === 24 ? "day2" : "day1";
@@ -114,9 +114,22 @@ export default function EventStatus() {
                     }}
                   >
                     {index !== 0 && <Divider margin="20px 0" height="0px" />}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "flex-start",
+                      }}
+                    >
                       <div>
-                        <h4 style={{ color: "var(--text-color)", margin: 0, fontSize: "18px", fontWeight: "600" }}>
+                        <h4
+                          style={{
+                            color: "var(--text-color)",
+                            margin: 0,
+                            fontSize: "18px",
+                            fontWeight: "600",
+                          }}
+                        >
                           {event.name}
                         </h4>
                       </div>
@@ -136,7 +149,14 @@ export default function EventStatus() {
                           NOW
                         </span>
                       ) : isUpcoming ? (
-                        <span style={{ fontSize: "16px", fontWeight: "500", color: "var(--text-sub-color)", margin: "auto 0" }}>
+                        <span
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "500",
+                            color: "var(--text-sub-color)",
+                            margin: "auto 0",
+                          }}
+                        >
                           {(() => {
                             const diffMin = dayjs(`2000-01-01 ${event.start}`).diff(
                               dayjs(`2000-01-01 ${nowTimeStr}`),
@@ -150,7 +170,14 @@ export default function EventStatus() {
                           })()}
                         </span>
                       ) : (
-                        <span style={{ fontSize: "16px", fontWeight: "500", color: "var(--text-sub-color)", margin: "auto 0" }}>
+                        <span
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "500",
+                            color: "var(--text-sub-color)",
+                            margin: "auto 0",
+                          }}
+                        >
                           終了
                         </span>
                       )}

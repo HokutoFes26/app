@@ -26,15 +26,13 @@ export default function BoothAdminPage() {
     }
   }, [isAdmin, router]);
 
-  const [selectedStall, setSelectedStall] = useState("");
-
   useEffect(() => {
     const id = searchParams.get("id");
     const token = searchParams.get("token");
     const stallName = Object.keys(BOOTH_IDS).find(name => BOOTH_IDS[name] === id);
 
     const checkAuth = async (stallId: string, name: string) => {
-      if (token && !isStallAdmin) {
+      if (token) {
         setLoading(true);
         const isValid = await verifyToken(stallId, token);
         if (isValid) {
@@ -52,11 +50,8 @@ export default function BoothAdminPage() {
     };
 
     if (stallName && id) {
-      setSelectedStall(stallName);
       checkAuth(id, stallName);
-    } else if (assignedStall) {
-      setSelectedStall(assignedStall);
-    } else {
+    } else if (!assignedStall) {
       if (!isAuthenticating && !isStallAdmin) {
         const timer = setTimeout(() => {
           if (!isStallAdmin) router.replace("/");

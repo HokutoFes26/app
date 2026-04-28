@@ -11,7 +11,7 @@ export default function Header() {
       <h1 className="title">Today</h1>
       <div className="date">
         <p className="day">{currentTime.format("YYYY/M/D")}</p>
-        <p className="time">{currentTime.format("HH:mm")}</p>
+        <p className="time">{currentTime.format("H:mm")}</p>
       </div>
     </div>
   );

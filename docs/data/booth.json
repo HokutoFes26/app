@@ -68,8 +68,12 @@
             "place": "テント番号15",
             "menu": [
                 {
-                    "content": "わたあめ",
-                    "price": 0
+                    "content": "プレーン味",
+                    "price": 300
+                },
+                {
+                    "content": "いちご味",
+                    "price": 300
                 }
             ],
             "image": "/app/img/booth/ヨット.jpg"
@@ -93,15 +97,15 @@
             "menu": [
                 {
                     "content": "揚げパン",
-                    "price": 0
+                    "price": 500
                 },
                 {
-                    "content": "いちごあめ",
-                    "price": 0
+                    "content": "フルーツ飴",
+                    "price": 800
                 },
                 {
                     "content": "ラムネ",
-                    "price": 0
+                    "price": 300
                 }
             ],
             "image": "/app/img/booth/水泳.jpg"
@@ -175,15 +179,15 @@
             "menu": [
                 {
                     "content": "冷抹茶",
-                    "price": 0
+                    "price": 200
                 },
                 {
                     "content": "和菓子「清流」",
-                    "price": 0
+                    "price": 250
                 },
                 {
                     "content": "セット",
-                    "price": 0
+                    "price": 400
                 }
             ],
             "image": "/app/img/booth/茶道部.jpg"
@@ -194,8 +198,8 @@
             "place": "奈古の浦会館2F和室",
             "menu": [
                 {
-                    "content": "",
-                    "price": 0
+                    "content": "清風茶会",
+                    "price": 500
                 }
             ],
             "image": "/app/img/booth/お茶会.jpg"
@@ -213,21 +217,29 @@
             "image": "/app/img/booth/新聞.jpg"
         },
         {
-            "name": "Cの誘惑",
+            "name": "コーヒー・クレープ",
             "team": "アントレプレナー同好会",
             "place": "テント番号16",
             "menu": [
                 {
-                    "content": "抹茶",
-                    "price": 0
+                    "content": "抹茶ブリュレ",
+                    "price": 700
                 },
                 {
-                    "content": "紅茶",
-                    "price": 0
+                    "content": "紅茶ブリュレ",
+                    "price": 700
                 },
                 {
-                    "content": "ほうじ茶・焼き芋",
-                    "price": 0
+                    "content": "ほうじ茶焼き芋ブリュレ",
+                    "price": 700
+                },
+                {
+                    "content": "アイスコーヒー",
+                    "price": 300
+                },
+                {
+                    "content": "ホットコーヒー",
+                    "price": 300
                 }
             ],
             "image": "/app/img/booth/アントレプレナー.jpg"

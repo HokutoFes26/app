@@ -5,6 +5,7 @@ import { Input, Button, App, Modal, Spin } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { api, NewsItem } from "@/lib/Server/api";
 import { useData } from "@/contexts/DataContext";
+import dayjs from "dayjs";
 import "@/components/Admin/Admin.css";
 
 export default function NewsManager() {
@@ -124,9 +125,16 @@ export default function NewsManager() {
   return (
     <CardBase title="News Manager (Admin)">
       <CardInside>
-        <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-          <p style={{ textAlign: "left", margin: 0 }}>新規配信</p>
-          <Input placeholder="タイトル" value={title} onChange={(e) => setTitle(e.target.value)} size="large" />
+        <div style={{ display: "flex", flexDirection: "column", gap: "15px", marginBottom: "10%" }}>
+          <p className="section-text" style={{ fontWeight: "bold", textAlign: "left" }}>
+            新規配信
+          </p>
+          <Input
+            placeholder="タイトル"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            size="large"
+          />
           <Input.TextArea
             placeholder="内容"
             rows={3}
@@ -146,30 +154,39 @@ export default function NewsManager() {
             {isSuccess ? "配信完了！" : "配信する"}
           </Button>
         </div>
-        <Divider />
-        <p style={{ textAlign: "left", margin: "20px 0 10px", paddingTop: "10%" }}>配信済みニュース</p>
+
+        <p className="section-text" style={{ fontWeight: "bold", textAlign: "left" }}>
+          配信済みニュース
+        </p>
         {news.length > 0 ? (
-          news.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                textAlign: "left",
-                padding: "10px",
-                background: "var(--mainCanvas-color)",
-                borderRadius: "8px",
-                marginTop: "5%",
-              }}
-            >
-              <p style={{ fontWeight: "bold", margin: 0 }}>{item.title}</p>
-              <p style={{ fontSize: "12px", color: "#666", margin: "4px 0" }}>{item.content}</p>
-              {item.edit_reason && <p className="edited-text">編集済み: {item.edit_reason}</p>}
-              <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
-                <Button onClick={() => startEdit(item)}>編集</Button>
-                <Button danger onClick={() => handleDelete(item.id, item.title)}>
-                  削除
-                </Button>
+          news.map((item, index) => (
+            <React.Fragment key={item.id}>
+              {index !== 0 && <Divider margin="20px 0" height="0px" />}
+              <div
+                key={item.id}
+                style={{
+                  textAlign: "left",
+                  marginTop: "1%",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <p style={{ fontSize: "16px", margin: 0 }}>{item.title}</p>
+                  <p style={{ fontSize: "16px", color: "var(--text-sub-color)", margin: 0 }}>
+                    {dayjs(item.created_at).format("H:mm")}
+                  </p>
+                </div>
+                <p style={{ fontSize: "13px", color: "var(--text-sub-color)", margin: "4px 0" }}>
+                  {item.content}
+                </p>
+                {item.edit_reason && <p className="edited-text">編集済み: {item.edit_reason}</p>}
+                <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
+                  <Button onClick={() => startEdit(item)}>編集</Button>
+                  <Button danger onClick={() => handleDelete(item.id, item.title)}>
+                    削除
+                  </Button>
+                </div>
               </div>
-            </div>
+            </React.Fragment>
           ))
         ) : (
           <p style={{ fontSize: "12px", color: "#999", textAlign: "center", padding: "20px" }}>

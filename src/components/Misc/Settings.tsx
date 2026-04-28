@@ -43,7 +43,9 @@ export default function Settings() {
       onOk: () => {
         localStorage.clear();
         document.cookie.split(";").forEach((c) => {
-          document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
         });
         window.location.reload();
       },
@@ -53,7 +55,7 @@ export default function Settings() {
   const SettingOptionFC = (title: string, children: React.ReactNode) => {
     return (
       <SubList>
-        <div className="cardRight othercardtext" style={{margin: "8px 0"}}>
+        <div className="cardRight othercardtext" style={{ margin: "8px 0" }}>
           <div className="subProp">
             <p>{title}</p>
             {children}
@@ -96,11 +98,19 @@ export default function Settings() {
 
         {SettingOptionFC(
           "Time",
-          <div style={{ display: "flex", flexDirection: "row", gap: "5px", width: "100%", justifyContent: "flex-end" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "5px",
+              width: "100%",
+              justifyContent: "flex-end",
+            }}
+          >
             <input
               type="datetime-local"
               style={{ fontSize: "12px", padding: "4px", borderRadius: "4px", border: "1px solid #ddd" }}
-              value={currentTime.format("YYYY-MM-DDTHH:mm")}
+              value={currentTime.format("YYYY-MM-DDTH:mm")}
               onChange={(e) => setCurrentTime(dayjs(e.target.value))}
             />
             {isMocked && (
