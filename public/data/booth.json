@@ -31,8 +31,16 @@
             "place": "テント番号5",
             "menu": [
                 {
-                    "content": "焼き鳥",
-                    "price": 0
+                    "content": "１本",
+                    "price": 150
+                },
+                {
+                    "content": "３本",
+                    "price": 400
+                },
+                {
+                    "content": "５本",
+                    "price": 750
                 }
             ],
             "image": "/img/booth/剣道.jpg"
@@ -91,7 +99,7 @@
             "image": "/img/booth/テニス.jpg"
         },
         {
-            "name": "揚げパン・いちごあめ・ラムネ",
+            "name": "揚げパン・フルーツ飴・ラムネ",
             "team": "水泳競技部",
             "place": "テント番号10",
             "menu": [
@@ -140,7 +148,7 @@
             "place": "テント番号18",
             "menu": [
                 {
-                    "content": "クロッフル",
+                    "content": "",
                     "price": 0
                 }
             ],
