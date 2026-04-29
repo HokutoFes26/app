@@ -188,6 +188,8 @@
     opacity 0.3s ease;
   opacity: 0;
   font-size: 0.95em;
+  margin-top: 8px;
+  line-height: 1.2em;
 }
 
 .accordionContent.expanded {
@@ -195,6 +197,22 @@
   opacity: 1;
   margin-top: 8px;
   line-height: 1.2em;
+}
+
+.menuGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  row-gap: 4px;
+  align-items: baseline;
+}
+
+.menuGrid span {
+  line-height: 1.2em;
+}
+
+.menuPrice {
+  white-space: nowrap;
 }
 
 .shareBtn {

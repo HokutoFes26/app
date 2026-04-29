@@ -11,7 +11,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import PollIcon from "@mui/icons-material/Poll";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import QrCodeIcon from "@mui/icons-material/QrCode";
-import { TabSelector } from "@/lib/TabSelector";
+import { TabSelector } from "@/lib/Misc/TabSelector";
 import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 
 const NewsManager = React.lazy(() => import("@/components/Admin/NewsManager"));

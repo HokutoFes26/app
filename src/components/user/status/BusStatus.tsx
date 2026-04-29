@@ -105,7 +105,7 @@ export default function BusStatus() {
             width: "80px",
           }}
         >
-          In 1 hour
+          {t("Bus.FilterHour")}
         </Radio.Button>
         <Radio.Button
           value="all"
@@ -119,7 +119,7 @@ export default function BusStatus() {
             width: "80px",
           }}
         >
-          All
+          {t("Bus.FilterAll")}
         </Radio.Button>
       </Radio.Group>
     </div>

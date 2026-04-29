@@ -5,6 +5,7 @@ import "@/styles/global-app.css";
 import Menu from "@/components/Layout/menu";
 import EventStatus from "@/components/user/status/EventStatus";
 import BoothStatus from "@/components/user/status/BoothStatus";
+import BoothStatusFavorite from "@/components/user/status/BoothStatusFavorite";
 import NewsStatus from "@/components/user/status/NewsStatus";
 import { useData } from "@/contexts/DataContext";
 import { useAppTime } from "@/contexts/TimeContext";
@@ -80,6 +81,7 @@ export default function UserPC() {
 
   const HotNews = hasHotNews ? <NewsStatus onlyHot={true} /> : null;
   const Events = <EventStatus />;
+  const BoothFavorite = <BoothStatusFavorite />;
   const Booth = <BoothStatus />;
   const BoothFirstHalf = <BoothStatus split="first" />;
   const BoothSecondHalf = <BoothStatus split="second" />;
@@ -111,6 +113,7 @@ export default function UserPC() {
         {columns === 4 && (
           <>
             <PCCanvasColumn width="25%">
+              {BoothFavorite}
               {BoothFirstHalf}
             </PCCanvasColumn>
             <PCCanvasColumn width="25%">{BoothSecondHalf}</PCCanvasColumn>
@@ -129,6 +132,7 @@ export default function UserPC() {
         {columns === 3 && (
           <>
             <PCCanvasColumn width="33.3%">
+              {BoothFavorite}
               {Booth}
             </PCCanvasColumn>
             <PCCanvasColumn width="33.3%">
@@ -147,6 +151,7 @@ export default function UserPC() {
           <>
             <PCCanvasColumn width="50%">
               {HotNews}
+              {BoothFavorite}
               {Booth}
               {News}
             </PCCanvasColumn>

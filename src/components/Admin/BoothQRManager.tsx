@@ -37,6 +37,7 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
       const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
       setQrData({ url, qrImg });
     } catch (e) {
+      console.error("[BoothQRManager] QR generation failed:", e);
       message.error("QRコードの生成に失敗しました");
     } finally {
       setLoading(false);
@@ -101,8 +102,33 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
                         <Button
                           type="primary"
                           onClick={() => {
-                            navigator.clipboard.writeText(qrData.url);
-                            message.success("URLをコピーしました");
+                            const doCopy = async () => {
+                              try {
+                                if (navigator.clipboard && navigator.clipboard.writeText) {
+                                  await navigator.clipboard.writeText(qrData.url);
+                                  message.success("URLをコピーしました");
+                                } else {
+                                  throw new Error("Clipboard API not supported");
+                                }
+                              } catch (err) {
+                                const textArea = document.createElement("textarea");
+                                textArea.value = qrData.url;
+                                textArea.style.position = "fixed";
+                                textArea.style.opacity = "0";
+                                document.body.appendChild(textArea);
+                                textArea.focus();
+                                textArea.select();
+                                try {
+                                  document.execCommand("copy");
+                                  message.success("URLをコピーしました");
+                                } catch (fallbackErr) {
+                                  message.error("コピーに失敗しました");
+                                } finally {
+                                  document.body.removeChild(textArea);
+                                }
+                              }
+                            };
+                            doCopy();
                           }}
                         >
                           URLをコピー

@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, SubList, Divider } from "@/components/Layout/CardComp";
-import { api, StatusLevel, supabase } from "@/lib/Server/api";
+import { api, StatusLevel } from "@/lib/Server/api";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import dayjs from "dayjs";
-
 import { useFavorites } from "@/lib/Misc/useFavorites";
 
 const TrafficLight = ({
@@ -53,7 +52,7 @@ const LegendItem = ({ level, crowd, stock }: { level: StatusLevel; crowd: string
   </div>
 );
 
-export default function BoothStatus({ split }: { split?: "first" | "second" }) {
+export default function BoothStatusFavorite() {
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
@@ -67,12 +66,14 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   const { favorites, toggleFavorite, mounted } = useFavorites();
 
   const statuses = useMemo(() => {
-    const sortedStatuses = [...allStatuses].sort((a, b) => Number(a.id) - Number(b.id));
+    return allStatuses
+      .filter(status => favorites.includes(status.stallName))
+      .sort((a, b) => Number(a.id) - Number(b.id));
+  }, [allStatuses, favorites]);
 
-    if (!split) return sortedStatuses;
-    const mid = Math.ceil(sortedStatuses.length / 2);
-    return split === "first" ? sortedStatuses.slice(0, mid) : sortedStatuses.slice(mid);
-  }, [allStatuses, split]);
+  if (!mounted) {
+    return null;
+  }
 
   const handleStallClick = (stallName: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -146,24 +147,19 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
 
   return (
     <CardBase
-      title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`}
+      title={`${t("CardTitles.BOOTHFAV")}`}
       SubjectUpdated={LiveStatus}
        disableTapAnimation={true}
     >
       <CardInside>
-        <div style={{ display: "flex", justifyContent: "space-evenly", gap: "10px" }}>
-          <LegendItem level={0} crowd={t("Booth.Crowd.Green")} stock={t("Booth.Stock.Green")} />
-          <LegendItem level={1} crowd={t("Booth.Crowd.Yellow")} stock={t("Booth.Stock.Yellow")} />
-          <LegendItem level={2} crowd={t("Booth.Crowd.Red")} stock={t("Booth.Stock.Red")} />
-        </div>
 
-        <div style={{ display: "flex", padding: "12px 5% 0", fontSize: "12px", color: "var(--clock-color)" }}>
+        <div style={{ display: "flex", padding: "0 5%", fontSize: "12px", color: "var(--clock-color)" }}>
           <div style={{ flex: 1, textAlign: "left" }}>{t("Booth.Name")}</div>
           <div style={{ width: "50px", textAlign: "right" }}>{t("Booth.CrowdLabel")}</div>
           <div style={{ width: "50px", textAlign: "right" }}>{t("Booth.StockLabel")}</div>
         </div>
 
-        {isLoading || !mounted ? (
+        {isLoading ? (
           <SubList>
             <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
               Loading...
@@ -189,12 +185,11 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
                       onClick={(e) => toggleFavorite(e, status.stallName)} 
                       style={{ 
                         cursor: "pointer", 
-                        color: favorites.includes(status.stallName) ? "#faad14" : "var(--text-sub-color)",
+                        color: "#faad14",
                         fontSize: "18px",
-                        opacity: favorites.includes(status.stallName) ? 1 : 0.4
                       }}
                     >
-                      {favorites.includes(status.stallName) ? "★" : "☆"}
+                      ★
                     </span>
                     {status.stallName}
                   </span>
@@ -219,8 +214,8 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
           ))
         ) : (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
-              {t("Booth.NoData")}
+            <p style={{ fontSize: "14px", color: "var(--text-sub-color)", textAlign: "center", width: "100%", padding: "10px 0" }}>
+              {t("Booth.NoFav")}
             </p>
           </SubList>
         )}

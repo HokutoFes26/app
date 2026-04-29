@@ -2,6 +2,7 @@
   "CardTitles": {
     "EVENTS": "イベント",
     "BOOTH": "模擬店",
+    "BOOTHFAV": "模擬店 (お気に入り)",
     "BUS": "バス",
     "NEWS": "お知らせリスト",
     "LOST_FOUND": "落とし物",
@@ -13,7 +14,7 @@
     "Departure": "発",
     "Arrival": "着",
     "FilterHour": "1時間以内",
-    "FilterAll": "すべて表示",
+    "FilterAll": "すべて",
     "Destinations": "行き先",
     "From": "乗場",
     "To": "降場",
@@ -50,7 +51,12 @@
     "NoData": "模擬店情報がありません",
     "EmptyAvailable": "空き / あり",
     "BusyFew": "やや混雑 / 少なめ",
-    "CrowdedSoldOut": "混雑 / 品切れ"
+    "CrowdedSoldOut": "混雑 / 品切れ",
+    "NoFav" : "☆ をタップしてお気に入りに追加",
+    "Details": "タップして詳細",
+    "Share": "共有する",
+    "ViewMap": "地図で見る",
+    "ViewMenu": "メニューを見る"
   },
   "LostFound": {
     "NoItems": "落とし物はありません",

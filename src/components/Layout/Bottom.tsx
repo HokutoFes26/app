@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { TabSelector, initSwipeHandlers, initIndicatorDrag } from "@/lib/TabSelector";
+import { TabSelector, initSwipeHandlers, initIndicatorDrag } from "@/lib/Misc/TabSelector";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";

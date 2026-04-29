@@ -21,8 +21,6 @@ export default function EventStatus() {
   const [filterMode, setFilterMode] = useState<"hour" | "all">("hour");
   const { currentTime } = useAppTime();
   const currentDate = currentTime.date();
-
-  // イベントの時間を当日の日付と組み合わせたdayjsオブジェクトに変換するヘルパー
   const getEventTime = (timeStr: string) => {
     return dayjs(currentTime.format("YYYY-MM-DD") + " " + timeStr);
   };
@@ -36,8 +34,6 @@ export default function EventStatus() {
       if (filterMode === "all") return true;
       const start = getEventTime(e.start);
       const end = getEventTime(e.end);
-
-      // 10:10:00になった瞬間に isOngoing は false になる
       const isOngoing = (currentTime.isAfter(start) || currentTime.isSame(start)) && currentTime.isBefore(end);
       const isUpcoming = start.isAfter(currentTime) && (start.isBefore(oneHourLater) || start.isSame(oneHourLater));
       return isOngoing || isUpcoming;
@@ -72,7 +68,7 @@ export default function EventStatus() {
             justifyContent: "center",
           }}
         >
-          In 1 hour
+          {t("Bus.FilterHour")}
         </Radio.Button>
         <Radio.Button
           value="all"
@@ -90,7 +86,7 @@ export default function EventStatus() {
             justifyContent: "center",
           }}
         >
-          All
+          {t("Bus.FilterAll")}
         </Radio.Button>
       </Radio.Group>
     </div>

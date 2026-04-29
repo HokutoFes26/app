@@ -2,6 +2,7 @@
   "CardTitles": {
     "EVENTS": "Events",
     "BOOTH": "Booth",
+    "BOOTHFAV": "Booth (Favorites)",
     "BUS": "Bus",
     "NEWS": "News",
     "LOST_FOUND": "Lost",
@@ -50,7 +51,12 @@
     "EmptyAvailable": "Empty / Available",
     "BusyFew": "Busy / Few",
     "CrowdedSoldOut": "Crowded / Sold out",
-    "NoData": "No booth information"
+    "NoData": "No booth information",
+    "NoFav": "Tap the ☆ to add to favorites",
+    "Details": "Tap for details",
+    "Share": "Share",
+    "ViewMap": "View Map",
+    "ViewMenu": "View Menu"
   },
   "LostFound": {
     "NoItems": "No items found",

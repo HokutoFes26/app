@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getPath } from "@/constants/paths";
 import styles from "./BoothDetailModal.module.css";
@@ -30,6 +31,7 @@ interface BoothDetailModalProps {
 }
 
 export default function BoothDetailModal({ item }: BoothDetailModalProps) {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
@@ -147,7 +149,7 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
                       <p className={styles.value}>{item.place}&ensp;</p>
                       {mapControl && (
                         <p style={{ color: "#174ef5", textDecoration: "underline" }} className={styles.mapLink}>
-                          地図で見る ↗
+                          {t("Booth.ViewMap")} ↗
                         </p>
                       )}
                     </div>
@@ -164,32 +166,31 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
                     {isAccordion ? (
                       <>
                         <div className={styles.accordionHeader} onClick={() => setIsMenuExpanded(!isMenuExpanded)}>
-                          <p className={styles.value}>メニューを見る ({item.menu.length}件)</p>
+                          <p className={styles.value}>{t("Booth.ViewMenu")} ({item.menu.length}件)</p>
                           <ExpandMoreIcon
                             className={`${styles.accordionIcon} ${isMenuExpanded ? styles.expanded : ""}`}
                           />
                         </div>
                         <div className={`${styles.accordionContent} ${isMenuExpanded ? styles.expanded : ""}`}>
-                          {item.menu.map((item_menu, index) => (
-                            <div
-                              key={index}
-                              style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "4px" }}
-                            >
-                              <p className={styles.value}>
-                                {item_menu.content} : {item_menu.price}円
-                              </p>
-                            </div>
-                          ))}
+                          <div className={styles.menuGrid}>
+                            {item.menu.map((item_menu, index) => (
+                              <React.Fragment key={index}>
+                                <span className={styles.value}>{item_menu.content}</span>
+                                <span className={`${styles.value} ${styles.menuPrice}`}>{item_menu.price}円</span>
+                              </React.Fragment>
+                            ))}
+                          </div>
                         </div>
                       </>
                     ) : (
-                      item.menu.map((item_menu, index) => (
-                        <div key={index} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                          <p className={styles.value}>
-                            {item_menu.content} : {item_menu.price}円
-                          </p>
-                        </div>
-                      ))
+                      <div className={styles.menuGrid}>
+                        {item.menu.map((item_menu, index) => (
+                          <React.Fragment key={index}>
+                            <span className={styles.value}>{item_menu.content}</span>
+                            <span className={`${styles.value} ${styles.menuPrice}`}>{item_menu.price}円</span>
+                          </React.Fragment>
+                        ))}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -197,7 +198,7 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
             </div>
             <button className={styles.shareBtn} onClick={handleShare}>
               <ShareOutlinedIcon style={{ fontSize: "20px" }} />
-              共有する
+              {t("Booth.Share")}
             </button>
           </div>
         </div>

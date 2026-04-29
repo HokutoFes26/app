@@ -4,6 +4,7 @@ import React, { Suspense, useState, useMemo } from "react";
 import BottomNavigator from "@/components/Layout/Bottom";
 import EventStatus from "@/components/user/status/EventStatus";
 import BoothStatus from "@/components/user/status/BoothStatus";
+import BoothStatusFavorite from "@/components/user/status/BoothStatusFavorite";
 import NewsStatus from "@/components/user/status/NewsStatus";
 import { useAppTime } from "@/contexts/TimeContext";
 import { useData } from "@/contexts/DataContext";
@@ -73,6 +74,7 @@ export default function UserPhone() {
         </PCCanvasColumn>
         {!isStallAdmin && (
           <PCCanvasColumn>
+            <BoothStatusFavorite />
             <BoothStatus />
           </PCCanvasColumn>
         )}
