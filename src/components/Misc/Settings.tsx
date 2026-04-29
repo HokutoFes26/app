@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { CardBase, CardInside, SubList } from "@/components/Layout/CardComp";
 import DarkSwitch from "@/components/Misc/DarkSwitch";
-import { Select, Button as AntButton, Modal, Switch } from "antd";
+import { Select, Button as AntButton, Modal, Switch, DatePicker } from "antd";
 import { languages } from "@/lib/Data/DataPack";
 import { useTranslation } from "react-i18next";
 import enUS from "antd/lib/locale/en_US";
@@ -18,6 +18,7 @@ export default function Settings() {
   const theme = useTheme();
   const { currentTime, setCurrentTime, resetTime, isMocked } = useAppTime();
   const { isAdmin, isStallAdmin, setRole } = useRole();
+  const [tempTime, setTempTime] = useState<dayjs.Dayjs | null>(null);
   if (!theme) return <></>;
   const { localeLang, setLocaleLang } = theme;
 
@@ -43,9 +44,7 @@ export default function Settings() {
       onOk: () => {
         localStorage.clear();
         document.cookie.split(";").forEach((c) => {
-          document.cookie = c
-            .replace(/^ +/, "")
-            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+          document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
         });
         window.location.reload();
       },
@@ -107,11 +106,20 @@ export default function Settings() {
               justifyContent: "flex-end",
             }}
           >
-            <input
-              type="datetime-local"
-              style={{ fontSize: "12px", padding: "4px", borderRadius: "4px", border: "1px solid #ddd" }}
-              value={currentTime.format("YYYY-MM-DDTH:mm")}
-              onChange={(e) => setCurrentTime(dayjs(e.target.value))}
+            <DatePicker
+              showTime
+              value={tempTime || currentTime}
+              onChange={(date) => setTempTime(date)}
+              onOk={(date) => {
+                if (date) {
+                  setCurrentTime(date);
+                  setTempTime(null);
+                }
+              }}
+              onOpenChange={(open) => {
+                if (open) setTempTime(currentTime);
+                else setTempTime(null);
+              }}
             />
             {isMocked && (
               <AntButton size="small" onClick={resetTime} danger type="text">

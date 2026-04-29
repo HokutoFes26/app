@@ -85,6 +85,7 @@
   "Event": {
     "Finished": "Finished",
     "NoData": "No events in 1 hour",
+    "NoEvent": "No Events",
     "Now": "NOW"
   },
   "News": {

@@ -38,5 +38,5 @@ test
 database
 handover
 
-*.sql
+SQL/backup
 src/constants/booth-ids.ts

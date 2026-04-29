@@ -7,6 +7,8 @@ import { api, StatusLevel, supabase } from "@/lib/Server/api";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import StarOutlineRoundedIcon from "@mui/icons-material/StarOutlineRounded";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import dayjs from "dayjs";
 
 import { useFavorites } from "@/lib/Misc/useFavorites";
@@ -63,7 +65,7 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
   } = useData();
   const { isAdmin, isStallAdmin, assignedStall } = useRole();
   const allStatuses = fetchedData?.stalls || [];
-  
+
   const { favorites, toggleFavorite, mounted } = useFavorites();
 
   const statuses = useMemo(() => {
@@ -148,7 +150,7 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
     <CardBase
       title={`${t("CardTitles.BOOTH")}${split === "first" ? " (1/2)" : split === "second" ? " (2/2)" : ""}`}
       SubjectUpdated={LiveStatus}
-       disableTapAnimation={true}
+      disableTapAnimation={true}
     >
       <CardInside>
         <div style={{ display: "flex", justifyContent: "space-evenly", gap: "10px" }}>
@@ -165,9 +167,7 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
 
         {isLoading || !mounted ? (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
-              Loading...
-            </p>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>Loading...</p>
           </SubList>
         ) : statuses.length > 0 ? (
           statuses.map((status, index) => (
@@ -184,21 +184,38 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
                   }}
                   onClick={() => handleStallClick(status.stallName)}
                 >
-                  <span style={{ fontSize: "16px", fontWeight: "700", color: "var(--text-color)", display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span 
-                      onClick={(e) => toggleFavorite(e, status.stallName)} 
-                      style={{ 
-                        cursor: "pointer", 
+                  <span
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "700",
+                      color: "var(--text-color)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      margin: "auto 0",
+                      width: "100%",
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <span
+                      onClick={(e) => toggleFavorite(e, status.stallName)}
+                      style={{
+                        display: "flex",
+                        cursor: "pointer",
                         color: favorites.includes(status.stallName) ? "#faad14" : "var(--text-sub-color)",
-                        fontSize: "18px",
-                        opacity: favorites.includes(status.stallName) ? 1 : 0.4
+                        fontSize: "20px",
+                        opacity: favorites.includes(status.stallName) ? 1 : 0.4,
                       }}
                     >
-                      {favorites.includes(status.stallName) ? "★" : "☆"}
+                      {favorites.includes(status.stallName) ? (
+                        <StarRoundedIcon fontSize="inherit" />
+                      ) : (
+                        <StarOutlineRoundedIcon fontSize="inherit" />
+                      )}
                     </span>
                     {status.stallName}
                   </span>
-                  <span style={{ fontSize: "9px", color: "#676767", marginLeft: "24px" }}>{t("Booth.Details")}</span>
+                  <span style={{ fontSize: "9px", color: "#676767", marginLeft: "26px" }}>{t("Booth.Details")}</span>
                 </div>
                 <div style={{ width: "50px", display: "flex", justifyContent: "center" }}>
                   <TrafficLight
@@ -219,9 +236,7 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
           ))
         ) : (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
-              {t("Booth.NoData")}
-            </p>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>{t("Booth.NoData")}</p>
           </SubList>
         )}
       </CardInside>

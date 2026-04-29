@@ -85,6 +85,7 @@
   "Event": {
     "Finished": "終了済み",
     "NoData": "1時間以内にイベントはありません",
+    "NoEvent": "イベントはありません",
     "Now": "NOW"
   },
   "News": {

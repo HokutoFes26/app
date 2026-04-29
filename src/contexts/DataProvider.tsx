@@ -5,12 +5,18 @@ import { DataContext, DataContextType } from "./DataContext";
 import { supabase, api, StallStatus, NewsItem, LostItem, Question } from "@/lib/Server/api";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useMapControl } from "@/contexts/MapContext";
+import stallsData from "@/../public/data/booth.json";
 
 dayjs.extend(customParseFormat);
 
 const FETCH_INTERVAL_MS = 30000;
 const FULL_REFRESH_FREQ = 3;
+const staticStallNameMap: Record<number | string, string> = {};
+[...stallsData.L1, ...stallsData.L2, ...stallsData.L3, ...stallsData.L4].forEach((s: any) => {
+  if (s.id) staticStallNameMap[s.id] = s.name;
+});
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,18 +28,25 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [isStallsLive, setIsStallsLive] = useState(false);
   const isStallsLiveRef = useRef(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const mapControl = useMapControl();
+
+  const isMapOpen = mapControl?.isMapOpen || false;
+  const isBoothModalOpen = !!searchParams.get("booth-info");
   const isVotePage = pathname?.startsWith("/vote");
   const isAdminPage = pathname?.includes("/admin") || pathname?.includes("/booth");
-  const isPollingSuspended = isAdminPage || isVotePage;
 
-  const isVotePageRef = useRef(isVotePage);
+  const isSuspended = isAdminPage || isVotePage || isMapOpen || isBoothModalOpen;
+
+  const isSuspendedRef = useRef(isSuspended);
   useEffect(() => {
-    isVotePageRef.current = isVotePage;
-  }, [isVotePage]);
+    isSuspendedRef.current = isSuspended;
+  }, [isSuspended]);
 
   const isInitialRefreshStarted = useRef(false);
   const refreshCycle = useRef(0);
   const lastFetchTime = useRef(0);
+  const stallNameMap = useRef<Record<number | string, string>>({});
 
   const parseCompactDate = (compactDateStr: string) => {
     if (!compactDateStr) return new Date().toISOString();
@@ -43,8 +56,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const performRefresh = async (forceFull = false) => {
-    if (isVotePageRef.current) {
-      console.log("[DataProvider] Refresh blocked (Currently on Vote page)");
+    if (isSuspendedRef.current) {
+      console.log("[DataProvider] Refresh blocked (App is suspended or modal is open)");
       return;
     }
     const isFullRefresh = forceFull || refreshCycle.current % FULL_REFRESH_FREQ === 0;
@@ -67,12 +80,18 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (allData.s) {
           setStalls(
-            allData.s.map((row: any) => ({
-              id: row.i,
-              stallName: row.n,
-              crowdLevel: row.c,
-              stockLevel: row.l,
-            })),
+            allData.s.map((row: any) => {
+              const id = row.i;
+              const name = staticStallNameMap[id] || row.n || stallNameMap.current[id] || `Stall ${id}`;
+              if (row.n) stallNameMap.current[id] = row.n;
+
+              return {
+                id: id,
+                stallName: name,
+                crowdLevel: row.c,
+                stockLevel: row.l,
+              };
+            }),
           );
         }
         if (isFullRefresh) {
@@ -117,7 +136,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    if (isVotePage) {
+    if (isSuspended) {
       setIsStallsLive(false);
       isStallsLiveRef.current = false;
       return;
@@ -129,7 +148,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         const updatedRow = payload.new as any;
         setStalls((currentStalls) =>
           currentStalls.map((s) =>
-            s.stallName === updatedRow.stall_name
+            s.id === updatedRow.id
               ? { ...s, crowdLevel: updatedRow.crowd_level, stockLevel: updatedRow.stock_level }
               : s,
           ),
@@ -141,7 +160,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         isStallsLiveRef.current = isLive;
       });
 
-    const tables = ["news", "lost_items", "questions"];
+    const tables = ["news"];
     const otherChannels = tables.map((tableName) =>
       supabase
         .channel(`${tableName}-changes`)
@@ -155,11 +174,11 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       supabase.removeChannel(stallChannel);
       otherChannels.forEach((ch) => supabase.removeChannel(ch));
     };
-  }, [isVotePage]);
+  }, [isSuspended]);
 
   useEffect(() => {
     if (isInitialRefreshStarted.current) return;
-    if (isVotePage) return;
+    if (isSuspended) return;
     isInitialRefreshStarted.current = true;
     performRefresh(true);
 
@@ -168,21 +187,21 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         const now = Date.now();
         const diff = now - lastFetchTime.current;
         if (diff > FETCH_INTERVAL_MS) {
-          if (!isPollingSuspended) performRefresh(false);
+          if (!isSuspended) performRefresh(false);
         }
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [isPollingSuspended, isVotePage]);
+  }, [isSuspended]);
 
   useEffect(() => {
-    if (isPollingSuspended) return;
+    if (isSuspended) return;
 
     const jitter = Math.floor(Math.random() * 5000);
     const timer = setInterval(() => performRefresh(), FETCH_INTERVAL_MS + jitter);
     return () => clearInterval(timer);
-  }, [isPollingSuspended]);
+  }, [isSuspended]);
 
   const value: DataContextType = {
     api: {

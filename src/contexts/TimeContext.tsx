@@ -13,8 +13,15 @@ interface TimeContextType {
 const TimeContext = createContext<TimeContextType | undefined>(undefined);
 
 export function TimeProvider({ children }: { children: ReactNode }) {
-  const defaultMockTime = process.env.NEXT_PUBLIC_MOCK_TIME ? dayjs(process.env.NEXT_PUBLIC_MOCK_TIME) : null;
-  const [mockTime, setMockTime] = useState<Dayjs | null>(defaultMockTime);
+  const getInitialMockTime = () => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("app_mock_time");
+      if (stored) return dayjs(stored);
+    }
+    return process.env.NEXT_PUBLIC_MOCK_TIME ? dayjs(process.env.NEXT_PUBLIC_MOCK_TIME) : null;
+  };
+
+  const [mockTime, setMockTime] = useState<Dayjs | null>(getInitialMockTime);
   const [realTime, setRealTime] = useState(() => dayjs());
 
   useEffect(() => {
@@ -26,10 +33,16 @@ export function TimeProvider({ children }: { children: ReactNode }) {
 
   const setCurrentTime = useCallback((time: Dayjs) => {
     setMockTime(time);
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("app_mock_time", time.toISOString());
+    }
   }, []);
 
   const resetTime = useCallback(() => {
     setMockTime(null);
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("app_mock_time");
+    }
     setRealTime(dayjs());
   }, []);
 

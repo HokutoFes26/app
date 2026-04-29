@@ -8,6 +8,7 @@ import busData from "@/../public/data/bus.json";
 import { useAppTime } from "@/contexts/TimeContext";
 import dayjs from "dayjs";
 import { motion, AnimatePresence } from "framer-motion";
+import NoTransferRoundedIcon from "@mui/icons-material/NoTransferRounded";
 
 const allStops = Array.from(new Set([...busData.HongoToImizu.route, ...busData.ImizuToHongo.route]));
 
@@ -314,20 +315,26 @@ export default function BusStatus() {
                 );
               })
             ) : (
-              <motion.p
-                key="no-buses"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                style={{
-                  fontSize: "13px",
-                  color: "var(--text-sub-color)",
-                  padding: "10px 0",
-                  textAlign: "center",
-                }}
-              >
-                {t("Bus.NoBuses")}
-              </motion.p>
+                <motion.p
+                  key="no-buses"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    fontSize: "13px",
+                    color: "var(--text-sub-color)",
+                    padding: "10px 0",
+                    textAlign: "center",
+                    margin: "auto",
+                    width: "100%",
+                    alignItems: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <NoTransferRoundedIcon style={{ fontSize: "20px", margin: "auto 8px auto 0" }} />
+                  {t("Bus.NoBuses")}
+                </motion.p>
             )}
           </AnimatePresence>
         </div>

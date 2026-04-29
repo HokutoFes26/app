@@ -9,6 +9,8 @@ import { useData } from "@/contexts/DataContext";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import dayjs from "dayjs";
 import { useFavorites } from "@/lib/Misc/useFavorites";
+import StarOutlineRoundedIcon from "@mui/icons-material/StarOutlineRounded";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
 
 const TrafficLight = ({
   level,
@@ -62,12 +64,12 @@ export default function BoothStatusFavorite() {
   } = useData();
   const { isAdmin, isStallAdmin, assignedStall } = useRole();
   const allStatuses = fetchedData?.stalls || [];
-  
+
   const { favorites, toggleFavorite, mounted } = useFavorites();
 
   const statuses = useMemo(() => {
     return allStatuses
-      .filter(status => favorites.includes(status.stallName))
+      .filter((status) => favorites.includes(status.stallName))
       .sort((a, b) => Number(a.id) - Number(b.id));
   }, [allStatuses, favorites]);
 
@@ -146,13 +148,8 @@ export default function BoothStatusFavorite() {
   );
 
   return (
-    <CardBase
-      title={`${t("CardTitles.BOOTHFAV")}`}
-      SubjectUpdated={LiveStatus}
-       disableTapAnimation={true}
-    >
+    <CardBase title={`${t("CardTitles.BOOTHFAV")}`} SubjectUpdated={LiveStatus} disableTapAnimation={true}>
       <CardInside>
-
         <div style={{ display: "flex", padding: "0 5%", fontSize: "12px", color: "var(--clock-color)" }}>
           <div style={{ flex: 1, textAlign: "left" }}>{t("Booth.Name")}</div>
           <div style={{ width: "50px", textAlign: "right" }}>{t("Booth.CrowdLabel")}</div>
@@ -161,9 +158,7 @@ export default function BoothStatusFavorite() {
 
         {isLoading ? (
           <SubList>
-            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>
-              Loading...
-            </p>
+            <p style={{ fontSize: "14px", color: "#999", textAlign: "center", width: "100%" }}>Loading...</p>
           </SubList>
         ) : statuses.length > 0 ? (
           statuses.map((status, index) => (
@@ -180,16 +175,26 @@ export default function BoothStatusFavorite() {
                   }}
                   onClick={() => handleStallClick(status.stallName)}
                 >
-                  <span style={{ fontSize: "16px", fontWeight: "700", color: "var(--text-color)", display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span 
-                      onClick={(e) => toggleFavorite(e, status.stallName)} 
-                      style={{ 
-                        cursor: "pointer", 
+                  <span
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "700",
+                      color: "var(--text-color)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    <span
+                      onClick={(e) => toggleFavorite(e, status.stallName)}
+                      style={{
+                        display: "flex",
+                        cursor: "pointer",
                         color: "#faad14",
                         fontSize: "18px",
                       }}
                     >
-                      ★
+                      <StarRoundedIcon fontSize="inherit" />
                     </span>
                     {status.stallName}
                   </span>
@@ -214,7 +219,15 @@ export default function BoothStatusFavorite() {
           ))
         ) : (
           <SubList>
-            <p style={{ fontSize: "14px", color: "var(--text-sub-color)", textAlign: "center", width: "100%", padding: "10px 0" }}>
+            <p
+              style={{
+                fontSize: "14px",
+                color: "var(--text-sub-color)",
+                textAlign: "center",
+                width: "100%",
+                padding: "10px 0",
+              }}
+            >
               {t("Booth.NoFav")}
             </p>
           </SubList>

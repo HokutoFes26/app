@@ -1,0 +1,8 @@
+-- Realtime
+BEGIN;
+  DROP PUBLICATION IF EXISTS supabase_realtime;
+  CREATE PUBLICATION supabase_realtime FOR TABLE stalls_status, news;
+COMMIT;
+
+ALTER TABLE stalls_status REPLICA IDENTITY FULL;
+ALTER TABLE news REPLICA IDENTITY FULL;

@@ -9,6 +9,7 @@ import { useAppTime } from "@/contexts/TimeContext";
 import dayjs from "dayjs";
 import { motion, AnimatePresence } from "framer-motion";
 import MusicPlayerBar from "@/components/Layout/MusicPlayerBar";
+import EventBusyRoundedIcon from "@mui/icons-material/EventBusyRounded";
 
 interface Event {
   name: string;
@@ -123,14 +124,15 @@ export default function EventStatus() {
               filteredEvents.map((event, index) => {
                 const start = getEventTime(event.start);
                 const end = getEventTime(event.end);
-                
-                const isOngoing = (currentTime.isAfter(start) || currentTime.isSame(start)) && currentTime.isBefore(end);
+
+                const isOngoing =
+                  (currentTime.isAfter(start) || currentTime.isSame(start)) && currentTime.isBefore(end);
                 const isFinished = currentTime.isAfter(end) || currentTime.isSame(end);
                 const isUpcoming = start.isAfter(currentTime);
 
                 const newIndex = newIndexMap.get(event.name);
                 const isNewItem = newIndex !== undefined;
-                const enterDelay = isNewItem ? 0.1 + newIndex * 0.06: 0;
+                const enterDelay = isNewItem ? 0.1 + newIndex * 0.06 : 0;
 
                 return (
                   <motion.div
@@ -242,7 +244,21 @@ export default function EventStatus() {
                 );
               })
             ) : (
-              <p style={{ color: "#888", textAlign: "center", padding: "20px 0" }}>No Events</p>
+              <p
+                style={{
+                  color: "var(--text-sub-color)",
+                  textAlign: "center",
+                  padding: "20px 0",
+                  margin: "auto",
+                  width: "100%",
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <EventBusyRoundedIcon style={{ fontSize: "20px", margin: "auto 8px auto 0" }} />
+                {t("Event.NoEvent")}
+              </p>
             )}
           </AnimatePresence>
         </div>
