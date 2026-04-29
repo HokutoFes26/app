@@ -41,11 +41,11 @@ export default function ClientProviders({ children }: { children: ReactNode }) {
         <TimeProvider>
           <RoleProvider>
             <ThemeProvider>
-              <DataWrapper>
-                <MapWrapper>
+              <MapWrapper>
+                <DataWrapper>
                   <AntdApp>{children}</AntdApp>
-                </MapWrapper>
-              </DataWrapper>
+                </DataWrapper>
+              </MapWrapper>
             </ThemeProvider>
           </RoleProvider>
         </TimeProvider>

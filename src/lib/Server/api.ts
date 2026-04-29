@@ -289,13 +289,20 @@ export const api = {
 
     submitVote: async (targetId: string, category: string) => {
       const voterId = api.voting.getVoterId();
-      const { data, error } = await supabase.rpc("vote_for_target", {
-        p_voter_id: voterId,
-        p_target_id: targetId,
-        p_category: category,
+      const response = await fetch("/api/vote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ targetId, category, voterId }),
       });
-      if (error) throw error;
-      return data;
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to submit vote");
+      }
+
+      return await response.json();
     },
 
     getResults: async () => {

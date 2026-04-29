@@ -28,20 +28,9 @@ function CardBase(props: {
 }
 
 function CardTitle(props: { title: string }) {
-  const { isAdmin, isStallAdmin } = useRole();
-  const theme = useTheme();
-  const isDark = theme?.isDarkMode || false;
-  const titleRed = isDark ? "#ff5c53" : "#FF3B30";
-  const titleBlue = isDark ? "#46a2ff" : "#007AFF";
-  const firstCharColor = isAdmin || isStallAdmin ? titleRed : titleBlue;
-
   return (
     <div className="cardTitle">
-      {/* <p>
-        <span style={{ color: firstCharColor }}>{props.title.slice(0, 1)}</span>
-        <span>{props.title.slice(1)}</span> */}
-        <p>{props.title}</p>
-      {/* </p> */}
+      <p>{props.title}</p>
     </div>
   );
 }
@@ -116,7 +105,16 @@ function CardInside(props: { className?: string; children: React.ReactNode; styl
 }
 
 function Divider(props: { margin?: string; height?: string }) {
-  return <div style={{backgroundColor: "var(--border-color)", height: props.height || "2px", width: "100%", margin: props.margin || "16px 0"}}></div>;
+  return (
+    <div
+      style={{
+        backgroundColor: "var(--border-color)",
+        height: props.height || "2px",
+        width: "100%",
+        margin: props.margin || "16px 0",
+      }}
+    ></div>
+  );
 }
 
 export { CardBase, CardInside, SubList, Divider };

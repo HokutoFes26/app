@@ -8,7 +8,13 @@
     "LOST_FOUND": "落とし物",
     "QA": "Q & A",
     "SETTINGS": "設定",
+    "VOTE": "人気投票",
     "UPDATES": "アップデート"
+  },
+  "Vote": {
+    "Title": "投票受付中！",
+    "Description": "お気に入りの模擬店や展示に投票しよう！",
+    "Button": "投票ページへ"
   },
   "Bus": {
     "Departure": "発",

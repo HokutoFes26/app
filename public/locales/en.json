@@ -8,7 +8,13 @@
     "LOST_FOUND": "Lost",
     "QA": "Q & A",
     "SETTINGS": "Settings",
+    "VOTE": "Voting",
     "UPDATES": "Update"
+  },
+  "Vote": {
+    "Title": "Voting Open!",
+    "Description": "Vote for your favorite booths and exhibitions!",
+    "Button": "Go to Vote Page"
   },
   "Bus": {
     "Departure": "Departure",

@@ -8,15 +8,13 @@ import React, { useEffect } from "react";
 import FullPageLoader from "@/components/Layout/FullPageLoader";
 import { useRouter } from "next/navigation";
 
-const AdminPC = React.lazy(() => import("@/app/admin/_components/AdminPC"));
-const AdminPhone = React.lazy(() => import("@/app/admin/_components/AdminPhone"));
+const AdminView = React.lazy(() => import("@/app/admin/_components/AdminView"));
 
 export default function AdminPage() {
   const { setRole, isAdmin, isStallAdmin, isAuthenticating } = useRole();
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const isMobile = AspectDetector();
   const router = useRouter();
 
   useEffect(() => {
@@ -53,9 +51,9 @@ export default function AdminPage() {
 
   if (isAdmin) {
     return (
-      <div className={isMobile ? "mode-phone" : "mode-pc"}>
-        <Suspense fallback={<FullPageLoader />}>{isMobile ? <AdminPhone /> : <AdminPC />}</Suspense>
-      </div>
+      <Suspense fallback={<FullPageLoader />}>
+        <AdminView />
+      </Suspense>
     );
   }
 

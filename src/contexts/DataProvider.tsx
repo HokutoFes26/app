@@ -22,7 +22,14 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [isStallsLive, setIsStallsLive] = useState(false);
   const isStallsLiveRef = useRef(false);
   const pathname = usePathname();
+  const isVotePage = pathname?.startsWith("/vote");
   const isAdminPage = pathname?.includes("/admin") || pathname?.includes("/booth");
+  const isPollingSuspended = isAdminPage || isVotePage;
+
+  const isVotePageRef = useRef(isVotePage);
+  useEffect(() => {
+    isVotePageRef.current = isVotePage;
+  }, [isVotePage]);
 
   const isInitialRefreshStarted = useRef(false);
   const refreshCycle = useRef(0);
@@ -36,6 +43,10 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const performRefresh = async (forceFull = false) => {
+    if (isVotePageRef.current) {
+      console.log("[DataProvider] Refresh blocked (Currently on Vote page)");
+      return;
+    }
     const isFullRefresh = forceFull || refreshCycle.current % FULL_REFRESH_FREQ === 0;
     const currentTTL = FETCH_INTERVAL_MS - 1000;
 
@@ -106,6 +117,12 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    if (isVotePage) {
+      setIsStallsLive(false);
+      isStallsLiveRef.current = false;
+      return;
+    }
+
     const stallChannel = supabase
       .channel("stalls-changes")
       .on("postgres_changes", { event: "UPDATE", schema: "public", table: "stalls_status" }, (payload) => {
@@ -138,10 +155,11 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       supabase.removeChannel(stallChannel);
       otherChannels.forEach((ch) => supabase.removeChannel(ch));
     };
-  }, []);
+  }, [isVotePage]);
 
   useEffect(() => {
     if (isInitialRefreshStarted.current) return;
+    if (isVotePage) return;
     isInitialRefreshStarted.current = true;
     performRefresh(true);
 
@@ -150,21 +168,21 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         const now = Date.now();
         const diff = now - lastFetchTime.current;
         if (diff > FETCH_INTERVAL_MS) {
-          if (!isAdminPage) performRefresh(false);
+          if (!isPollingSuspended) performRefresh(false);
         }
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [isAdminPage]);
+  }, [isPollingSuspended, isVotePage]);
 
   useEffect(() => {
-    if (isAdminPage) return;
+    if (isPollingSuspended) return;
 
     const jitter = Math.floor(Math.random() * 5000);
     const timer = setInterval(() => performRefresh(), FETCH_INTERVAL_MS + jitter);
     return () => clearInterval(timer);
-  }, [isAdminPage]);
+  }, [isPollingSuspended]);
 
   const value: DataContextType = {
     api: {

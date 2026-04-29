@@ -1,6 +1,4 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Kosugi&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kosugi&family=Outfit:wght@100..900&display=swap");
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+JP:wght@100..900&display=swap'); */
 
 html {
   overflow: hidden;
@@ -39,8 +37,6 @@ html {
   --scheme: light;
   --screen-width: 100dvw;
 
-  --pop-main-color: #95c202;
-
   display: block;
   box-sizing: border-box;
   font-family: "Inter", "Noto Sans JP", sans-serif !important;
@@ -77,8 +73,6 @@ div {
 }
 
 p {
-  /* font-size: 1rem !important; */
-  /* color: var(--text-color) !important; */
   margin: 1em 0;
 }
 a {
@@ -105,7 +99,6 @@ a:hover {
   font-size: 3.4em;
   font-weight: 600;
   color: var(--header-text);
-  /* color: var(--mainCanvas-color); */
   font-family: "Outfit", "Noto Sans JP", sans-serif !important;
 }
 
@@ -129,22 +122,6 @@ a:hover {
   font-size: 3em !important;
   font-weight: 700 !important;
   font-family: "Inter", sans-serif !important;
-}
-
-.pc-view {
-  display: block;
-}
-
-.phone-view {
-  display: none;
-}
-
-.mode-phone .pc-view {
-  display: none;
-}
-
-.mode-phone .phone-view {
-  display: block;
 }
 
 .mainCards,
@@ -241,15 +218,6 @@ div,
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   padding: 0;
-}
-
-.mode-phone .map-float-btn {
-  position: relative !important;
-  width: 64px !important;
-  height: 64px !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  border-radius: 9999px !important;
 }
 
 .map-float-btn svg {
@@ -633,6 +601,7 @@ div,
     bottom: 10px;
     border-radius: 24px;
   }
+
   .app-share {
     display: none;
   }
@@ -648,5 +617,16 @@ div,
 
   .map-float-btn span {
     font-size: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .map-float-btn {
+    position: relative !important;
+    width: 64px !important;
+    height: 64px !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    border-radius: 9999px !important;
   }
 }

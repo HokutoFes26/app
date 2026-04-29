@@ -10,8 +10,7 @@ import { verifyToken } from "@/lib/Misc/QRAuth";
 import { BOOTH_IDS } from "@/constants/booth-ids";
 import { api } from "@/lib/Server/api";
 
-const AdminPC = React.lazy(() => import("@/app/admin/_components/AdminPC"));
-const AdminPhone = React.lazy(() => import("@/app/admin/_components/AdminPhone"));
+const AdminView = React.lazy(() => import("@/app/admin/_components/AdminView"));
 
 export default function BoothAdminPage() {
   const { setRole, isStallAdmin, isAdmin, assignedStall, isAuthenticating } = useRole();
@@ -19,7 +18,6 @@ export default function BoothAdminPage() {
   const [error, setError] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
-  const isMobile = AspectDetector();
 
   useEffect(() => {
     if (isAdmin) {
@@ -74,9 +72,9 @@ export default function BoothAdminPage() {
 
   if (isStallAdmin && assignedStall) {
     return (
-      <div className={isMobile ? "mode-phone" : "mode-pc"}>
-        <Suspense fallback={<FullPageLoader />}>{isMobile ? <AdminPhone /> : <AdminPC />}</Suspense>
-      </div>
+      <Suspense fallback={<FullPageLoader />}>
+        <AdminView />
+      </Suspense>
     );
   }
 

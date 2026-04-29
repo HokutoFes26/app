@@ -85,7 +85,6 @@ export default function MusicPlayerBar({
             style={{
               width: "100%",
               height: "100%",
-              // filter: isOngoing ? `drop-shadow(0 0 4px ${neonLime}) drop-shadow(0 0 4px ${neonLime})` : "none",
               display: "flex",
               alignItems: "center",
             }}

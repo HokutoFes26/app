@@ -63,15 +63,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     api: {
       fetchedData: {
         stalls: randomStalls,
-        news: [
-          // {
-          //   id: "1",
-          //   title: "バグ修正",
-          //   content: "iPhoneでのみ発生したマップを全画面表示できないバグを修正しました。",
-          //   created_at: nowStrMinus10,
-          //   edit_reason: "",
-          // },
-        ],
+        news: [],
         lostItems: [
           {
             id: "1",
