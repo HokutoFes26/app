@@ -1,16 +1,14 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Select, Tag, Radio } from "antd";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
-import busData from "@/../public/data/bus.json";
+import { loadJSON } from "@/lib/Data/JSONLoader";
 import { useAppTime } from "@/contexts/TimeContext";
 import dayjs from "dayjs";
 import { motion, AnimatePresence } from "framer-motion";
 import NoTransferRoundedIcon from "@mui/icons-material/NoTransferRounded";
-
-const allStops = Array.from(new Set([...busData.HongoToImizu.route, ...busData.ImizuToHongo.route]));
 
 interface BusTrip {
   time: string;
@@ -22,17 +20,28 @@ interface BusTrip {
 
 export default function BusStatus() {
   const { t } = useTranslation();
+  const [busData, setBusData] = useState<any>(null);
   const { currentTime } = useAppTime();
-  const nowTimeStr = currentTime.format("H:mm");
-  const oneHourLaterStr = currentTime.add(1, "hour").format("H:mm");
-  const isAfternoon = nowTimeStr >= "12:00";
+
+  useEffect(() => {
+    loadJSON("bus").then(setBusData);
+  }, []);
+
+  const allStops = useMemo(() => {
+    if (!busData || !busData.HongoToImizu || !busData.ImizuToHongo) return [];
+    return Array.from(new Set([...busData.HongoToImizu.route, ...busData.ImizuToHongo.route]));
+  }, [busData]);
+
+  const nowTimeStr = currentTime.format("HH:mm");
+  const oneHourLaterStr = currentTime.add(1, "hour").format("HH:mm");
+  const isAfternoon = currentTime.hour() >= 12;
   const [fromStop, setFromStop] = useState(isAfternoon ? "射水キャンパス 発" : "富山駅北口 発");
   const [toStop, setToStop] = useState(isAfternoon ? "富山駅北口 着" : "射水キャンパス 着");
   const [lastAutoPeriod, setLastAutoPeriod] = useState(isAfternoon ? "PM" : "AM");
   const [filterMode, setFilterMode] = useState<"hour" | "all">("hour");
 
   React.useEffect(() => {
-    const currentPeriod = nowTimeStr >= "12:00" ? "PM" : "AM";
+    const currentPeriod = currentTime.hour() >= 12 ? "PM" : "AM";
     if (currentPeriod !== lastAutoPeriod) {
       if (currentPeriod === "PM") {
         setFromStop("射水キャンパス 発");
@@ -52,6 +61,7 @@ export default function BusStatus() {
   };
 
   const filteredBuses = useMemo(() => {
+    if (!busData) return [];
     const results: BusTrip[] = [];
     const processRoute = (routeData: any, direction: "to-imizu" | "to-hongo") => {
       const fromIdx = routeData.route.indexOf(fromStop);
@@ -89,7 +99,7 @@ export default function BusStatus() {
     processRoute(busData.ImizuToHongo, "to-hongo");
 
     return results.sort((a, b) => a.isoTime.localeCompare(b.isoTime));
-  }, [fromStop, toStop, nowTimeStr, oneHourLaterStr, filterMode, t]);
+  }, [busData, fromStop, toStop, nowTimeStr, oneHourLaterStr, filterMode, t]);
 
   const FilterSwitcher = (
     <div style={{ marginRight: "16px" }}>

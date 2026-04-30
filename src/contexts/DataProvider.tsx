@@ -7,16 +7,12 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useMapControl } from "@/contexts/MapContext";
-import stallsData from "@/../public/data/booth.json";
+import { loadJSON } from "@/lib/Data/JSONLoader";
 
 dayjs.extend(customParseFormat);
 
 const FETCH_INTERVAL_MS = 30000;
 const FULL_REFRESH_FREQ = 3;
-const staticStallNameMap: Record<number | string, string> = {};
-[...stallsData.L1, ...stallsData.L2, ...stallsData.L3, ...stallsData.L4].forEach((s: any) => {
-  if (s.id) staticStallNameMap[s.id] = s.name;
-});
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -38,6 +34,16 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [lastUpdated, setLastUpdated] = useState<number>(Date.now());
   const [isStallsLive, setIsStallsLive] = useState(false);
   const isStallsLiveRef = useRef(false);
+
+  const staticStallNameMap = useRef<Record<number | string, string>>({});
+
+  useEffect(() => {
+    loadJSON("booth").then((data: any[]) => {
+      data.forEach((s) => {
+        if (s.id) staticStallNameMap.current[s.id] = s.name;
+      });
+    });
+  }, []);
 
   const isSuspendedRef = useRef(isSuspended);
   useEffect(() => {
@@ -83,7 +89,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           setStalls(
             allData.s.map((row: any) => {
               const id = row.i;
-              const name = staticStallNameMap[id] || row.n || stallNameMap.current[id] || `Stall ${id}`;
+              const name = staticStallNameMap.current[id] || row.n || stallNameMap.current[id] || `Stall ${id}`;
               if (row.n) stallNameMap.current[id] = row.n;
 
               return {

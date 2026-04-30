@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Radio } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
-import eventData from "@/../public/data/events.json";
+import { loadJSON } from "@/lib/Data/JSONLoader";
 import { useAppTime } from "@/contexts/TimeContext";
 import dayjs from "dayjs";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,13 +20,20 @@ interface Event {
 export default function EventStatus() {
   const { t } = useTranslation();
   const [filterMode, setFilterMode] = useState<"hour" | "all">("hour");
+  const [eventData, setEventData] = useState<any>(null);
   const { currentTime } = useAppTime();
+
+  useEffect(() => {
+    loadJSON("events").then(setEventData);
+  }, []);
+
   const currentDate = currentTime.date();
   const getEventTime = (timeStr: string) => {
     return dayjs(currentTime.format("YYYY-MM-DD") + " " + timeStr);
   };
 
   const filteredEvents = useMemo(() => {
+    if (!eventData) return [];
     const dayKey = currentDate === 24 ? "day2" : "day1";
     const events: Event[] = (eventData as any)[dayKey] || [];
     const oneHourLater = currentTime.add(1, "hour");
@@ -39,7 +46,7 @@ export default function EventStatus() {
       const isUpcoming = start.isAfter(currentTime) && (start.isBefore(oneHourLater) || start.isSame(oneHourLater));
       return isOngoing || isUpcoming;
     });
-  }, [currentTime, currentDate, filterMode]);
+  }, [currentTime, currentDate, filterMode, eventData]);
 
   const FilterSwitcher = (
     <div style={{ marginRight: "16px" }}>

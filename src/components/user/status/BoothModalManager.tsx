@@ -1,25 +1,23 @@
 "use client";
 
-import React, { useMemo, Suspense } from "react";
+import React, { useMemo, useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import BoothDetailModal, { BoothItem } from "./BoothDetailModal";
-import stallsData from "@/../public/data/booth.json";
-
-const allStalls: BoothItem[] = [
-  ...(stallsData.L1 || []),
-  ...(stallsData.L2 || []),
-  ...(stallsData.L3 || []),
-  ...(stallsData.L4 || []),
-];
+import { loadJSON } from "@/lib/Data/JSONLoader";
 
 function ModalContent() {
   const searchParams = useSearchParams();
   const selectedName = searchParams.get("booth-info");
+  const [allStalls, setAllStalls] = useState<BoothItem[]>([]);
+
+  useEffect(() => {
+    loadJSON("booth").then(setAllStalls);
+  }, []);
 
   const selectedBooth = useMemo(() => {
-    if (!selectedName) return null;
+    if (!selectedName || allStalls.length === 0) return null;
     return allStalls.find((s) => s.name === selectedName) || null;
-  }, [selectedName]);
+  }, [selectedName, allStalls]);
 
   if (!selectedBooth) return null;
 

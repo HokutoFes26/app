@@ -5,20 +5,18 @@ import { DataContext, DataContextType } from "@/contexts/DataContext";
 import { RoleContext } from "@/contexts/RoleContext";
 import { usePathname } from "next/navigation";
 import dayjs from "dayjs";
-import stallsData from "@/../public/data/booth.json";
-
-const allStalls = [
-  ...(stallsData.L1 || []),
-  ...(stallsData.L2 || []),
-  ...(stallsData.L3 || []),
-  ...(stallsData.L4 || []),
-];
+import { loadJSON } from "@/lib/Data/JSONLoader";
 
 export function DemoProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isDemoBooth = pathname === "/demo/booth";
   const [nowStr, setNowStr] = useState(dayjs().toISOString());
   const [nowStrMinus10, setNowStrMinus10] = useState("2026-05-23T10:10:00");
+  const [allStalls, setAllStalls] = useState<any[]>([]);
+
+  useEffect(() => {
+    loadJSON("booth").then(setAllStalls);
+  }, []);
 
   const [demoQuestions, setDemoQuestions] = useState([
     {

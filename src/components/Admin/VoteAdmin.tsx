@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Table, Tag, Space, Typography, App } from "antd";
 import { api } from "@/lib/Server/api";
+import { loadJSON } from "@/lib/Data/JSONLoader";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
@@ -56,8 +57,7 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
       // Fetch targets map if not already loaded
       if (Object.keys(globalTargetsMap).length === 0) {
         console.log("[VoteAdmin] Loading vote targets map...");
-        const res = await fetch("/data/vote.json");
-        const targets: any[] = await res.json();
+        const targets: any[] = await loadJSON("vote");
         const map: Record<string, string> = {};
         targets.forEach(t => { map[t.id] = t.name; });
         globalTargetsMap = map;

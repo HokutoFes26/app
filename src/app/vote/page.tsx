@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, App, Tag, Segmented, Space, Spin } from "antd";
 import { api, supabase, AppSetting } from "@/lib/Server/api";
+import { loadJSON } from "@/lib/Data/JSONLoader";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useRouter } from "next/navigation";
@@ -28,7 +29,7 @@ export default function VotePage() {
       try {
         console.log("[Vote] Fetching targets and config...");
         const [targetsRes, allData] = await Promise.all([
-          fetch("/data/vote.json").then((res) => res.json()),
+          loadJSON("vote"),
           api.fetchAllData(),
         ]);
 
