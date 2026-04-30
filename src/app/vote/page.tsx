@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Button, App, Tag, Segmented, Space, Spin } from "antd";
-import { api } from "@/lib/Server/api";
+import { api, supabase, AppSetting } from "@/lib/Server/api";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useRouter } from "next/navigation";
@@ -19,21 +19,34 @@ export default function VotePage() {
   const [targets, setTargets] = useState<VoteTarget[]>([]);
   const [category, setCategory] = useState<string>("stall");
   const [loading, setLoading] = useState(true);
-  const [votedCategories, setVotedCategories] = useState<string[]>([]);
+  const [votedItems, setVotedItems] = useState<Record<string, string>>({});
   const [votingId, setVotingId] = useState<string | null>(null);
+  const [timeStatus, setTimeStatus] = useState<{ canVote: boolean; message: string }>({ canVote: true, message: "" });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("[Vote] Fetching targets from local JSON...");
-        const response = await fetch("/data/vote.json");
-        if (!response.ok) throw new Error("Failed to load local vote data");
-        const data = await response.json();
-        console.log("[Vote] Targets loaded:", data);
-        setTargets(data || []);
+        console.log("[Vote] Fetching targets and config...");
+        const [targetsRes, allData] = await Promise.all([
+          fetch("/data/vote.json").then(res => res.json()),
+          api.fetchAllData()
+        ]);
+        
+        setTargets(targetsRes || []);
 
-        const voted = JSON.parse(localStorage.getItem("voted_categories") || "[]");
-        setVotedCategories(voted);
+        const { data: rawSettings } = await supabase.from("app_settings").select("*");
+        const startVal = (rawSettings as AppSetting[] | null)?.find(s => s.key === "vote_start_at")?.value_int;
+        const endVal = (rawSettings as AppSetting[] | null)?.find(s => s.key === "vote_end_at")?.value_int;
+        const nowSeconds = Math.floor(Date.now() / 1000);
+        
+        if (startVal !== undefined && startVal !== null && startVal !== 0 && nowSeconds < startVal) {
+          setTimeStatus({ canVote: false, message: `投票は ${new Date(startVal * 1000).toLocaleString("ja-JP")} に開始されます` });
+        } else if (endVal !== undefined && endVal !== null && nowSeconds > endVal) {
+          setTimeStatus({ canVote: false, message: "投票期間は終了しました" });
+        }
+
+        const voted = JSON.parse(localStorage.getItem("voted_items") || "{}");
+        setVotedItems(voted);
       } catch (e: any) {
         console.error("[Vote] Load error:", e.message);
         message.error("データの読み込みに失敗しました");
@@ -45,28 +58,28 @@ export default function VotePage() {
   }, [message]);
 
   const handleVote = async (target: VoteTarget) => {
-    if (votedCategories.includes(target.category)) {
-      message.warning("このカテゴリには既に投票済みです");
+    if (!timeStatus.canVote) {
+      message.error(timeStatus.message);
       return;
     }
-
     setVotingId(target.id);
     try {
       await api.voting.submitVote(target.id, target.category);
       message.success(`${target.name} に投票しました！`);
-      const newVoted = [...votedCategories, target.category];
-      setVotedCategories(newVoted);
-      localStorage.setItem("voted_categories", JSON.stringify(newVoted));
+      
+      const newVoted = { ...votedItems, [target.category]: target.id };
+      setVotedItems(newVoted);
+      localStorage.setItem("voted_items", JSON.stringify(newVoted));
     } catch (e: any) {
       console.error("[Vote] Vote error:", e.message);
-      message.error("投票に失敗しました");
+      message.error(e.message || "投票に失敗しました");
     } finally {
       setVotingId(null);
     }
   };
 
   const filteredTargets = targets.filter((t) => t.category === category);
-  const isVoted = votedCategories.includes(category);
+  const currentVotedId = votedItems[category];
 
   return (
     <div
@@ -112,8 +125,26 @@ export default function VotePage() {
               <p style={{ fontSize: "14px", color: "#666", marginBottom: "15px" }}>
                 模擬店や展示に投票しよう！
                 <br />
-                <span style={{ fontSize: "12px", color: "#ff4d4f" }}>各カテゴリ1回まで投票できます</span>
+                <span style={{ fontSize: "12px", color: "#ff4d4f" }}>何度でも投票し直すことができます（最新の1票が有効になります）</span>
               </p>
+
+              {!timeStatus.canVote && (
+                <div
+                  style={{
+                    background: "#fff2f0",
+                    border: "1px solid #ffccc7",
+                    padding: "10px",
+                    borderRadius: "8px",
+                    marginBottom: "20px",
+                    textAlign: "center",
+                    color: "#ff4d4f",
+                    fontWeight: "bold"
+                  }}
+                >
+                  {timeStatus.message}
+                </div>
+              )}
+
               <Segmented
                 block
                 size="large"
@@ -128,55 +159,50 @@ export default function VotePage() {
               />
             </div>
 
-            {isVoted && (
-              <div
-                style={{
-                  background: "#f6ffed",
-                  border: "1px solid #b7eb8f",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  marginBottom: "20px",
-                  textAlign: "center",
-                }}
-              >
-                <Tag color="success">投票済み</Tag>
-                <span style={{ color: "#52c41a", fontSize: "13px", marginLeft: "8px" }}>
-                  このカテゴリへの投票は完了しています
-                </span>
-              </div>
-            )}
-
             {loading ? (
               <div style={{ textAlign: "center", padding: "40px" }}>
                 <Spin size="large" />
               </div>
             ) : filteredTargets.length > 0 ? (
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {filteredTargets.map((item) => (
-                  <div
-                    key={item.id}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "15px",
-                      background: "#f9f9f9",
-                      borderRadius: "12px",
-                      border: "1px solid #eee",
-                    }}
-                  >
-                    <span style={{ fontWeight: "bold", fontSize: "15px" }}>{item.name}</span>
-                    <Button
-                      type={isVoted ? "default" : "primary"}
-                      disabled={isVoted}
-                      loading={votingId === item.id}
-                      onClick={() => handleVote(item)}
-                      style={{ borderRadius: "8px" }}
+                {filteredTargets.map((item) => {
+                  const isCurrentVoted = currentVotedId === item.id;
+                  return (
+                    <div
+                      key={item.id}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "15px",
+                        background: isCurrentVoted ? "#eee" : "#f9f9f9",
+                        borderRadius: "12px",
+                        border: isCurrentVoted ? "1px solid #ccc" : "1px solid #eee",
+                        opacity: isCurrentVoted ? 0.8 : 1,
+                      }}
                     >
-                      {isVoted ? "済み" : "投票"}
-                    </Button>
-                  </div>
-                ))}
+                      <Space>
+                        <span style={{ 
+                          fontWeight: "bold", 
+                          fontSize: "15px",
+                          color: isCurrentVoted ? "#888" : "inherit"
+                        }}>
+                          {item.name}
+                        </span>
+                        {isCurrentVoted && <Tag color="default">投票済み</Tag>}
+                      </Space>
+                      <Button
+                        type={isCurrentVoted ? "default" : "primary"}
+                        loading={votingId === item.id}
+                        disabled={isCurrentVoted || !timeStatus.canVote}
+                        onClick={() => handleVote(item)}
+                        style={{ borderRadius: "8px" }}
+                      >
+                        {isCurrentVoted ? "投票済み" : "投票"}
+                      </Button>
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <p style={{ textAlign: "center", color: "#999", padding: "40px" }}>対象のデータが見つかりませんでした</p>

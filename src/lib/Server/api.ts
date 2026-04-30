@@ -55,6 +55,13 @@ const cache: Record<string, CacheEntry<unknown>> = {};
 const pendingRequests: Record<string, Promise<unknown> | null> = {};
 let loginPromise: Promise<any> | null = null;
 
+export interface AppSetting {
+  key: string;
+  value_int: number | null;
+  value_text: string | null;
+  updated_at: string;
+}
+
 export const api = {
   auth: {
     loginAsAdmin: async (password: string) => {
@@ -288,21 +295,47 @@ export const api = {
     },
 
     submitVote: async (targetId: string, category: string) => {
-      const voterId = api.voting.getVoterId();
-      const response = await fetch("/api/vote", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ targetId, category, voterId }),
-      });
+      const { data: settings } = await supabase.from("app_settings").select("*");
+      const startSetting = (settings as AppSetting[] | null)?.find((s) => s.key === "vote_start_at")?.value_int;
+      const endSetting = (settings as AppSetting[] | null)?.find((s) => s.key === "vote_end_at")?.value_int;
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to submit vote");
+      const nowSeconds = Math.floor(Date.now() / 1000);
+      if (startSetting !== undefined && startSetting !== null && nowSeconds < startSetting) {
+        throw new Error("投票はまだ開始されていません");
+      }
+      if (endSetting !== undefined && endSetting !== null && nowSeconds > endSetting) {
+        throw new Error("投票期間は終了しました");
       }
 
-      return await response.json();
+      const RATE_LIMIT_KEY = "vote_timestamps";
+      const WINDOW_MS = 60 * 1000;
+      const MAX_VOTES = 5;
+
+      const now = Date.now();
+      const stored = localStorage.getItem(RATE_LIMIT_KEY);
+      let timestamps: number[] = stored ? JSON.parse(stored) : [];
+      timestamps = timestamps.filter((t) => now - t < WINDOW_MS);
+
+      if (timestamps.length >= MAX_VOTES) {
+        throw new Error("投票のリクエストが多すぎます。しばらく待ってから再度お試しください。");
+      }
+
+      const voterId = api.voting.getVoterId();
+      const { data, error } = await supabase.rpc("vote_for_target", {
+        p_voter_id: voterId,
+        p_target_id: targetId,
+        p_category: category,
+      });
+
+      if (error) {
+        console.error("[Vote] Supabase RPC Error:", error);
+        throw new Error(error.message || "Failed to submit vote");
+      }
+
+      timestamps.push(now);
+      localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(timestamps));
+
+      return { success: true, data };
     },
 
     getResults: async () => {

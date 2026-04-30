@@ -19,6 +19,7 @@ import PollIcon from "@mui/icons-material/Poll";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import QrCodeIcon from "@mui/icons-material/QrCode";
+import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 
 const NewsManager = React.lazy(() => import("@/components/Admin/NewsManager"));
 const BoothManager = React.lazy(() => import("@/components/Admin/BoothManager"));
@@ -29,7 +30,7 @@ const NewsStatus = React.lazy(() => import("@/components/user/status/NewsStatus"
 const VoteAdmin = React.lazy(() => import("@/components/Admin/VoteAdmin"));
 const BoothQRManager = React.lazy(() => import("@/components/Admin/BoothQRManager"));
 const Other = React.lazy(() => import("@/components/Layout/other"));
-const UserView = React.lazy(() => import("@/app/_components/UserView"));
+const ServerStatus = React.lazy(() => import("@/components/Admin/ServerStatus"));
 
 const FallbackLoader = ({ text = "Loading..." }: { text?: string }) => (
   <div style={{ textAlign: "center", padding: "20px", color: "var(--text-sub-color)" }}>{text}</div>
@@ -54,7 +55,7 @@ export default function AdminView() {
 
   useEffect(() => {
     if (isMobile) {
-      if (isStallAdmin || activeTab === "1" || activeTab === "2") {
+      if (isStallAdmin || activeTab === "1" || activeTab === "2" || activeTab === "5") {
         TabSelector(Number(subTab));
       } else if (activeTab === "3") {
         const canvas = document.getElementById("canvas");
@@ -74,51 +75,49 @@ export default function AdminView() {
 
   const managers = {
     News: (
-      <Suspense fallback={<FallbackLoader />}>
+      <Suspense key="news-mgr" fallback={<FallbackLoader />}>
         <NewsManager />
       </Suspense>
     ),
     QA: (
-      <Suspense fallback={<FallbackLoader />}>
+      <Suspense key="qa-mgr" fallback={<FallbackLoader />}>
         <QAManager />
       </Suspense>
     ),
     Lost: (
-      <Suspense fallback={<FallbackLoader />}>
+      <Suspense key="lost-mgr" fallback={<FallbackLoader />}>
         <LostManager />
       </Suspense>
     ),
     Booth: (
-      <Suspense fallback={<FallbackLoader />}>
+      <Suspense key="booth-mgr" fallback={<FallbackLoader />}>
         <BoothManager />
       </Suspense>
     ),
     Vote: (
-      <Suspense fallback={<FallbackLoader />}>
+      <Suspense key="vote-mgr" fallback={<FallbackLoader />}>
         <VoteAdmin />
       </Suspense>
     ),
     QR: (
-      <Suspense fallback={<FallbackLoader />}>
+      <Suspense key="qr-mgr" fallback={<FallbackLoader />}>
         <BoothQRManager />
       </Suspense>
     ),
     Other: (
-      <Suspense fallback={<FallbackLoader />}>
+      <Suspense key="other-mgr" fallback={<FallbackLoader />}>
         <Other />
       </Suspense>
     ),
     NewsStatus: (
-      <Suspense fallback={<FallbackLoader />}>
+      <Suspense key="news-status-mgr" fallback={<FallbackLoader />}>
         <NewsStatus />
       </Suspense>
     ),
-    UserPreview: (
-      <RoleProvider initialRole="user">
-        <Suspense fallback={<FallbackLoader />}>
-          <UserView />
-        </Suspense>
-      </RoleProvider>
+    Status: (
+      <Suspense key="status-mgr" fallback={<FallbackLoader />}>
+        <ServerStatus />
+      </Suspense>
     ),
   };
 
@@ -137,7 +136,7 @@ export default function AdminView() {
       if (columns >= 3) {
         return [[managers.News], [managers.QA], [managers.Lost]];
       }
-      return [[managers.News], [managers.QA, managers.Lost]];
+      return [[managers.News], [React.cloneElement(managers.QA, { key: "qa-col" }), React.cloneElement(managers.Lost, { key: "lost-col" })]];
     }
 
     if (activeTab === "2") {
@@ -155,8 +154,8 @@ export default function AdminView() {
       return [[managers.QR]];
     }
 
-    if (activeTab === "3" && !isMobile) {
-      return [[managers.UserPreview]];
+    if (activeTab === "5") {
+      return [[managers.Status]];
     }
 
     return [[]];
@@ -167,7 +166,7 @@ export default function AdminView() {
       key: "1",
       label: (
         <Space>
-          <SettingsIcon style={{ fontSize: isMobile ? "16px" : "18px" }} />
+          <SettingsIcon style={{ fontSize: isMobile ? "16px" : "18px", display: "flex" }} />
           {isMobile ? "管理" : "ダッシュボード"}
         </Space>
       ),
@@ -176,7 +175,7 @@ export default function AdminView() {
       key: "2",
       label: (
         <Space>
-          <PollIcon style={{ fontSize: isMobile ? "16px" : "18px" }} />
+          <PollIcon style={{ fontSize: isMobile ? "16px" : "18px", display: "flex" }} />
           {isMobile ? "集計" : "投票集計"}
         </Space>
       ),
@@ -185,24 +184,20 @@ export default function AdminView() {
       key: isMobile ? "3" : "4",
       label: (
         <Space>
-          <QrCodeIcon style={{ fontSize: isMobile ? "16px" : "18px" }} />
+          <QrCodeIcon style={{ fontSize: isMobile ? "16px" : "18px", display: "flex" }} />
           {isMobile ? "QR" : "模擬店QR生成"}
         </Space>
       ),
     },
-    ...(!isMobile
-      ? [
-          {
-            key: "3",
-            label: (
-              <Space>
-                <VisibilityIcon style={{ fontSize: "18px" }} />
-                利用者プレビュー
-              </Space>
-            ),
-          },
-        ]
-      : []),
+    {
+      key: "5",
+      label: (
+        <Space>
+          <CloudQueueIcon style={{ fontSize: isMobile ? "16px" : "18px", display: "flex" }} />
+          {isMobile ? "サーバー" : "サーバー"}
+        </Space>
+      ),
+    },
   ];
 
   const showBottomNav = isMobile && (isStallAdmin || activeTab === "1" || activeTab === "2");
@@ -279,10 +274,12 @@ export default function AdminView() {
               {column}
             </PCCanvasColumn>
           ))}
-          <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
-            <MapRoundedIcon style={{ fontSize: "48px" }} />
-            <span style={{ fontSize: "16px", fontWeight: "bold" }}>MAP</span>
-          </button>
+          {!isMobile && (
+            <button className="map-float-btn" onClick={() => setIsMapOpen(true)}>
+              <MapRoundedIcon style={{ fontSize: "48px" }} />
+              <span style={{ fontSize: "16px", fontWeight: "bold" }}>MAP</span>
+            </button>
+          )}
         </div>
       </div>
 

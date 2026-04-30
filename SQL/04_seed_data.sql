@@ -58,7 +58,11 @@ INSERT INTO vote_targets (name, category, display_order) VALUES
 ON CONFLICT (name) DO NOTHING;
 
 -- Server config
-INSERT INTO app_settings (key, value_int) VALUES
-('maintenance_mode', 0),
-('voting_enabled', 1)
-ON CONFLICT (key) DO NOTHING;
+INSERT INTO app_settings (key, value_int, value_text) VALUES
+('maintenance_mode', 0, NULL),
+('voting_enabled', 1, NULL),
+('vote_start_at', 0, '2026-04-30 00:00:00+09'),
+('vote_end_at', 2147483647, '2038-01-19 12:14:07+09')
+ON CONFLICT (key) DO UPDATE SET
+    value_int = EXCLUDED.value_int,
+    value_text = EXCLUDED.value_text;

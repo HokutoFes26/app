@@ -28,7 +28,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Vote
+-- Vote RPC
 CREATE OR REPLACE FUNCTION vote_for_target(
     p_voter_id TEXT,
     p_target_id UUID,
@@ -40,6 +40,26 @@ BEGIN
     VALUES (p_voter_id, p_target_id, p_category);
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Vote time
+CREATE OR REPLACE FUNCTION fn_sync_app_settings_time()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.value_text IS NOT NULL AND NEW.value_text ~ '^\d{4}-\d{2}-\d{2}' THEN
+        BEGIN
+            NEW.value_int := EXTRACT(EPOCH FROM NEW.value_text::timestamptz)::int;
+        EXCEPTION WHEN OTHERS THEN
+        END;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS tr_sync_app_settings_time ON app_settings;
+CREATE TRIGGER tr_sync_app_settings_time
+BEFORE INSERT OR UPDATE ON app_settings
+FOR EACH ROW
+EXECUTE FUNCTION fn_sync_app_settings_time();
 
 -- Vote results
 DROP VIEW IF EXISTS vote_results;

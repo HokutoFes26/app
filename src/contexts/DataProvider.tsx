@@ -19,14 +19,6 @@ const staticStallNameMap: Record<number | string, string> = {};
 });
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [stalls, setStalls] = useState<StallStatus[]>([]);
-  const [news, setNews] = useState<NewsItem[]>([]);
-  const [lostItems, setLostItems] = useState<LostItem[]>([]);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [lastUpdated, setLastUpdated] = useState<number>(Date.now());
-  const [isStallsLive, setIsStallsLive] = useState(false);
-  const isStallsLiveRef = useRef(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const mapControl = useMapControl();
@@ -35,8 +27,16 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const isBoothModalOpen = !!searchParams.get("booth-info");
   const isVotePage = pathname?.startsWith("/vote");
   const isAdminPage = pathname?.includes("/admin") || pathname?.includes("/booth");
+  const isSuspended = (isAdminPage || isVotePage || isMapOpen || isBoothModalOpen);
 
-  const isSuspended = isAdminPage || isVotePage || isMapOpen || isBoothModalOpen;
+  const [isLoading, setIsLoading] = useState(!isSuspended);
+  const [stalls, setStalls] = useState<StallStatus[]>([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [lostItems, setLostItems] = useState<LostItem[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [lastUpdated, setLastUpdated] = useState<number>(Date.now());
+  const [isStallsLive, setIsStallsLive] = useState(false);
+  const isStallsLiveRef = useRef(false);
 
   const isSuspendedRef = useRef(isSuspended);
   useEffect(() => {
@@ -56,7 +56,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const performRefresh = async (forceFull = false) => {
-    if (isSuspendedRef.current) {
+    if (isSuspendedRef.current && !forceFull) {
       console.log("[DataProvider] Refresh blocked (App is suspended or modal is open)");
       return;
     }

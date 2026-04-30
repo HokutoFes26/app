@@ -69,3 +69,4 @@ CREATE INDEX IF NOT EXISTS idx_news_created_at ON news(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_lost_items_created_at ON lost_items(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_questions_created_at ON questions(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_votes_voter_category ON votes(voter_id, category);
+CREATE INDEX IF NOT EXISTS idx_app_settings_key ON app_settings(key);

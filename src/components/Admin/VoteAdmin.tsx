@@ -33,8 +33,8 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
   const [localLoading, setLocalLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [lastUpdatedDisplay, setLastUpdatedDisplay] = useState<number>(globalLastFetchTime);
-  const isFirstMount = useRef(true);
   const columns = useColumnDetector();
+  const lastKnownGlobalUpdate = useRef(lastUpdated);
 
   useEffect(() => {
     setMounted(true);
@@ -42,9 +42,9 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
 
   const fetchVoteData = useCallback(async (force = false) => {
     const now = Date.now();
-    const fiveMinutes = 5 * 60 * 1000;
+    const FIFTEEN_MINUTES = 15 * 60 * 1000;
 
-    if (!force && globalLastFetchTime !== 0 && now - globalLastFetchTime < fiveMinutes) {
+    if (!force && globalLastFetchTime !== 0 && now - globalLastFetchTime < FIFTEEN_MINUTES) {
       setResults([...globalCachedResults]);
       setLastUpdatedDisplay(globalLastFetchTime);
       return;
@@ -68,9 +68,9 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
 
   useEffect(() => {
     if (mounted && isAdmin) {
-      const isManualRefresh = !isFirstMount.current;
+      const isManualRefresh = lastKnownGlobalUpdate.current !== lastUpdated;
       fetchVoteData(isManualRefresh);
-      isFirstMount.current = false;
+      lastKnownGlobalUpdate.current = lastUpdated;
     }
   }, [mounted, isAdmin, lastUpdated, fetchVoteData]);
 
@@ -78,10 +78,10 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
 
   const lastUpdatedStr = lastUpdatedDisplay
     ? new Date(lastUpdatedDisplay).toLocaleTimeString("ja-JP", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      })
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    })
     : "-";
 
   const tableColumns = [
@@ -138,7 +138,7 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
             columns={tableColumns as any}
             rowKey="name"
             pagination={false}
-            loading={localLoading || isLoading}
+            loading={localLoading}
             size="small"
           />
         </CardInside>
@@ -147,29 +147,27 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
   };
 
   if (filterCategory) {
-    return <div className="mainCards">{renderCard(filterCategory)}</div>;
+    return <>{renderCard(filterCategory)}</>;
   }
 
   return (
-    <div className="mainCanvas">
-      <div className="PCCanvas" style={{ width: "100%", marginLeft: 0, paddingLeft: "40px" }}>
-        {columns >= 3 && (
-          <>
-            <PCCanvasColumn width="33.3%">{renderCard("stall")}</PCCanvasColumn>
-            <PCCanvasColumn width="33.3%">{renderCard("exhibition")}</PCCanvasColumn>
-            <PCCanvasColumn width="33.3%">{renderCard("other")}</PCCanvasColumn>
-          </>
-        )}
-        {columns === 2 && (
-          <>
-            <PCCanvasColumn width="50%">
-              {renderCard("stall")}
-              {renderCard("exhibition")}
-            </PCCanvasColumn>
-            <PCCanvasColumn width="50%">{renderCard("other")}</PCCanvasColumn>
-          </>
-        )}
-      </div>
+    <div className="PCCanvas" style={{ width: "100%", marginLeft: 0, paddingLeft: "40px" }}>
+      {columns >= 3 && (
+        <>
+          <PCCanvasColumn width="33.3%">{renderCard("stall")}</PCCanvasColumn>
+          <PCCanvasColumn width="33.3%">{renderCard("exhibition")}</PCCanvasColumn>
+          <PCCanvasColumn width="33.3%">{renderCard("other")}</PCCanvasColumn>
+        </>
+      )}
+      {columns === 2 && (
+        <>
+          <PCCanvasColumn width="50%">
+            {renderCard("stall")}
+            {renderCard("exhibition")}
+          </PCCanvasColumn>
+          <PCCanvasColumn width="50%">{renderCard("other")}</PCCanvasColumn>
+        </>
+      )}
     </div>
   );
 }
