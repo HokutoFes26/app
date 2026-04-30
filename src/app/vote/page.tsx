@@ -17,7 +17,7 @@ export default function VotePage() {
   const { message } = App.useApp();
   const router = useRouter();
   const [targets, setTargets] = useState<VoteTarget[]>([]);
-  const [category, setCategory] = useState<string>("stall");
+  const [category, setCategory] = useState<string>("s");
   const [loading, setLoading] = useState(true);
   const [votedItems, setVotedItems] = useState<Record<string, string>>({});
   const [votingId, setVotingId] = useState<string | null>(null);
@@ -28,19 +28,22 @@ export default function VotePage() {
       try {
         console.log("[Vote] Fetching targets and config...");
         const [targetsRes, allData] = await Promise.all([
-          fetch("/data/vote.json").then(res => res.json()),
-          api.fetchAllData()
+          fetch("/data/vote.json").then((res) => res.json()),
+          api.fetchAllData(),
         ]);
-        
+
         setTargets(targetsRes || []);
 
         const { data: rawSettings } = await supabase.from("app_settings").select("*");
-        const startVal = (rawSettings as AppSetting[] | null)?.find(s => s.key === "vote_start_at")?.value_int;
-        const endVal = (rawSettings as AppSetting[] | null)?.find(s => s.key === "vote_end_at")?.value_int;
+        const startVal = (rawSettings as AppSetting[] | null)?.find((s) => s.key === "vote_start_at")?.value_int;
+        const endVal = (rawSettings as AppSetting[] | null)?.find((s) => s.key === "vote_end_at")?.value_int;
         const nowSeconds = Math.floor(Date.now() / 1000);
-        
+
         if (startVal !== undefined && startVal !== null && startVal !== 0 && nowSeconds < startVal) {
-          setTimeStatus({ canVote: false, message: `投票は ${new Date(startVal * 1000).toLocaleString("ja-JP")} に開始されます` });
+          setTimeStatus({
+            canVote: false,
+            message: `投票は ${new Date(startVal * 1000).toLocaleString("ja-JP")} に開始されます`,
+          });
         } else if (endVal !== undefined && endVal !== null && nowSeconds > endVal) {
           setTimeStatus({ canVote: false, message: "投票期間は終了しました" });
         }
@@ -66,7 +69,7 @@ export default function VotePage() {
     try {
       await api.voting.submitVote(target.id, target.category);
       message.success(`${target.name} に投票しました！`);
-      
+
       const newVoted = { ...votedItems, [target.category]: target.id };
       setVotedItems(newVoted);
       localStorage.setItem("voted_items", JSON.stringify(newVoted));
@@ -125,7 +128,9 @@ export default function VotePage() {
               <p style={{ fontSize: "14px", color: "#666", marginBottom: "15px" }}>
                 模擬店や展示に投票しよう！
                 <br />
-                <span style={{ fontSize: "12px", color: "#ff4d4f" }}>何度でも投票し直すことができます（最新の1票が有効になります）</span>
+                <span style={{ fontSize: "12px", color: "#ff4d4f", marginBottom: "10px", display: "block" }}>
+                  投票し直すことが可能です (最新の1票が有効になります)
+                </span>
               </p>
 
               {!timeStatus.canVote && (
@@ -138,7 +143,7 @@ export default function VotePage() {
                     marginBottom: "20px",
                     textAlign: "center",
                     color: "#ff4d4f",
-                    fontWeight: "bold"
+                    fontWeight: "bold",
                   }}
                 >
                   {timeStatus.message}
@@ -151,20 +156,23 @@ export default function VotePage() {
                 value={category}
                 onChange={(val) => setCategory(val as string)}
                 options={[
-                  { label: "模擬店", value: "stall" },
-                  { label: "展示", value: "exhibition" },
-                  { label: "その他", value: "other" },
+                  { label: "模擬店", value: "s" },
+                  { label: "展示", value: "e" },
+                  { label: "その他", value: "o" },
                 ]}
                 style={{ marginBottom: "20px" }}
               />
             </div>
+            <p style={{ fontSize: "18px", color: "var(--text-color)" }}>
+              {!currentVotedId ? "まだ投票していません！" : `${targets.find((t) => t.id === currentVotedId)?.name || "不明な項目"}に投票しました！`}
+            </p>
 
             {loading ? (
               <div style={{ textAlign: "center", padding: "40px" }}>
                 <Spin size="large" />
               </div>
             ) : filteredTargets.length > 0 ? (
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px" }}>
                 {filteredTargets.map((item) => {
                   const isCurrentVoted = currentVotedId === item.id;
                   return (
@@ -182,11 +190,13 @@ export default function VotePage() {
                       }}
                     >
                       <Space>
-                        <span style={{ 
-                          fontWeight: "bold", 
-                          fontSize: "15px",
-                          color: isCurrentVoted ? "#888" : "inherit"
-                        }}>
+                        <span
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: "15px",
+                            color: isCurrentVoted ? "#888" : "inherit",
+                          }}
+                        >
                           {item.name}
                         </span>
                         {isCurrentVoted && <Tag color="default">投票済み</Tag>}

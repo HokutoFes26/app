@@ -6,6 +6,7 @@ export interface FetchedData {
   news: NewsItem[];
   lostItems: LostItem[];
   questions: Question[];
+  config: Record<string, number | null>;
 }
 
 export type DataContextType = {

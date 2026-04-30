@@ -6,9 +6,25 @@ import { CardBase, CardInside, SubList } from "@/components/Layout/CardComp";
 import Link from "next/link";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useData } from "@/contexts/DataContext";
+import { useAppTime } from "@/contexts/TimeContext";
 
 export default function VoteStatus() {
   const { t } = useTranslation();
+  const { api: { fetchedData, isLoading } } = useData();
+  const { currentTime } = useAppTime();
+
+  if (!fetchedData || Object.keys(fetchedData.config).length === 0) return null;
+
+  const startVal = fetchedData.config["vote_start_at"];
+  const endVal = fetchedData.config["vote_end_at"];
+  const nowSeconds = currentTime.unix();
+
+  const isStarted = !startVal || nowSeconds >= startVal;
+  const isEnded = endVal && nowSeconds > endVal;
+  const canVote = isStarted && !isEnded;
+
+  if (!canVote) return null;
 
   return (
     <CardBase title={t("CardTitles.VOTE")} disableTapAnimation={true}>

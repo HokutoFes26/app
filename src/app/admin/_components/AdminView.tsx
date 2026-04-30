@@ -142,9 +142,9 @@ export default function AdminView() {
     if (activeTab === "2") {
       if (isMobile) {
         return [
-          [<VoteAdmin key="stall" filterCategory="stall" />],
-          [<VoteAdmin key="exhibition" filterCategory="exhibition" />],
-          [<VoteAdmin key="other" filterCategory="other" />],
+          [<VoteAdmin key="stall" filterCategory="s" />],
+          [<VoteAdmin key="exhibition" filterCategory="e" />],
+          [<VoteAdmin key="other" filterCategory="o" />],
         ];
       }
       return [[managers.Vote]];

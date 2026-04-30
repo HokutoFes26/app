@@ -31,7 +31,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- Vote RPC
 CREATE OR REPLACE FUNCTION vote_for_target(
     p_voter_id TEXT,
-    p_target_id UUID,
+    p_target_id TEXT,
     p_category TEXT
 ) RETURNS VOID AS $$
 BEGIN
@@ -62,15 +62,29 @@ FOR EACH ROW
 EXECUTE FUNCTION fn_sync_app_settings_time();
 
 -- Vote results
-DROP VIEW IF EXISTS vote_results;
+DROP VIEW IF EXISTS vote_results CASCADE;
 CREATE VIEW vote_results
 WITH (security_invoker = true)
 AS
 SELECT
+    vt.id,
     vt.category,
-    vt.name,
-    COUNT(v.id) as vote_count
+    COUNT(vo.id) as vote_count
 FROM vote_targets vt
-LEFT JOIN votes v ON vt.id = v.target_id
-GROUP BY vt.category, vt.name, vt.display_order
+LEFT JOIN votes vo ON vt.id = vo.target_id
+GROUP BY vt.id, vt.category, vt.display_order
 ORDER BY vt.category, vote_count DESC, vt.display_order;
+
+CREATE OR REPLACE FUNCTION get_vote_results_compressed()
+RETURNS json AS $$
+BEGIN
+  RETURN (
+    SELECT json_agg(json_build_object(
+      'c', category,
+      'i', id,
+      'v', vote_count
+    ))
+    FROM vote_results
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;

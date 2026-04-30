@@ -74,6 +74,12 @@ export function DemoProvider({ children }: { children: ReactNode }) {
           },
         ],
         questions: demoQuestions,
+        config: {
+          maintenance_mode: 0,
+          voting_enabled: 1,
+          vote_start_at: 0,
+          vote_end_at: 2147483647,
+        },
       },
       isLoading: false,
       isPosting: false,

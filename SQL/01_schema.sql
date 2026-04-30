@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS app_settings (
 
 -- Vote targets
 CREATE TABLE IF NOT EXISTS vote_targets (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id TEXT PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
     category TEXT NOT NULL,
     display_order INTEGER DEFAULT 0,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS vote_targets (
 CREATE TABLE IF NOT EXISTS votes (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     voter_id TEXT NOT NULL,
-    target_id UUID REFERENCES vote_targets(id) ON DELETE CASCADE,
+    target_id TEXT REFERENCES vote_targets(id) ON DELETE CASCADE,
     category TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
     UNIQUE(voter_id, category)

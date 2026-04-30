@@ -12,9 +12,14 @@ import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 const { Text } = Typography;
 
 interface VoteResult {
-  category: string;
+  c: string;
+  i: string;
+  v: number;
+}
+
+interface VoteTarget {
+  id: string;
   name: string;
-  vote_count: number;
 }
 
 interface VoteAdminProps {
@@ -23,13 +28,15 @@ interface VoteAdminProps {
 
 let globalCachedResults: VoteResult[] = [];
 let globalLastFetchTime = 0;
+let globalTargetsMap: Record<string, string> = {};
 
 export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
   const { isAdmin } = useRole();
   const {
-    api: { lastUpdated, isLoading },
+    api: { lastUpdated },
   } = useData();
   const [results, setResults] = useState<VoteResult[]>(globalCachedResults);
+  const [targetsMap, setTargetsMap] = useState<Record<string, string>>(globalTargetsMap);
   const [localLoading, setLocalLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [lastUpdatedDisplay, setLastUpdatedDisplay] = useState<number>(globalLastFetchTime);
@@ -44,14 +51,26 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
     const now = Date.now();
     const FIFTEEN_MINUTES = 15 * 60 * 1000;
 
-    if (!force && globalLastFetchTime !== 0 && now - globalLastFetchTime < FIFTEEN_MINUTES) {
-      setResults([...globalCachedResults]);
-      setLastUpdatedDisplay(globalLastFetchTime);
-      return;
-    }
-
     setLocalLoading(true);
     try {
+      // Fetch targets map if not already loaded
+      if (Object.keys(globalTargetsMap).length === 0) {
+        console.log("[VoteAdmin] Loading vote targets map...");
+        const res = await fetch("/data/vote.json");
+        const targets: any[] = await res.json();
+        const map: Record<string, string> = {};
+        targets.forEach(t => { map[t.id] = t.name; });
+        globalTargetsMap = map;
+        setTargetsMap(map);
+      }
+
+      if (!force && globalLastFetchTime !== 0 && now - globalLastFetchTime < FIFTEEN_MINUTES) {
+        setResults([...globalCachedResults]);
+        setLastUpdatedDisplay(globalLastFetchTime);
+        setLocalLoading(false);
+        return;
+      }
+
       console.log("[VoteAdmin] Fetching fresh vote results...");
       const data = await api.voting.getResults();
       const newResults = data || [];
@@ -78,11 +97,10 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
 
   const lastUpdatedStr = lastUpdatedDisplay
     ? new Date(lastUpdatedDisplay).toLocaleTimeString("ja-JP", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    })
-    : "-";
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : "---";
 
   const tableColumns = [
     {
@@ -91,37 +109,37 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
       width: 70,
       render: (_: any, record: VoteResult) => {
         const rank =
-          results.filter((item) => item.category === record.category && item.vote_count > record.vote_count).length + 1;
+          results.filter((item) => item.c === record.c && item.v > record.v).length + 1;
         return (
           <Space>
             <span style={{ fontWeight: rank <= 3 ? "bold" : "normal" }}>{rank}</span>
-            {rank === 1 && record.vote_count > 0 && <Tag color="gold">1位</Tag>}
+            {rank === 1 && record.v > 0 && <Tag color="gold">1位</Tag>}
           </Space>
         );
       },
     },
     {
       title: "名称",
-      dataIndex: "name",
-      key: "name",
-      render: (text: string) => <span style={{ fontWeight: "500" }}>{text}</span>,
+      dataIndex: "i",
+      key: "n",
+      render: (id: string) => <span style={{ fontWeight: "500" }}>{targetsMap[id] || id}</span>,
     },
     {
       title: "得票数",
-      dataIndex: "vote_count",
-      key: "vote_count",
+      dataIndex: "v",
+      key: "v",
       render: (count: number) => <Text strong>{count.toLocaleString()} 票</Text>,
     },
   ];
 
   const categoryLabels: Record<string, string> = {
-    stall: "模擬店部門",
-    exhibition: "展示部門",
-    other: "その他部門",
+    s: "模擬店部門",
+    e: "展示部門",
+    o: "その他部門",
   };
 
   const renderCard = (cat: string) => {
-    const categoryData = results.filter((r) => r.category === cat).sort((a, b) => b.vote_count - a.vote_count);
+    const categoryData = results.filter((r) => r.c === cat).sort((a, b) => b.v - a.v);
     return (
       <CardBase
         key={cat}
@@ -136,7 +154,7 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
           <Table
             dataSource={categoryData}
             columns={tableColumns as any}
-            rowKey="name"
+            rowKey="i"
             pagination={false}
             loading={localLoading}
             size="small"
@@ -154,18 +172,18 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
     <div className="PCCanvas" style={{ width: "100%", marginLeft: 0, paddingLeft: "40px" }}>
       {columns >= 3 && (
         <>
-          <PCCanvasColumn width="33.3%">{renderCard("stall")}</PCCanvasColumn>
-          <PCCanvasColumn width="33.3%">{renderCard("exhibition")}</PCCanvasColumn>
-          <PCCanvasColumn width="33.3%">{renderCard("other")}</PCCanvasColumn>
+          <PCCanvasColumn width="33.3%">{renderCard("s")}</PCCanvasColumn>
+          <PCCanvasColumn width="33.3%">{renderCard("e")}</PCCanvasColumn>
+          <PCCanvasColumn width="33.3%">{renderCard("o")}</PCCanvasColumn>
         </>
       )}
       {columns === 2 && (
         <>
           <PCCanvasColumn width="50%">
-            {renderCard("stall")}
-            {renderCard("exhibition")}
+            {renderCard("s")}
+            {renderCard("e")}
           </PCCanvasColumn>
-          <PCCanvasColumn width="50%">{renderCard("other")}</PCCanvasColumn>
+          <PCCanvasColumn width="50%">{renderCard("o")}</PCCanvasColumn>
         </>
       )}
     </div>

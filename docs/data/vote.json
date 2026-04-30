@@ -1,303 +1,45 @@
 [
-    {
-        "id": "f7394e84-86ed-43c5-a5e6-6139ab732431",
-        "name": "チュロス",
-        "category": "stall",
-        "display_order": 1,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "ebfecc72-1c09-44e7-8acb-ebb43234c921",
-        "name": "VS嵐",
-        "category": "exhibition",
-        "display_order": 1,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "4c7ef285-16a5-455f-8260-4163933a6415",
-        "name": "たこ焼き",
-        "category": "stall",
-        "display_order": 2,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "7c41b869-80a4-457c-80a5-b5e4c2c7ff75",
-        "name": "恋みくじ・フォトスポット",
-        "category": "exhibition",
-        "display_order": 2,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "a553ceb9-f49b-4a3b-bf86-dd1124b12775",
-        "name": "キッキングスナイパー",
-        "category": "exhibition",
-        "display_order": 3,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "8e3a1f3a-adca-4a0d-a4fd-30427dec519a",
-        "name": "焼き鳥",
-        "category": "stall",
-        "display_order": 3,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "70668413-206e-4396-9d4b-9eed1656ebd6",
-        "name": "あんばやし",
-        "category": "stall",
-        "display_order": 4,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "717727bd-1409-4d87-818d-67af26665c02",
-        "name": "縁日(I3)",
-        "category": "exhibition",
-        "display_order": 4,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "d2a5495c-914d-4ef9-9143-eb36e6069037",
-        "name": "縁日(K3)",
-        "category": "exhibition",
-        "display_order": 5,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "1e74c11d-2993-4719-ba65-5d34f7ea91d8",
-        "name": "大判焼き",
-        "category": "stall",
-        "display_order": 5,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "47c82da9-93ad-42f8-acc3-346427dfb13b",
-        "name": "お化け屋敷",
-        "category": "exhibition",
-        "display_order": 6,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "a39d7118-b711-478a-b64e-15ca48ffac64",
-        "name": "わたあめ",
-        "category": "stall",
-        "display_order": 6,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "47cc0581-7932-4554-80f9-1d718f67eeb0",
-        "name": "ゲーム・イラスト展示",
-        "category": "exhibition",
-        "display_order": 7,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "bd1cf171-4b45-4827-8e9b-d80e9acd8669",
-        "name": "焼きそば",
-        "category": "stall",
-        "display_order": 7,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "744183da-6fd7-490e-80f0-60b94dce4212",
-        "name": "ロボット操作体験",
-        "category": "exhibition",
-        "display_order": 8,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "e40e3d6c-2f75-431d-aad8-63abc971ae37",
-        "name": "揚げパン・フルーツ飴・ラムネ",
-        "category": "stall",
-        "display_order": 8,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "fcf2247d-b5d5-4f26-8d5f-a06271872b7e",
-        "name": "新聞展示",
-        "category": "exhibition",
-        "display_order": 9,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "ef33cee8-4b5f-4dce-8d3a-2674056d6d6a",
-        "name": "ペットボトル飲料",
-        "category": "stall",
-        "display_order": 9,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "ecc31b1c-b688-472a-9e51-1991405fa6a8",
-        "name": "カステラ",
-        "category": "stall",
-        "display_order": 10,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "5684369a-da88-4322-b5f2-06ce4bdf8696",
-        "name": "部誌・読書スペース",
-        "category": "exhibition",
-        "display_order": 10,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "254233f5-43a7-47ec-8b95-f40c33250ef5",
-        "name": "クロッフル",
-        "category": "stall",
-        "display_order": 11,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "0f3c8990-c5ac-4f9d-8e38-48ce9da8098a",
-        "name": "書道作品展示",
-        "category": "exhibition",
-        "display_order": 11,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "b5be4316-94c5-400b-9022-a18c1a7eb5fc",
-        "name": "唐揚げ",
-        "category": "stall",
-        "display_order": 12,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "3deec48b-80e0-40e1-889c-e9a9d105c45d",
-        "name": "写真展示",
-        "category": "exhibition",
-        "display_order": 12,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "f9f767b4-e590-4688-a59e-8a1d123fbdf5",
-        "name": "ジオラマ展示",
-        "category": "exhibition",
-        "display_order": 13,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "a6f998f8-f953-41c3-962b-75cfe80dac6f",
-        "name": "フランクフルト",
-        "category": "stall",
-        "display_order": 13,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "b5580a8e-5149-431d-9f79-e7f79b5636cc",
-        "name": "全国高専のロボット展示",
-        "category": "exhibition",
-        "display_order": 14,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "b0fa8e90-101e-4f8d-a2ba-d89c7258f309",
-        "name": "どらやき・お茶",
-        "category": "stall",
-        "display_order": 14,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "707b7b0d-23ad-41ce-aba7-0d8838111df0",
-        "name": "お茶会",
-        "category": "stall",
-        "display_order": 15,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "836e46dc-23b3-4f06-b594-7e012ac32e70",
-        "name": "電子情報工学科展示",
-        "category": "exhibition",
-        "display_order": 15,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "c10d20fb-3788-4b10-9443-89345642bb77",
-        "name": "たい焼き",
-        "category": "stall",
-        "display_order": 16,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "2f8f7e99-8186-45ef-95f7-df9add84f14a",
-        "name": "国際ビジネス学科紹介",
-        "category": "exhibition",
-        "display_order": 16,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "6ffcc716-e804-4da8-b541-45c43a2a92cb",
-        "name": "和茶輪茶",
-        "category": "stall",
-        "display_order": 17,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "3e6ceb0c-7428-4c7b-ab49-5dd41f7e0c70",
-        "name": "機関実習室ツアー",
-        "category": "exhibition",
-        "display_order": 17,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "e6c08da0-05a0-466e-ad39-c400fcce74b2",
-        "name": "操船シミュレータ体験など",
-        "category": "exhibition",
-        "display_order": 18,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "b54bf3ab-215d-4d8f-943c-e338fa9b8a7e",
-        "name": "肉巻きおにぎり",
-        "category": "stall",
-        "display_order": 18,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "06159a80-f2f5-42d7-bb3f-6e1952b4c746",
-        "name": "冥土カフェ",
-        "category": "stall",
-        "display_order": 19,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "d1d11845-66ea-41c3-99c2-67fbf8c5f035",
-        "name": "若潮丸IV・V世の紹介など",
-        "category": "exhibition",
-        "display_order": 19,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "3b46d397-bc4e-4081-845b-7993ba509723",
-        "name": "めいどびより",
-        "category": "stall",
-        "display_order": 20,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "476643b7-f7ec-42cc-b631-453cd9774716",
-        "name": "写真展",
-        "category": "exhibition",
-        "display_order": 20,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "22c3a2fb-6123-4a2b-834d-4482917659b0",
-        "name": "本郷3学科紹介展示",
-        "category": "exhibition",
-        "display_order": 21,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "d3e24ce5-0354-49bb-af2e-759443bb457e",
-        "name": "ポップコーン",
-        "category": "stall",
-        "display_order": 21,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    },
-    {
-        "id": "f0f80ee7-50cd-4172-be98-e6863e91b8f2",
-        "name": "専攻科活動紹介",
-        "category": "exhibition",
-        "display_order": 22,
-        "created_at": "2026-04-27T16:08:44.704127+00:00"
-    }
+  { "id": "01", "name": "チュロス", "category": "s", "display_order": 1 },
+  { "id": "02", "name": "たこ焼き", "category": "s", "display_order": 2 },
+  { "id": "03", "name": "焼き鳥", "category": "s", "display_order": 3 },
+  { "id": "04", "name": "あんばやし", "category": "s", "display_order": 4 },
+  { "id": "05", "name": "大判焼き", "category": "s", "display_order": 5 },
+  { "id": "06", "name": "わたあめ", "category": "s", "display_order": 6 },
+  { "id": "07", "name": "焼きそば", "category": "s", "display_order": 7 },
+  { "id": "08", "name": "揚げパン・フルーツ飴・ラムネ", "category": "s", "display_order": 8 },
+  { "id": "09", "name": "ペットボトル飲料", "category": "s", "display_order": 9 },
+  { "id": "10", "name": "カステラ", "category": "s", "display_order": 10 },
+  { "id": "11", "name": "クロッフル", "category": "s", "display_order": 11 },
+  { "id": "12", "name": "唐揚げ", "category": "s", "display_order": 12 },
+  { "id": "13", "name": "フランクフルト", "category": "s", "display_order": 13 },
+  { "id": "14", "name": "どらやき・お茶", "category": "s", "display_order": 14 },
+  { "id": "15", "name": "お茶会", "category": "s", "display_order": 15 },
+  { "id": "16", "name": "たい焼き", "category": "s", "display_order": 16 },
+  { "id": "17", "name": "和茶輪茶", "category": "s", "display_order": 17 },
+  { "id": "18", "name": "肉巻きおにぎり", "category": "s", "display_order": 18 },
+  { "id": "19", "name": "冥土カフェ", "category": "s", "display_order": 19 },
+  { "id": "20", "name": "めいどびより", "category": "s", "display_order": 20 },
+  { "id": "21", "name": "ポップコーン", "category": "s", "display_order": 21 },
+  { "id": "31", "name": "VS嵐", "category": "e", "display_order": 1 },
+  { "id": "32", "name": "恋みくじ・フォトスポット", "category": "e", "display_order": 2 },
+  { "id": "33", "name": "キッキングスナイパー", "category": "e", "display_order": 3 },
+  { "id": "34", "name": "縁日(I3)", "category": "e", "display_order": 4 },
+  { "id": "35", "name": "縁日(K3)", "category": "e", "display_order": 5 },
+  { "id": "36", "name": "お化け屋屋敷", "category": "e", "display_order": 6 },
+  { "id": "37", "name": "ゲーム・イラスト展示", "category": "e", "display_order": 7 },
+  { "id": "38", "name": "ロボット操作体験", "category": "e", "display_order": 8 },
+  { "id": "39", "name": "新聞展示", "category": "e", "display_order": 9 },
+  { "id": "40", "name": "部誌・読書スペース", "category": "e", "display_order": 10 },
+  { "id": "41", "name": "書道作品展示", "category": "e", "display_order": 11 },
+  { "id": "42", "name": "写真展示", "category": "e", "display_order": 12 },
+  { "id": "43", "name": "ジオラマ展示", "category": "e", "display_order": 13 },
+  { "id": "44", "name": "全国高専のロボット展示", "category": "e", "display_order": 14 },
+  { "id": "45", "name": "電子情報工学科展示", "category": "e", "display_order": 15 },
+  { "id": "46", "name": "国際ビジネス学科紹介", "category": "e", "display_order": 16 },
+  { "id": "47", "name": "機関実習室ツアー", "category": "e", "display_order": 17 },
+  { "id": "48", "name": "操船シミュレータ体験など", "category": "e", "display_order": 18 },
+  { "id": "49", "name": "若潮丸IV・V世の紹介など", "category": "e", "display_order": 19 },
+  { "id": "50", "name": "写真展", "category": "e", "display_order": 20 },
+  { "id": "51", "name": "本郷3学科紹介展示", "category": "e", "display_order": 21 },
+  { "id": "52", "name": "専攻科活動紹介", "category": "e", "display_order": 22 }
 ]

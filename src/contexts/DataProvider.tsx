@@ -34,6 +34,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [lostItems, setLostItems] = useState<LostItem[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [config, setConfig] = useState<Record<string, number | null>>({});
   const [lastUpdated, setLastUpdated] = useState<number>(Date.now());
   const [isStallsLive, setIsStallsLive] = useState(false);
   const isStallsLiveRef = useRef(false);
@@ -125,6 +126,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
                 edit_reason: row.r,
               })),
             );
+          if (allData.config) setConfig(allData.config);
         }
       }
     } catch (e: any) {
@@ -205,7 +207,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value: DataContextType = {
     api: {
-      fetchedData: { stalls, news, lostItems, questions },
+      fetchedData: { stalls, news, lostItems, questions, config },
       isLoading,
       isPosting: false,
       error: "",

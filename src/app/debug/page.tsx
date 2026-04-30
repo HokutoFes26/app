@@ -208,12 +208,6 @@ export default function DebugPage() {
                       </Button>
                       <Button
                         loading={loading}
-                        onClick={() => runApiTest("voting.getTargets", () => api.voting.getTargets())}
-                      >
-                        voting.getTargets
-                      </Button>
-                      <Button
-                        loading={loading}
                         onClick={() => runApiTest("voting.getResults", () => api.voting.getResults())}
                       >
                         voting.getResults

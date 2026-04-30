@@ -275,23 +275,24 @@ export const api = {
   },
 
   voting: {
-    getVoterId: () => {
+    getVoterId: async () => {
       if (typeof window === "undefined") return "";
-      let id = localStorage.getItem("voter_id");
-      if (!id) {
-        id = crypto.randomUUID();
-        localStorage.setItem("voter_id", id);
+      let ip = "";
+      try {
+        const res = await fetch("https://api64.ipify.org?format=json");
+        const data = await res.json();
+        ip = data.ip;
+      } catch (e) {
+        console.warn("[Vote] Failed to fetch IP, falling back to localStorage ID only");
       }
-      return id;
-    },
 
-    getTargets: async () => {
-      const { data, error } = await supabase
-        .from("vote_targets")
-        .select("*")
-        .order("display_order", { ascending: true });
-      if (error) throw error;
-      return data;
+      let localId = localStorage.getItem("voter_id");
+      if (!localId) {
+        localId = crypto.randomUUID();
+        localStorage.setItem("voter_id", localId);
+      }
+
+      return ip ? `ip:${ip}` : localId;
     },
 
     submitVote: async (targetId: string, category: string) => {
@@ -320,7 +321,7 @@ export const api = {
         throw new Error("投票のリクエストが多すぎます。しばらく待ってから再度お試しください。");
       }
 
-      const voterId = api.voting.getVoterId();
+      const voterId = await api.voting.getVoterId();
       const { data, error } = await supabase.rpc("vote_for_target", {
         p_voter_id: voterId,
         p_target_id: targetId,
@@ -339,7 +340,7 @@ export const api = {
     },
 
     getResults: async () => {
-      const { data, error } = await supabase.from("vote_results").select("*");
+      const { data, error } = await supabase.rpc("get_vote_results_compressed");
       if (error) throw error;
       return data;
     },
