@@ -34,22 +34,60 @@ CREATE OR REPLACE FUNCTION vote_for_target(
     p_target_id TEXT,
     p_category TEXT
 ) RETURNS VOID AS $$
+DECLARE
+    v_start_at INT;
+    v_end_at INT;
+    v_now INT;
+    v_client_ip TEXT;
+    v_last_vote_time TIMESTAMPTZ;
 BEGIN
-    DELETE FROM votes WHERE voter_id = p_voter_id AND category = p_category;
+    SELECT value_int INTO v_start_at FROM app_settings WHERE key = 'vote_start_at';
+    SELECT value_int INTO v_end_at FROM app_settings WHERE key = 'vote_end_at';
+    v_now := EXTRACT(EPOCH FROM now())::INT;
+
+    -- T1: Time check
+    IF v_start_at IS NULL OR v_end_at IS NULL THEN
+        RAISE EXCEPTION '投票設定が見つかりません';
+    END IF;
+    IF v_now < v_start_at OR v_now > v_end_at THEN
+        RAISE EXCEPTION '投票期間外です';
+    END IF;
+
+    -- T4: Existence check
+    IF NOT EXISTS (SELECT 1 FROM vote_targets WHERE id = p_target_id AND category = p_category) THEN
+        RAISE EXCEPTION '無効な投票先です';
+    END IF;
+
+    -- T3: IP-based Rate Limit
+    v_client_ip := current_setting('request.headers', true)::json->>'x-forwarded-for';
+    IF v_client_ip IS NULL THEN v_client_ip := p_voter_id; END IF;
+
+    SELECT MAX(created_at) INTO v_last_vote_time FROM votes WHERE voter_id = v_client_ip;
+    IF v_last_vote_time IS NOT NULL AND (now() - v_last_vote_time) < interval '5 seconds' THEN
+        RAISE EXCEPTION '連打は禁止されています。少し待ってください。';
+    END IF;
+
+    -- Vote execution
+    DELETE FROM votes WHERE voter_id = v_client_ip AND category = p_category;
     INSERT INTO votes (voter_id, target_id, category)
-    VALUES (p_voter_id, p_target_id, p_category);
+    VALUES (v_client_ip, p_target_id, p_category);
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Vote time
+-- Vote time synchronization (T4)
 CREATE OR REPLACE FUNCTION fn_sync_app_settings_time()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.value_text IS NOT NULL AND NEW.value_text ~ '^\d{4}-\d{2}-\d{2}' THEN
-        BEGIN
-            NEW.value_int := EXTRACT(EPOCH FROM NEW.value_text::timestamptz)::int;
-        EXCEPTION WHEN OTHERS THEN
-        END;
+    IF NEW.value_text IS NOT NULL AND NEW.value_text <> '' THEN
+        IF NEW.value_text ~ '^\d{4}-\d{2}-\d{2}' THEN
+            BEGIN
+                NEW.value_int := EXTRACT(EPOCH FROM NEW.value_text::timestamptz)::int;
+            EXCEPTION WHEN OTHERS THEN
+                RAISE EXCEPTION 'Date convertion error: %', NEW.value_text;
+            END;
+        ELSE
+            RAISE EXCEPTION 'Invalid date format (YYYY-MM-DD): %', NEW.value_text;
+        END IF;
     END IF;
     RETURN NEW;
 END;
@@ -61,7 +99,7 @@ BEFORE INSERT OR UPDATE ON app_settings
 FOR EACH ROW
 EXECUTE FUNCTION fn_sync_app_settings_time();
 
--- Vote results
+-- Vote results view
 DROP VIEW IF EXISTS vote_results CASCADE;
 CREATE VIEW vote_results
 WITH (security_invoker = true)
@@ -75,6 +113,7 @@ LEFT JOIN votes vo ON vt.id = vo.target_id
 GROUP BY vt.id, vt.category, vt.display_order
 ORDER BY vt.category, vote_count DESC, vt.display_order;
 
+-- Vote results
 CREATE OR REPLACE FUNCTION get_vote_results_compressed()
 RETURNS json AS $$
 BEGIN
