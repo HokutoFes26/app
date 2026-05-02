@@ -1,17 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input, Button, App, Modal, Spin, Upload, Image } from "antd";
+import { Input, Button, App, Modal, Spin, Upload, Image, Space } from "antd";
 import PhotoRoundedIcon from "@mui/icons-material/PhotoRounded";
 import FileUploadRoundedIcon from "@mui/icons-material/FileUploadRounded";
+import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { api, LostItem } from "@/lib/Server/api";
 import { useData } from "@/contexts/DataContext";
 import { compressImage } from "@/lib/Misc/ImageUtils";
+import AspectDetector from "@/lib/Misc/AspectDetector";
 import dayjs from "dayjs";
 import "@/components/Admin/Admin.css";
 
 export default function LostManager() {
+  const isMobile = AspectDetector();
   const { message, modal } = App.useApp();
   const {
     api: { fetchedData, fetchData, isLoading },
@@ -184,15 +187,35 @@ export default function LostManager() {
           <Input placeholder="落ちていた場所" value={place} onChange={(e) => setPlace(e.target.value)} size="large" />
           <div style={{ textAlign: "left" }}>
             <p style={{ fontSize: "12px", color: "var(--text-sub-color)", marginBottom: "8px" }}>画像を追加 (任意)</p>
-            <Upload
-              listType="picture"
-              maxCount={1}
-              fileList={fileList}
-              onChange={({ fileList }) => setFileList(fileList)}
-              beforeUpload={() => false}
-            >
-              <Button icon={<FileUploadRoundedIcon />}>写真を選択</Button>
-            </Upload>
+            <Space wrap>
+              <Upload
+                className="no-thumbnail-link"
+                accept="image/*"
+                listType="picture"
+                maxCount={1}
+                fileList={fileList}
+                onChange={({ fileList }) => setFileList(fileList)}
+                beforeUpload={() => false}
+                showUploadList={{ showPreviewIcon: false }}
+              >
+                {fileList.length === 0 && <Button icon={<FileUploadRoundedIcon />}>写真を選択</Button>}
+              </Upload>
+              {isMobile && fileList.length === 0 && (
+                <Upload
+                  className="no-thumbnail-link"
+                  accept="image/*"
+                  capture="environment"
+                  listType="picture"
+                  maxCount={1}
+                  fileList={fileList}
+                  onChange={({ fileList }) => setFileList(fileList)}
+                  beforeUpload={() => false}
+                  showUploadList={false}
+                >
+                  <Button icon={<CameraAltRoundedIcon />}>カメラで撮影</Button>
+                </Upload>
+              )}
+            </Space>
           </div>
           <Button
             type={isSuccess ? "default" : "primary"}
@@ -296,15 +319,35 @@ export default function LostManager() {
             </div>
             <div>
               <p style={{ fontSize: "12px", marginBottom: "5px" }}>・写真を変更 (任意)</p>
-              <Upload
-                listType="picture"
-                maxCount={1}
-                fileList={editFileList}
-                onChange={({ fileList }) => setEditFileList(fileList)}
-                beforeUpload={() => false}
-              >
-                <Button icon={<FileUploadRoundedIcon />}>写真を選択</Button>
-              </Upload>
+              <Space wrap>
+                <Upload
+                  className="no-thumbnail-link"
+                  accept="image/*"
+                  listType="picture"
+                  maxCount={1}
+                  fileList={editFileList}
+                  onChange={({ fileList }) => setEditFileList(fileList)}
+                  beforeUpload={() => false}
+                  showUploadList={{ showPreviewIcon: false }}
+                >
+                  {editFileList.length === 0 && <Button icon={<FileUploadRoundedIcon />}>写真を選択</Button>}
+                </Upload>
+                {isMobile && editFileList.length === 0 && (
+                  <Upload
+                    className="no-thumbnail-link"
+                    accept="image/*"
+                    capture="environment"
+                    listType="picture"
+                    maxCount={1}
+                    fileList={editFileList}
+                    onChange={({ fileList }) => setEditFileList(fileList)}
+                    beforeUpload={() => false}
+                    showUploadList={false}
+                  >
+                    <Button icon={<CameraAltRoundedIcon />}>カメラで撮影</Button>
+                  </Upload>
+                )}
+              </Space>
               {editingItem?.photo_path && editFileList.length === 0 && (
                 <p style={{ fontSize: "11px", color: "#999", marginTop: "4px" }}>現在登録されている写真があります</p>
               )}

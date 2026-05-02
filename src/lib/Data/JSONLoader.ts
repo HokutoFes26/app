@@ -1,3 +1,5 @@
+import { BASE_PATH } from "@/constants/paths";
+
 type JSONDataType = "booth" | "events" | "vote" | "bus";
 
 const cache: Record<string, any> = {};
@@ -19,7 +21,7 @@ export const loadJSON = async <T = any>(type: JSONDataType): Promise<T> => {
   if (cache[type]) return cache[type];
 
   try {
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+    const basePath = BASE_PATH;
     const response = await fetch(`${basePath}/data/${type}.json`);
     if (!response.ok) throw new Error(`Failed to load ${type}.json`);
 

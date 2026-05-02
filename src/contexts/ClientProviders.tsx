@@ -31,7 +31,7 @@ export default function ClientProviders({ children }: { children: ReactNode }) {
           <ThemeProvider>
             <MapWrapper>
               <DataWrapper>
-                <AntdApp>{children}</AntdApp>
+                <AntdApp message={{ top: 70 }}>{children}</AntdApp>
               </DataWrapper>
             </MapWrapper>
           </ThemeProvider>
