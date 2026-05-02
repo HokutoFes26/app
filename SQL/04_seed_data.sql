@@ -2,8 +2,8 @@
 INSERT INTO stalls_status (stall_name) VALUES
 ('チュロス'), ('たこ焼き'), ('焼き鳥'), ('あんばやし'), ('大判焼き'),
 ('わたあめ'), ('焼きそば'), ('揚げパン・フルーツ飴・ラムネ'), ('ペットボトル飲料'), ('カステラ'),
-('クロッフル'), ('唐揚げ'), ('フランクフルト'), ('どらやき・お茶'), ('お茶会'),
-('たい焼き'), ('和茶輪茶'), ('肉巻きおにぎり'), ('冥土カフェ'), ('めいどびより'), ('ポップコーン')
+('クロッフル'), ('唐揚げ'), ('フランクフルト'), ('どらやき・お茶'), ('お茶会～2日目のみ～'),
+('たい焼き'), ('コーヒー・クレープ'), ('肉巻きおにぎり'), ('冥土カフェ'), ('めいどびより'), ('ポップコーン')
 ON CONFLICT (stall_name) DO NOTHING;
 
 -- Vote (booth)
@@ -22,9 +22,9 @@ INSERT INTO vote_targets (id, name, category, display_order) VALUES
 ('12', '唐揚げ', 's', 12),
 ('13', 'フランクフルト', 's', 13),
 ('14', 'どらやき・お茶', 's', 14),
-('15', 'お茶会', 's', 15),
+('15', 'お茶会～2日目のみ～', 's', 15),
 ('16', 'たい焼き', 's', 16),
-('17', '和茶輪茶', 's', 17),
+('17', 'コーヒー・クレープ', 's', 17),
 ('18', '肉巻きおにぎり', 's', 18),
 ('19', '冥土カフェ', 's', 19),
 ('20', 'めいどびより', 's', 20),
@@ -61,8 +61,8 @@ ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, category = EXCLUDED.categor
 INSERT INTO app_settings (key, value_int, value_text) VALUES
 ('maintenance_mode', 0, NULL),
 ('voting_enabled', 1, NULL),
-('vote_start_at', 0, '2026-04-30 00:00:00+09'),
-('vote_end_at', 2147483647, '2038-01-19 12:14:07+09')
+('vote_start_at', 0, '2026-05-23 10:00:00+09'),
+('vote_end_at', 2147483647, '2026-05-24 14:00:00+09')
 ON CONFLICT (key) DO UPDATE SET
     value_int = EXCLUDED.value_int,
     value_text = EXCLUDED.value_text;

@@ -11,45 +11,32 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import "@/i18n/i18n";
 
 export default function ClientProviders({ children }: { children: ReactNode }) {
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const isDemo = pathname.startsWith("/demo");
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const DataWrapper = isDemo ? React.Fragment : DataProvider;
   const MapWrapper = MapProvider;
 
   return (
-    <div
-      id="app-root"
-      style={{
-        opacity: mounted ? 1 : 0,
-        transition: "opacity 0.2s ease-in",
+    <ConfigProvider
+      getPopupContainer={(triggerNode) => {
+        if (typeof document !== "undefined") {
+          return document.getElementById("app-root") || document.body;
+        }
+        return triggerNode || (null as any);
       }}
     >
-      <ConfigProvider
-        getPopupContainer={(triggerNode) => {
-          if (typeof document !== "undefined") {
-            return document.getElementById("app-root") || document.body;
-          }
-          return triggerNode || (null as any);
-        }}
-      >
-        <TimeProvider>
-          <RoleProvider>
-            <ThemeProvider>
-              <MapWrapper>
-                <DataWrapper>
-                  <AntdApp>{children}</AntdApp>
-                </DataWrapper>
-              </MapWrapper>
-            </ThemeProvider>
-          </RoleProvider>
-        </TimeProvider>
-      </ConfigProvider>
-    </div>
+      <TimeProvider>
+        <RoleProvider>
+          <ThemeProvider>
+            <MapWrapper>
+              <DataWrapper>
+                <AntdApp>{children}</AntdApp>
+              </DataWrapper>
+            </MapWrapper>
+          </ThemeProvider>
+        </RoleProvider>
+      </TimeProvider>
+    </ConfigProvider>
   );
 }

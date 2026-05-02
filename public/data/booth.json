@@ -6,8 +6,7 @@
       "team": "バレーボール部",
       "place": "テント番号9",
       "menu": [{ "content": "チュロス", "price": 0 }],
-      "image": "/img/booth/バレー1.jpg",
-      "image2": "/img/booth/バレー2.jpg"
+      "image": "/img/booth/バレー1.jpg"
     },
     {
       "id": 2,
@@ -119,7 +118,7 @@
       "name": "唐揚げ",
       "team": "バスケットボール部",
       "place": "テント番号20",
-      "menu": [{ "content": "唐揚げ", "price": 0 }],
+      "menu": [{ "content": "唐揚げ", "price": 500 }],
       "image": "/img/booth/バスケ.jpg"
     }
   ],
@@ -157,12 +156,12 @@
       "name": "たい焼き",
       "team": "新聞部",
       "place": "テント番号6",
-      "menu": [{ "content": "たい焼き", "price": 0 }],
+      "menu": [{ "content": "たい焼き", "price": 300 }],
       "image": "/img/booth/新聞.jpg"
     },
     {
       "id": 17,
-      "name": "和茶輪茶",
+      "name": "コーヒー・クレープ",
       "team": "アントレプレナー同好会",
       "place": "テント番号16",
       "menu": [
@@ -204,7 +203,7 @@
       "name": "肉巻きおにぎり",
       "team": "電子情報工学科4年",
       "place": "テント番号11",
-      "menu": [{ "content": "肉巻きおにぎり", "price": 0 }],
+      "menu": [{ "content": "肉巻きおにぎり", "price": 500 }],
       "image": "/img/booth/ultimate_nikuoni.gif",
       "image_hidden": "/img/booth/gishiki_nikumaki.gif"
     },
@@ -213,8 +212,13 @@
       "name": "めいどびより",
       "team": "国際ビジネス科5年",
       "place": "共通講義室1",
-      "menu": [{ "content": "カフェ", "price": 0 }],
-      "image": "/img/booth/K5.jpg"
+      "menu": [
+        { "content": "ワッフル2枚", "price": 450 },
+        { "content": "シューアイス", "price": 300 },
+        { "content": "ドリンク", "price": 250 },
+        { "content": "シャンメリー", "price": 1300 }
+      ],
+      "image": "/img/booth/K5-1.jpg"
     }
   ],
   "L4": [
@@ -229,7 +233,7 @@
         { "content": "塩キャラメル", "price": 200 },
         { "content": "ペンライト", "price": 100 }
       ],
-      "image": "/img/booth/"
+      "image": "/img/booth/ポップコーン.jpg"
     }
   ]
 }

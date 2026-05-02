@@ -68,7 +68,8 @@
     "NoItems": "落とし物はありません",
     "Location": "場所",
     "Time": "発見された時刻",
-    "NoData": "現在、落とし物はありません"
+    "NoData": "現在、落とし物はありません",
+    "ShowImage": "画像を表示"
   },
   "QA": {
     "AskAdmin": "運営チームに質問",
@@ -80,6 +81,7 @@
     "SuccessMsg": "質問を送信しました。",
     "FailureMsg": "質問の送信に失敗",
     "AnsweredSection": "回答済みの質問",
+    "WaitingSection": "回答待ちの質問",
     "NoData": "回答済みの質問はありません"
   },
   "Event": {
@@ -103,6 +105,7 @@
     "Loading": "読み込み中...",
     "Error": "エラーが発生しました",
     "Edit": "編集",
+    "Edtited": "編集済み",
     "Delete": "削除",
     "Cancel": "キャンセル",
     "Confirm": "確定",

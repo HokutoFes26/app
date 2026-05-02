@@ -5,8 +5,7 @@ import dynamic from "next/dynamic";
 import { useMap } from "react-leaflet";
 import { getPath } from "@/constants/paths";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
-import { mapList } from "@/lib/Data/DataPack";
-import { MapPins } from "@/lib/Data/MapPins";
+import { MapPins, mapList } from "@/lib/Data/MapPins";
 import "leaflet/dist/leaflet.css";
 import "@/components/Map/map.css";
 
@@ -81,11 +80,9 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
           document.body.classList.add("map-pseudo-fullscreen-active");
           setIsIOSFallbackFullscreen(true);
         });
-      }
-      else if (elem.webkitRequestFullscreen) {
+      } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
-      }
-      else {
+      } else {
         document.body.classList.add("map-pseudo-fullscreen-active");
         setIsIOSFallbackFullscreen(true);
       }
@@ -118,6 +115,8 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
   useEffect(() => {
     if (pinData) {
       setActiveIndex(pinData.mapId);
+    } else if (initialPlace && initialPlace.includes("テント番号")) {
+      setActiveIndex(5);
     }
   }, [pinData, initialPlace]);
 
@@ -139,7 +138,7 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
   const categories = Array.from(new Set(mapList.map((item) => item.category)));
 
   return (
-    <CardBase title="Maps">
+    <CardBase title="Maps" disableTapAnimation={true}>
       <CardInside className="mapCard">
         <div className="webapp-map-wrapper">
           <table className="maps-nav-table">
@@ -190,7 +189,7 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
                 attributionControl={false}
               >
                 <ImageOverlay url={getPath(mapList[activeIndex].src)} bounds={getBounds()} />
-                {pinData && pinData.mapId === activeIndex && (
+                {/* {pinData && pinData.mapId === activeIndex && (
                   <Marker
                     position={[pinData.y, pinData.x]}
                     icon={L.divIcon({
@@ -199,7 +198,7 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
                       iconSize: [0, 0],
                     })}
                   />
-                )}
+                )} */}
                 <MapController onFullscreen={toggleFullscreen} isFullscreen={isCurrentlyFullscreen} />
               </MapContainer>
             ) : (

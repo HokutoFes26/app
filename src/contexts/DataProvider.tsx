@@ -118,6 +118,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
                 id: row.i,
                 name: row.n,
                 place: row.p,
+                photo_path: row.f,
                 created_at: parseCompactDate(row.a),
                 edit_reason: row.r,
               })),
@@ -186,7 +187,9 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (isInitialRefreshStarted.current) return;
-    if (isSuspended) return;
+    const shouldFetchImmediately = isAdminPage || !isSuspended;
+    if (!shouldFetchImmediately) return;
+
     isInitialRefreshStarted.current = true;
     performRefresh(true);
 

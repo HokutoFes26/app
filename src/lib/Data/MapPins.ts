@@ -1,9 +1,36 @@
-// mapId: 0=1F, 1=2F, 2=3F, 3=4F, 4=Gym, 5=Lib, 6=Ng, 7=OutSmall, 8=OutLarge
+// mapId: 0=1F_2F, 1=3F_4F, 2=Gym, 3=Lib, 4=Ng, 5=OutSmall, 6=OutLarge
 export const MapPins: Record<string, { mapId: number; x: number; y: number }> = {
-  多目的ホール: { mapId: 0, x: 450, y: 550 },
-  第１体育館: { mapId: 4, x: 500, y: 500 },
-  正面玄関前: { mapId: 8, x: 300, y: 400 },
-  中庭: { mapId: 7, x: 500, y: 500 },
-  "模擬店 1": { mapId: 0, x: 200, y: 800 },
-  "2F 第1会議室": { mapId: 1, x: 300, y: 400 },
+  I2教室: { mapId: 0, x: 460, y: 525 },
+  K2教室: { mapId: 0, x: 1030, y: 70 },
+  S2教室: { mapId: 0, x: 1110, y: 70 },
+  I3教室: { mapId: 0, x: 910, y: 250 },
+  K3教室: { mapId: 0, x: 990, y: 250 },
+  S3教室: { mapId: 0, x: 1070, y: 250 },
+  K4教室: { mapId: 1, x: 550, y: 500 },
+  S4教室: { mapId: 1, x: 600, y: 500 },
+  I5教室: { mapId: 0, x: 700, y: 70 },
+  K5教室: { mapId: 1, x: 500, y: 500 },
+  第2プラザ: { mapId: 0, x: 850, y: 70 },
+  第1体育館: { mapId: 2, x: 400, y: 450 },
+  ラウンジA: { mapId: 0, x: 500, y: 500 },
+  ラウンジB: { mapId: 0, x: 500, y: 500 },
+  ラウンジC: { mapId: 1, x: 500, y: 500 },
+  学生昇降口: { mapId: 0, x: 500, y: 500 },
+  図書館: { mapId: 3, x: 500, y: 500 },
+  なごうら: { mapId: 4, x: 500, y: 500 },
+  電子情報第1実験室: { mapId: 0, x: 500, y: 500 },
+  "航海学演習室・公開計測演習室・レーダーシミュレーター演習室": { mapId: 6, x: 500, y: 500 },
+  ものづくり教室: { mapId: 0, x: 600, y: 500 },
+  共通講義室1: { mapId: 0, x: 750, y: 300 },
+  奈呉の浦会館2F和室: { mapId: 4, x: 300, y: 300 },
 };
+
+export const mapList = [
+  { category: "校舎", title: "1F / 2F", src: "/img/maps/1f_2f.jpg" },
+  { category: "校舎", title: "3F / 4F", src: "/img/maps/3f_4f.jpg" },
+  { category: "建物", title: "第1体育館 / 実験実習棟", src: "/img/maps/gym.jpg" },
+  { category: "建物", title: "図書館", src: "/img/maps/lib.jpg" },
+  { category: "建物", title: "奈呉の浦会館", src: "/img/maps/ng.jpg" },
+  { category: "全体", title: "模擬店", src: "/img/maps/out_small.jpg" },
+  { category: "全体", title: "全体図", src: "/img/maps/out_large.jpg" },
+];

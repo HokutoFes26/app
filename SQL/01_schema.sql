@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS lost_items (
     name TEXT NOT NULL,
     place TEXT NOT NULL,
     edit_reason TEXT,
+    photo_path TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
 );
 

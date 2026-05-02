@@ -93,7 +93,11 @@ export default function VotePage() {
         overflowY: "auto",
         WebkitOverflowScrolling: "touch",
         padding: "60px 5%",
-        position: "relative",
+        margin: "0",
+        left: "0",
+        top: "0",
+        position: "absolute",
+        backgroundColor: "var(--mainCanvas-color)"
       }}
     >
       <button
@@ -126,7 +130,7 @@ export default function VotePage() {
         <CardBase title="投票フォーム" disableTapAnimation={true}>
           <CardInside>
             <div style={{ marginBottom: "20px", textAlign: "center" }}>
-              <p style={{ fontSize: "14px", color: "#666", marginBottom: "15px" }}>
+              <p style={{ fontSize: "14px", color: "var(text-color)", marginBottom: "15px" }}>
                 模擬店や展示に投票しよう！
                 <br />
                 <span style={{ fontSize: "12px", color: "#ff4d4f", marginBottom: "10px", display: "block" }}>
@@ -164,7 +168,7 @@ export default function VotePage() {
                 style={{ marginBottom: "20px" }}
               />
             </div>
-            <p style={{ fontSize: "18px", color: "var(--text-color)" }}>
+            <p style={{ fontSize: "18px", color: "var(--text-color)", textAlign: "center" }}>
               {!currentVotedId ? "まだ投票していません！" : `${targets.find((t) => t.id === currentVotedId)?.name || "不明な項目"}に投票しました！`}
             </p>
 
@@ -184,9 +188,9 @@ export default function VotePage() {
                         justifyContent: "space-between",
                         alignItems: "center",
                         padding: "15px",
-                        background: isCurrentVoted ? "#eee" : "#f9f9f9",
+                        background: "var(--card-color)",
                         borderRadius: "12px",
-                        border: isCurrentVoted ? "1px solid #ccc" : "1px solid #eee",
+                        border: "1px solid var(--clock-color)",
                         opacity: isCurrentVoted ? 0.8 : 1,
                       }}
                     >
@@ -195,7 +199,7 @@ export default function VotePage() {
                           style={{
                             fontWeight: "bold",
                             fontSize: "15px",
-                            color: isCurrentVoted ? "#888" : "inherit",
+                            color: isCurrentVoted ? "#888" : "var(--text-color)",
                           }}
                         >
                           {item.name}

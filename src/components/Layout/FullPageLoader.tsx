@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import "@/styles/global-app.css";
 
 export default function FullPageLoader() {
   return (
@@ -12,8 +13,12 @@ export default function FullPageLoader() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#f4f7fc",
+        background: "var(--mainCanvas-color)",
         fontFamily: "sans-serif",
+        position: "absolute",
+        margin: "0",
+        left: "0",
+        top: "0",
       }}
     >
       <div
@@ -26,7 +31,7 @@ export default function FullPageLoader() {
           animation: "spin 0.8s linear infinite",
         }}
       />
-      <p style={{ marginTop: "20px", color: "#1f1f1f", fontWeight: "bold", fontSize: "14px" }}>
+      <p style={{ marginTop: "20px", color: "var(--text-color)", fontWeight: "bold", fontSize: "14px" }}>
         Loading App...
       </p>
       <style>{`

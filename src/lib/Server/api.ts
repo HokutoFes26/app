@@ -26,6 +26,7 @@ export interface LostItem {
   id: string;
   name: string;
   place: string;
+  photo_path?: string;
   created_at: string;
   edit_reason?: string;
 }
@@ -188,13 +189,13 @@ export const api = {
   },
 
   lostAndFound: {
-    post: async (item: { name: string; place: string }) => {
+    post: async (item: { name: string; place: string; photo_path?: string }) => {
       console.log("[API] Update Sent: New Lost Item");
       const { error } = await supabase.from("lost_items").insert([item]);
       if (error) throw error;
       delete cache["all"];
     },
-    update: async (id: string, updates: { name: string; place: string; reason: string }) => {
+    update: async (id: string, updates: { name: string; place: string; reason: string; photo_path?: string }) => {
       console.log(`[API] Update Sent: Edit Lost Item (${id})`);
       const now = new Date();
       const timeStr = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
@@ -203,16 +204,25 @@ export const api = {
         .update({
           name: updates.name,
           place: updates.place,
+          photo_path: updates.photo_path,
           edit_reason: `${updates.reason} (${timeStr})`,
         })
         .eq("id", id);
       if (error) throw error;
       delete cache["all"];
     },
-    delete: async (id: string) => {
-      console.log(`[API] Update Sent: Delete Lost Item (${id})`);
+    delete: async (id: string, photoPath?: string) => {
+      if (photoPath) {
+        try {
+          await api.storage.deleteImage(photoPath);
+        } catch (e) {
+          console.warn("[API] Storage deletion failed:", e);
+        }
+      }
+
       const { error } = await supabase.from("lost_items").delete().eq("id", id);
       if (error) throw error;
+
       delete cache["all"];
     },
   },
@@ -341,6 +351,29 @@ export const api = {
 
     getResults: async () => {
       const { data, error } = await supabase.rpc("get_vote_results_compressed");
+      if (error) throw error;
+      return data;
+    },
+  },
+
+  storage: {
+    uploadImage: async (file: File, bucket: string = "lost-items") => {
+      const fileName = `${Math.random().toString(36).substring(2)}.jpg`;
+      const filePath = `${fileName}`;
+      const { error: uploadError } = await supabase.storage.from(bucket).upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+      const { data } = supabase.storage.from(bucket).getPublicUrl(filePath);
+      return { path: filePath, publicUrl: data.publicUrl };
+    },
+    getPublicUrl: (path: string, bucket: string = "lost-items") => {
+      const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+      return data.publicUrl;
+    },
+    deleteImage: async (path: string, bucket: string = "lost-items") => {
+      const cleanPath = path.trim().replace(/^\/+/, "");
+      const { data, error } = await supabase.storage.from(bucket).remove([cleanPath]);
+
       if (error) throw error;
       return data;
     },

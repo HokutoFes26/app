@@ -68,7 +68,7 @@ export default function QAStatus() {
         </div>
         <p
           style={{
-            fontSize: "12px",
+            fontSize: "14px",
             color: "var(--text-sub-color)",
             padding: "15px 0 0",
             textAlign: "left",
@@ -79,7 +79,7 @@ export default function QAStatus() {
         </p>
 
         {isLoading ? (
-          <p style={{ fontSize: "12px", color: "#999", textAlign: "center", padding: "10px" }}>読み込み中...</p>
+          <p style={{ fontSize: "12px", color: "#999", textAlign: "center", padding: "10px" }}>{t("Common.Loading")}</p>
         ) : (
           <>
             {answeredQuestions.length > 0 ? (
@@ -95,19 +95,19 @@ export default function QAStatus() {
                       <span style={{ color: "#ff4d4f" }}>A.&ensp;</span>
                       {q.answer}
                     </p>
-                    {q.edit_reason && <p className="edited-text">編集済み: {q.edit_reason}</p>}
+                    {q.edit_reason && <p className="edited-text">{t("Common.Edited")}: {q.edit_reason}</p>}
                   </div>
                 </React.Fragment>
               ))
             ) : (
-              <p style={{ fontSize: "12px", color: "#999", textAlign: "center", padding: "10px" }}>{t("QA.NoData")}</p>
+              <p style={{ fontSize: "14px", color: "#999", textAlign: "center", padding: "10px" }}>{t("QA.NoData")}</p>
             )}
 
             {unansweredQuestions.length > 0 && (
               <>
                 <p
                   style={{
-                    fontSize: "12px",
+                    fontSize: "14px",
                     color: "var(--text-sub-color)",
                     margin: "24px 0 10px 0",
                     padding: "15px 0 0",
@@ -115,7 +115,7 @@ export default function QAStatus() {
                     fontWeight: "bold",
                   }}
                 >
-                  回答待ちの質問
+                  {t("QA.WaitingSection")}
                 </p>
                 {unansweredQuestions.map((q, index) => (
                   <React.Fragment key={q.id}>

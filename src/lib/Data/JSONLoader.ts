@@ -1,4 +1,4 @@
-type JSONDataType = "booth" | "events" | "vote" | "faq" | "bus";
+type JSONDataType = "booth" | "events" | "vote" | "bus";
 
 const cache: Record<string, any> = {};
 
@@ -10,7 +10,6 @@ const transformData = (type: JSONDataType, rawData: any) => {
     case "bus":
       return rawData;
     case "vote":
-    case "faq":
     default:
       return Array.isArray(rawData) ? rawData : [];
   }

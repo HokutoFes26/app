@@ -22,10 +22,6 @@
   color: var(--bg-color, #fff);
 }
 
-.faq-area {
-  margin-bottom: 100px;
-}
-
 .maps-nav-table {
   width: 100%;
   max-width: 800px;

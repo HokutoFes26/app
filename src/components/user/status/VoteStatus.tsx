@@ -27,7 +27,7 @@ export default function VoteStatus() {
   if (!canVote) return null;
 
   return (
-    <CardBase title={t("CardTitles.VOTE")} disableTapAnimation={true}>
+    <CardBase title={t("CardTitles.VOTE")}>
       <CardInside style={{ cursor: "pointer" }}>
         <Link href="/vote" style={{ textDecoration: "none", color: "inherit" }}>
           <SubList>

@@ -52,3 +52,24 @@ FOR EACH ROW EXECUTE FUNCTION fn_block_anon_update();
 
 -- Read (admin for vote)
 CREATE POLICY "Allow Admin Read Votes" ON votes FOR SELECT TO authenticated USING (true);
+
+-- Lost images storage
+CREATE POLICY "Allow authenticated users to upload lost items"
+ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK (bucket_id = 'lost-items');
+
+CREATE POLICY "Allow authenticated users to select lost items"
+ON storage.objects FOR SELECT
+TO authenticated
+USING (bucket_id = 'lost-items');
+
+CREATE POLICY "Allow authenticated users to update lost items"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING (bucket_id = 'lost-items');
+
+CREATE POLICY "Allow authenticated users to delete lost items"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (bucket_id = 'lost-items');

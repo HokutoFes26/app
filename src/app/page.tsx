@@ -2,20 +2,11 @@
 
 import React, { Suspense, useState, useEffect } from "react";
 const UserView = React.lazy(() => import("@/app/_components/UserView"));
+import FullPageLoader from "@/components/Layout/FullPageLoader";
 
 export default function WebPage() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  
-  if (!mounted) {
-    return <div style={{ background: "var(--mainCanvas-color)", height: "100vh" }} />;
-  }
-
   return (
-    <Suspense fallback={<div style={{ background: "var(--mainCanvas-color)", height: "100vh" }} />}>
+    <Suspense fallback={<FullPageLoader />}>
       <UserView />
     </Suspense>
   );

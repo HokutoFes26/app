@@ -68,7 +68,8 @@
     "NoItems": "No items found",
     "Location": "Location",
     "Time": "Time",
-    "NoData": "No lost items"
+    "NoData": "No lost items",
+    "ShowImage": "Show image"
   },
   "QA": {
     "AskAdmin": "Ask admin",
@@ -79,7 +80,8 @@
     "Sent": "Sent!",
     "SuccessMsg": "Question sent.",
     "FailureMsg": "Failed to send.",
-    "AnsweredSection": "Answered Questions",
+    "AnsweredSection": "Answered questions",
+    "WaitingSection": "Awaiting answer questions",
     "NoData": "No answered questions"
   },
   "Event": {
@@ -103,6 +105,7 @@
     "Loading": "Loading...",
     "Error": "An error occurred",
     "Edit": "Edit",
+    "Edtited": "Edited",
     "Delete": "Delete",
     "Cancel": "Cancel",
     "Confirm": "Confirm",
