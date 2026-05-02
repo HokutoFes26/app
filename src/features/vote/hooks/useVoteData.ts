@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { App } from "antd";
-import { api, supabase, AppSetting } from "@/lib/Server/api";
+import { supabase } from "@/lib/Server/supabase";
+import { fetchAllData, AppSetting } from "@/lib/Server/baseApi";
+import { submitVote } from "@/features/vote/api";
 import { loadJSON } from "@/lib/Data/JSONLoader";
 import { VoteTarget, TimeStatus, checkVoteTime } from "@/features/vote/utils/voteUtils";
 
@@ -19,7 +21,7 @@ export const useVoteData = () => {
         console.log("[Vote] Fetching targets and config...");
         const [targetsRes, allData] = await Promise.all([
           loadJSON("vote"),
-          api.fetchAllData(),
+          fetchAllData(),
         ]);
 
         setTargets(targetsRes || []);
@@ -50,7 +52,7 @@ export const useVoteData = () => {
     }
     setVotingId(target.id);
     try {
-      await api.voting.submitVote(target.id, target.category);
+      await submitVote(target.id, target.category);
       message.success(`${target.name} に投票しました！`);
 
       const newVoted = { ...votedItems, [target.category]: target.id };

@@ -19,7 +19,11 @@ import {
 
 import Link from "next/link";
 import dayjs from "dayjs";
-import { api, supabase } from "@/lib/Server/api";
+import { supabase } from "@/lib/Server/supabase";
+import { fetchAllData } from "@/lib/Server/baseApi";
+import { fetchSession } from "@/features/auth/api";
+import { fetchStallsOnly } from "@/features/booth/api";
+import { getVoteResults } from "@/features/vote/api";;
 import { useAppTime } from "@/contexts/TimeContext";
 import {
   ThunderboltOutlined,
@@ -59,7 +63,7 @@ export default function DebugPage() {
   }, []);
 
   const refreshSession = async () => {
-    const s = await api.auth.fetchSession();
+    const s = await fetchSession();
     setSession(s);
   };
 
@@ -195,19 +199,19 @@ export default function DebugPage() {
                       <Button
                         type="primary"
                         loading={loading}
-                        onClick={() => runApiTest("fetchAllData", () => api.fetchAllData(0))}
+                        onClick={() => runApiTest("fetchAllData", () => fetchAllData(0))}
                       >
                         fetchAllData
                       </Button>
                       <Button
                         loading={loading}
-                        onClick={() => runApiTest("fetchStallsOnly", () => api.fetchStallsOnly(0))}
+                        onClick={() => runApiTest("fetchStallsOnly", () => fetchStallsOnly(0))}
                       >
                         fetchStallsOnly
                       </Button>
                       <Button
                         loading={loading}
-                        onClick={() => runApiTest("voting.getResults", () => api.voting.getResults())}
+                        onClick={() => runApiTest("voting.getResults", () => getVoteResults())}
                       >
                         voting.getResults
                       </Button>

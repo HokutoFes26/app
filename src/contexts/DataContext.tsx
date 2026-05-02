@@ -1,5 +1,8 @@
 import { createContext, useContext } from "react";
-import { StallStatus, NewsItem, LostItem, Question } from "@/lib/Server/api";
+import { StallStatus } from "@/features/booth/types";
+import { NewsItem } from "@/features/news/types";
+import { LostItem } from "@/features/lost/types";
+import { Question } from "@/features/qa/types";;
 
 export interface FetchedData {
   stalls: StallStatus[];

@@ -61,25 +61,28 @@ export default function BusStatus() {
           <div className={styles.selectRow}>
             <span className={styles.selectLabel}>{t("Bus.From")}</span>
             <Select
-              value={fromStop}
-              options={stopOptions.filter((o) => o.value.includes("発"))}
-              onChange={setFromStop}
-              className={styles.selectField}
-              size="large"
-              placement="bottomLeft"
+            value={fromStop}
+            options={stopOptions.filter((o) => o.value.includes("発"))}
+            onChange={setFromStop}
+            className={styles.selectField}
+            size="large"
+            placement="bottomLeft"
+            style={{ textAlign: "center" }}
+            styles={{ popup: { root: { textAlign: "center" } } }}
             />
-          </div>
-          <div className={styles.selectRow}>
+            </div>
+            <div className={styles.selectRow}>
             <span className={styles.selectLabel}>{t("Bus.To")}</span>
             <Select
-              value={toStop}
-              options={stopOptions.filter((o) => o.value.includes("着"))}
-              onChange={setToStop}
-              className={styles.selectField}
-              size="large"
-              placement="bottomLeft"
-            />
-          </div>
+            value={toStop}
+            options={stopOptions.filter((o) => o.value.includes("着"))}
+            onChange={setToStop}
+            className={styles.selectField}
+            size="large"
+            placement="bottomLeft"
+            style={{ textAlign: "center" }}
+            styles={{ popup: { root: { textAlign: "center" } } }}
+            />          </div>
         </div>
 
         <div className={styles.listContainer}>

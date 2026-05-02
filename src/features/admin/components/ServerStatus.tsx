@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { Typography, Space, Button, Tag } from "antd";
-import { supabase } from "@/lib/Server/api";
+import { supabase } from "@/lib/Server/supabase";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode, Suspense, useCallback, useRef } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
-import { supabase } from "@/lib/Server/api";
+import { supabase } from "@/lib/Server/supabase";
 
 type Role = "user" | "admin" | "stall-admin";
 

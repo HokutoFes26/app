@@ -36,13 +36,14 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
 
               <div className={styles.selectContainer}>
                 <Select
-                  style={{ width: "100%" }}
+                  style={{ width: "100%", textAlign: "center" }}
                   placeholder="模擬店を選択"
                   optionFilterProp="children"
                   onChange={handleStallChange}
                   options={stallOptions}
                   size="large"
                   listHeight={600}
+                  dropdownStyle={{ textAlign: "center" }}
                 />
               </div>
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { App } from "antd";
-import { api, NewsItem } from "@/lib/Server/api";
+import { NewsItem } from "@/features/news/types";
+import { postNews, updateNews, deleteNews } from "@/features/news/api";;
 import { useData } from "@/contexts/DataContext";
 
 export interface NewsManagerHook {
@@ -51,7 +52,7 @@ export function useNewsManager(): NewsManagerHook {
     }
     setLoading(true);
     try {
-      await api.news.post(title, content);
+      await postNews(title, content);
       message.success("ニュースを配信しました");
       setIsSuccess(true);
       setTimeout(() => setIsSuccess(false), 1500);
@@ -73,7 +74,7 @@ export function useNewsManager(): NewsManagerHook {
       getContainer: () => document.getElementById("app-root") || document.body,
       onOk: async () => {
         try {
-          await api.news.delete(id);
+          await deleteNews(id);
           message.success("削除しました");
           await fetchData();
         } catch (error) {
@@ -98,7 +99,7 @@ export function useNewsManager(): NewsManagerHook {
     }
     setLoading(true);
     try {
-      await api.news.update(editingItem!.id, {
+      await updateNews(editingItem!.id, {
         title: editTitle,
         content: editContent,
         reason: editReason,

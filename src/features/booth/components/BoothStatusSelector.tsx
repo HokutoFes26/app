@@ -1,5 +1,5 @@
 import { Radio } from "antd";
-import { StatusLevel } from "@/lib/Server/api";
+import { StatusLevel } from "@/features/booth/types";;
 import styles from "./BoothStatusSelector.module.css";
 
 interface BoothStatusSelectorProps {

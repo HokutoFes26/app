@@ -1,33 +1,28 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { api } from "@/lib/Server/api";
+import { loginAsAdmin } from "@/features/auth/api";
 import { useRole } from "@/contexts/RoleContext";
-
 export const useAdminAuth = () => {
   const { setRole, isAdmin, isStallAdmin, isAuthenticating } = useRole();
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-
   useEffect(() => {
     if (isStallAdmin) {
       router.replace("/booth");
     }
   }, [isStallAdmin, router]);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!password) {
       setError("パスワードを入力してください");
       return;
     }
-
     setLoading(true);
     setError("");
-
     try {
-      await api.auth.loginAsAdmin(password);
+      await loginAsAdmin(password);
       localStorage.setItem("admin_auth", "true");
       setRole("admin");
     } catch (err: any) {
@@ -37,7 +32,6 @@ export const useAdminAuth = () => {
       setLoading(false);
     }
   };
-
   return {
     password,
     setPassword,

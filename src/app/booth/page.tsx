@@ -7,7 +7,7 @@ import FullPageLoader from "@/components/Layout/FullPageLoader";
 import { useSearchParams, useRouter } from "next/navigation";
 import { verifyToken } from "@/features/auth/utils/QRAuth";
 import { BOOTH_IDS } from "@/constants/booth-ids";
-import { api } from "@/lib/Server/api";
+import { loginAsStallAdmin } from "@/features/auth/api";
 import styles from "./page.module.css";
 
 const AdminView = React.lazy(() => import("@/app/admin/_components/AdminView"));
@@ -37,7 +37,7 @@ export default function BoothAdminPage() {
         if (isValid) {
           console.log("[Booth Page] Authorized via secure QR token.");
           try {
-            await api.auth.loginAsStallAdmin();
+            await loginAsStallAdmin();
             setRole("stall-admin", name);
             const params = new URLSearchParams(searchParams.toString());
             params.delete("token");

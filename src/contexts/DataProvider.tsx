@@ -2,7 +2,14 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { DataContext, DataContextType } from "./DataContext";
-import { supabase, api, StallStatus, NewsItem, LostItem, Question } from "@/lib/Server/api";
+import { supabase } from "@/lib/Server/supabase";
+import { fetchAllData } from "@/lib/Server/baseApi";
+import { askQuestion } from "@/features/qa/api";
+import { fetchStallsOnly } from "@/features/booth/api";
+import { StallStatus } from "@/features/booth/types";
+import { NewsItem } from "@/features/news/types";
+import { LostItem } from "@/features/lost/types";
+import { Question } from "@/features/qa/types";;
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -78,8 +85,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       const allData = isFullRefresh
-        ? await api.fetchAllData(forceFull ? 0 : currentTTL)
-        : await api.fetchStallsOnly(currentTTL);
+        ? await fetchAllData(forceFull ? 0 : currentTTL)
+        : await fetchStallsOnly(currentTTL);
 
       if (allData) {
         lastFetchTime.current = Date.now();
@@ -223,7 +230,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       fetchData: async () => performRefresh(true),
       handlePost: () => {},
       askQuestion: async (text: string) => {
-        await api.qa.ask(text);
+        await askQuestion(text);
       },
       lastUpdated,
       isStallsLive,

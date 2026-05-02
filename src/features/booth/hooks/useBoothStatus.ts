@@ -2,7 +2,8 @@ import { useMemo } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useData } from "@/contexts/DataContext";
 import { useRole } from "@/contexts/RoleContext";
-import { api, StatusLevel } from "@/lib/Server/api";
+import { StatusLevel } from "@/features/booth/types";
+import { updateStallStatus } from "@/features/booth/api";;
 import { useFavorites } from "@/features/booth/hooks/useFavorites";
 
 export const useBoothStatus = (split?: "first" | "second") => {
@@ -46,14 +47,14 @@ export const useBoothStatus = (split?: "first" | "second") => {
   const handleCrowdClick = async (stallName: string, currentLevel: StatusLevel) => {
     if (!canEdit(stallName)) return;
     const newLevel = cycleStatus(currentLevel);
-    await api.stalls.update(stallName, { crowdLevel: newLevel });
+    await updateStallStatus(stallName, { crowdLevel: newLevel });
     fetchData();
   };
 
   const handleStockClick = async (stallName: string, currentLevel: StatusLevel) => {
     if (!canEdit(stallName)) return;
     const newLevel = cycleStatus(currentLevel);
-    await api.stalls.update(stallName, { stockLevel: newLevel });
+    await updateStallStatus(stallName, { stockLevel: newLevel });
     fetchData();
   };
 

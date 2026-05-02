@@ -3,7 +3,8 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, SubList, Divider } from "@/components/Layout/CardComp";
-import { api, StatusLevel } from "@/lib/Server/api";
+import { StatusLevel } from "@/features/booth/types";
+import { updateStallStatus } from "@/features/booth/api";;
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
@@ -92,14 +93,14 @@ export default function BoothStatusFavorite() {
   const handleCrowdClick = async (stallName: string, currentLevel: StatusLevel) => {
     if (!canEdit(stallName)) return;
     const newLevel = cycleStatus(currentLevel);
-    await api.stalls.update(stallName, { crowdLevel: newLevel });
+    await updateStallStatus(stallName, { crowdLevel: newLevel });
     fetchData();
   };
 
   const handleStockClick = async (stallName: string, currentLevel: StatusLevel) => {
     if (!canEdit(stallName)) return;
     const newLevel = cycleStatus(currentLevel);
-    await api.stalls.update(stallName, { stockLevel: newLevel });
+    await updateStallStatus(stallName, { stockLevel: newLevel });
     fetchData();
   };
 

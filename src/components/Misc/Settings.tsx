@@ -77,6 +77,7 @@ export default function Settings() {
             options={languages}
             size="small"
             style={{ width: "auto", minWidth: 100, textAlign: "center" }}
+            styles={{ popup: { root: { textAlign: "center" } } }}
           />,
         )}
 

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { App } from "antd";
-import { api, LostItem } from "@/lib/Server/api";
+import { LostItem } from "@/features/lost/types";
+import { postLostItem, updateLostItem, deleteLostItem } from "@/features/lost/api";
+import { uploadImage, getPublicUrl } from "@/lib/Server/storage";
 import { useData } from "@/contexts/DataContext";
 import { compressImage } from "@/lib/Misc/ImageUtils";
 import useAspectDetector from "@/hooks/useAspectDetector";
@@ -31,7 +33,7 @@ export const useLostManager = () => {
     if (loadedImages[id]) return;
     setLoadingIds((prev) => ({ ...prev, [id]: true }));
     try {
-      const publicUrl = api.storage.getPublicUrl(path);
+      const publicUrl = getPublicUrl(path);
       setLoadedImages((prev) => ({ ...prev, [id]: publicUrl }));
     } catch (e) {
       console.error("[LostManager] Image URL error:", e);
@@ -59,11 +61,11 @@ export const useLostManager = () => {
         const compressedBlob = await compressImage(file);
         const newFileName = file.name.replace(/\.[^/.]+$/, "") + ".jpg";
         const compressedFile = new File([compressedBlob], newFileName, { type: "image/jpeg" });
-        const uploadRes = await api.storage.uploadImage(compressedFile);
+        const uploadRes = await uploadImage(compressedFile);
         photo_path = uploadRes.path;
       }
 
-      await api.lostAndFound.post({ name, place, photo_path });
+      await postLostItem({ name, place, photo_path });
       message.success("落とし物を登録しました");
       setIsSuccess(true);
       setTimeout(() => setIsSuccess(false), 1500);
@@ -85,7 +87,7 @@ export const useLostManager = () => {
       content: "この落とし物情報を削除します",
       onOk: async () => {
         try {
-          await api.lostAndFound.delete(id, photoPath);
+          await deleteLostItem(id, photoPath);
           message.success("削除しました");
           await fetchData();
         } catch (error) {
@@ -117,11 +119,11 @@ export const useLostManager = () => {
         const compressedBlob = await compressImage(file);
         const compressedFile = new File([compressedBlob], file.name, { type: "image/jpeg" });
 
-        const uploadRes = await api.storage.uploadImage(compressedFile);
+        const uploadRes = await uploadImage(compressedFile);
         photo_path = uploadRes.path;
       }
 
-      await api.lostAndFound.update(editingItem!.id, {
+      await updateLostItem(editingItem!.id, {
         name: editName,
         place: editPlace,
         reason: editReason,

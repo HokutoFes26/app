@@ -51,7 +51,11 @@ export default function NewsStatus({ onlyHot = false, hotTime = 10 }: { onlyHot?
                           <p className={styles.newsTime}>{dayjs(item.created_at).format("H:mm")}</p>
                         </div>
                         <p className={styles.newsText}>{item.content}</p>
-                        {item.edit_reason && <p className="edited-text">編集済み: {item.edit_reason}</p>}
+                        {item.edit_reason && (
+                          <p className="edited-text">
+                            {t("Common.Edited")}: {item.edit_reason}
+                          </p>
+                        )}
                       </div>
                     </SubList>
                   </motion.div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { App } from "antd";
-import { api, StatusLevel } from "@/lib/Server/api";
+import { StatusLevel } from "@/features/booth/types";
+import { updateStallStatus } from "@/features/booth/api";
 import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 
@@ -61,7 +62,7 @@ export const useBoothManager = () => {
     if (!assignedStall) return;
     setLoading(true);
     try {
-      await api.stalls.update(assignedStall, { crowdLevel: crowd, stockLevel: stock });
+      await updateStallStatus(assignedStall, { crowdLevel: crowd, stockLevel: stock });
       setIsDirtyInternal(false);
       isDirtyRef.current = false;
       await fetchData();

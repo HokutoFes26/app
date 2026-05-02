@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { App } from "antd";
-import { api, Question } from "@/lib/Server/api";
+import { Question } from "@/features/qa/types";
+import { replyToQuestion, deleteQuestion } from "@/features/qa/api";
 import { useData } from "@/contexts/DataContext";
 
 export interface QAManagerHook {
@@ -54,7 +55,7 @@ export function useQAManager(): QAManagerHook {
 
     setLoading(true);
     try {
-      await api.qa.reply(id, answer);
+      await replyToQuestion(id, answer);
       message.success("回答を送信しました");
       setIsSuccess(true);
       setTimeout(() => setIsSuccess(false), 1500);
@@ -82,7 +83,7 @@ export function useQAManager(): QAManagerHook {
       getContainer: () => document.getElementById("app-root") || document.body,
       onOk: async () => {
         try {
-          await api.qa.delete(id);
+          await deleteQuestion(id);
           message.success("削除しました");
           await fetchData();
         } catch (error) {
@@ -107,7 +108,7 @@ export function useQAManager(): QAManagerHook {
     const id = editingItem.id;
     setLoading(true);
     try {
-      await api.qa.reply(id, editAnswer, editReason);
+      await replyToQuestion(id, editAnswer, editReason);
       message.success("編集しました");
       setEditingItem(null);
       await fetchData();
