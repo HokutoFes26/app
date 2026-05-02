@@ -1,0 +1,115 @@
+.loadingContainer {
+  text-align: center;
+  padding: 50px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 10%;
+}
+
+.sectionTitle {
+  font-weight: bold;
+  text-align: left;
+}
+
+.uploadSection {
+  text-align: left;
+}
+
+.uploadLabel {
+  font-size: 12px;
+  color: var(--text-sub-color);
+  margin-bottom: 8px;
+}
+
+.itemContainer {
+  text-align: left;
+  margin-top: 1%;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemNameWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.itemName {
+  font-weight: bold;
+  margin: 0;
+}
+
+.itemTime {
+  font-size: 16px;
+  color: var(--text-sub-color);
+  margin: 0;
+}
+
+.itemInfoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.itemPlace {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.showImageBtn {
+  padding: 0 !important;
+  height: auto !important;
+}
+
+.imageContainer {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.lostImage {
+  max-width: 100%;
+  border-radius: 8px;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.noItemsText {
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  padding: 20px;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+.modalLabel {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.existingPhotoText {
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
+}

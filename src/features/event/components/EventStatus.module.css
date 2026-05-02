@@ -1,0 +1,77 @@
+.switcher {
+  margin-right: 0.8em;
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.radioBtn {
+  font-weight: bold;
+  font-size: 12px;
+  width: 80px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.listContainer {
+  position: relative;
+  gap: 15px;
+}
+
+.eventItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.eventName {
+  color: var(--text-color);
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.nowTag {
+  background: #ff4d4d;
+  color: var(--bg-color);
+  padding: 3px 16px 3px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 900;
+  margin: auto 0;
+  box-shadow: 0 0 8px #ff4d4d;
+}
+
+.upcomingTag {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-sub-color);
+  margin: auto 0;
+}
+
+.finishedTag {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-sub-color);
+  margin: auto 0;
+}
+
+.noEvent {
+  color: var(--text-sub-color);
+  text-align: center;
+  padding: 20px 0;
+  margin: auto;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.noEventIcon {
+  font-size: 20px;
+  margin: auto 8px auto 0;
+}

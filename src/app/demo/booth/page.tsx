@@ -3,19 +3,19 @@
 import React, { useState, Suspense, useEffect } from "react";
 import { Button, App } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
-import BoothStatusSelector from "@/components/Admin/components/BoothStatusSelector";
-import BoothHandoverQR from "@/components/Admin/components/BoothHandoverQR";
+import BoothStatusSelector from "@/features/booth/components/BoothStatusSelector";
+import BoothHandoverQR from "@/features/booth/components/BoothHandoverQR";
 
 import BottomNavigator from "@/components/Layout/Bottom";
 import { useMapControl } from "@/contexts/MapContext";
 import MapIcon from "@mui/icons-material/Map";
 import { DemoProvider } from "../DemoProvider";
-import AspectDetector from "@/lib/Misc/AspectDetector";
+import AspectDetector from "@/hooks/useAspectDetector";
 import Menu from "@/components/Layout/menu";
-import NewsStatus from "@/components/user/status/NewsStatus";
+import NewsStatus from "@/features/news/components/NewsStatus";
 
 const Other = React.lazy(() => import("@/components/Layout/other"));
-const MapModal = React.lazy(() => import("@/components/Map/MapModal"));
+const MapModal = React.lazy(() => import("@/features/map/components/MapModal"));
 
 type StatusLevel = 0 | 1 | 2;
 

@@ -1,0 +1,19 @@
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.modalLabel {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+
+.reasonSection {
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--border-color);
+}

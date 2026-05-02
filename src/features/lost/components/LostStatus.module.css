@@ -1,0 +1,73 @@
+.loadingText {
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  width: 100%;
+}
+
+.listContainer {
+  position: relative;
+}
+
+.itemWrapper {
+  text-align: left;
+  width: 100%;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemName {
+  font-size: 16px;
+  fontWeight: bold;
+  margin: 0 0 4px 0;
+}
+
+.itemTime {
+  font-size: 16px;
+  color: var(--text-sub-color);
+  margin: 0;
+}
+
+.itemInfoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemPlace {
+  font-size: 14px;
+  color: var(--text-sub-color);
+  margin: 0;
+}
+
+.showImageBtn {
+  padding: 0 !important;
+  height: auto !important;
+}
+
+.imageContainer {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.lostImage {
+  max-width: 100%;
+  border-radius: 8px;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.noDataContainer {
+  padding: 20px 0;
+}
+
+.noDataText {
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  width: 100%;
+}

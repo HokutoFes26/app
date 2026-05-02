@@ -13,7 +13,6 @@ import {
   Descriptions,
   Spin,
   message,
-  List,
   DatePicker,
   Alert,
 } from "antd";
@@ -219,10 +218,9 @@ export default function DebugPage() {
                     {results.length === 0 ? (
                       <Text type="secondary">実行履歴なし</Text>
                     ) : (
-                      <List
-                        dataSource={results}
-                        renderItem={(item) => (
-                          <List.Item>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                        {results.map((item, index) => (
+                          <div key={`${item.timestamp}-${index}`}>
                             <Card size="small" style={{ width: "100%" }}>
                               <Descriptions size="small" column={2}>
                                 <Descriptions.Item label="API">{item.name}</Descriptions.Item>
@@ -255,9 +253,9 @@ export default function DebugPage() {
                                 </pre>
                               </details>
                             </Card>
-                          </List.Item>
-                        )}
-                      />
+                          </div>
+                        ))}
+                      </div>
                     )}
                   </Space>
                 </Card>
@@ -293,21 +291,26 @@ export default function DebugPage() {
                       </Button>
                     }
                   >
-                    <List
-                      size="small"
-                      bordered
-                      dataSource={storageItems}
-                      renderItem={(item) => (
-                        <List.Item>
-                          <Text strong>{item.key}:</Text> <Text code>{item.value}</Text>
-                        </List.Item>
-                      )}
-                      footer={
+                    <div style={{ border: "1px solid #d9d9d9", borderRadius: "8px", overflow: "hidden" }}>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        {storageItems.map((item, index) => (
+                          <div 
+                            key={item.key} 
+                            style={{ 
+                              padding: "8px 12px", 
+                              borderBottom: index === storageItems.length - 1 ? "none" : "1px solid #f0f0f0" 
+                            }}
+                          >
+                            <Text strong>{item.key}:</Text> <Text code>{item.value}</Text>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ padding: "12px", borderTop: "1px solid #f0f0f0", textAlign: "right" }}>
                         <Button danger onClick={handleClearStorage}>
                           クリア
                         </Button>
-                      }
-                    />
+                      </div>
+                    </div>
                   </Card>
                 </Space>
               ),

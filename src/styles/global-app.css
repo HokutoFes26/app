@@ -360,12 +360,6 @@ div,
   width: 92%;
   margin: 0 4%;
 }
-.subProp,
-.card h4 {
-  font-size: 1.05em;
-  margin: 0 !important;
-  white-space: nowrap;
-}
 .card p {
   margin: 0 !important;
 }

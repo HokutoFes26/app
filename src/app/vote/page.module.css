@@ -1,0 +1,82 @@
+.container {
+  height: 100dvh;
+  width: 100dvw;
+  overflow-y: auto;
+  WebkitOverflowScrolling: touch;
+  padding: 60px 5%;
+  margin: 0;
+  left: 0;
+  top: 0;
+  position: absolute;
+  backgroundColor: var(--mainCanvas-color);
+}
+
+.backBtn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  backgroundColor: var(--glass-bg);
+  backdropFilter: blur(20px);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  color: var(--text-color);
+  boxShadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  padding-right: 2px;
+}
+
+.backIcon {
+  font-size: 18px;
+}
+
+.contentWrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.headerContainer {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.headerText {
+  font-size: 14px;
+  color: var(--text-color);
+  margin-bottom: 15px;
+}
+
+.warningText {
+  font-size: 12px;
+  color: #ff4d4f;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.timeStatusContainer {
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ff4d4f;
+  font-weight: bold;
+}
+
+.segmented {
+  margin-bottom: 20px;
+}
+
+.votedStatusText {
+  font-size: 18px;
+  color: var(--text-color);
+  text-align: center;
+}

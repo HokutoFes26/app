@@ -2,13 +2,13 @@
 
 import { useState, Suspense, useEffect } from "react";
 import { useRole } from "@/contexts/RoleContext";
-import AspectDetector from "@/lib/Misc/AspectDetector";
 import React from "react";
 import FullPageLoader from "@/components/Layout/FullPageLoader";
 import { useSearchParams, useRouter } from "next/navigation";
-import { verifyToken } from "@/lib/Misc/QRAuth";
+import { verifyToken } from "@/features/auth/utils/QRAuth";
 import { BOOTH_IDS } from "@/constants/booth-ids";
 import { api } from "@/lib/Server/api";
+import styles from "./page.module.css";
 
 const AdminView = React.lazy(() => import("@/app/admin/_components/AdminView"));
 
@@ -28,7 +28,7 @@ export default function BoothAdminPage() {
   useEffect(() => {
     const id = searchParams.get("id");
     const token = searchParams.get("token");
-    const stallName = Object.keys(BOOTH_IDS).find(name => BOOTH_IDS[name] === id);
+    const stallName = Object.keys(BOOTH_IDS).find((name) => BOOTH_IDS[name] === id);
 
     const checkAuth = async (stallId: string, name: string) => {
       if (token) {
@@ -79,26 +79,15 @@ export default function BoothAdminPage() {
   }
 
   return (
-    <div
-      style={{
-        height: "90vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "sans-serif",
-        padding: "20px",
-        textAlign: "center"
-      }}
-    >
-      <div style={{ maxWidth: "400px" }}>
-        <h3 style={{ color: "var(--text-color)", marginBottom: "20px" }}>アクセス制限</h3>
-        <p style={{ color: "var(--text-sub-color)", fontSize: "14px", lineHeight: "1.6" }}>
+    <div className={styles.container}>
+      <div className={styles.inner}>
+        <h3 className={styles.title}>アクセス制限</h3>
+        <p className={styles.description}>
           前の担当者が表示した「交代用QR」を読み取るか、運営チームからログインQRを取得してください。
         </p>
         {error && (
-          <div style={{ marginTop: "20px", padding: "15px", background: "rgba(255,0,0,0.05)", borderRadius: "10px", border: "1px solid rgba(255,0,0,0.1)" }}>
-            <span style={{ color: "#ff4d4f", fontSize: "14px", fontWeight: "bold" }}>{error}</span>
+          <div className={styles.errorContainer}>
+            <span className={styles.errorText}>{error}</span>
           </div>
         )}
       </div>

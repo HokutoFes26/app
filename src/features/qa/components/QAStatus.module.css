@@ -1,0 +1,82 @@
+.inputContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.sendBtn {
+  height: auto;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  color: var(--text-sub-color);
+  padding: 15px 0 0;
+  text-align: left;
+  font-weight: bold;
+}
+
+.loadingText {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  padding: 10px;
+}
+
+.emptyText {
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  padding: 10px;
+}
+
+.qaItem {
+  text-align: left;
+  width: 100%;
+}
+
+.questionText {
+  font-size: 14px;
+  margin: 0 0 8px 0;
+}
+
+.questionLabel {
+  color: #1b7fea;
+}
+
+.answerText {
+  font-size: 14px;
+  margin: 0;
+}
+
+.answerLabel {
+  color: #ff4d4f;
+}
+
+.waitingSection {
+  font-size: 14px;
+  color: var(--text-sub-color);
+  margin: 24px 0 10px 0;
+  padding: 15px 0 0;
+  text-align: left;
+  font-weight: bold;
+}
+
+.waitingItem {
+  text-align: left;
+  width: 100%;
+}
+
+.waitingQuestionText {
+  font-size: 14px;
+  margin: 0 0 8px 0;
+  color: var(--text-sub-color);
+}
+
+.waitingQuestionLabel {
+  color: #007AFF;
+  opacity: 0.6;
+}
+
+.dividerPadding {
+  padding: 8px 0;
+}

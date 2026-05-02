@@ -1,0 +1,41 @@
+.adminView {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  background: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.headerMobile {
+  padding: 10px 10px 0;
+}
+
+.headerDesktop {
+  padding: 0 40px;
+}
+
+.contentWrapper {
+  flex: 1;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: var(--mainCanvas-color);
+}
+
+.tabIcon {
+  display: flex;
+}
+
+.fallbackLoader {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-sub-color);
+}

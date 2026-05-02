@@ -1,0 +1,144 @@
+.mapCard {
+  padding: 0;
+}
+
+.navTable {
+  width: 100%;
+  max-width: 800px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.navRow {
+  border-bottom: 1px solid var(--border-color, #ddd);
+}
+
+.navRow:first-child {
+  border-top: 1px solid var(--border-color, #ddd);
+}
+
+.categoryCell {
+  width: 120px;
+  padding: 10px;
+  background-color: var(--bottom-nav);
+  font-weight: bold;
+  color: var(--text-color, #1f1f1f);
+  vertical-align: middle;
+}
+
+.buttonsCell {
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  vertical-align: middle;
+}
+
+.mapButton {
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s;
+  border: 1px solid var(--text-color, #1f1f1f);
+  background-color: var(--bg-color, #fff);
+  color: var(--text-color, #1f1f1f);
+}
+
+.mapButtonActive {
+  background-color: var(--text-color, #1f1f1f);
+  color: var(--bg-color, #fff);
+}
+
+.mapButtonInactive {
+  background-color: transparent;
+  color: var(--text-color, #1f1f1f);
+  font-weight: normal;
+}
+
+.mapContainer {
+  height: 600px;
+  width: 100%;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 32px;
+  overflow: hidden;
+  background-color: var(--mainCanvas-color, #f0f0f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.controlBtn {
+  width: 44px;
+  height: 44px;
+  background-color: var(--bottom-nav, rgba(255, 255, 255, 0.6));
+  -webkit-backdrop-filter: saturate(250%) blur(5px);
+  backdrop-filter: saturate(250%) blur(5px);
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--text-color, #1f1f1f);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.fullscreenBtn {
+  font-size: 10px;
+}
+
+.loadingDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  color: var(--text-color);
+  font-weight: bold;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 767px) {
+  .categoryCell {
+    width: 80px;
+    padding: 10px;
+  }
+  .buttonsCell {
+    padding: 8px;
+    gap: 5px;
+  }
+  .mapButton {
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 1.1em;
+  }
+}

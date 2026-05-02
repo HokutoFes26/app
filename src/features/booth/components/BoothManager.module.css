@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 10px 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stallName {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.statusDisplay {
+  display: flex;
+  gap: 10px;
+  font-size: 1.1em;
+}
+
+.statusLabel {
+  color: #555;
+}
+
+.statusSeparator {
+  color: #ccc;
+}
+
+.statusValue {
+  font-weight: bold;
+}
+
+.buttonWrapper {
+  position: relative;
+}
+
+.updateButton {
+  font-weight: bold;
+  height: 50px;
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.successButton {
+  background-color: #52c41a !important;
+  border-color: #52c41a !important;
+}
+
+.successContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dirtyBanner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px;
+  background: rgba(255, 77, 79, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dirtyText {
+  color: #ff4d4f;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.dirtySubText {
+  color: #888;
+  font-size: 0.85em;
+}

@@ -1,0 +1,41 @@
+.loadingContainer {
+  text-align: center;
+  padding: 40px;
+}
+
+.emptyText {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.itemCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: var(--card-color);
+  border-radius: 12px;
+  border: 1px solid var(--clock-color);
+}
+
+.itemName {
+  font-weight: bold;
+  font-size: 15px;
+  color: var(--text-color);
+}
+
+.itemNameVoted {
+  color: #888;
+}
+
+.voteBtn {
+  border-radius: 8px;
+}

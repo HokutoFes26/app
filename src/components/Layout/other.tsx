@@ -23,9 +23,9 @@ export default function Other() {
     <div className="drawerBar">
       <Settings />
       {cardMake(t("CardTitles.UPDATES"), [
-        <h4 className="lastText" key="version" style={{ textAlign: "left" }}>
-          Fix: Maps full screen bug. 4.23.26
-        </h4>,
+        <h4 className="lastText" key="refactor" style={{ textAlign: "left", margin: "0" }}>
+          Full Release: All features complete. 5.2.26
+        </h4>
       ])}
     </div>
   );

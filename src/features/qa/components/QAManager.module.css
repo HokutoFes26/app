@@ -1,0 +1,103 @@
+.loadingContainer {
+  text-align: center;
+  padding: 50px;
+}
+
+.sectionTitle {
+  font-weight: bold;
+  text-align: left;
+}
+
+.itemContainer {
+  text-align: left;
+  padding: 0 0 20px;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.questionText {
+  font-size: 14px;
+  color: var(--text-sub-color);
+}
+
+.qPrefix {
+  color: #007AFF;
+  margin-right: 8px;
+}
+
+.itemTime {
+  font-size: 16px;
+  color: var(--text-sub-color);
+  margin: 0;
+}
+
+.inputRow {
+  display: flex;
+  gap: 10px;
+  margin: 4px 0 10px;
+}
+
+.noItemsText {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  padding: 20px;
+}
+
+.answeredItemContainer {
+  text-align: left;
+}
+
+.answerText {
+  font-size: 14px;
+  color: var(--text-sub-color);
+  white-space: pre-wrap;
+}
+
+.aPrefix {
+  color: #ff4d4f;
+  margin-right: 8px;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+.modalLabel {
+  font-size: 12px;
+}
+
+.modalInputLabel {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.confirmDeleteContainer {
+  margin-top: 10px;
+}
+
+.confirmDeleteText {
+  margin-bottom: 10px;
+}
+
+.confirmDeletePreview {
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #666;
+  border: 1px solid #ddd;
+}

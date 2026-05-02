@@ -1,0 +1,113 @@
+.switcher {
+  margin-right: 0.8em;
+}
+
+.radioBtn {
+  font-weight: bold;
+  font-size: 12px;
+  width: 80px;
+}
+
+.radioBtnHour {
+  border-radius: 999px 0 0 999px;
+}
+
+.radioBtnAll {
+  border-radius: 0 999px 999px 0;
+}
+
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.selectRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selectLabel {
+  font-size: 1.2em;
+  width: 40px;
+}
+
+.selectField {
+  flex: 1;
+}
+
+.listContainer {
+  position: relative;
+  gap: 15px;
+}
+
+.busItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.busInfo {
+  textAlign: left;
+}
+
+.routeTag {
+  font-size: 10px;
+  margin-bottom: 4px;
+}
+
+.timeText {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.timeLabel {
+  font-size: 12px;
+  font-weight: normal;
+  color: var(--text-sub-color);
+  margin-left: 4px;
+}
+
+.arrowLabel {
+  font-size: 12px;
+  color: var(--text-sub-color);
+  font-weight: normal;
+}
+
+.diffText {
+  text-align: right;
+}
+
+.diffValue {
+  font-size: 14px;
+  color: var(--text-sub-color);
+  margin: 0;
+}
+
+.departedValue {
+  font-size: 12px;
+  color: var(--text-sub-color);
+  margin: 0;
+}
+
+.noBuses {
+  font-size: 13px;
+  color: var(--text-sub-color);
+  padding: 10px 0;
+  text-align: center;
+  margin: auto;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.noBusesIcon {
+  font-size: 20px;
+  margin: auto 8px auto 0;
+}

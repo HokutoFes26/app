@@ -1,0 +1,23 @@
+.canvasContainer {
+  width: 100%;
+  margin-left: 0;
+  padding-left: 40px;
+}
+
+.lastUpdatedText {
+  font-size: 12px;
+  color: var(--text-sub-color);
+  margin-right: 2em;
+}
+
+.rankText {
+  font-weight: normal;
+}
+
+.topRankText {
+  font-weight: bold;
+}
+
+.itemName {
+  font-weight: 500;
+}

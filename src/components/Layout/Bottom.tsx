@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { TabSelector, initSwipeHandlers, initIndicatorDrag } from "@/lib/Misc/TabSelector";
+import React from "react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import WidgetsRoundedIcon from "@mui/icons-material/WidgetsRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
@@ -11,7 +10,8 @@ import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
-import "@/styles/global-app.css";
+import { useNavigation } from "./useNavigation";
+import styles from "./Bottom.module.css";
 
 const NAV_CONFIG = {
   user: [
@@ -56,97 +56,35 @@ export default function BottomNavigator({
   setIsMoving,
   disabled,
 }: BottomNavigatorProps) {
-  const indicatorRef = useRef<HTMLDivElement>(null);
-  const footerRef = useRef<HTMLDivElement>(null);
-  const valueRef = useRef(value);
-
   const items = NAV_CONFIG[mode];
   const tabCount = items.length;
 
-  useEffect(() => {
-    valueRef.current = value;
-  }, [value]);
-
-  const triggerMove = (prev: string, next: string) => {
-    if (prev === next || disabled) return;
-    setIsMoving(true);
-    TabSelector(Number(next));
-    setValue(next);
-    setTimeout(() => setIsMoving(false), 400);
-  };
-
-  useEffect(() => {
-    if (disabled) return;
-
-    const cleanupSwipe = initSwipeHandlers((direction) => {
-      if (disabled) return;
-      const current = valueRef.current;
-      const nextValue = Math.min(Math.max(Number(current) + direction, 0), tabCount - 1);
-      const nextValueStr = String(nextValue);
-
-      if (nextValueStr !== current) {
-        setIsMoving(true);
-        TabSelector(nextValue);
-        setValue(nextValueStr);
-        setTimeout(() => setIsMoving(false), 400);
-      }
-    });
-
-    const cleanupDrag =
-      indicatorRef.current && footerRef.current
-        ? initIndicatorDrag(
-            indicatorRef.current,
-            footerRef.current,
-            (nextTab) => {
-              if (disabled) return;
-              const current = valueRef.current;
-              const nextTabStr = String(nextTab);
-
-              if (nextTabStr !== current) {
-                setIsMoving(true);
-                TabSelector(nextTab);
-                setValue(nextTabStr);
-                setTimeout(() => setIsMoving(false), 400);
-              }
-            },
-            tabCount,
-          )
-        : null;
-
-    return () => {
-      cleanupSwipe();
-      if (cleanupDrag) cleanupDrag();
-    };
-  }, [setValue, setIsMoving, disabled, tabCount]);
-
-  const SIDE_PADDING = 5;
-  const EXTRA_WIDTH = 5.7;
-  const availableWidth = 100 - SIDE_PADDING * 2;
-  const slotWidth = availableWidth / tabCount;
-  const indicatorWidth = slotWidth + EXTRA_WIDTH;
-  const currentIndex = Number(value);
-  const iconCenter = SIDE_PADDING + slotWidth * currentIndex + slotWidth / 2;
-  const targetLeft = iconCenter - indicatorWidth / 2;
-  const translateXPercent = (targetLeft / indicatorWidth) * 100;
+  const { indicatorRef, footerRef, triggerMove, indicatorStyles, slotWidth, SIDE_PADDING } = useNavigation({
+    value,
+    setValue,
+    isMoving,
+    setIsMoving,
+    disabled,
+    tabCount,
+  });
 
   return (
-    <footer className="bottomFooter">
-      <div className="footerRef" ref={footerRef} style={{ padding: `0 ${SIDE_PADDING}%` }}>
+    <footer className={styles.bottomFooter}>
+      <div
+        className={styles.footerRef}
+        ref={footerRef}
+        style={{ padding: `0 ${SIDE_PADDING}%` }}
+      >
         <div
-          className="nav-indicator"
+          className={styles.navIndicator}
           ref={indicatorRef}
           style={{
-            width: `${indicatorWidth}%`,
-            left: 0,
-            transform: `translateX(${translateXPercent}%)`,
-            transition: isMoving ? "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)" : "none",
-            zIndex: 1,
+            ...indicatorStyles,
             cursor: disabled ? "default" : "grab",
-            position: "absolute",
           }}
         ></div>
 
-        <div className="nav-wrapper" style={{ width: "100%", justifyContent: "space-around" }}>
+        <div className={styles.navWrapper}>
           {items.map((item) => {
             const Icon = item.icon;
             const isActive = value === item.key;
@@ -154,23 +92,14 @@ export default function BottomNavigator({
               <div
                 key={item.key}
                 onClick={() => triggerMove(value, item.key)}
-                className="nav-tab-btn"
+                className={styles.navTabBtn}
                 style={{ width: `${slotWidth}%` }}
               >
                 <Icon
-                  style={{
-                    color: isActive ? "var(--bg-color)" : "var(--text-sub-color)",
-                    fontSize: "26px",
-                    zIndex: 2,
-                  }}
+                  className={`${styles.navIcon} ${isActive ? styles.active : styles.inactive}`}
                 />
                 <div
-                  style={{
-                    color: isActive ? "var(--bg-color)" : "var(--text-sub-color)",
-                    fontSize: "10px",
-                    fontWeight: isActive ? "600" : "400",
-                    zIndex: 2,
-                  }}
+                  className={`${styles.navLabel} ${isActive ? styles.active : styles.inactive}`}
                 >
                   {item.label}
                 </div>

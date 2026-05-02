@@ -1,0 +1,14 @@
+.label {
+  margin-bottom: 12px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.radioGroup {
+  width: 100%;
+}
+
+.radioBtn {
+  width: 33.3%;
+  text-align: center;
+}

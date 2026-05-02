@@ -1,39 +1,40 @@
 "use client";
 
 import React, { Suspense, useMemo, useState, useEffect } from "react";
-import { Tabs, Button, App as AntdApp, Space, Typography } from "antd";
+import { Tabs, Button, App as AntdApp, Space } from "antd";
 import "@/styles/global-app.css";
 import Menu from "@/components/Layout/menu";
 import BottomNavigator from "@/components/Layout/Bottom";
-import { useRole, RoleProvider } from "@/contexts/RoleContext";
+import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import { useMapControl } from "@/contexts/MapContext";
-import AspectDetector from "@/lib/Misc/AspectDetector";
-import useColumnDetector from "@/lib/Misc/ColumnDetector";
-import { TabSelector } from "@/lib/Misc/TabSelector";
+import AspectDetector from "@/hooks/useAspectDetector";
+import useColumnDetector from "@/hooks/useColumnDetector";
+import { TabSelector } from "@/features/main/hooks/useTabSelector";
 import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 
 import MapRoundedIcon from "@mui/icons-material/MapRounded";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PollIcon from "@mui/icons-material/Poll";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 
-const NewsManager = React.lazy(() => import("@/components/Admin/NewsManager"));
-const BoothManager = React.lazy(() => import("@/components/Admin/BoothManager"));
-const LostManager = React.lazy(() => import("@/components/Admin/LostManager"));
-const QAManager = React.lazy(() => import("@/components/Admin/QAManager"));
-const MapModal = React.lazy(() => import("@/components/Map/MapModal"));
-const NewsStatus = React.lazy(() => import("@/components/user/status/NewsStatus"));
-const VoteAdmin = React.lazy(() => import("@/components/Admin/VoteAdmin"));
-const BoothQRManager = React.lazy(() => import("@/components/Admin/BoothQRManager"));
+import styles from "./AdminView.module.css";
+
+const NewsManager = React.lazy(() => import("@/features/news/components/NewsManager"));
+const BoothManager = React.lazy(() => import("@/features/booth/components/BoothManager"));
+const LostManager = React.lazy(() => import("@/features/lost/components/LostManager"));
+const QAManager = React.lazy(() => import("@/features/qa/components/QAManager"));
+const MapModal = React.lazy(() => import("@/features/map/components/MapModal"));
+const NewsStatus = React.lazy(() => import("@/features/news/components/NewsStatus"));
+const VoteAdmin = React.lazy(() => import("@/features/vote/components/VoteAdmin"));
+const BoothQRManager = React.lazy(() => import("@/features/booth/components/BoothQRManager"));
 const Other = React.lazy(() => import("@/components/Layout/other"));
-const ServerStatus = React.lazy(() => import("@/components/Admin/ServerStatus"));
+const ServerStatus = React.lazy(() => import("@/features/admin/components/ServerStatus"));
 
 const FallbackLoader = ({ text = "Loading..." }: { text?: string }) => (
-  <div style={{ textAlign: "center", padding: "20px", color: "var(--text-sub-color)" }}>{text}</div>
+  <div className={styles.fallbackLoader}>{text}</div>
 );
 
 export default function AdminView() {
@@ -55,9 +56,9 @@ export default function AdminView() {
 
   useEffect(() => {
     if (isMobile) {
-      if (isStallAdmin || activeTab === "1" || activeTab === "2" || activeTab === "5") {
+      if (isStallAdmin || activeTab === "1" || activeTab === "2") {
         TabSelector(Number(subTab));
-      } else if (activeTab === "3") {
+      } else if (activeTab === "3" || activeTab === "5") {
         const canvas = document.getElementById("canvas");
         if (canvas) canvas.style.left = "0";
       }
@@ -136,7 +137,13 @@ export default function AdminView() {
       if (columns >= 3) {
         return [[managers.News], [managers.QA], [managers.Lost]];
       }
-      return [[managers.News], [React.cloneElement(managers.QA, { key: "qa-col" }), React.cloneElement(managers.Lost, { key: "lost-col" })]];
+      return [
+        [managers.News],
+        [
+          React.cloneElement(managers.QA as React.ReactElement, { key: "qa-col" }),
+          React.cloneElement(managers.Lost as React.ReactElement, { key: "lost-col" }),
+        ],
+      ];
     }
 
     if (activeTab === "2") {
@@ -166,7 +173,7 @@ export default function AdminView() {
       key: "1",
       label: (
         <Space>
-          <SettingsIcon style={{ fontSize: isMobile ? "16px" : "18px", display: "flex" }} />
+          <SettingsIcon className={styles.tabIcon} style={{ fontSize: isMobile ? "16px" : "18px" }} />
           {isMobile ? "管理" : "ダッシュボード"}
         </Space>
       ),
@@ -175,7 +182,7 @@ export default function AdminView() {
       key: "2",
       label: (
         <Space>
-          <PollIcon style={{ fontSize: isMobile ? "16px" : "18px", display: "flex" }} />
+          <PollIcon className={styles.tabIcon} style={{ fontSize: isMobile ? "16px" : "18px" }} />
           {isMobile ? "集計" : "投票集計"}
         </Space>
       ),
@@ -184,7 +191,7 @@ export default function AdminView() {
       key: isMobile ? "3" : "4",
       label: (
         <Space>
-          <QrCodeIcon style={{ fontSize: isMobile ? "16px" : "18px", display: "flex" }} />
+          <QrCodeIcon className={styles.tabIcon} style={{ fontSize: isMobile ? "16px" : "18px" }} />
           {isMobile ? "QR" : "模擬店QR生成"}
         </Space>
       ),
@@ -193,7 +200,7 @@ export default function AdminView() {
       key: "5",
       label: (
         <Space>
-          <CloudQueueIcon style={{ fontSize: isMobile ? "16px" : "18px", display: "flex" }} />
+          <CloudQueueIcon className={styles.tabIcon} style={{ fontSize: isMobile ? "16px" : "18px" }} />
           {isMobile ? "サーバー" : "サーバー"}
         </Space>
       ),
@@ -203,23 +210,14 @@ export default function AdminView() {
   const showBottomNav = isMobile && (isStallAdmin || activeTab === "1" || activeTab === "2");
 
   return (
-    <div className="mainCanvas" style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div className={`mainCanvas ${styles.adminView}`}>
       <Suspense fallback={null}>
         <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} targetPlace={mapControl?.targetPlace} />
       </Suspense>
 
       {isAdmin && (
         <div
-          style={{
-            background: "var(--bg-color)",
-            padding: isMobile ? "10px 10px 0" : "0 40px",
-            borderBottom: "1px solid var(--border-color)",
-            zIndex: 100,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexShrink: 0,
-          }}
+          className={`${styles.header} ${isMobile ? styles.headerMobile : styles.headerDesktop}`}
         >
           <Tabs
             activeKey={activeTab}
@@ -247,15 +245,7 @@ export default function AdminView() {
         </div>
       )}
 
-      <div
-        style={{
-          flex: 1,
-          position: "relative",
-          height: "100%",
-          overflow: "hidden",
-          background: "var(--mainCanvas-color)",
-        }}
-      >
+      <div className={styles.contentWrapper}>
         <div
           className={isMobile ? "canvas" : "PCCanvas"}
           id={isMobile ? "canvas" : undefined}
@@ -270,7 +260,10 @@ export default function AdminView() {
           }
         >
           {layout.map((column, i) => (
-            <PCCanvasColumn key={i} width={isMobile ? "100%" : isStallAdmin ? "33.3%" : `${100 / layout.length}%`}>
+            <PCCanvasColumn
+              key={i}
+              width={isMobile ? "100%" : isStallAdmin ? "33.3%" : `${100 / layout.length}%`}
+            >
               {column}
             </PCCanvasColumn>
           ))}

@@ -1,0 +1,59 @@
+.pccCanvas {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.guideText {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.selectContainer {
+  margin-bottom: 24px;
+}
+
+.qrDisplayContainer {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.loadingDisplay {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrWrapper {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+
+.qrImage {
+  width: 250px;
+  height: 250px;
+}
+
+.qrTitle {
+  margin: 0 !important;
+}
+
+.qrExpiry {
+  font-size: 12px;
+}
+
+.placeholderContainer {
+  text-align: center;
+  padding: 60px 0;
+  color: #bfbfbf;
+}
+
+.placeholderIcon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}

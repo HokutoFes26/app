@@ -1,0 +1,78 @@
+.canvasContainer {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.refreshButton {
+  padding: 0.5em 2em !important;
+}
+
+.refreshIcon {
+  font-size: 20px !important;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  width: 100%;
+}
+
+.itemDivider {
+  height: 1px;
+  background-color: var(--border-color);
+  opacity: 0.1;
+  margin: 0 10px;
+}
+
+.itemContent {
+  padding: 12px 10px;
+}
+
+.itemContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+}
+
+.iconWrapper {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.statusIcon {
+  font-size: 28px !important;
+}
+
+.infoWrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.nameWrapper {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemName {
+  font-size: 16px !important;
+}
+
+.statusTag {
+  font-size: 12px !important;
+  border-radius: 4px !important;
+}
+
+.latencyWrapper {
+  flex-shrink: 0;
+}
+
+.latencyTag {
+  border-radius: 12px !important;
+  margin: 0 !important;
+}

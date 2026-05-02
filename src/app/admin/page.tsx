@@ -1,49 +1,23 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { api } from "@/lib/Server/api";
-import { useRole } from "@/contexts/RoleContext";
-import AspectDetector from "@/lib/Misc/AspectDetector";
-import React, { useEffect } from "react";
+import React, { Suspense } from "react";
 import FullPageLoader from "@/components/Layout/FullPageLoader";
-import { useRouter } from "next/navigation";
+import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
+import styles from "./page.module.css";
 
 const AdminView = React.lazy(() => import("@/app/admin/_components/AdminView"));
 
 export default function AdminPage() {
-  const { setRole, isAdmin, isStallAdmin, isAuthenticating } = useRole();
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isStallAdmin) {
-      router.replace("/booth");
-    }
-  }, [isStallAdmin, router]);
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!password) {
-      setError("パスワードを入力してください");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    try {
-      await api.auth.loginAsAdmin(password);
-      localStorage.setItem("admin_auth", "true");
-      setRole("admin");
-    } catch (err: any) {
-      console.error("[Admin Login] Failed:", err.message);
-      setError("管理者パスワードが正しくないか、ログインに失敗しました");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    password,
+    setPassword,
+    loading,
+    error,
+    handleLogin,
+    isAdmin,
+    isStallAdmin,
+    isAuthenticating,
+  } = useAdminAuth();
 
   if (isAuthenticating || isStallAdmin) {
     return <FullPageLoader />;
@@ -58,61 +32,26 @@ export default function AdminPage() {
   }
 
   return (
-    <div
-      style={{
-        height: "90vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <form
-        onSubmit={handleLogin}
-        style={{
-          width: "70%",
-          maxWidth: "400px",
-          textAlign: "center",
-        }}
-      >
-        <h3 style={{ marginBottom: "30px", color: "var(--text-color)" }}>ログイン</h3>
+    <div className={styles.container}>
+      <form onSubmit={handleLogin} className={styles.form}>
+        <h3 className={styles.title}>ログイン</h3>
         <input
           type="password"
           placeholder="パスワードを入力"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "12px",
-            marginBottom: "20px",
-            borderRadius: "10px",
-            fontSize: "16px",
-            border: "1px solid #ddd",
-            background: "var(--bg-color)",
-            color: "var(--text-color)",
-          }}
+          className={styles.input}
           disabled={loading}
         />
         {error && (
-          <div style={{ marginBottom: "1em" }}>
-            <span style={{ color: "red", fontSize: "14px" }}>{error}</span>
+          <div className={styles.errorContainer}>
+            <span className={styles.errorText}>{error}</span>
           </div>
         )}
         <button
           type="submit"
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "none",
-            background: "var(--text-color)",
-            color: "var(--mainCanvas-color)",
-            fontSize: "16px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            opacity: loading ? 0.5 : 1,
-          }}
+          className={styles.submitBtn}
+          style={{ opacity: loading ? 0.5 : 1 }}
           disabled={loading}
         >
           {loading ? "認証中..." : "ログイン"}
