@@ -49,13 +49,13 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         return 2;
       };
       return {
-        id: index + 1,
+        id: stall.id || index + 1,
         stallName: stall.name,
         crowdLevel: getRand() as 0 | 1 | 2,
         stockLevel: getRand() as 0 | 1 | 2,
       };
     });
-  }, []);
+  }, [allStalls]);
 
   const demoData: DataContextType = {
     api: {

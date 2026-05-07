@@ -1,0 +1,161 @@
+[
+  {
+    "id": "11-1",
+    "location": "第1専門棟1階",
+    "nearbyStalls": [17, 11],
+    "nearbyExhibitions": [19, 20, 14]
+  },
+  {
+    "id": "11-2",
+    "location": "第1専門棟1階",
+    "nearbyStalls": [17, 11],
+    "nearbyExhibitions": [19, 20, 14]
+  },
+  {
+    "id": "11-3",
+    "location": "第1専門棟1階",
+    "nearbyStalls": [17, 11],
+    "nearbyExhibitions": [19, 20, 14]
+  },
+  {
+    "id": "11-4",
+    "location": "第1専門棟1階",
+    "nearbyStalls": [17, 11],
+    "nearbyExhibitions": [19, 20, 14]
+  },
+  {
+    "id": "21-1",
+    "location": "第2専門棟1階",
+    "nearbyStalls": [6, 11],
+    "nearbyExhibitions": [8]
+  },
+  {
+    "id": "31-1",
+    "location": "第3専門棟1階",
+    "nearbyStalls": [6],
+    "nearbyExhibitions": [0, 1, 2, 12, 13]
+  },
+  {
+    "id": "31-2",
+    "location": "第3専門棟1階",
+    "nearbyStalls": [6],
+    "nearbyExhibitions": [12, 13, 2, 1, 0]
+  },
+  {
+    "id": "12-1",
+    "location": "第1専門棟2階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [22, 24]
+  },
+  {
+    "id": "12-2",
+    "location": "第1専門棟2階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [22, 24]
+  },
+  {
+    "id": "12-3",
+    "location": "第1専門棟2階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [24, 22]
+  },
+  {
+    "id": "12-4",
+    "location": "第1専門棟2階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [24, 22]
+  },
+  {
+    "id": "22-1",
+    "location": "第2専門棟2階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [15]
+  },
+  {
+    "id": "32-1",
+    "location": "第3専門棟2階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [10, 11, 4, 7]
+  },
+  {
+    "id": "32-2",
+    "location": "第3専門棟2階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [4, 7, 10, 11]
+  },
+  {
+    "id": "13-1",
+    "location": "第1専門棟3階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [25, 23]
+  },
+  {
+    "id": "13-2",
+    "location": "第1専門棟3階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [25, 23]
+  },
+  {
+    "id": "13-3",
+    "location": "第1専門棟3階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [23, 25]
+  },
+  {
+    "id": "23-1",
+    "location": "第2専門棟3階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "33-1",
+    "location": "第3専門棟3階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [18, 9, 21, 5]
+  },
+  {
+    "id": "33-2",
+    "location": "第3専門棟3階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [21, 5, 18, 9]
+  },
+  {
+    "id": "14-1",
+    "location": "第1専門棟4階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [17]
+  },
+  {
+    "id": "14-2",
+    "location": "第1専門棟4階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [17]
+  },
+  {
+    "id": "14-3",
+    "location": "第1専門棟4階",
+    "nearbyStalls": [],
+    "nearbyExhibitions": [17]
+  },
+  {
+    "id": "24-1",
+    "location": "第2専門棟4階",
+    "mapImg": null,
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "34-1",
+    "location": "第3専門棟4階",
+    "mapImg": null,
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "34-2",
+    "location": "第3専門棟4階",
+    "mapImg": null,
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  }
+]

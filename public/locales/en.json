@@ -90,6 +90,13 @@
     "NoEvent": "No Events",
     "Now": "NOW"
   },
+  "Spot": {
+    "Title": "Location Info",
+    "CurrentLocation": "You are here",
+    "ViewFullMap": "Zoom Map",
+    "NearbyBooths": "Nearby Booths & Exhibits",
+    "NoNearby": "No nearby info available"
+  },
   "News": {
     "NoData": "No news available",
     "Updated": "Updated",
@@ -110,7 +117,8 @@
     "Cancel": "Cancel",
     "Confirm": "Confirm",
     "HotNews": "Hot",
-    "AppShare": "Scan to View"
+    "AppShare": "Scan to View",
+    "DemoNotSupported": "Not supported in demo"
   },
   "Settings": {
     "Dark": "Dark Theme",

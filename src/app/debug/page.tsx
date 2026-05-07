@@ -23,18 +23,8 @@ import { supabase } from "@/lib/Server/supabase";
 import { fetchAllData } from "@/lib/Server/baseApi";
 import { fetchSession } from "@/features/auth/api";
 import { fetchStallsOnly } from "@/features/booth/api";
-import { getVoteResults } from "@/features/vote/api";;
+import { getVoteResults } from "@/features/vote/api";
 import { useAppTime } from "@/contexts/TimeContext";
-import {
-  ThunderboltOutlined,
-  DeleteOutlined,
-  LogoutOutlined,
-  DatabaseOutlined,
-  GlobalOutlined,
-  ApiOutlined,
-  KeyOutlined,
-  ClockCircleOutlined,
-} from "@ant-design/icons";
 
 const { Title, Text, Paragraph } = Typography;
 

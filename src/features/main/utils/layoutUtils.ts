@@ -11,7 +11,7 @@ export const calculateLayout = (cards: Record<string, React.ReactNode>, options:
 
   if (isMobile) {
     return [
-      [cards.Header, cards.HotNews, cards.Events, cards.News, cards.Vote],
+      [cards.Header, cards.Spot, cards.HotNews, cards.Events, cards.News, cards.Vote],
       !isStallAdmin ? [cards.BoothFav, cards.Booth] : [],
       [cards.Bus, cards.QA, cards.Lost],
       [cards.Other],
@@ -20,7 +20,7 @@ export const calculateLayout = (cards: Record<string, React.ReactNode>, options:
 
   if (columns === 4) {
     return [
-      [cards.BoothFav, cards.Booth1],
+      [cards.Spot, cards.BoothFav, cards.Booth1],
       [cards.Booth2],
       [cards.Events, cards.Bus, cards.Vote],
       [cards.News, cards.QA, cards.Lost],
@@ -29,14 +29,14 @@ export const calculateLayout = (cards: Record<string, React.ReactNode>, options:
 
   if (columns === 3) {
     return [
-      [cards.BoothFav, cards.Booth],
+      [cards.Spot, cards.BoothFav, cards.Booth],
       [cards.Events, cards.Bus, cards.Vote],
       [cards.News, cards.QA, cards.Lost],
     ];
   }
 
   return [
-    [cards.HotNews, cards.BoothFav, cards.Booth, cards.News],
+    [cards.Spot, cards.HotNews, cards.BoothFav, cards.Booth, cards.News],
     [cards.Vote, cards.Events, cards.Bus, cards.QA, cards.Lost],
   ];
 };

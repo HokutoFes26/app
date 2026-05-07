@@ -22,6 +22,7 @@ const LostStatus = React.lazy(() => import("@/features/lost/components/LostStatu
 const QAStatus = React.lazy(() => import("@/features/qa/components/QAStatus"));
 const Other = React.lazy(() => import("@/components/Layout/other"));
 const MapModal = React.lazy(() => import("@/features/map/components/MapModal"));
+const SpotStatus = React.lazy(() => import("@/features/map/components/SpotStatus"));
 const AppShare = React.lazy(() => import("@/components/Layout/AppShare"));
 const BoothModalManager = React.lazy(() => import("@/features/booth/components/BoothModalManager"));
 
@@ -46,6 +47,11 @@ export default function UserView() {
   } = useUserView();
 
   const cards = useMemo(() => ({
+    Spot: (
+      <Suspense key="spot" fallback={<FallbackLoader text="Loading Spot..." />}>
+        <SpotStatus />
+      </Suspense>
+    ),
     HotNews: hasHotNews ? <NewsStatus key="hotnews" onlyHot={true} hotTime={hotTime} /> : null,
     Events: <EventStatus key="events" />,
     Vote: <VoteStatus key="vote" />,

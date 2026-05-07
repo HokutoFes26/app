@@ -90,6 +90,13 @@
     "NoEvent": "イベントはありません",
     "Now": "NOW"
   },
+  "Spot": {
+    "Title": "現在地情報",
+    "CurrentLocation": "あなたは今",
+    "ViewFullMap": "拡大表示",
+    "NearbyBooths": "周辺の模擬店・展示",
+    "NoNearby": "周辺に情報はありません"
+  },
   "News": {
     "NoData": "お知らせはありません",
     "Updated": "更新",
@@ -110,7 +117,8 @@
     "Cancel": "キャンセル",
     "Confirm": "確定",
     "HotNews": "新着",
-    "AppShare": "スマホで表示"
+    "AppShare": "スマホで表示",
+    "DemoNotSupported": "デモページのため非対応"
   },
   "Settings": {
     "Dark": "ダークテーマ",

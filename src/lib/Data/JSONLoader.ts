@@ -1,6 +1,6 @@
 import { BASE_PATH } from "@/constants/paths";
 
-type JSONDataType = "booth" | "events" | "vote" | "bus";
+type JSONDataType = "booth" | "events" | "vote" | "bus" | "spots";
 
 const cache: Record<string, any> = {};
 
@@ -8,6 +8,7 @@ const transformData = (type: JSONDataType, rawData: any) => {
   switch (type) {
     case "booth":
       return [...(rawData.L1 || []), ...(rawData.L2 || []), ...(rawData.L3 || []), ...(rawData.L4 || [])];
+    case "spots":
     case "events":
     case "bus":
       return rawData;
