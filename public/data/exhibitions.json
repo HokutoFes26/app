@@ -1,0 +1,210 @@
+[
+  {
+    "id": 1,
+    "category": "L1",
+    "name": "VS電子",
+    "team": "I2",
+    "place": "I2教室",
+    "image": "/img/products/I2.jpg"
+  },
+  {
+    "id": 2,
+    "category": "L1",
+    "name": "恋みくじ・フォトスポット",
+    "team": "K2",
+    "place": "K2教室",
+    "image": "/img/products/K2.jpg"
+  },
+  {
+    "id": 3,
+    "category": "L1",
+    "name": "キッキングスナイパー",
+    "team": "S2",
+    "place": "S2教室",
+    "image": "/img/products/S2.jpg"
+  },
+  {
+    "id": 4,
+    "category": "L1",
+    "name": "縁日",
+    "team": "I3",
+    "place": "I3教室",
+    "image": "/img/products/I3.jpg"
+  },
+  {
+    "id": 5,
+    "category": "L1",
+    "name": "縁日",
+    "team": "K3",
+    "place": "K3教室",
+    "image": "/img/products/K3.jpg"
+  },
+  {
+    "id": 6,
+    "category": "L1",
+    "name": "お化け屋敷",
+    "team": "S3",
+    "place": "S3教室",
+    "image": "/img/products/S3.jpg"
+  },
+  {
+    "id": 7,
+    "category": "L2",
+    "name": "ゲーム・イラスト展示",
+    "team": "デジタルメディア創作部",
+    "place": "第2プラザ",
+    "image": "/img/products/デジ研.jpg"
+  },
+  {
+    "id": 8,
+    "category": "L2",
+    "name": "ロボット操作体験",
+    "team": "メカトロ技術研究部",
+    "place": "第1体育館",
+    "image": "/img/products/メカトロ.jpg"
+  },
+  {
+    "id": 9,
+    "category": "L2",
+    "name": "新聞展示",
+    "team": "新聞部",
+    "place": "ラウンジC",
+    "image": "/img/products/新聞部.jpg"
+  },
+  {
+    "id": 10,
+    "category": "L2",
+    "name": "部誌・読書スペース",
+    "team": "文芸同好会",
+    "place": "ラウンジA",
+    "image": "/img/products/文芸.jpg"
+  },
+  {
+    "id": 11,
+    "category": "L2",
+    "name": "書道作品展示",
+    "team": "書道同好会",
+    "place": "学生昇降口",
+    "image": "/img/products/書道.jpg"
+  },
+  {
+    "id": 12,
+    "category": "L2",
+    "name": "写真展示",
+    "team": "写真同好会",
+    "place": "ラウンジA",
+    "image": "/img/products/写真.jpg"
+  },
+  {
+    "id": 13,
+    "category": "L2",
+    "name": "ジオラマ展示",
+    "team": "鉄道部",
+    "place": "第1体育館",
+    "image": "/img/products/鉄道.jpg"
+  },
+  {
+    "id": 14,
+    "category": "L2",
+    "name": "全国高専のロボット展示",
+    "team": "メカテック部",
+    "place": "第1体育館",
+    "image": "/img/products/メカテック.jpg"
+  },
+  {
+    "id": 15,
+    "category": "L3",
+    "name": "電子情報工学科展示",
+    "team": "電子情報工学科",
+    "place": "電子情報第1実験室",
+    "image": "/img/products/電子情報工学科展示.jpg"
+  },
+  {
+    "id": 16,
+    "category": "L3",
+    "name": "国際ビジネス学科紹介",
+    "team": "国際ビジネス学科",
+    "place": "K5教室",
+    "image": "/img/products/国際ビジネス学科紹介.jpg"
+  },
+  {
+    "id": 17,
+    "category": "L3",
+    "name": "機関実習室ツアー",
+    "team": "商船学科機関コース",
+    "place": "ETS演習室・蒸気実験室・補機実験室・内燃機関実験室",
+    "image": "/img/products/機関実習室ツアー.jpg"
+  },
+  {
+    "id": 18,
+    "category": "L3",
+    "name": "操船シミュレータ体験など",
+    "team": "商船学科航海コース",
+    "place": "航海学演習室・公開計測演習室・レーダーシミュレーター演習室",
+    "image": "/img/products/操船シミュレータ体験など.jpg"
+  },
+  {
+    "id": 19,
+    "category": "L3",
+    "name": "若潮丸Ⅳ・Ⅴ世の紹介など",
+    "team": "若潮丸委員会",
+    "place": "ラウンジB",
+    "image": "/img/products/若潮丸Ⅳ・Ⅴ世の紹介など.jpg"
+  },
+  {
+    "id": 20,
+    "category": "L3",
+    "name": "写真展",
+    "team": "商船OB",
+    "place": "S4教室",
+    "image": "/img/products/写真展.jpg"
+  },
+  {
+    "id": 21,
+    "category": "L3",
+    "name": "本郷3学科紹介展示",
+    "team": "本郷3学科",
+    "place": "ものづくり教室",
+    "image": "/img/products/本郷3学科紹介展示.jpg"
+  },
+  {
+    "id": 22,
+    "category": "L3",
+    "name": "専攻科活動紹介",
+    "team": "専攻科",
+    "place": "K4紹介",
+    "image": "/img/products/専攻科活動紹介.jpg"
+  },
+  {
+    "id": 23,
+    "category": "L4",
+    "name": "連携事業・活動実績など",
+    "team": "研究開発共創センター",
+    "place": "ものづくり教室",
+    "image": "/img/products/連携事業・活動実績など.jpg"
+  },
+  {
+    "id": 24,
+    "category": "L4",
+    "name": "富山高専の国際化への取り組み紹介",
+    "team": "国際教育センター",
+    "place": "K4教室",
+    "image": "/img/products/富山高専の国際化への取り組み紹介.jpg"
+  },
+  {
+    "id": 25,
+    "category": "L4",
+    "name": "展示",
+    "team": "入試センター",
+    "place": "ものづくり教室",
+    "image": "/img/products/ComingSoon.jpg"
+  },
+  {
+    "id": 26,
+    "category": "L4",
+    "name": "校長先生ポスター",
+    "team": "団体名",
+    "place": "ものづくり教室",
+    "image": "/img/products/校長先生ポスター.jpg"
+  }
+]

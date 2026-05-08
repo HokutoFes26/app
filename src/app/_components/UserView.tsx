@@ -47,11 +47,7 @@ export default function UserView() {
   } = useUserView();
 
   const cards = useMemo(() => ({
-    Spot: (
-      <Suspense key="spot" fallback={<FallbackLoader text="Loading Spot..." />}>
-        <SpotStatus />
-      </Suspense>
-    ),
+    Spot: null,
     HotNews: hasHotNews ? <NewsStatus key="hotnews" onlyHot={true} hotTime={hotTime} /> : null,
     Events: <EventStatus key="events" />,
     Vote: <VoteStatus key="vote" />,
@@ -92,6 +88,7 @@ export default function UserView() {
       <Suspense fallback={null}>
         <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} targetPlace={targetPlace} />
         <BoothModalManager />
+        <SpotStatus />
       </Suspense>
 
       {!isMobile && (

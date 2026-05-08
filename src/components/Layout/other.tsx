@@ -24,7 +24,7 @@ export default function Other() {
       <Settings />
       {cardMake(t("CardTitles.UPDATES"), [
         <h4 className="lastText" key="refactor" style={{ textAlign: "left", margin: "0" }}>
-          Full Release: All features complete. 5.2.26
+          Feature: Spot QR. 5.9.26
         </h4>
       ])}
     </div>

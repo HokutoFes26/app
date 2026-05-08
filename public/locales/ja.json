@@ -92,10 +92,12 @@
   },
   "Spot": {
     "Title": "現在地情報",
-    "CurrentLocation": "あなたは今",
+    "CurrentLocation": "ここは",
     "ViewFullMap": "拡大表示",
-    "NearbyBooths": "周辺の模擬店・展示",
-    "NoNearby": "周辺に情報はありません"
+    "NearbyBooths": "周辺の模擬店",
+    "NearbyExhibitions": "周辺の展示",
+    "NoNearby": "周辺に情報はありません",
+    "NoNearbyExhibitions": "周辺に展示情報はありません"
   },
   "News": {
     "NoData": "お知らせはありません",

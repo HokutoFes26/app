@@ -94,8 +94,10 @@
     "Title": "Location Info",
     "CurrentLocation": "You are here",
     "ViewFullMap": "Zoom Map",
-    "NearbyBooths": "Nearby Booths & Exhibits",
-    "NoNearby": "No nearby info available"
+    "NearbyBooths": "Nearby Booths",
+    "NearbyExhibitions": "Nearby Exhibitions",
+    "NoNearby": "No nearby info available",
+    "NoNearbyExhibitions": "No nearby exhibitions available"
   },
   "News": {
     "NoData": "No news available",

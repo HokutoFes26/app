@@ -132,15 +132,18 @@ export default function DebugPage() {
     <div
       style={{
         padding: "24px 24px 100px",
-        margin: "0 auto",
-        height: "100dvh",
+        margin: "0",
+        left: "0",
+        top: "0",
+        height: "100%",
+        width: "100%",
         overflowY: "auto",
         backgroundColor: "#f5f5f5",
-        position: "relative",
+        position: "absolute",
         zIndex: 1000,
       }}
     >
-      <Space direction="vertical" size="large" style={{ width: "100%", maxWidth: "700px" }}>
+      <Space orientation="vertical" size="large" style={{ width: "100%", maxWidth: "700px" }}>
         <Tabs
           defaultActiveKey="1"
           items={[
@@ -149,7 +152,7 @@ export default function DebugPage() {
               label: <span>API</span>,
               children: (
                 <Card title="通信速度">
-                  <Space direction="vertical" style={{ width: "100%" }} size="middle">
+                  <Space orientation="vertical" style={{ width: "100%" }} size="middle">
                     <div>
                       <Text strong>速度制限: </Text>
                       <Radio.Group value={speedLimit} onChange={(e) => setSpeedLimit(e.target.value)}>
@@ -193,16 +196,10 @@ export default function DebugPage() {
                       >
                         fetchAllData
                       </Button>
-                      <Button
-                        loading={loading}
-                        onClick={() => runApiTest("fetchStallsOnly", () => fetchStallsOnly(0))}
-                      >
+                      <Button loading={loading} onClick={() => runApiTest("fetchStallsOnly", () => fetchStallsOnly(0))}>
                         fetchStallsOnly
                       </Button>
-                      <Button
-                        loading={loading}
-                        onClick={() => runApiTest("voting.getResults", () => getVoteResults())}
-                      >
+                      <Button loading={loading} onClick={() => runApiTest("voting.getResults", () => getVoteResults())}>
                         voting.getResults
                       </Button>
                     </Space>
@@ -288,11 +285,11 @@ export default function DebugPage() {
                     <div style={{ border: "1px solid #d9d9d9", borderRadius: "8px", overflow: "hidden" }}>
                       <div style={{ display: "flex", flexDirection: "column" }}>
                         {storageItems.map((item, index) => (
-                          <div 
-                            key={item.key} 
-                            style={{ 
-                              padding: "8px 12px", 
-                              borderBottom: index === storageItems.length - 1 ? "none" : "1px solid #f0f0f0" 
+                          <div
+                            key={item.key}
+                            style={{
+                              padding: "8px 12px",
+                              borderBottom: index === storageItems.length - 1 ? "none" : "1px solid #f0f0f0",
                             }}
                           >
                             <Text strong>{item.key}:</Text> <Text code>{item.value}</Text>
@@ -313,9 +310,9 @@ export default function DebugPage() {
               key: "3",
               label: <span>Utilities</span>,
               children: (
-                <Space direction="vertical" style={{ width: "100%" }} size="middle">
+                <Space orientation="vertical" style={{ width: "100%" }} size="middle">
                   <Card title="時間">
-                    <Space direction="vertical">
+                    <Space orientation="vertical">
                       <Text>
                         現在のアプリ内時刻:{" "}
                         <Tag color={isMocked ? "orange" : "blue"}>{currentTime.format("YYYY-MM-DD HH:mm:ss")}</Tag>
@@ -339,6 +336,9 @@ export default function DebugPage() {
                       </Link>
                       <Link href="/vote">
                         <Button>投票ページ</Button>
+                      </Link>
+                      <Link href="/debug/spots">
+                        <Button>Spot-QR</Button>
                       </Link>
                     </Space>
                   </Card>

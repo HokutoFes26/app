@@ -1,3 +1,75 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+
+.overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background-color: var(--bg-color);
+  width: 90%;
+  max-width: 500px;
+  max-height: 85vh;
+  border-radius: 45px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay.open .modal {
+  transform: translateY(0);
+}
+
+.scrollArea {
+  overflow-y: auto;
+  padding: 20px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 2em;
+  right: 2em;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-color-sub);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  color: var(--text-color);
+  transition: background 0.2s;
+}
+
+.closeBtn:hover {
+  background: var(--border-color);
+}
+
 .locationHeader {
   display: flex;
   align-items: center;
@@ -45,29 +117,8 @@
   background: var(--bg-color-sub);
   padding: 2px 8px;
   border-radius: 12px;
-}
-
-.subjectContainer {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.closeBtn {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  color: var(--text-sub-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background 0.2s;
-}
-
-.closeBtn:hover {
-  background: var(--bg-color-sub);
+  margin-bottom: 10px;
+  display: inline-block;
 }
 
 .mapContainer {
@@ -88,7 +139,7 @@
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   color: #fff;
   padding: 4px 10px;
   border-radius: 20px;
@@ -105,34 +156,55 @@
 }
 
 .sectionTitle {
-  font-size: 0.9em;
+  font-size: 1.2em;
   font-weight: bold;
   color: var(--text-sub-color);
   margin: 0 0 10px 0;
+}
+
+.boothList {
+  display: flex;
+  flex-direction: column;
 }
 
 .boothRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
   cursor: pointer;
 }
 
+.exhibitionRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.exhibitionMain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exhibitionTeam {
+  font-size: 0.8em;
+  color: var(--text-sub-color);
+}
+
 .boothName {
-  font-size: 1em;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--text-color);
 }
 
-.statusContainer {
-  display: flex;
-  gap: 8px;
+.stallDetails {
+  font-size: 9px;
+  color: #676767;
 }
 
-.trafficLight {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+.statusContainer {
+  margin-right: 5%;
+  display: flex;
+  gap: 28px;
 }
 
 .noData {
