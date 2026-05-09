@@ -75,7 +75,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
     const isFullRefresh = forceFull || refreshCycle.current % FULL_REFRESH_FREQ === 0;
-    const currentTTL = FETCH_INTERVAL_MS - 1000;
+    const currentInterval = config.poll_interval_ms || FETCH_INTERVAL_MS;
+    const currentTTL = currentInterval - 1000;
 
     if (!isFullRefresh && isStallsLiveRef.current) {
       console.log("[DataProvider] Skipping stalls-only polling (Realtime is active)");
@@ -204,22 +205,24 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       if (document.visibilityState === "visible") {
         const now = Date.now();
         const diff = now - lastFetchTime.current;
-        if (diff > FETCH_INTERVAL_MS) {
+        const currentInterval = config.poll_interval_ms || FETCH_INTERVAL_MS;
+        if (diff > currentInterval) {
           if (!isSuspended) performRefresh(false);
         }
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [isSuspended]);
+  }, [isSuspended, config.poll_interval_ms]);
 
   useEffect(() => {
     if (isSuspended) return;
 
+    const interval = config.poll_interval_ms || FETCH_INTERVAL_MS;
     const jitter = Math.floor(Math.random() * 5000);
-    const timer = setInterval(() => performRefresh(), FETCH_INTERVAL_MS + jitter);
+    const timer = setInterval(() => performRefresh(), interval + jitter);
     return () => clearInterval(timer);
-  }, [isSuspended]);
+  }, [isSuspended, config.poll_interval_ms]);
 
   const value: DataContextType = {
     api: {

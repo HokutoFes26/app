@@ -10,7 +10,7 @@ import useAspectDetector from "@/hooks/useAspectDetector";
 export const useUserView = () => {
   const isMobile = useAspectDetector();
   const columns = useColumnDetector();
-  const { isStallAdmin } = useRole();
+  const { isAdmin, isStallAdmin } = useRole();
   const { currentTime } = useAppTime();
   const {
     api: { fetchedData },
@@ -37,6 +37,7 @@ export const useUserView = () => {
   return {
     isMobile,
     columns,
+    isAdmin,
     isStallAdmin,
     tabValue,
     setTabValue,

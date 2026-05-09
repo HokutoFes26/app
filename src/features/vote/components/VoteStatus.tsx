@@ -24,11 +24,12 @@ export default function VoteStatus() {
   const isDemo = pathname.startsWith("/demo");
   const startVal = fetchedData.config["vote_start_at"];
   const endVal = fetchedData.config["vote_end_at"];
+  const isEnabled = fetchedData.config["voting_enabled"] === 1;
   const nowSeconds = currentTime.unix();
 
   const isStarted = !startVal || nowSeconds >= startVal;
   const isEnded = endVal && nowSeconds > endVal;
-  const canVote = isStarted && !isEnded;
+  const canVote = isEnabled && isStarted && !isEnded;
 
   if (!canVote) return null;
 

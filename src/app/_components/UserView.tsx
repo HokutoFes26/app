@@ -5,6 +5,7 @@ import "@/styles/global-app.css";
 import { useUserView } from "@/features/main/hooks/useUserView";
 import { calculateLayout } from "@/features/main/utils/layoutUtils";
 import { useTranslation } from "react-i18next";
+import { useData } from "@/contexts/DataContext";
 import { Drawer } from "vaul";
 import { motion, AnimatePresence } from "framer-motion";
 import Settings from "@/components/Misc/Settings";
@@ -22,6 +23,7 @@ import ExhibitionStatus from "@/features/event/components/ExhibitionStatus";
 import NewsStatus from "@/features/news/components/NewsStatus";
 import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 import MapRoundedIcon from "@mui/icons-material/MapRounded";
+import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 import Homepage from "@/components/Layout/Homepage";
 import styles from "./UserView.module.css";
 
@@ -33,15 +35,17 @@ const SpotStatus = React.lazy(() => import("@/features/map/components/SpotStatus
 const AppShare = React.lazy(() => import("@/components/Layout/AppShare"));
 const BoothModalManager = React.lazy(() => import("@/features/booth/components/BoothModalManager"));
 
-const FallbackLoader = ({ text = "Loading..." }) => (
-  <div className={styles.fallbackLoader}>{text}</div>
-);
+const FallbackLoader = ({ text = "Loading..." }) => <div className={styles.fallbackLoader}>{text}</div>;
 
 export default function UserView() {
   const { t } = useTranslation();
   const {
+    api: { fetchedData },
+  } = useData();
+  const {
     isMobile,
     columns,
+    isAdmin,
     isStallAdmin,
     tabValue,
     setTabValue,
@@ -56,41 +60,74 @@ export default function UserView() {
     setIsSettingsOpen,
   } = useUserView();
 
-  const cards = useMemo(() => ({
-    Spot: null,
-    HotNews: hasHotNews ? <NewsStatus key="hotnews" onlyHot={true} hotTime={hotTime} /> : null,
-    Events: <EventStatus key="events" />,
-    Vote: <VoteStatus key="vote" />,
-    Visited: <VisitedCard key="visited" />,
-    Exhibition: <ExhibitionStatus key="exhibition" />,
-    BoothFav: <BoothStatusFavorite key="boothfav" />,
-    Booth: <BoothStatus key="booth" />,
-    Booth1: <BoothStatus key="booth1" split="first" />,
-    Booth2: <BoothStatus key="booth2" split="second" />,
-    News: <NewsStatus key="news" />,
-    Bus: (
-      <Suspense key="bus" fallback={<FallbackLoader text="Loading Bus..." />}>
-        <BusStatus />
-      </Suspense>
-    ),
-    QA: (
-      <Suspense key="qa" fallback={<FallbackLoader text="Loading Q&A..." />}>
-        <QAStatus />
-      </Suspense>
-    ),
-    Lost: (
-      <Suspense key="lost" fallback={<FallbackLoader text="Loading Lost..." />}>
-        <LostStatus />
-      </Suspense>
-    ),
-    Header: <Header key="header" />,
-    InfoTitle: <InfoHeader key="info-header" onSettingsClick={() => setIsSettingsOpen(true)} />,
-    Homepage: <Homepage key="homepage"/>,
-  }), [hasHotNews, hotTime, setIsSettingsOpen]);
+  const isMaintenance = fetchedData?.config?.maintenance_mode === 1;
+  const showMaintenance = isMaintenance && !isAdmin && !isStallAdmin;
+
+  const cards = useMemo(
+    () => ({
+      Spot: null,
+      HotNews: hasHotNews ? <NewsStatus key="hotnews" onlyHot={true} hotTime={hotTime} /> : null,
+      Events: <EventStatus key="events" />,
+      Vote: <VoteStatus key="vote" />,
+      Visited: <VisitedCard key="visited" />,
+      Exhibition: <ExhibitionStatus key="exhibition" />,
+      BoothFav: <BoothStatusFavorite key="boothfav" />,
+      Booth: <BoothStatus key="booth" />,
+      Booth1: <BoothStatus key="booth1" split="first" />,
+      Booth2: <BoothStatus key="booth2" split="second" />,
+      News: <NewsStatus key="news" />,
+      Bus: (
+        <Suspense key="bus" fallback={<FallbackLoader text="Loading Bus..." />}>
+          <BusStatus />
+        </Suspense>
+      ),
+      QA: (
+        <Suspense key="qa" fallback={<FallbackLoader text="Loading Q&A..." />}>
+          <QAStatus />
+        </Suspense>
+      ),
+      Lost: (
+        <Suspense key="lost" fallback={<FallbackLoader text="Loading Lost..." />}>
+          <LostStatus />
+        </Suspense>
+      ),
+      Header: <Header key="header" />,
+      InfoTitle: <InfoHeader key="info-header" onSettingsClick={() => setIsSettingsOpen(true)} />,
+      Homepage: <Homepage key="homepage" />,
+    }),
+    [hasHotNews, hotTime, setIsSettingsOpen],
+  );
 
   const layout = useMemo(() => {
     return calculateLayout(cards, { isMobile, columns, isStallAdmin });
   }, [cards, isMobile, columns, isStallAdmin]);
+
+  if (showMaintenance) {
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "40px",
+          textAlign: "center",
+          backgroundColor: "#1f1f1f",
+        }}
+      >
+        <h2 style={{ color: "#eee" }}>
+          <BuildRoundedIcon style={{ fontSize: "16px", marginRight: "8px" }} />
+          Maintenance
+        </h2>
+        <p style={{ marginTop: "10px", color: "#eee" }}>
+          ただいまメンテナンス中です。
+          <br />
+          しばらくしてから再度アクセスしてください。
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="mainCanvas">
@@ -116,13 +153,13 @@ export default function UserView() {
                   backdropFilter: "blur(4px)",
                   zIndex: 10001,
                   pointerEvents: "auto",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
               />
             )}
           </AnimatePresence>
 
-          <Drawer.Content 
+          <Drawer.Content
             style={{
               backgroundColor: "var(--mainCanvas-color)",
               display: "flex",
@@ -138,32 +175,32 @@ export default function UserView() {
               padding: "20px",
               paddingTop: "10px",
               outline: "none",
-              boxShadow: "0 -10px 40px rgba(0,0,0,0.2)"
+              boxShadow: "0 -10px 40px rgba(0,0,0,0.2)",
             }}
           >
-            <div style={{
-              width: "40px",
-              height: "4px",
-              borderRadius: "2px",
-              backgroundColor: "rgba(128, 128, 128, 0.3)",
-              margin: "0 auto 15px",
-              flexShrink: 0
-            }} />
+            <div
+              style={{
+                width: "40px",
+                height: "4px",
+                borderRadius: "2px",
+                backgroundColor: "rgba(128, 128, 128, 0.3)",
+                margin: "0 auto 15px",
+                flexShrink: 0,
+              }}
+            />
             <div style={{ overflowY: "auto", paddingBottom: "30px" }}>
-              <Drawer.Title 
-                style={{ 
-                  margin: "0 0 20px", 
-                  fontSize: "18px", 
-                  fontWeight: "bold", 
+              <Drawer.Title
+                style={{
+                  margin: "0 0 20px",
+                  fontSize: "18px",
+                  fontWeight: "bold",
                   textAlign: "center",
-                  color: "var(--text-color)"
+                  color: "var(--text-color)",
                 }}
               >
                 {t("CardTitles.SETTINGS", "設定")}
               </Drawer.Title>
-              <Drawer.Description style={{ display: "none" }}>
-                アプリケーションの設定を変更します。
-              </Drawer.Description>
+              <Drawer.Description style={{ display: "none" }}>アプリケーションの設定を変更します。</Drawer.Description>
               <Settings />
             </div>
           </Drawer.Content>

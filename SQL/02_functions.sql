@@ -37,15 +37,20 @@ CREATE OR REPLACE FUNCTION vote_for_target(
 DECLARE
     v_start_at INT;
     v_end_at INT;
+    v_voting_enabled INT;
     v_now INT;
     v_client_ip TEXT;
     v_last_vote_time TIMESTAMPTZ;
 BEGIN
     SELECT value_int INTO v_start_at FROM app_settings WHERE key = 'vote_start_at';
     SELECT value_int INTO v_end_at FROM app_settings WHERE key = 'vote_end_at';
+    SELECT value_int INTO v_voting_enabled FROM app_settings WHERE key = 'voting_enabled';
     v_now := EXTRACT(EPOCH FROM now())::INT;
 
-    -- T1: Time check
+    -- T1: Time & Enable check
+    IF v_voting_enabled IS NULL OR v_voting_enabled <> 1 THEN
+        RAISE EXCEPTION '投票は現在受け付けておりません';
+    END IF;
     IF v_start_at IS NULL OR v_end_at IS NULL THEN
         RAISE EXCEPTION '投票設定が見つかりません';
     END IF;
@@ -64,7 +69,7 @@ BEGIN
 
     SELECT MAX(created_at) INTO v_last_vote_time FROM votes WHERE voter_id = v_client_ip;
     IF v_last_vote_time IS NOT NULL AND (now() - v_last_vote_time) < interval '5 seconds' THEN
-        RAISE EXCEPTION '連打は禁止されています。少し待ってください。';
+        RAISE EXCEPTION '連打は禁止されています。数秒後に再試行してください。';
     END IF;
 
     -- Vote execution
