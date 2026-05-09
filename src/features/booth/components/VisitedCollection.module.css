@@ -1,0 +1,211 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.walletContainer {
+  width: 100%;
+  max-width: 450px;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  margin: 20px 5% 0;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.closeBtn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.ticketsWrapper {
+  flex: 1;
+  position: relative;
+}
+
+.emptyState {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 30px 20px;
+  text-align: center;
+  color: white;
+  margin-top: 20px;
+}
+
+.emptyState h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.2em;
+}
+
+.emptySub {
+  font-size: 13px;
+  opacity: 0.9;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.guideList {
+  text-align: left;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 25px;
+}
+
+.guideStep {
+  font-size: 14px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guideStep:last-child {
+  margin-bottom: 0;
+}
+
+.guideButton {
+  background: var(--text-color);
+  color: var(--mainCanvas-color);
+  border: none;
+  padding: 12px 30px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.guideButton:active {
+  transform: scale(0.95);
+}
+
+.ticketContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  filter: drop-shadow(0 -5px 15px rgba(0, 0, 0, 0.4));
+}
+
+.ticket {
+  width: 100%;
+  background: #fff;
+  /* border-radius: 16px; */
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(circle at 50% 0, transparent 18px, black 18.5px);
+  mask-image: radial-gradient(circle at 50% 0, transparent 18px, black 18.5px);
+}
+
+.ticketTop {
+  background: #f1f0f5;
+  color: rgba(0, 0, 0, 0.65);
+  padding: 12px 20px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticketHeaderRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.ticketType {
+  font-size: 0.7em;
+  opacity: 0.7;
+  letter-spacing: 2px;
+  color: #000;
+}
+
+.ticketDate {
+  letter-spacing: 1px;
+  color: #000;
+}
+
+.ticketImage {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+.ticketName {
+  font-size: 1.3em;
+  font-weight: 700;
+  margin: 0;
+  color: #000;
+}
+
+
+.ticketBottom {
+  background: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+  min-height: 80px;
+}
+
+.ticketInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.infoLabel {
+  font-size: 11px;
+  color: #000;
+  letter-spacing: 1px;
+}
+
+.infoValue {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}
+
+.selected {
+  cursor: default;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}

@@ -77,6 +77,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
                     token: {
                         colorPrimary: themeValue.primaryColor,
                         colorInfo: themeValue.primaryColor,
+                        zIndexPopupBase: 11000,
                     },
                     components: {
                         Select: {

@@ -24,7 +24,6 @@
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
-  background-color: #fff;
   border-radius: 56px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -148,6 +147,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
+  margin-top: 0.5em;
 }
 
 .mapLink {
@@ -237,10 +237,14 @@
   white-space: nowrap;
 }
 
+.actionButtons {
+  display: flex;
+  gap: 15px;
+}
+
 .shareBtn {
-  width: 100%;
+  flex: 1;
   padding: 16px;
-  margin-top: 30px;
   border-radius: 9999px;
   background: var(--text-color);
   color: var(--mainCanvas-color);
@@ -253,6 +257,11 @@
   gap: 10px;
   cursor: pointer;
   transition: all 0.3s;
+  margin-top: 28px;
+}
+
+.visitedBtn {
+  background: var(--pop-accent-main);
 }
 
 .shareBtn:active {

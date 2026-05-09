@@ -12,8 +12,8 @@
     "UPDATES": "Update"
   },
   "Vote": {
-    "Title": "Voting Open!",
-    "Description": "Vote for your favorite booths and exhibitions!",
+    "Title": "Voting Open",
+    "Description": "Vote for your favorite booths and exhibitions",
     "Button": "Go to Vote Page"
   },
   "Bus": {
@@ -62,7 +62,19 @@
     "Details": "Tap for details",
     "Share": "Share",
     "ViewMap": "View Map",
-    "ViewMenu": "View Menu"
+    "ViewMenu": "View Menu",
+    "MarkVisited": "Visit",
+    "Visited": "Visited",
+    "MyTickets": "Activity",
+    "CollectedTickets": "Logged Booths & Exhibits",
+    "TicketsCount": "Items",
+    "NoTickets": "No Records Found",
+    "NoTicketsSub": "Log your visits from the details page to display them in this list.",
+    "GuideTitle": "How to Add Activity",
+    "GuideStep1": "1. Browse the list of booths and exhibits",
+    "GuideStep2": "2. Tap a visited location to view details",
+    "GuideStep3": "3. Tap the \"Visit\" button",
+    "GuideClose": "Explore Now"
   },
   "LostFound": {
     "NoItems": "No items found",

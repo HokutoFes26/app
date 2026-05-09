@@ -27,12 +27,15 @@ export default function SpotStatus() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
     if (currentSpot) {
-      const timer = setTimeout(() => setShow(true), 10);
-      return () => clearTimeout(timer);
-    } else {
+      timer = setTimeout(() => setShow(true), 10);
+    } else if (show) {
       setShow(false);
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [currentSpot]);
 
   if (!currentSpot) return null;
@@ -113,12 +116,19 @@ export default function SpotStatus() {
                 {nearbyExhibitions.map((exhibition, index) => (
                   <React.Fragment key={exhibition.id}>
                     {index !== 0 && <Divider margin="8px 0" height="1px" />}
-                    <div className={styles.exhibitionRow}>
+                    <div 
+                      className={styles.exhibitionRow} 
+                      onClick={() => handleStallClick(exhibition.name)}
+                      style={{ cursor: "pointer" }}
+                    >
                       <div className={styles.exhibitionMain}>
                         <span className={styles.boothName}>{exhibition.name}</span>
                         <span className={styles.locLabel}>{exhibition.place}</span>
                       </div>
-                      <span className={styles.exhibitionTeam}>{exhibition.team}</span>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span className={styles.exhibitionTeam}>{exhibition.team}</span>
+                        <span className={cStyles.stallDetails} style={{ marginLeft: 0 }}>{t("Booth.Details")}</span>
+                      </div>
                     </div>
                   </React.Fragment>
                 ))}

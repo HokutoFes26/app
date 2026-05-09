@@ -11,32 +11,32 @@ export const calculateLayout = (cards: Record<string, React.ReactNode>, options:
 
   if (isMobile) {
     return [
-      [cards.Header, cards.Spot, cards.HotNews, cards.Events, cards.News, cards.Vote],
+      [cards.Header, cards.Spot, cards.HotNews, cards.Events, cards.News, cards.Vote, cards.Visited],
       !isStallAdmin ? [cards.BoothFav, cards.Booth] : [],
-      [cards.Bus, cards.QA, cards.Lost],
-      [cards.Other],
+      !isStallAdmin ? [cards.Exhibition] : [],
+      [cards.InfoTitle, cards.Bus, cards.QA, cards.Lost, cards.Homepage],
     ].filter((col) => col.length > 0);
   }
 
   if (columns === 4) {
     return [
       [cards.Spot, cards.BoothFav, cards.Booth1],
-      [cards.Booth2],
-      [cards.Events, cards.Bus, cards.Vote],
-      [cards.News, cards.QA, cards.Lost],
+      [cards.Visited, cards.Booth2],
+      [cards.Events, cards.Bus, cards.Vote, cards.Exhibition],
+      [cards.News, cards.QA, cards.Lost, cards.Homepage],
     ];
   }
 
   if (columns === 3) {
     return [
       [cards.Spot, cards.BoothFav, cards.Booth],
-      [cards.Events, cards.Bus, cards.Vote],
-      [cards.News, cards.QA, cards.Lost],
+      [cards.Events, cards.Bus, cards.Vote, cards.Exhibition, cards.Visited],
+      [cards.News, cards.QA, cards.Lost, cards.Homepage],
     ];
   }
 
   return [
-    [cards.Spot, cards.HotNews, cards.BoothFav, cards.Booth, cards.News],
-    [cards.Vote, cards.Events, cards.Bus, cards.QA, cards.Lost],
+    [cards.Spot, cards.HotNews, cards.BoothFav, cards.Booth, cards.Exhibition, cards.News],
+    [cards.Events, cards.Bus, cards.QA, cards.Lost, cards.Vote, cards.Visited, cards.Homepage],
   ];
 };

@@ -12,42 +12,8 @@ import dayjs from "dayjs";
 import { useFavorites } from "@/features/booth/hooks/useFavorites";
 import StarOutlineRoundedIcon from "@mui/icons-material/StarOutlineRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
+import { TrafficLight, BoothTableHeader, commonStyles as cStyles } from "./BoothCommon";
 import styles from "./BoothStatusFavorite.module.css";
-
-const TrafficLight = ({
-  level,
-  onClick,
-  disabled,
-}: {
-  level: StatusLevel;
-  onClick?: () => void;
-  disabled?: boolean;
-}) => {
-  const colorMap: Record<StatusLevel, string> = {
-    0: "#52c41a",
-    1: "#faad14",
-    2: "#ff4d4f",
-  };
-  return (
-    <div
-      onClick={disabled ? undefined : onClick}
-      className={`${styles.trafficLight} ${disabled ? styles.trafficLightDisabled : styles.trafficLightActive}`}
-      style={{
-        backgroundColor: colorMap[level],
-      }}
-    />
-  );
-};
-
-const LegendItem = ({ level, crowd, stock }: { level: StatusLevel; crowd: string; stock: string }) => (
-  <div className={styles.legendItem}>
-    <TrafficLight level={level} disabled />
-    <div className={styles.legendTextContainer}>
-      <span className={styles.legendSmallText}>{crowd}</span>
-      <span className={styles.legendSmallText}>{stock}</span>
-    </div>
-  </div>
-);
 
 export default function BoothStatusFavorite() {
   const { t } = useTranslation();
@@ -121,11 +87,7 @@ export default function BoothStatusFavorite() {
   return (
     <CardBase title={`${t("CardTitles.BOOTHFAV")}`} SubjectUpdated={LiveStatus} disableTapAnimation={true}>
       <CardInside>
-        <div className={styles.headerRow}>
-          <div className={styles.headerName}>{t("Booth.Name")}</div>
-          <div className={styles.headerLabel}>{t("Booth.CrowdLabel")}</div>
-          <div className={styles.headerLabel}>{t("Booth.StockLabel")}</div>
-        </div>
+        {statuses.length > 0 && <BoothTableHeader />}
 
         {isLoading ? (
           <SubList>
@@ -135,12 +97,12 @@ export default function BoothStatusFavorite() {
           statuses.map((status, index) => (
             <React.Fragment key={`${status.stallName}-${index}`}>
               {index !== 0 && <Divider margin="8px 0" height="1px" />}
-              <div className={styles.statusRow}>
+              <div className={cStyles.stallRow}>
                 <div
-                  className={styles.stallNameContainer}
+                  className={cStyles.stallInfo}
                   onClick={() => handleStallClick(status.stallName)}
                 >
-                  <span className={styles.stallNameText}>
+                  <span className={cStyles.stallNameContainer}>
                     <span
                       onClick={(e) => toggleFavorite(e, status.stallName)}
                       className={styles.favStar}
@@ -149,16 +111,16 @@ export default function BoothStatusFavorite() {
                     </span>
                     {status.stallName}
                   </span>
-                  <span className={styles.detailsText}>{t("Booth.Details")}</span>
+                  <span className={cStyles.stallDetails}>{t("Booth.Details")}</span>
                 </div>
-                <div className={styles.lightContainer}>
+                <div className={cStyles.statusColumn}>
                   <TrafficLight
                     level={status.crowdLevel}
                     disabled={!canEdit(status.stallName)}
                     onClick={() => handleCrowdClick(status.stallName, status.crowdLevel)}
                   />
                 </div>
-                <div className={styles.lightContainer}>
+                <div className={cStyles.statusColumn}>
                   <TrafficLight
                     level={status.stockLevel}
                     disabled={!canEdit(status.stallName)}

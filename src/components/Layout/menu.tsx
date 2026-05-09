@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
 import { Drawer, Button } from "antd";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-
-const Other = React.lazy(() => import("@/components/Layout/other"));
+import Settings from "@/components/Misc/Settings";
 
 export default function MenuDrawer() {
   const [open, setOpen] = useState(false);
@@ -34,15 +33,8 @@ export default function MenuDrawer() {
         style={{ borderRadius: "24px 0 0 24px", overflow: "hidden", backgroundColor: "var(--mainCanvas-color)" }}
       >
         <div style={{ padding: "0" }}>
-          {open && (
-            <Suspense
-              fallback={
-                <div style={{ textAlign: "center", padding: "20px", color: "var(--text-sub-color)" }}>Loading...</div>
-              }
-            >
-              <Other />
-            </Suspense>
-          )}
+          {open && <Settings />}
+
         </div>
       </Drawer>
     </>

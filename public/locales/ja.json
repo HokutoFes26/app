@@ -12,8 +12,8 @@
     "UPDATES": "アップデート"
   },
   "Vote": {
-    "Title": "投票受付中！",
-    "Description": "お気に入りの模擬店や展示に投票しよう！",
+    "Title": "投票受付中",
+    "Description": "お気に入りの模擬店や展示に投票",
     "Button": "投票ページへ"
   },
   "Bus": {
@@ -62,13 +62,25 @@
     "Details": "タップして詳細",
     "Share": "共有する",
     "ViewMap": "地図で見る",
-    "ViewMenu": "メニューを見る"
+    "ViewMenu": "メニューを見る",
+    "MarkVisited": "記録する",
+    "Visited": "記録済み",
+    "MyTickets": "アクティビティ",
+    "CollectedTickets": "記録した模擬店や展示",
+    "TicketsCount": "枚",
+    "NoTickets": "まだ記録されていません",
+    "NoTicketsSub": "模擬店や展示の詳細画面から記録を完了すると、ここにリストが表示されます。",
+    "GuideTitle": "アクティビティの追加方法",
+    "GuideStep1": "① 模擬店や展示のリストを見る",
+    "GuideStep2": "② 行った場所をタップして詳細を開く",
+    "GuideStep3": "③ 「記録する」ボタンをタップ",
+    "GuideClose": "さっそく探す"
   },
   "LostFound": {
     "NoItems": "落とし物はありません",
     "Location": "場所",
     "Time": "発見された時刻",
-    "NoData": "現在、落とし物はありません",
+    "NoData": "落とし物はありません",
     "ShowImage": "画像を表示"
   },
   "QA": {

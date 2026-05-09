@@ -5,10 +5,14 @@ import { getPath } from "@/constants/paths";
 import styles from "./BoothDetailModal.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import { useTheme } from "@/contexts/ThemeContext";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ListIcon from "@mui/icons-material/List";
+import AirplaneTicketOutlinedIcon from "@mui/icons-material/AirplaneTicketOutlined";
+import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 import { useBoothDetail } from "../hooks/useBoothDetail";
+import { useVisited } from "../hooks/useVisited";
 
 type ProductModalPropsMenu = {
   content: string;
@@ -30,6 +34,8 @@ interface BoothDetailModalProps {
 }
 
 export default function BoothDetailModal({ item }: BoothDetailModalProps) {
+  const theme = useTheme();
+  const isDark = theme?.isDarkMode || false;
   const { t } = useTranslation();
   const {
     show,
@@ -43,10 +49,13 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
     mapControl,
   } = useBoothDetail(item);
 
+  const { isVisited, toggleVisited } = useVisited();
+  const visited = isVisited(item.name);
+
   const isAccordion = (item.menu?.length ?? 0) >= 4;
 
   const onShare = () => {
-    handleShare(`${item.name} | 模擬店詳細`, `${item.name} (${item.team || ""}) の詳細をチェック！`);
+    handleShare(`${item.name} | 模擬店詳細`, `${item.name} (${item.team || ""}) の詳細をチェック`);
   };
 
   return (
@@ -129,10 +138,29 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
                 </div>
               )}
             </div>
-            <button className={styles.shareBtn} onClick={onShare}>
-              <ShareOutlinedIcon className={styles.detailIcon} style={{ color: "inherit" }} />
-              {t("Booth.Share")}
-            </button>
+            <div className={styles.actionButtons}>
+              <button
+                className={`${styles.shareBtn} ${visited ? styles.visitedBtn : ""}`}
+                style={{ color: `${!isDark ? (visited ? "#1f1f1f" : "#fff") : "1f1f1f"}` }}
+                onClick={() => toggleVisited(item.name)}
+              >
+                {visited ? (
+                  <>
+                    <AirplaneTicketIcon className={styles.detailIcon} style={{ color: "inherit" }} />
+                    {t("Booth.Visited")}
+                  </>
+                ) : (
+                  <>
+                    <AirplaneTicketOutlinedIcon className={styles.detailIcon} style={{ color: "inherit" }} />
+                    {t("Booth.MarkVisited")}
+                  </>
+                )}
+              </button>
+              <button className={styles.shareBtn} onClick={onShare}>
+                <ShareOutlinedIcon className={styles.detailIcon} style={{ color: "inherit" }} />
+                {t("Booth.Share")}
+              </button>
+            </div>
           </div>
         </div>
       </div>

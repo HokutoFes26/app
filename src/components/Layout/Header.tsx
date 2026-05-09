@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import "@/styles/global-app.css";
 import { useAppTime } from "@/contexts/TimeContext";
 

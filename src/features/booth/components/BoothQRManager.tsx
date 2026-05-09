@@ -43,7 +43,7 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
                   options={stallOptions}
                   size="large"
                   listHeight={600}
-                  dropdownStyle={{ textAlign: "center" }}
+                  styles={{ popup: { root: { textAlign: "center" } } }}
                 />
               </div>
 

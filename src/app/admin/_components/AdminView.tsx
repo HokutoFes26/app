@@ -30,8 +30,8 @@ const MapModal = React.lazy(() => import("@/features/map/components/MapModal"));
 const NewsStatus = React.lazy(() => import("@/features/news/components/NewsStatus"));
 const VoteAdmin = React.lazy(() => import("@/features/vote/components/VoteAdmin"));
 const BoothQRManager = React.lazy(() => import("@/features/booth/components/BoothQRManager"));
-const Other = React.lazy(() => import("@/components/Layout/other"));
 const ServerStatus = React.lazy(() => import("@/features/admin/components/ServerStatus"));
+import Settings from "@/components/Misc/Settings";
 
 const FallbackLoader = ({ text = "Loading..." }: { text?: string }) => (
   <div className={styles.fallbackLoader}>{text}</div>
@@ -74,65 +74,61 @@ export default function AdminView() {
     }
   };
 
-  const managers = {
-    News: (
-      <Suspense key="news-mgr" fallback={<FallbackLoader />}>
-        <NewsManager />
-      </Suspense>
-    ),
-    QA: (
-      <Suspense key="qa-mgr" fallback={<FallbackLoader />}>
-        <QAManager />
-      </Suspense>
-    ),
-    Lost: (
-      <Suspense key="lost-mgr" fallback={<FallbackLoader />}>
-        <LostManager />
-      </Suspense>
-    ),
-    Booth: (
-      <Suspense key="booth-mgr" fallback={<FallbackLoader />}>
-        <BoothManager />
-      </Suspense>
-    ),
-    Vote: (
-      <Suspense key="vote-mgr" fallback={<FallbackLoader />}>
-        <VoteAdmin />
-      </Suspense>
-    ),
-    QR: (
-      <Suspense key="qr-mgr" fallback={<FallbackLoader />}>
-        <BoothQRManager />
-      </Suspense>
-    ),
-    Other: (
-      <Suspense key="other-mgr" fallback={<FallbackLoader />}>
-        <Other />
-      </Suspense>
-    ),
-    NewsStatus: (
-      <Suspense key="news-status-mgr" fallback={<FallbackLoader />}>
-        <NewsStatus />
-      </Suspense>
-    ),
-    Status: (
-      <Suspense key="status-mgr" fallback={<FallbackLoader />}>
-        <ServerStatus />
-      </Suspense>
-    ),
-  };
-
   const layout = useMemo(() => {
+    const managers = {
+      News: (
+        <Suspense key="news-mgr" fallback={<FallbackLoader />}>
+          <NewsManager />
+        </Suspense>
+      ),
+      QA: (
+        <Suspense key="qa-mgr" fallback={<FallbackLoader />}>
+          <QAManager />
+        </Suspense>
+      ),
+      Lost: (
+        <Suspense key="lost-mgr" fallback={<FallbackLoader />}>
+          <LostManager />
+        </Suspense>
+      ),
+      Booth: (
+        <Suspense key="booth-mgr" fallback={<FallbackLoader />}>
+          <BoothManager />
+        </Suspense>
+      ),
+      Vote: (
+        <Suspense key="vote-mgr" fallback={<FallbackLoader />}>
+          <VoteAdmin />
+        </Suspense>
+      ),
+      QR: (
+        <Suspense key="qr-mgr" fallback={<FallbackLoader />}>
+          <BoothQRManager />
+        </Suspense>
+      ),
+      NewsStatus: (
+        <Suspense key="news-status-mgr" fallback={<FallbackLoader />}>
+          <NewsStatus />
+        </Suspense>
+      ),
+      Status: (
+        <Suspense key="status-mgr" fallback={<FallbackLoader />}>
+          <ServerStatus />
+        </Suspense>
+      ),
+      Settings: <Settings key="settings-mgr" />,
+    };
+
     if (isStallAdmin) {
       if (isMobile) {
-        return [[managers.Booth], [managers.Other], [], []];
+        return [[managers.Booth], [managers.Settings], [], []];
       }
       return [[managers.Booth], [managers.NewsStatus], []];
     }
 
     if (activeTab === "1") {
       if (isMobile) {
-        return [[managers.News], [managers.QA], [managers.Lost], [managers.Other]];
+        return [[managers.News], [managers.QA], [managers.Lost]];
       }
       if (columns >= 3) {
         return [[managers.News], [managers.QA], [managers.Lost]];
@@ -166,7 +162,7 @@ export default function AdminView() {
     }
 
     return [[]];
-  }, [isMobile, columns, isStallAdmin, activeTab, managers]);
+  }, [isMobile, columns, isStallAdmin, activeTab]);
 
   const tabItems = [
     {
@@ -216,13 +212,12 @@ export default function AdminView() {
       </Suspense>
 
       {isAdmin && (
-        <div
-          className={`${styles.header} ${isMobile ? styles.headerMobile : styles.headerDesktop}`}
-        >
+        <div className={`${styles.header} ${isMobile ? styles.headerMobile : styles.headerDesktop}`}>
           <Tabs
             activeKey={activeTab}
             onChange={(val) => {
               setActiveTab(val);
+              setSubTab("0");
               if (isMobile) {
                 setIsMoving(true);
                 setTimeout(() => setIsMoving(false), 100);
@@ -260,10 +255,7 @@ export default function AdminView() {
           }
         >
           {layout.map((column, i) => (
-            <PCCanvasColumn
-              key={i}
-              width={isMobile ? "100%" : isStallAdmin ? "33.3%" : `${100 / layout.length}%`}
-            >
+            <PCCanvasColumn key={i} width={isMobile ? "100%" : isStallAdmin ? "33.3%" : `${100 / layout.length}%`}>
               {column}
             </PCCanvasColumn>
           ))}
@@ -276,7 +268,7 @@ export default function AdminView() {
         </div>
       </div>
 
-      {!isStallAdmin && !isMobile && <Menu />}
+      {!isMobile && <Menu />}
 
       {showBottomNav && (
         <div className="bottomCanvas">

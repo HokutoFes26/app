@@ -22,7 +22,7 @@ export default function SpotsDebugPage() {
 
   useEffect(() => {
     loadJSON("spots").then(setSpots);
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && !baseUrl) {
       setBaseUrl(window.location.origin);
     }
   }, []);

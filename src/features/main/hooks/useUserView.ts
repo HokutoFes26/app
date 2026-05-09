@@ -19,6 +19,7 @@ export const useUserView = () => {
 
   const [tabValue, setTabValue] = useState("0");
   const [isMoving, setIsMoving] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const isMapOpen = mapControl?.isMapOpen || false;
   const setIsMapOpen = (open: boolean) => (open ? mapControl?.openMap() : mapControl?.closeMap());
 
@@ -47,5 +48,7 @@ export const useUserView = () => {
     hotTime,
     targetPlace: mapControl?.targetPlace,
     openMap: () => mapControl?.openMap(),
+    isSettingsOpen,
+    setIsSettingsOpen,
   };
 };

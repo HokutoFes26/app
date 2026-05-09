@@ -5,7 +5,7 @@
     "name": "VS電子",
     "team": "I2",
     "place": "I2教室",
-    "image": "/app/img/products/I2.jpg"
+    "image": "/app/img/exhibition/I2.jpg"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "name": "恋みくじ・フォトスポット",
     "team": "K2",
     "place": "K2教室",
-    "image": "/app/img/products/K2.jpg"
+    "image": "/app/img/exhibition/K2.jpg"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "name": "キッキングスナイパー",
     "team": "S2",
     "place": "S2教室",
-    "image": "/app/img/products/S2.jpg"
+    "image": "/app/img/exhibition/S2.jpg"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "name": "縁日",
     "team": "I3",
     "place": "I3教室",
-    "image": "/app/img/products/I3.jpg"
+    "image": "/app/img/exhibition/I3.jpg"
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "name": "縁日",
     "team": "K3",
     "place": "K3教室",
-    "image": "/app/img/products/K3.jpg"
+    "image": "/app/img/exhibition/K3.jpg"
   },
   {
     "id": 6,
@@ -45,7 +45,7 @@
     "name": "お化け屋敷",
     "team": "S3",
     "place": "S3教室",
-    "image": "/app/img/products/S3.jpg"
+    "image": "/app/img/exhibition/S3.jpg"
   },
   {
     "id": 7,
@@ -53,7 +53,7 @@
     "name": "ゲーム・イラスト展示",
     "team": "デジタルメディア創作部",
     "place": "第2プラザ",
-    "image": "/app/img/products/デジ研.jpg"
+    "image": "/app/img/exhibition/デジ研.jpg"
   },
   {
     "id": 8,
@@ -61,7 +61,7 @@
     "name": "ロボット操作体験",
     "team": "メカトロ技術研究部",
     "place": "第1体育館",
-    "image": "/app/img/products/メカトロ.jpg"
+    "image": "/app/img/exhibition/メカトロ.jpg"
   },
   {
     "id": 9,
@@ -69,7 +69,7 @@
     "name": "新聞展示",
     "team": "新聞部",
     "place": "ラウンジC",
-    "image": "/app/img/products/新聞部.jpg"
+    "image": "/app/img/exhibition/新聞部.jpg"
   },
   {
     "id": 10,
@@ -77,7 +77,7 @@
     "name": "部誌・読書スペース",
     "team": "文芸同好会",
     "place": "ラウンジA",
-    "image": "/app/img/products/文芸.jpg"
+    "image": "/app/img/exhibition/文芸.jpg"
   },
   {
     "id": 11,
@@ -85,7 +85,7 @@
     "name": "書道作品展示",
     "team": "書道同好会",
     "place": "学生昇降口",
-    "image": "/app/img/products/書道.jpg"
+    "image": "/app/img/exhibition/書道.jpg"
   },
   {
     "id": 12,
@@ -93,7 +93,7 @@
     "name": "写真展示",
     "team": "写真同好会",
     "place": "ラウンジA",
-    "image": "/app/img/products/写真.jpg"
+    "image": "/app/img/exhibition/写真.jpg"
   },
   {
     "id": 13,
@@ -101,7 +101,7 @@
     "name": "ジオラマ展示",
     "team": "鉄道部",
     "place": "第1体育館",
-    "image": "/app/img/products/鉄道.jpg"
+    "image": "/app/img/exhibition/鉄道.jpg"
   },
   {
     "id": 14,
@@ -109,7 +109,7 @@
     "name": "全国高専のロボット展示",
     "team": "メカテック部",
     "place": "第1体育館",
-    "image": "/app/img/products/メカテック.jpg"
+    "image": "/app/img/exhibition/メカテック.jpg"
   },
   {
     "id": 15,
@@ -117,7 +117,7 @@
     "name": "電子情報工学科展示",
     "team": "電子情報工学科",
     "place": "電子情報第1実験室",
-    "image": "/app/img/products/電子情報工学科展示.jpg"
+    "image": "/app/img/exhibition/電子情報工学科展示.jpg"
   },
   {
     "id": 16,
@@ -125,7 +125,7 @@
     "name": "国際ビジネス学科紹介",
     "team": "国際ビジネス学科",
     "place": "K5教室",
-    "image": "/app/img/products/国際ビジネス学科紹介.jpg"
+    "image": "/app/img/exhibition/国際ビジネス学科紹介.jpg"
   },
   {
     "id": 17,
@@ -133,7 +133,7 @@
     "name": "機関実習室ツアー",
     "team": "商船学科機関コース",
     "place": "ETS演習室・蒸気実験室・補機実験室・内燃機関実験室",
-    "image": "/app/img/products/機関実習室ツアー.jpg"
+    "image": "/app/img/exhibition/機関実習室ツアー.jpg"
   },
   {
     "id": 18,
@@ -141,7 +141,7 @@
     "name": "操船シミュレータ体験など",
     "team": "商船学科航海コース",
     "place": "航海学演習室・公開計測演習室・レーダーシミュレーター演習室",
-    "image": "/app/img/products/操船シミュレータ体験など.jpg"
+    "image": "/app/img/exhibition/操船シミュレータ体験など.jpg"
   },
   {
     "id": 19,
@@ -149,7 +149,7 @@
     "name": "若潮丸Ⅳ・Ⅴ世の紹介など",
     "team": "若潮丸委員会",
     "place": "ラウンジB",
-    "image": "/app/img/products/若潮丸Ⅳ・Ⅴ世の紹介など.jpg"
+    "image": "/app/img/exhibition/若潮丸Ⅳ・Ⅴ世の紹介など.jpg"
   },
   {
     "id": 20,
@@ -157,7 +157,7 @@
     "name": "写真展",
     "team": "商船OB",
     "place": "S4教室",
-    "image": "/app/img/products/写真展.jpg"
+    "image": "/app/img/exhibition/写真展.jpg"
   },
   {
     "id": 21,
@@ -165,7 +165,7 @@
     "name": "本郷3学科紹介展示",
     "team": "本郷3学科",
     "place": "ものづくり教室",
-    "image": "/app/img/products/本郷3学科紹介展示.jpg"
+    "image": "/app/img/exhibition/本郷3学科紹介展示.jpg"
   },
   {
     "id": 22,
@@ -173,7 +173,7 @@
     "name": "専攻科活動紹介",
     "team": "専攻科",
     "place": "K4紹介",
-    "image": "/app/img/products/専攻科活動紹介.jpg"
+    "image": "/app/img/exhibition/専攻科活動紹介.jpg"
   },
   {
     "id": 23,
@@ -181,7 +181,7 @@
     "name": "連携事業・活動実績など",
     "team": "研究開発共創センター",
     "place": "ものづくり教室",
-    "image": "/app/img/products/連携事業・活動実績など.jpg"
+    "image": "/app/img/exhibition/連携事業・活動実績など.jpg"
   },
   {
     "id": 24,
@@ -189,7 +189,7 @@
     "name": "富山高専の国際化への取り組み紹介",
     "team": "国際教育センター",
     "place": "K4教室",
-    "image": "/app/img/products/富山高専の国際化への取り組み紹介.jpg"
+    "image": "/app/img/exhibition/富山高専の国際化への取り組み紹介.jpg"
   },
   {
     "id": 25,
@@ -197,7 +197,7 @@
     "name": "展示",
     "team": "入試センター",
     "place": "ものづくり教室",
-    "image": "/app/img/products/ComingSoon.jpg"
+    "image": "/app/img/exhibition/ComingSoon.jpg"
   },
   {
     "id": 26,
@@ -205,6 +205,6 @@
     "name": "校長先生ポスター",
     "team": "団体名",
     "place": "ものづくり教室",
-    "image": "/app/img/products/校長先生ポスター.jpg"
+    "image": "/app/img/exhibition/校長先生ポスター.jpg"
   }
 ]

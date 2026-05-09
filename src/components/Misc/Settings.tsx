@@ -65,7 +65,7 @@ export default function Settings() {
   };
 
   return (
-    <CardBase title={t("CardTitles.SETTINGS")}>
+    <CardBase title={t("CardTitles.SETTINGS")} disableTapAnimation={true}>
       <CardInside>
         {SettingOptionFC(t("Settings.Dark"), <DarkSwitch />)}
 
@@ -78,6 +78,7 @@ export default function Settings() {
             size="small"
             style={{ width: "auto", minWidth: 100, textAlign: "center" }}
             styles={{ popup: { root: { textAlign: "center" } } }}
+            getPopupContainer={(trigger) => trigger.parentElement}
           />,
         )}
 

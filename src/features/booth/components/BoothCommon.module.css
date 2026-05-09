@@ -84,6 +84,7 @@
 .stallDetails {
   font-size: 9px;
   color: #676767;
+  margin-left: 24px;
 }
 
 .statusColumn {

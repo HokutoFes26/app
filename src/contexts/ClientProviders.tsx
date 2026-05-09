@@ -8,6 +8,7 @@ import { RoleProvider } from "@/contexts/RoleContext";
 import { DataProvider } from "@/contexts/DataProvider";
 import { MapProvider } from "@/contexts/MapContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { VisitedProvider } from "@/contexts/VisitedContext";
 import "@/i18n/i18n";
 
 export default function ClientProviders({ children }: { children: ReactNode }) {
@@ -29,11 +30,13 @@ export default function ClientProviders({ children }: { children: ReactNode }) {
       <TimeProvider>
         <RoleProvider>
           <ThemeProvider>
-            <MapWrapper>
-              <DataWrapper>
-                <AntdApp message={{ top: 70 }}>{children}</AntdApp>
-              </DataWrapper>
-            </MapWrapper>
+            <VisitedProvider>
+              <MapWrapper>
+                <DataWrapper>
+                  <AntdApp message={{ top: 70 }}>{children}</AntdApp>
+                </DataWrapper>
+              </MapWrapper>
+            </VisitedProvider>
           </ThemeProvider>
         </RoleProvider>
       </TimeProvider>

@@ -7,8 +7,8 @@ export default function Homepage() {
     return (
         <CardBase title="ホームページ">
             <CardInside>
-                <a href="https://hokutofes26.github.io/">
-                <img style={{width: "100%"}} src={getPath("/img/common/mainlogo.jpg")} />
+                <a href="https://hokutofes26.github.io/" target="_blank" rel="noreferrer">
+                <img style={{width: "60%"}} src={getPath("/img/common/mainlogo.png")} />
                 </a>
             </CardInside>
         </CardBase>

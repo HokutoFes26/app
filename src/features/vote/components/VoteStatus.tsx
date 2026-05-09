@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { App } from "antd";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import CallMadeRoundedIcon from '@mui/icons-material/CallMadeRounded';
 import { useData } from "@/contexts/DataContext";
 import { useAppTime } from "@/contexts/TimeContext";
 import styles from "./VoteStatus.module.css";
@@ -52,7 +52,7 @@ export default function VoteStatus() {
                 <h4 className={styles.titleText}>{t("Vote.Title")}</h4>
                 <p className={styles.descText}>{t("Vote.Description")}</p>
               </div>
-              <ArrowForwardIosIcon className={styles.arrowIcon} />
+              <CallMadeRoundedIcon className={styles.arrowIcon} />
             </div>
           </SubList>
         </Link>

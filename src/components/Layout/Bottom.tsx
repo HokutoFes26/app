@@ -17,8 +17,8 @@ const NAV_CONFIG = {
   user: [
     { key: "0", icon: HomeRoundedIcon, label: "Main" },
     { key: "1", icon: StorefrontRoundedIcon, label: "Booth" },
-    { key: "2", icon: WidgetsRoundedIcon, label: "Other" },
-    { key: "3", icon: SettingsRoundedIcon, label: "Settings" },
+    { key: "2", icon: VisibilityRoundedIcon, label: "Exhibition" },
+    { key: "3", icon: WidgetsRoundedIcon, label: "Info" },
   ],
   admin: [
     { key: "0", icon: NewspaperRoundedIcon, label: "News" },
