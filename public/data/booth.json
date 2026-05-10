@@ -1,237 +1,251 @@
-{
-  "L1": [
-    {
-      "id": 1,
-      "name": "チュロス",
-      "team": "バレーボール部",
-      "place": "テント番号9",
-      "menu": [
-        { "content": "ミニチュロス3本(同味)", "price": 250 },
-        { "content": "ミニチュロス3本(異味)", "price": 300 },
-        { "content": "チュロス(ミルク,シナモン)", "price": 350 },
-        { "content": "チュロス(チョコ)", "price": 400 }
-      ],
-      "image": "/img/booth/バレー1.webp"
-    },
-    {
-      "id": 2,
-      "name": "たこ焼き",
-      "team": "漕艇部",
-      "place": "テント番号7",
-      "menu": [
-        { "content": "たこ焼き", "price": 400 },
-        { "content": "チーズたこ焼き", "price": 500 },
-        { "content": "明太マヨたこ焼き", "price": 500 }
-      ],
-      "image": "/img/booth/漕艇.webp"
-    },
-    {
-      "id": 3,
-      "name": "焼き鳥",
-      "team": "剣道部",
-      "place": "テント番号5",
-      "menu": [
-        { "content": "1本", "price": 150 },
-        { "content": "3本", "price": 400 },
-        { "content": "5本", "price": 750 }
-      ],
-      "image": "/img/booth/剣道.webp"
-    },
-    {
-      "id": 4,
-      "name": "あんばやし",
-      "team": "野球部",
-      "place": "テント番号19",
-      "menu": [{ "content": "5本", "price": 300 }],
-      "image": "/img/booth/野球.webp"
-    },
-    {
-      "id": 5,
-      "name": "大判焼き",
-      "team": "ラグビー同好会",
-      "place": "テント番号13",
-      "menu": [{ "content": "大判焼き", "price": 300 }],
-      "image": "/img/booth/ラグビー1.webp",
-      "image2": "/img/booth/ラグビー2.webp"
-    },
-    {
-      "id": 6,
-      "name": "わたあめ",
-      "team": "ヨット部",
-      "place": "テント番号15",
-      "menu": [
-        { "content": "プレーン味", "price": 300 },
-        { "content": "いちご味", "price": 300 }
-      ],
-      "image": "/img/booth/ヨット.webp"
-    },
-    {
-      "id": 7,
-      "name": "焼きそば",
-      "team": "テニス部",
-      "place": "テント番号8",
-      "menu": [{ "content": "焼きそば", "price": 0 }],
-      "image": "/img/booth/テニス.webp"
-    },
-    {
-      "id": 8,
-      "name": "揚げパン・フルーツ飴・ラムネ",
-      "team": "水泳競技部",
-      "place": "テント番号10",
-      "menu": [
-        { "content": "揚げパン", "price": 500 },
-        { "content": "フルーツ飴", "price": 800 },
-        { "content": "ラムネ", "price": 300 }
-      ],
-      "image": "/img/booth/水泳.webp"
-    },
-    {
-      "id": 9,
-      "name": "ペットボトル飲料",
-      "team": "サッカー部",
-      "place": "テント番号14",
-      "menu": [{ "content": "1本", "price": 160 }],
-      "image": "/img/booth/サッカー.webp"
-    },
-    {
-      "id": 10,
-      "name": "カステラ",
-      "team": "卓球部",
-      "place": "テント番号21",
-      "menu": [
-        { "content": "8個", "price": 300 },
-        { "content": "15個", "price": 500 },
-        { "content": "20個", "price": 600 }
-      ],
-      "image": "/img/booth/卓球.webp"
-    },
-    {
-      "id": 11,
-      "name": "クロッフル",
-      "team": "バドミントン部",
-      "place": "テント番号18",
-      "menu": [
-        { "content": "プレーン", "price": 300 },
-        { "content": "チョコソース", "price": 350 },
-        { "content": "いちごソース", "price": 350 },
-        { "content": "メープルソース", "price": 350 }
-      ],
-      "image": "/img/booth/バドミントン部.webp"
-    },
-    {
-      "id": 12,
-      "name": "唐揚げ",
-      "team": "バスケットボール部",
-      "place": "テント番号20",
-      "menu": [{ "content": "唐揚げ", "price": 500 }],
-      "image": "/img/booth/バスケ.webp"
-    }
-  ],
-  "L2": [
-    {
-      "id": 13,
-      "name": "フランクフルト",
-      "team": "機関学同好会",
-      "place": "テント番号17",
-      "menu": [{ "content": "フランクフルト", "price": 0 }],
-      "image": "/img/booth/機関学.webp"
-    },
-    {
-      "id": 14,
-      "name": "どら焼き・お茶",
-      "team": "茶道同好会",
-      "place": "テント番号12",
-      "menu": [
-        { "content": "冷抹茶", "price": 200 },
-        { "content": "和菓子「清流」", "price": 250 },
-        { "content": "セット", "price": 400 }
-      ],
-      "image": "/img/booth/茶道部.webp"
-    },
-    {
-      "id": 15,
-      "name": "お茶会～2日目のみ～",
-      "team": "茶道同好会",
-      "place": "奈呉の浦会館2F和室",
-      "menu": [{ "content": "清風茶会", "price": 500 }],
-      "image": "/img/booth/お茶会.webp"
-    },
-    {
-      "id": 16,
-      "name": "たい焼き",
-      "team": "新聞部",
-      "place": "テント番号6",
-      "menu": [{ "content": "たい焼き", "price": 300 }],
-      "image": "/img/booth/新聞.webp"
-    },
-    {
-      "id": 17,
-      "name": "コーヒー・クレープ",
-      "team": "アントレプレナー同好会",
-      "place": "テント番号16",
-      "menu": [
-        { "content": "抹茶ブリュレ", "price": 700 },
-        { "content": "紅茶ブリュレ", "price": 700 },
-        { "content": "ほうじ茶焼き芋ブリュレ", "price": 700 },
-        { "content": "アイスコーヒー", "price": 300 },
-        { "content": "ホットコーヒー", "price": 300 }
-      ],
-      "image": "/img/booth/アントレプレナー.webp"
-    }
-  ],
-  "L3": [
-    {
-      "id": 18,
-      "name": "冥土カフェ",
-      "team": "国際ビジネス科4年",
-      "place": "I5教室",
-      "menu": [
-        { "content": "パンケーキ(2枚・ジャム付き)", "price": 650 },
-        { "content": "チョコタルト", "price": 250 },
-        { "content": "マドレーヌ", "price": 250 },
-        { "content": "目玉グミ", "price": 200 },
-        { "content": "アイスティー", "price": 300 },
-        { "content": "ミルクティー", "price": 300 },
-        { "content": "コーヒー", "price": 300 },
-        { "content": "オレンジジュース", "price": 300 }
-      ],
-      "image": "/img/booth/K4.webp"
-    },
-    {
-      "id": 19,
-      "name": "肉巻きおにぎり",
-      "team": "電子情報工学科4年",
-      "place": "テント番号11",
-      "menu": [{ "content": "肉巻きおにぎり", "price": 500 }],
-      "image": "/img/booth/I4.webp"
-    },
-    {
-      "id": 20,
-      "name": "めいどびより",
-      "team": "国際ビジネス科5年",
-      "place": "共通講義室1",
-      "menu": [
-        { "content": "ワッフル2枚", "price": 450 },
-        { "content": "シューアイス", "price": 300 },
-        { "content": "ドリンク", "price": 250 },
-        { "content": "シャンメリー", "price": 1300 }
-      ],
-      "image": "/img/booth/K5-1.webp"
-    }
-  ],
-  "L4": [
-    {
-      "id": 21,
-      "name": "ポップコーン",
-      "team": "実行委員会",
-      "place": "テント番号4",
-      "menu": [
-        { "content": "能登の塩", "price": 200 },
-        { "content": "白エビ", "price": 200 },
-        { "content": "塩キャラメル", "price": 200 },
-        { "content": "ペンライト", "price": 100 }
-      ],
-      "image": "/img/booth/ポップコーン.webp"
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "name": "ポップコーン",
+    "team": "実行委員会",
+    "place": "テント番号2",
+    "menu": [
+      { "content": "能登の塩", "price": 200 },
+      { "content": "白エビ", "price": 200 },
+      { "content": "塩キャラメル", "price": 200 },
+      { "content": "ペンライト", "price": 100 }
+    ],
+    "image": "/img/booth/ポップコーン.webp"
+  },
+  {
+    "id": 2,
+    "name": "イカ焼き・どんどん焼き",
+    "team": "富山高等専門学校後援会",
+    "place": "テント番号3",
+    "menu": [
+      { "content": "イカ焼き", "price": 0 },
+      { "content": "どんどん焼き", "price": 0 }
+    ],
+    "image": "/img/booth/富山高等専門学校後援会.webp"
+  },
+  {
+    "id": 3,
+    "name": "おにぎり・飲み物・アイスクレープ",
+    "team": "富山高等専門学校後援会",
+    "place": "テント番号4",
+    "menu": [
+      { "content": "おにぎり", "price": 0 },
+      { "content": "飲み物", "price": 0 },
+      { "content": "アイスクレープ", "price": 0 }
+    ],
+    "image": "/img/booth/富山高等専門学校後援会.webp"
+  },
+  {
+    "id": 4,
+    "name": "焼き鳥",
+    "team": "剣道部",
+    "place": "テント番号5",
+    "menu": [
+      { "content": "1本", "price": 150 },
+      { "content": "3本", "price": 400 },
+      { "content": "5本", "price": 750 }
+    ],
+    "image": "/img/booth/剣道.webp"
+  },
+  {
+    "id": 5,
+    "name": "たい焼き",
+    "team": "新聞部",
+    "place": "テント番号6",
+    "menu": [{ "content": "たい焼き", "price": 300 }],
+    "image": "/img/booth/新聞.webp"
+  },
+  {
+    "id": 6,
+    "name": "たこ焼き",
+    "team": "漕艇部",
+    "place": "テント番号7",
+    "menu": [
+      { "content": "たこ焼き", "price": 400 },
+      { "content": "チーズたこ焼き", "price": 500 },
+      { "content": "明太マヨたこ焼き", "price": 500 }
+    ],
+    "image": "/img/booth/漕艇.webp"
+  },
+  {
+    "id": 7,
+    "name": "焼きそば",
+    "team": "テニス部",
+    "place": "テント番号8",
+    "menu": [{ "content": "焼きそば", "price": 0 }],
+    "image": "/img/booth/テニス.webp"
+  },
+  {
+    "id": 8,
+    "name": "チュロス",
+    "team": "バレーボール部",
+    "place": "テント番号9",
+    "menu": [
+      { "content": "ミニチュロス3本(同味)", "price": 250 },
+      { "content": "ミニチュロス3本(異味)", "price": 300 },
+      { "content": "チュロス(ミルク,シナモン)", "price": 350 },
+      { "content": "チュロス(チョコ)", "price": 400 }
+    ],
+    "image": "/img/booth/バレー1.webp"
+  },
+  {
+    "id": 9,
+    "name": "揚げパン・フルーツ飴・ラムネ",
+    "team": "水泳競技部",
+    "place": "テント番号10",
+    "menu": [
+      { "content": "揚げパン", "price": 500 },
+      { "content": "フルーツ飴", "price": 800 },
+      { "content": "ラムネ", "price": 300 }
+    ],
+    "image": "/img/booth/水泳.webp"
+  },
+  {
+    "id": 10,
+    "name": "肉巻きおにぎり",
+    "team": "電子情報工学科4年",
+    "place": "テント番号11",
+    "menu": [{ "content": "肉巻きおにぎり", "price": 500 }],
+    "image": "/img/booth/I4.webp"
+  },
+  {
+    "id": 11,
+    "name": "どら焼き・お茶",
+    "team": "茶道同好会",
+    "place": "テント番号12",
+    "menu": [
+      { "content": "冷抹茶", "price": 200 },
+      { "content": "和菓子「清流」", "price": 250 },
+      { "content": "セット", "price": 400 }
+    ],
+    "image": "/img/booth/茶道部.webp"
+  },
+  {
+    "id": 12,
+    "name": "大判焼き",
+    "team": "ラグビー同好会",
+    "place": "テント番号13",
+    "menu": [{ "content": "大判焼き", "price": 300 }],
+    "image": "/img/booth/ラグビー1.webp"
+  },
+  {
+    "id": 13,
+    "name": "ペットボトル飲料",
+    "team": "サッカー部",
+    "place": "テント番号14",
+    "menu": [{ "content": "1本", "price": 160 }],
+    "image": "/img/booth/サッカー.webp"
+  },
+  {
+    "id": 14,
+    "name": "わたあめ",
+    "team": "ヨット部",
+    "place": "テント番号15",
+    "menu": [
+      { "content": "プレーン味", "price": 300 },
+      { "content": "いちご味", "price": 300 }
+    ],
+    "image": "/img/booth/ヨット.webp"
+  },
+  {
+    "id": 15,
+    "name": "コーヒー・クレープ",
+    "team": "アントレプレナー同好会",
+    "place": "テント番号16",
+    "menu": [
+      { "content": "抹茶ブリュレ", "price": 700 },
+      { "content": "紅茶ブリュレ", "price": 700 },
+      { "content": "ほうじ茶焼き芋ブリュレ", "price": 700 },
+      { "content": "アイスコーヒー", "price": 300 },
+      { "content": "ホットコーヒー", "price": 300 }
+    ],
+    "image": "/img/booth/アントレプレナー.webp"
+  },
+  {
+    "id": 16,
+    "name": "フランクフルト",
+    "team": "機関学同好会",
+    "place": "テント番号17",
+    "menu": [{ "content": "フランクフルト", "price": 0 }],
+    "image": "/img/booth/機関学.webp"
+  },
+  {
+    "id": 17,
+    "name": "クロッフル",
+    "team": "バドミントン部",
+    "place": "テント番号18",
+    "menu": [
+      { "content": "プレーン", "price": 300 },
+      { "content": "チョコソース", "price": 350 },
+      { "content": "いちごソース", "price": 350 },
+      { "content": "メープルソース", "price": 350 }
+    ],
+    "image": "/img/booth/バドミントン部.webp"
+  },
+  {
+    "id": 18,
+    "name": "あんばやし",
+    "team": "野球部",
+    "place": "テント番号19",
+    "menu": [{ "content": "5本", "price": 300 }],
+    "image": "/img/booth/野球.webp"
+  },
+  {
+    "id": 19,
+    "name": "唐揚げ",
+    "team": "バスケットボール部",
+    "place": "テント番号20",
+    "menu": [{ "content": "唐揚げ", "price": 500 }],
+    "image": "/img/booth/バスケ.webp"
+  },
+  {
+    "id": 20,
+    "name": "ベビーカステラ",
+    "team": "卓球部",
+    "place": "テント番号21",
+    "menu": [
+      { "content": "8個", "price": 300 },
+      { "content": "15個", "price": 500 },
+      { "content": "20個", "price": 600 }
+    ],
+    "image": "/img/booth/卓球.webp"
+  },
+  {
+    "id": 21,
+    "name": "めいどびより",
+    "team": "国際ビジネス科5年",
+    "place": "共通講義室1",
+    "menu": [
+      { "content": "ワッフル2枚", "price": 450 },
+      { "content": "シューアイス", "price": 300 },
+      { "content": "ドリンク", "price": 250 },
+      { "content": "シャンメリー", "price": 1300 }
+    ],
+    "image": "/img/booth/K5-1.webp"
+  },
+  {
+    "id": 22,
+    "name": "冥土カフェ",
+    "team": "国際ビジネス科4年",
+    "place": "I5教室",
+    "menu": [
+      { "content": "パンケーキ(2枚・ジャム付き)", "price": 650 },
+      { "content": "チョコタルト", "price": 250 },
+      { "content": "マドレーヌ", "price": 250 },
+      { "content": "目玉グミ", "price": 200 },
+      { "content": "アイスティー", "price": 300 },
+      { "content": "ミルクティー", "price": 300 },
+      { "content": "コーヒー", "price": 300 },
+      { "content": "オレンジジュース", "price": 300 }
+    ],
+    "image": "/img/booth/K4.webp"
+  },
+  {
+    "id": 23,
+    "name": "お茶会～2日目のみ～",
+    "team": "茶道同好会",
+    "place": "奈呉の浦会館2F和室",
+    "menu": [{ "content": "清風茶会", "price": 500 }],
+    "image": "/img/booth/お茶会.webp"
+  }
+]

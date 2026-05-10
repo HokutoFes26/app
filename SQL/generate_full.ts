@@ -15,6 +15,7 @@ function generateFullSql() {
     "03_security.sql",
     "04_seed_data.sql",
     "05_realtime.sql",
+    "06_generate_votejson.sql",
   ];
 
   let content = "-- Supabase Setup SQL\n";
@@ -36,9 +37,12 @@ function generateFullSql() {
     const allBooths = Object.values(boothsRaw).flat() as any[];
 
     content += "-- Stalls Status (Master Names)\n";
-    const stallValues = allBooths.map((b) => `('${b.name.replace(/'/g, "''")}')`).join(", ");
-    content += `INSERT INTO stalls_status (stall_name) VALUES ${stallValues}\n`;
-    content += `ON CONFLICT (stall_name) DO NOTHING;\n\n`;
+    const stallValues = allBooths.map((b) => `(${b.id}, '${b.name.replace(/'/g, "''")}')`).join(", ");
+    content += `INSERT INTO stalls_status (id, stall_name) VALUES ${stallValues}\n`;
+    content += `ON CONFLICT (id) DO UPDATE SET stall_name = EXCLUDED.stall_name;\n\n`;
+
+    content += `-- Reset stalls_status sequence (suppressing output)\n`;
+    content += `DO $$\nBEGIN\n  PERFORM setval(pg_get_serial_sequence('stalls_status', 'id'), COALESCE(MAX(id), 1)) FROM stalls_status;\nEND $$;\n\n`;
 
     content += "-- Vote Targets (Booths)\n";
     const voteBoothValues = allBooths

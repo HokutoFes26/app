@@ -13,15 +13,24 @@ interface TimeContextType {
 const TimeContext = createContext<TimeContextType | undefined>(undefined);
 
 export function TimeProvider({ children }: { children: ReactNode }) {
-  const getInitialMockTime = () => {
+  const getInitialOffset = () => {
     if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("app_mock_time");
-      if (stored) return dayjs(stored);
+      const stored = sessionStorage.getItem("app_time_offset");
+      if (stored) return parseInt(stored, 10);
     }
-    return process.env.NEXT_PUBLIC_MOCK_TIME ? dayjs(process.env.NEXT_PUBLIC_MOCK_TIME) : null;
+    if (process.env.NEXT_PUBLIC_MOCK_TIME) {
+      return dayjs(process.env.NEXT_PUBLIC_MOCK_TIME).diff(dayjs());
+    }
+    return 0;
   };
 
-  const [mockTime, setMockTime] = useState<Dayjs | null>(getInitialMockTime);
+  const [timeOffset, setTimeOffset] = useState<number>(getInitialOffset);
+  const [isMocked, setIsMocked] = useState(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("app_time_offset") !== null;
+    }
+    return !!process.env.NEXT_PUBLIC_MOCK_TIME;
+  });
   const [realTime, setRealTime] = useState(() => dayjs());
 
   useEffect(() => {
@@ -31,29 +40,36 @@ export function TimeProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(timer);
   }, []);
 
-  const setCurrentTime = useCallback((time: Dayjs) => {
-    setMockTime(time);
+  const setCurrentTime = useCallback((targetTime: Dayjs) => {
+    const offset = targetTime.diff(dayjs());
+    setTimeOffset(offset);
+    setIsMocked(true);
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("app_mock_time", time.toISOString());
+      sessionStorage.setItem("app_time_offset", offset.toString());
     }
   }, []);
 
   const resetTime = useCallback(() => {
-    setMockTime(null);
+    setTimeOffset(0);
+    setIsMocked(false);
     if (typeof window !== "undefined") {
-      sessionStorage.removeItem("app_mock_time");
+      sessionStorage.removeItem("app_time_offset");
     }
     setRealTime(dayjs());
   }, []);
 
+  const currentTime = useMemo(() => {
+    return realTime.add(timeOffset, "ms");
+  }, [realTime, timeOffset]);
+
   const value = useMemo(
     () => ({
-      currentTime: mockTime || realTime,
+      currentTime,
       setCurrentTime,
-      isMocked: mockTime !== null,
+      isMocked,
       resetTime,
     }),
-    [mockTime, realTime, setCurrentTime, resetTime],
+    [currentTime, setCurrentTime, isMocked, resetTime],
   );
 
   return <TimeContext.Provider value={value}>{children}</TimeContext.Provider>;

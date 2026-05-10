@@ -1,210 +1,191 @@
 [
   {
     "id": 1,
-    "category": "L1",
-    "name": "VS電子",
-    "team": "I2",
-    "place": "I2教室",
-    "image": "/img/exhibition/I2.webp"
+    "name": "機械・電気・物質工学科展示",
+    "team": "本郷",
+    "place": "ものづくり教室",
+    "image": "/img/exhibition/機械・電気・物質.webp"
   },
   {
     "id": 2,
-    "category": "L1",
-    "name": "恋みくじ・フォトスポット",
-    "team": "K2",
-    "place": "K2教室",
-    "image": "/img/exhibition/K2.webp"
+    "name": "地域連携スタートアップ紹介",
+    "team": "研究開発共創センター",
+    "place": "ものづくり教室",
+    "image": "/img/exhibition/地域連携・スタートアップ.webp"
   },
   {
     "id": 3,
-    "category": "L1",
-    "name": "キッキングスナイパー",
-    "team": "S2",
-    "place": "S2教室",
-    "image": "/img/exhibition/S2.webp"
+    "name": "入試相談コーナー",
+    "team": "入試広報センター",
+    "place": "ものづくり教室",
+    "image": "/img/exhibition/入試相談センター.webp"
   },
   {
     "id": 4,
-    "category": "L1",
-    "name": "縁日",
-    "team": "I3",
-    "place": "I3教室",
-    "image": "/img/exhibition/I3.webp"
+    "name": "校長スペース",
+    "team": "校長先生",
+    "place": "ものづくり教室",
+    "image": "/img/exhibition/校長スペース.webp"
   },
   {
     "id": 5,
-    "category": "L1",
-    "name": "縁日",
-    "team": "K3",
-    "place": "K3教室",
-    "image": "/img/exhibition/K3.webp"
-  },
-  {
-    "id": 6,
-    "category": "L1",
-    "name": "お化け屋敷",
-    "team": "S3",
-    "place": "S3教室",
-    "image": "/img/exhibition/S3.webp"
-  },
-  {
-    "id": 7,
-    "category": "L2",
-    "name": "ゲーム・イラスト展示",
-    "team": "デジタルメディア創作部",
-    "place": "第2プラザ",
-    "image": "/img/exhibition/デジ研.webp"
-  },
-  {
-    "id": 8,
-    "category": "L2",
-    "name": "ロボット操作体験",
-    "team": "メカトロ技術研究部",
-    "place": "第1体育館",
-    "image": "/img/exhibition/メカトロ.webp"
-  },
-  {
-    "id": 9,
-    "category": "L2",
-    "name": "新聞展示",
-    "team": "新聞部",
-    "place": "ラウンジC",
-    "image": "/img/exhibition/新聞部.webp"
-  },
-  {
-    "id": 10,
-    "category": "L2",
-    "name": "部誌・読書スペース",
-    "team": "文芸同好会",
-    "place": "ラウンジA",
-    "image": "/img/exhibition/文芸.webp"
-  },
-  {
-    "id": 11,
-    "category": "L2",
     "name": "書道作品展示",
     "team": "書道同好会",
     "place": "学生昇降口",
     "image": "/img/exhibition/書道.webp"
   },
   {
-    "id": 12,
-    "category": "L2",
+    "id": 6,
+    "name": "部誌・読書スペース",
+    "team": "文芸同好会",
+    "place": "ラウンジA",
+    "image": "/img/exhibition/文芸.webp"
+  },
+  {
+    "id": 7,
     "name": "写真展示",
     "team": "写真同好会",
     "place": "ラウンジA",
     "image": "/img/exhibition/写真.webp"
   },
   {
-    "id": 13,
-    "category": "L2",
-    "name": "ジオラマ展示",
-    "team": "鉄道部",
-    "place": "第1体育館",
-    "image": "/img/exhibition/鉄道.webp"
+    "id": 8,
+    "name": "ゲーム・イラスト展示",
+    "team": "デジタルメディア創作部",
+    "place": "第2プラザ",
+    "image": "/img/exhibition/デジ研.webp"
   },
   {
-    "id": 14,
-    "category": "L2",
-    "name": "全国高専のロボット展示",
-    "team": "メカテック部",
-    "place": "第1体育館",
-    "image": "/img/exhibition/メカテック.webp"
+    "id": 9,
+    "name": "VS電子",
+    "team": "I2",
+    "place": "I2教室",
+    "image": "/img/exhibition/I2.webp"
   },
   {
-    "id": 15,
-    "category": "L3",
+    "id": 10,
+    "name": "恋みくじ・フォトスポット",
+    "team": "K2",
+    "place": "K2教室",
+    "image": "/img/exhibition/K2.webp"
+  },
+  {
+    "id": 11,
+    "name": "VS S2 キッキングスナイパー！",
+    "team": "S2",
+    "place": "S2教室",
+    "image": "/img/exhibition/S2.webp"
+  },
+  {
+    "id": 12,
     "name": "電子情報工学科展示",
     "team": "電子情報工学科",
     "place": "電子情報第1実験室",
     "image": "/img/exhibition/電子情報工学科展示.webp"
   },
   {
+    "id": 13,
+    "name": "縁日 (I3)",
+    "team": "I3",
+    "place": "I3教室",
+    "image": "/img/exhibition/I3.webp"
+  },
+  {
+    "id": 14,
+    "name": "縁日 (K3)",
+    "team": "K3",
+    "place": "K3教室",
+    "image": "/img/exhibition/K3.webp"
+  },
+  {
+    "id": 15,
+    "name": "お化け屋敷",
+    "team": "S3",
+    "place": "S3教室",
+    "image": "/img/exhibition/S3.webp"
+  },
+  {
     "id": 16,
-    "category": "L3",
-    "name": "国際ビジネス学科紹介",
-    "team": "国際ビジネス学科",
-    "place": "K5教室",
-    "image": "/img/exhibition/国際ビジネス学科紹介.webp"
+    "name": "若潮丸展示",
+    "team": "若潮丸委員会",
+    "place": "ラウンジB",
+    "image": "/img/exhibition/若潮丸.webp"
   },
   {
     "id": 17,
-    "category": "L3",
-    "name": "機関実習室ツアー",
-    "team": "商船学科機関コース",
-    "place": "ETS演習室・蒸気実験室・補機実験室・内燃機関実験室",
-    "image": "/img/exhibition/機関実習室ツアー.webp"
+    "name": "フォトスポット",
+    "team": "実行委員会",
+    "place": "1年教室",
+    "image": "/img/exhibition/フォトスポット.webp"
   },
   {
     "id": 18,
-    "category": "L3",
-    "name": "操船シミュレータ体験など",
-    "team": "商船学科航海コース",
-    "place": "航海学演習室・公開計測演習室・レーダーシミュレーター演習室",
-    "image": "/img/exhibition/操船シミュレータ体験など.webp"
-  },
-  {
-    "id": 19,
-    "category": "L3",
-    "name": "若潮丸Ⅳ・Ⅴ世の紹介など",
-    "team": "若潮丸委員会",
-    "place": "ラウンジB",
-    "image": "/img/exhibition/若潮丸Ⅳ・Ⅴ世の紹介など.webp"
-  },
-  {
-    "id": 20,
-    "category": "L3",
     "name": "写真展",
     "team": "商船OB",
     "place": "S4教室",
     "image": "/img/exhibition/写真展.webp"
   },
   {
+    "id": 19,
+    "name": "専攻科紹介",
+    "team": "専攻科",
+    "place": "K4紹介",
+    "image": "/img/exhibition/専攻科.webp"
+  },
+  {
+    "id": 20,
+    "name": "新聞の展示",
+    "team": "新聞部",
+    "place": "ラウンジC",
+    "image": "/img/exhibition/新聞部.webp"
+  },
+  {
     "id": 21,
-    "category": "L3",
-    "name": "本郷3学科紹介展示",
-    "team": "本郷3学科",
-    "place": "ものづくり教室",
-    "image": "/img/exhibition/本郷3学科紹介展示.webp"
+    "name": "国際ビジネス学科展示",
+    "team": "国際ビジネス学科",
+    "place": "K5教室",
+    "image": "/img/exhibition/国際ビジネス学科展示.webp"
   },
   {
     "id": 22,
-    "category": "L3",
-    "name": "専攻科活動紹介",
-    "team": "専攻科",
-    "place": "K4紹介",
-    "image": "/img/exhibition/専攻科活動紹介.webp"
+    "name": "国際教育センター展示",
+    "team": "国際教育センター",
+    "place": "K4教室",
+    "image": "/img/exhibition/国際教育センター.webp"
   },
   {
     "id": 23,
-    "category": "L4",
-    "name": "連携事業・活動実績など",
-    "team": "研究開発共創センター",
-    "place": "ものづくり教室",
-    "image": "/img/exhibition/連携事業・活動実績など.webp"
+    "name": "商船航海コース展示",
+    "team": "商船学科航海コース",
+    "place": "航海学演習室・公開計測演習室・レーダーシミュレーター演習室",
+    "image": "/img/exhibition/商船航海コース.webp"
   },
   {
     "id": 24,
-    "category": "L4",
-    "name": "富山高専の国際化への取り組み紹介",
-    "team": "国際教育センター",
-    "place": "K4教室",
-    "image": "/img/exhibition/富山高専の国際化への取り組み紹介.webp"
+    "name": "ロボット操縦体験",
+    "team": "メカトロ技術研究部",
+    "place": "第1体育館",
+    "image": "/img/exhibition/メカトロ.webp"
   },
   {
     "id": 25,
-    "category": "L4",
-    "name": "展示",
-    "team": "入試センター",
-    "place": "ものづくり教室",
-    "image": "/img/exhibition/ComingSoon.webp"
+    "name": "ジオラマ展示",
+    "team": "鉄道部",
+    "place": "第1体育館",
+    "image": "/img/exhibition/鉄道.webp"
   },
   {
     "id": 26,
-    "category": "L4",
-    "name": "校長先生ポスター",
-    "team": "団体名",
-    "place": "ものづくり教室",
-    "image": "/img/exhibition/校長先生ポスター.webp"
+    "name": "ロボット展示",
+    "team": "メカテック部",
+    "place": "第1体育館",
+    "image": "/img/exhibition/メカテック.webp"
+  },
+  {
+    "id": 27,
+    "name": "商船機関コース展示",
+    "team": "商船学科機関コース",
+    "place": "ETS演習室・蒸気実験室・補機実験室・内燃機関実験室",
+    "image": "/img/exhibition/商船機関コース.webp"
   }
 ]

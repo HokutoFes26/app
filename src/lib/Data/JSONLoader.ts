@@ -7,7 +7,6 @@ const cache: Record<string, any> = {};
 const transformData = (type: JSONDataType, rawData: any) => {
   switch (type) {
     case "booth":
-      return [...(rawData.L1 || []), ...(rawData.L2 || []), ...(rawData.L3 || []), ...(rawData.L4 || [])];
     case "spots":
     case "events":
     case "bus":
