@@ -8,7 +8,7 @@ export default function Homepage() {
         <CardBase title="ホームページ">
             <CardInside>
                 <a href="https://hokutofes26.github.io/" target="_blank" rel="noreferrer">
-                <img style={{width: "60%"}} src={getPath("/img/common/mainlogo.png")} />
+                <img style={{width: "60%"}} src={getPath("/img/common/mainlogo.webp")} />
                 </a>
             </CardInside>
         </CardBase>

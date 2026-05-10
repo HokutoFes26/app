@@ -26,11 +26,11 @@ export const MapPins: Record<string, { mapId: number; x: number; y: number }> = 
 };
 
 export const mapList = [
-  { category: "校舎", title: "1F / 2F", src: "/img/maps/1f_2f.jpg" },
-  { category: "校舎", title: "3F / 4F", src: "/img/maps/3f_4f.jpg" },
-  { category: "建物", title: "第1体育館 / 実験実習棟", src: "/img/maps/gym.jpg" },
-  { category: "建物", title: "図書館", src: "/img/maps/lib.jpg" },
-  { category: "建物", title: "奈呉の浦会館", src: "/img/maps/ng.jpg" },
-  { category: "全体", title: "模擬店", src: "/img/maps/out_small.jpg" },
-  { category: "全体", title: "全体図", src: "/img/maps/out_large.jpg" },
+  { category: "校舎", title: "1F / 2F", src: "/img/maps/1f_2f.webp" },
+  { category: "校舎", title: "3F / 4F", src: "/img/maps/3f_4f.webp" },
+  { category: "建物", title: "第1体育館 / 実験実習棟", src: "/img/maps/gym.webp" },
+  { category: "建物", title: "図書館", src: "/img/maps/lib.webp" },
+  { category: "建物", title: "奈呉の浦会館", src: "/img/maps/ng.webp" },
+  { category: "全体", title: "模擬店", src: "/img/maps/out_small.webp" },
+  { category: "全体", title: "全体図", src: "/img/maps/out_large.webp" },
 ];

@@ -11,7 +11,7 @@
         { "content": "チュロス(ミルク,シナモン)", "price": 350 },
         { "content": "チュロス(チョコ)", "price": 400 }
       ],
-      "image": "/app/img/booth/バレー1.jpg"
+      "image": "/app/img/booth/バレー1.webp"
     },
     {
       "id": 2,
@@ -23,7 +23,7 @@
         { "content": "チーズたこ焼き", "price": 500 },
         { "content": "明太マヨたこ焼き", "price": 500 }
       ],
-      "image": "/app/img/booth/漕艇.jpg"
+      "image": "/app/img/booth/漕艇.webp"
     },
     {
       "id": 3,
@@ -35,7 +35,7 @@
         { "content": "3本", "price": 400 },
         { "content": "5本", "price": 750 }
       ],
-      "image": "/app/img/booth/剣道.jpg"
+      "image": "/app/img/booth/剣道.webp"
     },
     {
       "id": 4,
@@ -43,7 +43,7 @@
       "team": "野球部",
       "place": "テント番号19",
       "menu": [{ "content": "5本", "price": 300 }],
-      "image": "/app/img/booth/野球.jpg"
+      "image": "/app/img/booth/野球.webp"
     },
     {
       "id": 5,
@@ -51,8 +51,8 @@
       "team": "ラグビー同好会",
       "place": "テント番号13",
       "menu": [{ "content": "大判焼き", "price": 300 }],
-      "image": "/app/img/booth/ラグビー1.jpg",
-      "image2": "/app/img/booth/ラグビー2.jpg"
+      "image": "/app/img/booth/ラグビー1.webp",
+      "image2": "/app/img/booth/ラグビー2.webp"
     },
     {
       "id": 6,
@@ -63,7 +63,7 @@
         { "content": "プレーン味", "price": 300 },
         { "content": "いちご味", "price": 300 }
       ],
-      "image": "/app/img/booth/ヨット.jpg"
+      "image": "/app/img/booth/ヨット.webp"
     },
     {
       "id": 7,
@@ -71,7 +71,7 @@
       "team": "テニス部",
       "place": "テント番号8",
       "menu": [{ "content": "焼きそば", "price": 0 }],
-      "image": "/app/img/booth/テニス.jpg"
+      "image": "/app/img/booth/テニス.webp"
     },
     {
       "id": 8,
@@ -83,7 +83,7 @@
         { "content": "フルーツ飴", "price": 800 },
         { "content": "ラムネ", "price": 300 }
       ],
-      "image": "/app/img/booth/水泳.jpg"
+      "image": "/app/img/booth/水泳.webp"
     },
     {
       "id": 9,
@@ -91,7 +91,7 @@
       "team": "サッカー部",
       "place": "テント番号14",
       "menu": [{ "content": "1本", "price": 160 }],
-      "image": "/app/img/booth/サッカー.jpg"
+      "image": "/app/img/booth/サッカー.webp"
     },
     {
       "id": 10,
@@ -103,7 +103,7 @@
         { "content": "15個", "price": 500 },
         { "content": "20個", "price": 600 }
       ],
-      "image": "/app/img/booth/卓球.jpg"
+      "image": "/app/img/booth/卓球.webp"
     },
     {
       "id": 11,
@@ -116,7 +116,7 @@
         { "content": "いちごソース", "price": 350 },
         { "content": "メープルソース", "price": 350 }
       ],
-      "image": "/app/img/booth/バドミントン部.jpg"
+      "image": "/app/img/booth/バドミントン部.webp"
     },
     {
       "id": 12,
@@ -124,7 +124,7 @@
       "team": "バスケットボール部",
       "place": "テント番号20",
       "menu": [{ "content": "唐揚げ", "price": 500 }],
-      "image": "/app/img/booth/バスケ.jpg"
+      "image": "/app/img/booth/バスケ.webp"
     }
   ],
   "L2": [
@@ -134,7 +134,7 @@
       "team": "機関学同好会",
       "place": "テント番号17",
       "menu": [{ "content": "フランクフルト", "price": 0 }],
-      "image": "/app/img/booth/機関学.jpg"
+      "image": "/app/img/booth/機関学.webp"
     },
     {
       "id": 14,
@@ -146,7 +146,7 @@
         { "content": "和菓子「清流」", "price": 250 },
         { "content": "セット", "price": 400 }
       ],
-      "image": "/app/img/booth/茶道部.jpg"
+      "image": "/app/img/booth/茶道部.webp"
     },
     {
       "id": 15,
@@ -154,7 +154,7 @@
       "team": "茶道同好会",
       "place": "奈呉の浦会館2F和室",
       "menu": [{ "content": "清風茶会", "price": 500 }],
-      "image": "/app/img/booth/お茶会.jpg"
+      "image": "/app/img/booth/お茶会.webp"
     },
     {
       "id": 16,
@@ -162,7 +162,7 @@
       "team": "新聞部",
       "place": "テント番号6",
       "menu": [{ "content": "たい焼き", "price": 300 }],
-      "image": "/app/img/booth/新聞.jpg"
+      "image": "/app/img/booth/新聞.webp"
     },
     {
       "id": 17,
@@ -176,7 +176,7 @@
         { "content": "アイスコーヒー", "price": 300 },
         { "content": "ホットコーヒー", "price": 300 }
       ],
-      "image": "/app/img/booth/アントレプレナー.jpg"
+      "image": "/app/img/booth/アントレプレナー.webp"
     }
   ],
   "L3": [
@@ -195,7 +195,7 @@
         { "content": "コーヒー", "price": 300 },
         { "content": "オレンジジュース", "price": 300 }
       ],
-      "image": "/app/img/booth/K4.jpg"
+      "image": "/app/img/booth/K4.webp"
     },
     {
       "id": 19,
@@ -203,8 +203,7 @@
       "team": "電子情報工学科4年",
       "place": "テント番号11",
       "menu": [{ "content": "肉巻きおにぎり", "price": 500 }],
-      "image": "/app/img/booth/ultimate_nikuoni.gif",
-      "image_hidden": "/app/img/booth/gishiki_nikumaki.gif"
+      "image": "/app/img/booth/I4.webp"
     },
     {
       "id": 20,
@@ -217,7 +216,7 @@
         { "content": "ドリンク", "price": 250 },
         { "content": "シャンメリー", "price": 1300 }
       ],
-      "image": "/app/img/booth/K5-1.jpg"
+      "image": "/app/img/booth/K5-1.webp"
     }
   ],
   "L4": [
@@ -232,7 +231,7 @@
         { "content": "塩キャラメル", "price": 200 },
         { "content": "ペンライト", "price": 100 }
       ],
-      "image": "/app/img/booth/ポップコーン.jpg"
+      "image": "/app/img/booth/ポップコーン.webp"
     }
   ]
 }

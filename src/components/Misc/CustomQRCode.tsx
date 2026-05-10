@@ -21,7 +21,7 @@ const colors = {
 export default function CustomQRCode({
   value,
   size = 250,
-  icon = "/img/common/mainlogo.png",
+  icon = "/img/common/mainlogo.webp",
   iconW = 77,
   type = "svg",
   className,
