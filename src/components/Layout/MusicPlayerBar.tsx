@@ -19,17 +19,22 @@ export default function MusicPlayerBar({
   isOngoing = false,
   style,
 }: MusicPlayerBarProps) {
-  const parseTime = (t: string) => {
-    const [h, m] = t.split(":").map(Number);
-    return h * 60 + m;
+  const parseTimeInSeconds = (t: string) => {
+    const parts = t.split(":").map(Number);
+    if (parts.length === 3) {
+      const [h, m, s] = parts;
+      return h * 3600 + m * 60 + s;
+    }
+    const [h, m] = parts;
+    return h * 3600 + m * 60;
   };
 
-  const startMin = parseTime(start);
-  const endMin = parseTime(end);
-  const nowMin = parseTime(now);
+  const startSec = parseTimeInSeconds(start);
+  const endSec = parseTimeInSeconds(end);
+  const nowSec = parseTimeInSeconds(now);
 
-  const total = endMin - startMin;
-  const current = nowMin - startMin;
+  const total = endSec - startSec;
+  const current = nowSec - startSec;
   const progress = upcoming ? 0 : Math.min(Math.max((current / total) * 100, 0), 100);
 
   const isFinished = !upcoming && !isOngoing && progress >= 100;

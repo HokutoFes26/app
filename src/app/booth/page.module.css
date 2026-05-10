@@ -10,7 +10,7 @@
 }
 
 .inner {
-  maxWidth: 400px;
+  max-width: 400px;
 }
 
 .title {
@@ -35,5 +35,5 @@
 .errorText {
   color: #ff4d4f;
   font-size: 14px;
-  fontWeight: bold;
+  font-weight: bold;
 }

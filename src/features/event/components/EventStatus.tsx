@@ -126,7 +126,7 @@ export default function EventStatus() {
                     <MusicPlayerBar
                       start={event.start}
                       end={event.end}
-                      now={currentTime.format("H:mm")}
+                      now={currentTime.format("H:mm:ss")}
                       upcoming={isUpcoming}
                       isOngoing={isOngoing}
                     />

@@ -22,7 +22,7 @@ export const useBoothStatus = (split?: "first" | "second") => {
     const sortedStatuses = [...allStatuses].sort((a, b) => Number(a.id) - Number(b.id));
 
     if (!split) return sortedStatuses;
-    const mid = Math.ceil(sortedStatuses.length / 2);
+    const mid = Math.floor(sortedStatuses.length / 2);
     return split === "first" ? sortedStatuses.slice(0, mid) : sortedStatuses.slice(mid);
   }, [allStatuses, split]);
 
