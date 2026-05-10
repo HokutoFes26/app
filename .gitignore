@@ -36,8 +36,6 @@ next-env.d.ts
 
 test
 database
-# handover
 supabase
 
-SQL/backup
 src/constants/booth-ids.ts

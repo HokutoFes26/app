@@ -128,7 +128,6 @@ erDiagram
 |Key|役割|デフォルト値|
 |--|--|--|
 |poll_interval_ms|Realtimeが途切れた時に`get_stalls_only`を実行する間隔　[ミリ秒]|30000|
-|full_refresh_freq|poll_interval_msが指定回数行われた時に`get_all_data`を実行する周期 [回数]|2|
 |vote_start_at|投票開始時刻|2026-05-23 10:00:00+09|
 |vote_end_at|投票終了時刻|2026-05-24 15:00:00+09|
 |voting_enabled|投票可能フラグ|1|

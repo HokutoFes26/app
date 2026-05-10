@@ -31,22 +31,8 @@ export const VisitedProvider = ({ children }: { children: ReactNode }) => {
       } catch (e) {
         console.error("Failed to parse visited booths", e);
       }
-    } else {
-      const oldStored = localStorage.getItem("hp-visited-booths");
-      if (oldStored) {
-        try {
-          const oldData: string[] = JSON.parse(oldStored);
-          const migrated: VisitedRecord[] = oldData.map(name => ({
-            name,
-            visitedAt: Date.now()
-          }));
-          setVisited(migrated);
-          localStorage.setItem(VISITED_STORAGE_KEY, JSON.stringify(migrated));
-        } catch (e) {
-          console.error("Failed to migrate old data", e);
-        }
-      }
     }
+    localStorage.removeItem("hp-visited-booths");
   }, []);
 
   const toggleVisited = (stallName: string) => {

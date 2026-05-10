@@ -37,8 +37,8 @@
 |--|--|--|
 |模擬店状況|リアルタイム(1秒以内)|stalls_status|
 |お知らせ|リアルタイム(1秒以内)|news|
-|落とし物|1分(DB上で変更可)|lost_items|
-|Q & A|1分(DB上で変更可)|questions|
+|落とし物|1.5分(DB上で変更可)|lost_items|
+|Q & A|1.5分(DB上で変更可)|questions|
 |投票結果|5分|vote_results|
 
 ---
