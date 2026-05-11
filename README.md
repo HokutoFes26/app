@@ -1,8 +1,9 @@
 このリポジトリは、第18回高専祭「北斗祭」のウェブアプリのソースコードを管理するためのものです。
-本ウェブアプリでは、北斗祭での模擬店の混雑・在庫状況、イベントタイムテーブル、バスの発着時刻、落とし物情報、Q&Aをリアルタイムに更新し、スムーズにより楽しく回るためのWebアプリケーションです。
+本ウェブアプリでは、北斗祭での模擬店の混雑・在庫状況、イベントタイムテーブル、バスの発着時刻、落とし物情報、Q&Aをリアルタイムに更新し、スムーズにより楽しく回るためのWebアプリケーションです。  
+特設ホームページについては[このリポジトリ](https://github.com/HokutoFes26/HokutoFes26.github.io)を参照してください。
 
-**ホームページ :** [https://hokutofes26.github.io/](https://hokutofes26.github.io/)  
-**Web App :** [https://hokutofes26.github.io/app](https://hokutofes26.github.io/app)
+## 公開URL
+- ウェブアプリ : [https://hokutofes26.github.io/app](https://hokutofes26.github.io/app)
 
 ## 外観
 
@@ -80,3 +81,6 @@
 
 ### ドキュメント
 プロジェクト詳細については[詳細ドキュメント](./documents/README.md)を参照してください。
+
+### システムフレームワーク
+本アプリでは、リアルタイム基盤として北斗祭2026向けに開発したOSSである [FesTime](https://github.com/rsu-Suba/FesTime) を使用しています。
