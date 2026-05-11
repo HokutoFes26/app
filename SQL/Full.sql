@@ -1,5 +1,5 @@
 -- Supabase Setup SQL
--- Generated at: 5/10/2026, 10:14:46 PM
+-- Generated at: 5/11/2026, 10:09:30 AM
 
 
 -- From 00_storage.sql

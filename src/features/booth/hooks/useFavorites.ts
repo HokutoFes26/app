@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const DEFAULT_FAVORITES = ["焼きそば"];
+
 export function useFavorites() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
@@ -9,8 +11,12 @@ export function useFavorites() {
       const stored = localStorage.getItem("booth_favorites");
       if (stored) {
         setFavorites(JSON.parse(stored));
+      } else {
+        setFavorites(DEFAULT_FAVORITES);
       }
-    } catch (e) {}
+    } catch (e) {
+      setFavorites(DEFAULT_FAVORITES);
+    }
   };
 
   useEffect(() => {
@@ -28,8 +34,14 @@ export function useFavorites() {
     let currentFavs: string[] = [];
     try {
       const stored = localStorage.getItem("booth_favorites");
-      if (stored) currentFavs = JSON.parse(stored);
-    } catch (e) {}
+      if (stored) {
+        currentFavs = JSON.parse(stored);
+      } else {
+        currentFavs = DEFAULT_FAVORITES;
+      }
+    } catch (e) {
+      currentFavs = DEFAULT_FAVORITES;
+    }
 
     let newFavs = [...currentFavs];
     if (newFavs.includes(stallName)) {
