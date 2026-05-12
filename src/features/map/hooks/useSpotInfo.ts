@@ -28,9 +28,10 @@ export const useSpotInfo = () => {
   const { api: { fetchedData } } = useData();
 
   useEffect(() => {
+    if (!spotId) return;
     loadJSON("spots").then(setAllSpots);
     loadJSON("exhibitions").then(setAllExhibitions);
-  }, []);
+  }, [spotId]);
 
   const currentSpot = useMemo(() => {
     if (!spotId) return null;

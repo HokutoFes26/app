@@ -2,13 +2,13 @@
   height: 100dvh;
   width: 100dvw;
   overflow-y: auto;
-  WebkitOverflowScrolling: touch;
+  -webkit-overflow-scrolling: touch;
   padding: 60px 5%;
   margin: 0;
   left: 0;
   top: 0;
   position: absolute;
-  backgroundColor: var(--mainCanvas-color);
+  background-color: var(--mainCanvas-color);
 }
 
 .backBtn {
@@ -18,8 +18,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  backgroundColor: var(--glass-bg);
-  backdropFilter: blur(20px);
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   display: flex;
   align-items: center;
@@ -27,7 +27,7 @@
   cursor: pointer;
   z-index: 1000;
   color: var(--text-color);
-  boxShadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
   padding: 0;
   padding-right: 2px;
 }

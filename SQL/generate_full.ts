@@ -8,6 +8,17 @@ const OUTPUT_FILE = path.join(SQL_DIR, "Full.sql");
 function generateFullSql() {
   console.log("Generating Full.sql...");
 
+  let adminEmail = "admin@example.com";
+  const envPath = path.join(process.cwd(), ".env");
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, "utf8");
+    const match = envContent.match(/NEXT_PUBLIC_ADMIN_EMAIL\s*=\s*(.*)/);
+    if (match && match[1]) {
+      adminEmail = match[1].trim().replace(/['"]/g, "");
+    }
+  }
+  console.log(`Using Admin Email: ${adminEmail}`);
+
   const baseFiles = [
     "00_storage.sql",
     "01_schema.sql",
@@ -25,7 +36,9 @@ function generateFullSql() {
     const filePath = path.join(SQL_DIR, file);
     if (fs.existsSync(filePath)) {
       content += `-- From ${file}\n`;
-      content += fs.readFileSync(filePath, "utf8") + "\n\n";
+      let fileContent = fs.readFileSync(filePath, "utf8");
+      fileContent = fileContent.replace(/{{ADMIN_EMAIL}}/g, adminEmail);
+      content += fileContent + "\n\n";
     }
   }
 

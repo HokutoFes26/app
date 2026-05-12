@@ -128,7 +128,7 @@ export default function AdminView() {
 
     if (activeTab === "1") {
       if (isMobile) {
-        return [[managers.News], [managers.QA], [managers.Lost]];
+        return [[managers.News], [managers.QA], [managers.Lost], [managers.Settings]];
       }
       if (columns >= 3) {
         return [[managers.News], [managers.QA], [managers.Lost]];

@@ -22,18 +22,18 @@ CREATE POLICY "Allow Public Insert Questions" ON questions FOR INSERT WITH CHECK
 CREATE POLICY "Allow Admin Update Stalls" ON stalls_status FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
 
 -- Write (admin for news/lost items)
-CREATE POLICY "Allow Admin Full News" ON news FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow Admin Full LostItems" ON lost_items FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow Admin Full News" ON news FOR ALL TO authenticated USING (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}') WITH CHECK (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}');
+CREATE POLICY "Allow Admin Full LostItems" ON lost_items FOR ALL TO authenticated USING (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}') WITH CHECK (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}');
 
 -- Write / Delete (admin for Q&A)
-CREATE POLICY "Allow Admin Manage Questions" ON questions FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow Admin Delete Questions" ON questions FOR DELETE TO authenticated USING (true);
+CREATE POLICY "Allow Admin Manage Questions" ON questions FOR UPDATE TO authenticated USING (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}') WITH CHECK (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}');
+CREATE POLICY "Allow Admin Delete Questions" ON questions FOR DELETE TO authenticated USING (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}');
 
 -- Write (admin for server config / vote)
 -- T4: Restricted to authenticated users
-CREATE POLICY "Allow Admin Update Settings" ON app_settings FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow Admin Full Settings" ON app_settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow Admin Manage VoteTargets" ON vote_targets FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow Admin Update Settings" ON app_settings FOR UPDATE TO authenticated USING (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}') WITH CHECK (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}');
+CREATE POLICY "Allow Admin Full Settings" ON app_settings FOR ALL TO authenticated USING (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}') WITH CHECK (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}');
+CREATE POLICY "Allow Admin Manage VoteTargets" ON vote_targets FOR ALL TO authenticated USING (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}') WITH CHECK (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}');
 
 -- Security: Explicitly block anonymous updates to app_settings (T4)
 CREATE OR REPLACE FUNCTION fn_block_anon_update()
@@ -51,7 +51,7 @@ CREATE TRIGGER tr_block_anon_update BEFORE UPDATE ON app_settings
 FOR EACH ROW EXECUTE FUNCTION fn_block_anon_update();
 
 -- Read (admin for vote)
-CREATE POLICY "Allow Admin Read Votes" ON votes FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Allow Admin Read Votes" ON votes FOR SELECT TO authenticated USING (auth.jwt()->>'email' = '{{ADMIN_EMAIL}}');
 
 -- Lost images storage
 CREATE POLICY "Allow authenticated users to upload lost items"

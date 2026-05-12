@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { CardBase, CardInside, SubList } from "@/components/Layout/CardComp";
 import DarkSwitch from "@/components/Misc/DarkSwitch";
-import { Select, Button as AntButton, Modal, Switch, DatePicker } from "antd";
+import { Select, Button as AntButton, Modal, Switch, DatePicker, Space } from "antd";
 import { languages } from "@/lib/Data/DataPack";
 import { useTranslation } from "react-i18next";
 import enUS from "antd/lib/locale/en_US";
@@ -12,9 +12,12 @@ import jaJP from "antd/lib/locale/ja_JP";
 import { useAppTime } from "@/contexts/TimeContext";
 import { useRole } from "@/contexts/RoleContext";
 import dayjs from "dayjs";
+import { exportVoteData } from "@/features/vote/api";
+import { App } from "antd";
 
 export default function Settings() {
   const { t, i18n } = useTranslation();
+  const { message } = App.useApp();
   const theme = useTheme();
   const { currentTime, setCurrentTime, resetTime, isMocked } = useAppTime();
   const { isAdmin, isStallAdmin, setRole } = useRole();
@@ -49,6 +52,71 @@ export default function Settings() {
         window.location.reload();
       },
     });
+  };
+
+  const handleExportJSON = async () => {
+    try {
+      const data = await exportVoteData();
+      if (!data || (Array.isArray(data) && data.length === 0)) {
+        message.warning("投票データがありません");
+        return;
+      }
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `vote_data_${dayjs().format("YYYYMMDD_HHmmss")}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      message.success("JSONエクスポートが完了しました");
+    } catch (e: any) {
+      console.error(e);
+      message.error("エクスポートに失敗しました: " + e.message);
+    }
+  };
+
+  const handleExportCSV = async () => {
+    try {
+      const data = await exportVoteData();
+      if (!data || (Array.isArray(data) && data.length === 0)) {
+        message.warning("投票データがありません");
+        return;
+      }
+
+      const headers = [
+        { label: "投票時刻", key: "time" },
+        { label: "カテゴリー", key: "category" },
+        { label: "投票先項目名", key: "target_name" },
+        { label: "投票者ID", key: "voter_id" },
+        { label: "IPアドレス", key: "ip" },
+        { label: "端末情報(UserAgent)", key: "ua" },
+      ];
+
+      const csvHeaderRow = headers.map((h) => `"${h.label}"`).join(",");
+      const csvDataRows = data.map((row: any) =>
+        headers.map((h) => `"${(row[h.key] || "").toString().replace(/"/g, '""')}"`).join(","),
+      );
+      const csvContent = [csvHeaderRow, ...csvDataRows].join("\n");
+      const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
+      const blob = new Blob([bom, csvContent], { type: "text/csv;charset=utf-8;" });
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `vote_data_${dayjs().format("YYYYMMDD_HHmmss")}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      message.success("CSVエクスポートが完了しました");
+    } catch (e: any) {
+      console.error(e);
+      message.error("エクスポートに失敗しました: " + e.message);
+    }
   };
 
   const SettingOptionFC = (title: string, children: React.ReactNode) => {
@@ -88,6 +156,19 @@ export default function Settings() {
             {t("Settings.Cache")}
           </AntButton>,
         )}
+
+        {isAdmin &&
+          SettingOptionFC(
+            "投票結果を出力",
+            <Space>
+              <AntButton onClick={handleExportJSON} size="small">
+                JSON出力
+              </AntButton>
+              <AntButton onClick={handleExportCSV} size="small">
+                CSV出力
+              </AntButton>
+            </Space>,
+          )}
 
         {(isAdmin || isStallAdmin) &&
           SettingOptionFC(

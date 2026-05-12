@@ -61,6 +61,8 @@ CREATE TABLE IF NOT EXISTS votes (
     voter_id TEXT NOT NULL,
     target_id TEXT REFERENCES vote_targets(id) ON DELETE CASCADE,
     category TEXT NOT NULL,
+    ip_address TEXT,
+    user_agent TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
     UNIQUE(voter_id, category)
 );
@@ -70,3 +72,6 @@ CREATE INDEX IF NOT EXISTS idx_stalls_name ON stalls_status(stall_name);
 CREATE INDEX IF NOT EXISTS idx_news_created_at ON news(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_app_settings_key ON app_settings(key);
 CREATE INDEX IF NOT EXISTS idx_votes_voter_category ON votes(voter_id, category);
+CREATE INDEX IF NOT EXISTS idx_votes_target_id ON votes(target_id);
+CREATE INDEX IF NOT EXISTS idx_votes_ip_address ON votes(ip_address);
+CREATE INDEX IF NOT EXISTS idx_votes_created_at ON votes(created_at DESC);

@@ -27,7 +27,7 @@ export default function VotePage() {
 
   return (
     <div className={styles.container}>
-      <button onClick={() => router.back()} className={styles.backBtn}>
+      <button onClick={() => router.back()} className={styles.backBtn} aria-label="戻る">
         <ArrowBackIosNewIcon className={styles.backIcon} />
       </button>
 

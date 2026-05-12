@@ -107,7 +107,10 @@ export default function UserView() {
       <div
         style={{
           height: "100vh",
+          width: "100vw",
           display: "flex",
+          inset: "0",
+          position: "absolute",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",

@@ -1,5 +1,5 @@
 -- Supabase Setup SQL
--- Generated at: 5/11/2026, 10:09:30 AM
+-- Generated at: 5/12/2026, 10:58:03 PM
 
 
 -- From 00_storage.sql
@@ -72,6 +72,8 @@ CREATE TABLE IF NOT EXISTS votes (
     voter_id TEXT NOT NULL,
     target_id TEXT REFERENCES vote_targets(id) ON DELETE CASCADE,
     category TEXT NOT NULL,
+    ip_address TEXT,
+    user_agent TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
     UNIQUE(voter_id, category)
 );
@@ -81,6 +83,9 @@ CREATE INDEX IF NOT EXISTS idx_stalls_name ON stalls_status(stall_name);
 CREATE INDEX IF NOT EXISTS idx_news_created_at ON news(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_app_settings_key ON app_settings(key);
 CREATE INDEX IF NOT EXISTS idx_votes_voter_category ON votes(voter_id, category);
+CREATE INDEX IF NOT EXISTS idx_votes_target_id ON votes(target_id);
+CREATE INDEX IF NOT EXISTS idx_votes_ip_address ON votes(ip_address);
+CREATE INDEX IF NOT EXISTS idx_votes_created_at ON votes(created_at DESC);
 
 -- From 02_functions.sql
 -- Get all data
@@ -117,7 +122,8 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE FUNCTION vote_for_target(
     p_voter_id TEXT,
     p_target_id TEXT,
-    p_category TEXT
+    p_category TEXT,
+    p_user_agent TEXT DEFAULT NULL
 ) RETURNS VOID AS $$
 DECLARE
     v_start_at INT;
@@ -148,19 +154,29 @@ BEGIN
         RAISE EXCEPTION '無効な投票先です';
     END IF;
 
-    -- T3: IP-based Rate Limit
+    -- T3: Rate Limit based on voter_id & IP Safety Net
     v_client_ip := current_setting('request.headers', true)::json->>'x-forwarded-for';
+    IF v_client_ip IS NOT NULL AND v_client_ip ~ ',' THEN
+        v_client_ip := split_part(v_client_ip, ',', 1);
+    END IF;
     IF v_client_ip IS NULL THEN v_client_ip := p_voter_id; END IF;
 
-    SELECT MAX(created_at) INTO v_last_vote_time FROM votes WHERE voter_id = v_client_ip;
+    SELECT MAX(created_at) INTO v_last_vote_time FROM votes WHERE voter_id = p_voter_id;
     IF v_last_vote_time IS NOT NULL AND (now() - v_last_vote_time) < interval '5 seconds' THEN
         RAISE EXCEPTION '連打は禁止されています。数秒後に再試行してください。';
     END IF;
 
     -- Vote execution
-    DELETE FROM votes WHERE voter_id = v_client_ip AND category = p_category;
-    INSERT INTO votes (voter_id, target_id, category)
-    VALUES (v_client_ip, p_target_id, p_category);
+    DELETE FROM votes WHERE voter_id = p_voter_id AND category = p_category;
+    INSERT INTO votes (voter_id, target_id, category, ip_address, user_agent)
+    VALUES (p_voter_id, p_target_id, p_category, v_client_ip, LEFT(p_user_agent, 500));
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE FUNCTION get_my_votes(p_voter_id TEXT)
+RETURNS TABLE (category TEXT, target_id TEXT) AS $$
+BEGIN
+    RETURN QUERY SELECT v.category, v.target_id FROM votes v WHERE v.voter_id = p_voter_id;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
@@ -203,6 +219,54 @@ LEFT JOIN votes vo ON vt.id = vo.target_id
 GROUP BY vt.id, vt.category, vt.display_order
 ORDER BY vt.category, vote_count DESC, vt.display_order;
 
+-- Block spam questions
+CREATE OR REPLACE FUNCTION fn_rate_limit_questions()
+RETURNS TRIGGER AS $$
+DECLARE
+    v_client_ip TEXT;
+BEGIN
+    v_client_ip := current_setting('request.headers', true)::json->>'x-forwarded-for';
+    IF v_client_ip IS NOT NULL AND v_client_ip ~ ',' THEN
+        v_client_ip := split_part(v_client_ip, ',', 1);
+    END IF;
+
+    IF (SELECT count(*) FROM questions WHERE (current_setting('request.headers', true)::json->>'x-forwarded-for') LIKE (v_client_ip || '%') AND created_at > now() - interval '1 minute') >= 5 THEN
+        RAISE EXCEPTION '短時間に多くの質問が投稿されています。しばらくお待ちください。';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS tr_rate_limit_questions ON questions;
+CREATE TRIGGER tr_rate_limit_questions
+BEFORE INSERT ON questions
+FOR EACH ROW
+EXECUTE FUNCTION fn_rate_limit_questions();
+
+CREATE OR REPLACE FUNCTION export_vote_data()
+RETURNS json AS $$
+DECLARE
+    v_admin_email TEXT;
+BEGIN
+  IF auth.role() <> 'authenticated' THEN
+    RAISE EXCEPTION '閲覧権限がありません';
+  END IF;
+
+  RETURN (
+    SELECT json_agg(json_build_object(
+      'voter_id', v.voter_id,
+      'target_name', vt.name,
+      'category', v.category,
+      'ip', v.ip_address,
+      'ua', v.user_agent,
+      'time', v.created_at AT TIME ZONE 'Asia/Tokyo'
+    ) ORDER BY v.created_at DESC)
+    FROM votes v
+    LEFT JOIN vote_targets vt ON v.target_id = vt.id
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
 -- Vote results
 CREATE OR REPLACE FUNCTION get_vote_results_compressed()
 RETURNS json AS $$
@@ -243,18 +307,18 @@ CREATE POLICY "Allow Public Insert Questions" ON questions FOR INSERT WITH CHECK
 CREATE POLICY "Allow Admin Update Stalls" ON stalls_status FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
 
 -- Write (admin for news/lost items)
-CREATE POLICY "Allow Admin Full News" ON news FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow Admin Full LostItems" ON lost_items FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow Admin Full News" ON news FOR ALL TO authenticated USING (auth.jwt()->>'email' = 'admin@example.com') WITH CHECK (auth.jwt()->>'email' = 'admin@example.com');
+CREATE POLICY "Allow Admin Full LostItems" ON lost_items FOR ALL TO authenticated USING (auth.jwt()->>'email' = 'admin@example.com') WITH CHECK (auth.jwt()->>'email' = 'admin@example.com');
 
 -- Write / Delete (admin for Q&A)
-CREATE POLICY "Allow Admin Manage Questions" ON questions FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow Admin Delete Questions" ON questions FOR DELETE TO authenticated USING (true);
+CREATE POLICY "Allow Admin Manage Questions" ON questions FOR UPDATE TO authenticated USING (auth.jwt()->>'email' = 'admin@example.com') WITH CHECK (auth.jwt()->>'email' = 'admin@example.com');
+CREATE POLICY "Allow Admin Delete Questions" ON questions FOR DELETE TO authenticated USING (auth.jwt()->>'email' = 'admin@example.com');
 
 -- Write (admin for server config / vote)
 -- T4: Restricted to authenticated users
-CREATE POLICY "Allow Admin Update Settings" ON app_settings FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow Admin Full Settings" ON app_settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY "Allow Admin Manage VoteTargets" ON vote_targets FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow Admin Update Settings" ON app_settings FOR UPDATE TO authenticated USING (auth.jwt()->>'email' = 'admin@example.com') WITH CHECK (auth.jwt()->>'email' = 'admin@example.com');
+CREATE POLICY "Allow Admin Full Settings" ON app_settings FOR ALL TO authenticated USING (auth.jwt()->>'email' = 'admin@example.com') WITH CHECK (auth.jwt()->>'email' = 'admin@example.com');
+CREATE POLICY "Allow Admin Manage VoteTargets" ON vote_targets FOR ALL TO authenticated USING (auth.jwt()->>'email' = 'admin@example.com') WITH CHECK (auth.jwt()->>'email' = 'admin@example.com');
 
 -- Security: Explicitly block anonymous updates to app_settings (T4)
 CREATE OR REPLACE FUNCTION fn_block_anon_update()
@@ -272,7 +336,7 @@ CREATE TRIGGER tr_block_anon_update BEFORE UPDATE ON app_settings
 FOR EACH ROW EXECUTE FUNCTION fn_block_anon_update();
 
 -- Read (admin for vote)
-CREATE POLICY "Allow Admin Read Votes" ON votes FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Allow Admin Read Votes" ON votes FOR SELECT TO authenticated USING (auth.jwt()->>'email' = 'admin@example.com');
 
 -- Lost images storage
 CREATE POLICY "Allow authenticated users to upload lost items"

@@ -32,7 +32,8 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE FUNCTION vote_for_target(
     p_voter_id TEXT,
     p_target_id TEXT,
-    p_category TEXT
+    p_category TEXT,
+    p_user_agent TEXT DEFAULT NULL
 ) RETURNS VOID AS $$
 DECLARE
     v_start_at INT;
@@ -63,19 +64,29 @@ BEGIN
         RAISE EXCEPTION '無効な投票先です';
     END IF;
 
-    -- T3: IP-based Rate Limit
+    -- T3: Rate Limit based on voter_id & IP Safety Net
     v_client_ip := current_setting('request.headers', true)::json->>'x-forwarded-for';
+    IF v_client_ip IS NOT NULL AND v_client_ip ~ ',' THEN
+        v_client_ip := split_part(v_client_ip, ',', 1);
+    END IF;
     IF v_client_ip IS NULL THEN v_client_ip := p_voter_id; END IF;
 
-    SELECT MAX(created_at) INTO v_last_vote_time FROM votes WHERE voter_id = v_client_ip;
+    SELECT MAX(created_at) INTO v_last_vote_time FROM votes WHERE voter_id = p_voter_id;
     IF v_last_vote_time IS NOT NULL AND (now() - v_last_vote_time) < interval '5 seconds' THEN
         RAISE EXCEPTION '連打は禁止されています。数秒後に再試行してください。';
     END IF;
 
     -- Vote execution
-    DELETE FROM votes WHERE voter_id = v_client_ip AND category = p_category;
-    INSERT INTO votes (voter_id, target_id, category)
-    VALUES (v_client_ip, p_target_id, p_category);
+    DELETE FROM votes WHERE voter_id = p_voter_id AND category = p_category;
+    INSERT INTO votes (voter_id, target_id, category, ip_address, user_agent)
+    VALUES (p_voter_id, p_target_id, p_category, v_client_ip, LEFT(p_user_agent, 500));
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE FUNCTION get_my_votes(p_voter_id TEXT)
+RETURNS TABLE (category TEXT, target_id TEXT) AS $$
+BEGIN
+    RETURN QUERY SELECT v.category, v.target_id FROM votes v WHERE v.voter_id = p_voter_id;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
@@ -117,6 +128,54 @@ FROM vote_targets vt
 LEFT JOIN votes vo ON vt.id = vo.target_id
 GROUP BY vt.id, vt.category, vt.display_order
 ORDER BY vt.category, vote_count DESC, vt.display_order;
+
+-- Block spam questions
+CREATE OR REPLACE FUNCTION fn_rate_limit_questions()
+RETURNS TRIGGER AS $$
+DECLARE
+    v_client_ip TEXT;
+BEGIN
+    v_client_ip := current_setting('request.headers', true)::json->>'x-forwarded-for';
+    IF v_client_ip IS NOT NULL AND v_client_ip ~ ',' THEN
+        v_client_ip := split_part(v_client_ip, ',', 1);
+    END IF;
+
+    IF (SELECT count(*) FROM questions WHERE (current_setting('request.headers', true)::json->>'x-forwarded-for') LIKE (v_client_ip || '%') AND created_at > now() - interval '1 minute') >= 5 THEN
+        RAISE EXCEPTION '短時間に多くの質問が投稿されています。しばらくお待ちください。';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS tr_rate_limit_questions ON questions;
+CREATE TRIGGER tr_rate_limit_questions
+BEFORE INSERT ON questions
+FOR EACH ROW
+EXECUTE FUNCTION fn_rate_limit_questions();
+
+CREATE OR REPLACE FUNCTION export_vote_data()
+RETURNS json AS $$
+DECLARE
+    v_admin_email TEXT;
+BEGIN
+  IF auth.role() <> 'authenticated' THEN
+    RAISE EXCEPTION '閲覧権限がありません';
+  END IF;
+
+  RETURN (
+    SELECT json_agg(json_build_object(
+      'voter_id', v.voter_id,
+      'target_name', vt.name,
+      'category', v.category,
+      'ip', v.ip_address,
+      'ua', v.user_agent,
+      'time', v.created_at AT TIME ZONE 'Asia/Tokyo'
+    ) ORDER BY v.created_at DESC)
+    FROM votes v
+    LEFT JOIN vote_targets vt ON v.target_id = vt.id
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Vote results
 CREATE OR REPLACE FUNCTION get_vote_results_compressed()

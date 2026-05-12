@@ -9,7 +9,7 @@
     *   `booth.json`と`exhibitions.json`は全てに連番のIDが振られていることを確認してください。
 2.  **QR コードの発行:**
     *   一般ユーザー用（トップページ: `https://[your-domain]/app/`）。
-    *   Spot-QR用: 管理画面 (`/debug/spots`) から生成した、校内に貼る周辺検索用。
+    *   Spot-QR用: 管理画面 (「スポットQR生成」タブ) から生成した、校内に貼る周辺検索用。
 3.  **Supabase 側データの初期化:**
     *   `SQL/generate_full.ts`を実行し、Supabase セットアップ用の `SQL/Full.sql`を生成します。
     *   `SQL/Full.sql` を実行し、Supabaseのデータベースを最新化します。
