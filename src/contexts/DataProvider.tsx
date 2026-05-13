@@ -19,6 +19,7 @@ import { loadJSON } from "@/lib/Data/JSONLoader";
 dayjs.extend(customParseFormat);
 
 const FETCH_INTERVAL_MS = 30000;
+const API_CACHE_TIME = 15000;
 const FULL_REFRESH_FREQ = 3;
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
@@ -76,7 +77,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     }
     const isFullRefresh = forceFull || refreshCycle.current % FULL_REFRESH_FREQ === 0;
     const currentInterval = config.poll_interval_ms || FETCH_INTERVAL_MS;
-    const currentTTL = currentInterval - 1000;
+    const ttl = forceFull ? API_CACHE_TIME : (currentInterval - 1000);
 
     if (!isFullRefresh && isStallsLiveRef.current) {
       console.log("[DataProvider] Skipping stalls-only polling (Realtime is active)");
@@ -86,8 +87,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       const allData = isFullRefresh
-        ? await fetchAllData(forceFull ? 0 : currentTTL)
-        : await fetchStallsOnly(currentTTL);
+        ? await fetchAllData(ttl)
+        : await fetchStallsOnly(ttl);
 
       if (allData) {
         lastFetchTime.current = Date.now();
