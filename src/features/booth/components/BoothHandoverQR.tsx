@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, App } from "antd";
 import QrCodeIcon from "@mui/icons-material/QrCode";
-import { generateHandoffUrl } from "@/features/auth/utils/QRAuth";
 import { BOOTH_IDS } from "@/constants/booth-ids";
 import { getPath } from "@/constants/paths";
 import styles from "./BoothHandoverQR.module.css";
@@ -20,25 +19,32 @@ export default function BoothHandoverQR({ assignedStall }: BoothHandoverQRProps)
       if (typeof window === "undefined" || !assignedStall) return;
 
       const id = BOOTH_IDS[assignedStall];
+      const pwd = sessionStorage.getItem("booth_pwd");
+
       if (!id) {
         console.error("[HandoverQR] No ID found for stall:", assignedStall);
         message.error("模擬店IDが見つかりません。運営に伝えてください。");
         return;
       }
-      const loginUrl = window.location.origin + getPath("/booth");
+
+      if (!pwd) {
+        console.error("[HandoverQR] No password found in session storage.");
+        message.error("認証情報が見つかりません。一度ログアウトして再ログインしてください。");
+        return;
+      }
+
+      const baseUrl = window.location.origin + getPath("/booth");
+      const finalUrl = `${baseUrl}?id=${id}&pwd=${encodeURIComponent(pwd)}`;
 
       try {
-        const finalUrl = await generateHandoffUrl(loginUrl, id);
         setQrUrl(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(finalUrl)}`);
       } catch (e) {
-        console.error("[HandoverQR] Failed to generate token:", e);
+        console.error("[HandoverQR] Failed to generate QR:", e);
       }
     };
 
     if (showQR) {
       updateQR();
-      const timer = setInterval(updateQR, 1000 * 60 * 4.5);
-      return () => clearInterval(timer);
     }
   }, [showQR, assignedStall, message]);
 

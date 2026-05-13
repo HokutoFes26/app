@@ -29,13 +29,11 @@ export const loginAsAdmin = async (password: string) => {
   return loginPromise;
 };
 
-export const loginAsStallAdmin = async (password?: string) => {
+export const loginAsStallAdmin = async (password: string) => {
   const email = process.env.NEXT_PUBLIC_BOOTH_ADMIN_EMAIL;
-  const defaultPassword = process.env.NEXT_PUBLIC_BOOTH_ADMIN_PASSWORD;
-  const pass = password || defaultPassword;
 
   if (!email) throw new Error("Booth admin email is not configured");
-  if (!pass) throw new Error("Booth admin password is not configured");
+  if (!password) throw new Error("Booth admin password is not configured");
 
   const { data: sessionData } = await supabase.auth.getSession();
   if (sessionData.session?.user.email === email) {
@@ -45,9 +43,9 @@ export const loginAsStallAdmin = async (password?: string) => {
   
   if (loginPromise) return loginPromise;
   
-  console.log("[API] Auth: Booth Admin Login Attempt");
+  console.log(`[API] Auth: Booth Admin Login Attempt for email: ${email}`);
   loginPromise = supabase.auth
-    .signInWithPassword({ email, password: pass })
+    .signInWithPassword({ email, password: password })
     .then((res) => {
       loginPromise = null;
       if (res.error) throw res.error;

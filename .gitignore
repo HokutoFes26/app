@@ -38,3 +38,4 @@ database
 supabase
 
 src/constants/booth-ids.ts
+SQL/Full.sql

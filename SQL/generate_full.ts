@@ -8,16 +8,33 @@ const OUTPUT_FILE = path.join(SQL_DIR, "Full.sql");
 function generateFullSql() {
   console.log("Generating Full.sql...");
 
-  let adminEmail = "admin@example.com";
+  let adminEmail = "";
+  let boothEmail = "";
   const envPath = path.join(process.cwd(), ".env");
-  if (fs.existsSync(envPath)) {
-    const envContent = fs.readFileSync(envPath, "utf8");
-    const match = envContent.match(/NEXT_PUBLIC_ADMIN_EMAIL\s*=\s*(.*)/);
-    if (match && match[1]) {
-      adminEmail = match[1].trim().replace(/['"]/g, "");
-    }
+
+  if (!fs.existsSync(envPath)) {
+    console.error("Error: .env file not found. Please create it based on .env.example");
+    process.exit(1);
   }
+
+  const envContent = fs.readFileSync(envPath, "utf8");
+  const adminMatch = envContent.match(/NEXT_PUBLIC_ADMIN_EMAIL\s*=\s*(.*)/);
+  const boothMatch = envContent.match(/NEXT_PUBLIC_BOOTH_ADMIN_EMAIL\s*=\s*(.*)/);
+
+  if (adminMatch && adminMatch[1]) {
+    adminEmail = adminMatch[1].trim().replace(/['"]/g, "");
+  }
+  if (boothMatch && boothMatch[1]) {
+    boothEmail = boothMatch[1].trim().replace(/['"]/g, "");
+  }
+
+  if (!adminEmail || !boothEmail) {
+    console.error("Error: NEXT_PUBLIC_ADMIN_EMAIL or NEXT_PUBLIC_BOOTH_ADMIN_EMAIL is not set in .env");
+    process.exit(1);
+  }
+
   console.log(`Using Admin Email: ${adminEmail}`);
+  console.log(`Using Booth Email: ${boothEmail}`);
 
   const baseFiles = [
     "00_storage.sql",
@@ -38,6 +55,7 @@ function generateFullSql() {
       content += `-- From ${file}\n`;
       let fileContent = fs.readFileSync(filePath, "utf8");
       fileContent = fileContent.replace(/{{ADMIN_EMAIL}}/g, adminEmail);
+      fileContent = fileContent.replace(/{{BOOTH_ADMIN_EMAIL}}/g, boothEmail);
       content += fileContent + "\n\n";
     }
   }

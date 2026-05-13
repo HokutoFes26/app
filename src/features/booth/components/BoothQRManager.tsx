@@ -28,7 +28,7 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
     <div className="mainCanvas">
       <div className={styles.pccCanvas}>
         <PCCanvasColumn>
-          <CardBase title="模擬店QR">
+          <CardBase title="模擬店QR" disableTapAnimation={true}>
             <CardInside>
               <div className={styles.guideText}>
                 <Text type="secondary">模擬店を選択 → QRを生成</Text>
@@ -61,17 +61,17 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
                       <Title level={4} className={styles.qrTitle}>
                         {selectedStall}
                       </Title>
-                      <Text type="secondary" className={styles.qrExpiry}>
-                        有効期限: 約5〜10分 (時刻同期が必要)
-                      </Text>
                       <Space>
                         <Button type="primary" onClick={handleCopy}>
                           URLをコピー
                         </Button>
-                        <Button onClick={() => handleStallChange(selectedStall)}>再生成</Button>
                       </Space>
                     </Space>
-                  ) : null}
+                  ) : (
+                    <div className={styles.placeholderContainer}>
+                      <Text type="danger">パスワードが設定されていません。設定を確認してください。</Text>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className={styles.placeholderContainer}>

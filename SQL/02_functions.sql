@@ -94,15 +94,17 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE FUNCTION fn_sync_app_settings_time()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.value_text IS NOT NULL AND NEW.value_text <> '' THEN
-        IF NEW.value_text ~ '^\d{4}-\d{2}-\d{2}' THEN
-            BEGIN
-                NEW.value_int := EXTRACT(EPOCH FROM NEW.value_text::timestamptz)::int;
-            EXCEPTION WHEN OTHERS THEN
-                RAISE EXCEPTION 'Date convertion error: %', NEW.value_text;
-            END;
-        ELSE
-            RAISE EXCEPTION 'Invalid date format (YYYY-MM-DD): %', NEW.value_text;
+    IF NEW.key IN ('vote_start_at', 'vote_end_at') THEN
+        IF NEW.value_text IS NOT NULL AND NEW.value_text <> '' THEN
+            IF NEW.value_text ~ '^\d{4}-\d{2}-\d{2}' THEN
+                BEGIN
+                    NEW.value_int := EXTRACT(EPOCH FROM NEW.value_text::timestamptz)::int;
+                EXCEPTION WHEN OTHERS THEN
+                    RAISE EXCEPTION 'Date convertion error: %', NEW.value_text;
+                END;
+            ELSE
+                RAISE EXCEPTION 'Invalid date format (YYYY-MM-DD): %', NEW.value_text;
+            END IF;
         END IF;
     END IF;
     RETURN NEW;
