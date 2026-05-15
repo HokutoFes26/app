@@ -10,6 +10,7 @@ function generateFullSql() {
 
   let adminEmail = "";
   let boothEmail = "";
+  let boothPass = "";
   const envPath = path.join(process.cwd(), ".env");
 
   if (!fs.existsSync(envPath)) {
@@ -20,6 +21,7 @@ function generateFullSql() {
   const envContent = fs.readFileSync(envPath, "utf8");
   const adminMatch = envContent.match(/NEXT_PUBLIC_ADMIN_EMAIL\s*=\s*(.*)/);
   const boothMatch = envContent.match(/NEXT_PUBLIC_BOOTH_ADMIN_EMAIL\s*=\s*(.*)/);
+  const boothPassMatch = envContent.match(/BOOTH_SECRET\s*=\s*(.*)/);
 
   if (adminMatch && adminMatch[1]) {
     adminEmail = adminMatch[1].trim().replace(/['"]/g, "");
@@ -27,8 +29,11 @@ function generateFullSql() {
   if (boothMatch && boothMatch[1]) {
     boothEmail = boothMatch[1].trim().replace(/['"]/g, "");
   }
+  if (boothPassMatch && boothPassMatch[1]) {
+    boothPass = boothPassMatch[1].trim().replace(/['"]/g, "");
+  }
 
-  if (!adminEmail || !boothEmail) {
+  if (!adminEmail || !boothEmail || !boothPass) {
     console.error("Error: NEXT_PUBLIC_ADMIN_EMAIL or NEXT_PUBLIC_BOOTH_ADMIN_EMAIL is not set in .env");
     process.exit(1);
   }
@@ -56,6 +61,7 @@ function generateFullSql() {
       let fileContent = fs.readFileSync(filePath, "utf8");
       fileContent = fileContent.replace(/{{ADMIN_EMAIL}}/g, adminEmail);
       fileContent = fileContent.replace(/{{BOOTH_ADMIN_EMAIL}}/g, boothEmail);
+      fileContent = fileContent.replace(/{{BOOTH_PASSWORD}}/g, boothPass);
       content += fileContent + "\n\n";
     }
   }

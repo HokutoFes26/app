@@ -8,7 +8,7 @@ BEGIN
     's', (SELECT COALESCE(json_agg(json_build_object('i', id, 'c', crowd_level, 'l', stock_level)), '[]'::json) FROM stalls_status),
     'n', (SELECT COALESCE(json_agg(json_build_object('i', id, 't', title, 'c', content, 'a', to_char(created_at AT TIME ZONE 'Asia/Tokyo', 'MMDDHH24MI'), 'r', edit_reason)), '[]'::json) FROM (SELECT * FROM news ORDER BY created_at DESC LIMIT 5) as news),
     'l', (SELECT COALESCE(json_agg(json_build_object('i', id, 'n', name, 'p', place, 'a', to_char(created_at AT TIME ZONE 'Asia/Tokyo', 'MMDDHH24MI'), 'r', edit_reason, 'f', photo_path)), '[]'::json) FROM (SELECT * FROM lost_items ORDER BY created_at DESC LIMIT 10) as lost_items),
-    'q', (SELECT COALESCE(json_agg(json_build_object('i', id, 't', text, 'w', answer, 'a', to_char(created_at AT TIME ZONE 'Asia/Tokyo', 'MMDDHH24MI'), 'r', edit_reason)), '[]'::json) FROM (SELECT * FROM questions ORDER BY created_at DESC LIMIT 20) as questions),
+    -- 'q', (SELECT COALESCE(json_agg(json_build_object('i', id, 't', text, 'w', answer, 'a', to_char(created_at AT TIME ZONE 'Asia/Tokyo', 'MMDDHH24MI'), 'r', edit_reason)), '[]'::json) FROM (SELECT * FROM questions ORDER BY created_at DESC LIMIT 20) as questions),
     'config', (SELECT COALESCE(json_object_agg(key, value_int), '{}'::json) FROM app_settings)
   ) INTO result;
   RETURN result;
@@ -175,6 +175,96 @@ BEGIN
     ) ORDER BY v.created_at DESC)
     FROM votes v
     LEFT JOIN vote_targets vt ON v.target_id = vt.id
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Vote results summary (Rank, Category, Name, Votes)
+CREATE OR REPLACE FUNCTION get_vote_results_summary()
+RETURNS json AS $$
+BEGIN
+  IF auth.role() <> 'authenticated' THEN
+    RAISE EXCEPTION '閲覧権限がありません';
+  END IF;
+
+  RETURN (
+    SELECT json_agg(json_build_object(
+      'rank', rank,
+      'category', category,
+      'name', name,
+      'votes', vote_count
+    ))
+    FROM (
+      SELECT
+        vt.name,
+        vt.category,
+        COUNT(vo.id) as vote_count,
+        RANK() OVER (PARTITION BY vt.category ORDER BY COUNT(vo.id) DESC) as rank
+      FROM vote_targets vt
+      LEFT JOIN votes vo ON vt.id = vo.target_id
+      GROUP BY vt.id, vt.name, vt.category
+      ORDER BY vt.category, rank ASC
+    ) ranked_results
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Audit suspicious votes
+CREATE OR REPLACE FUNCTION audit_suspicious_votes()
+RETURNS json AS $$
+BEGIN
+  IF auth.role() <> 'authenticated' THEN
+    RAISE EXCEPTION '閲覧権限がありません';
+  END IF;
+
+  RETURN (
+    SELECT json_build_object(
+      'suspicious_ips', (
+        SELECT COALESCE(json_agg(json_build_object(
+          'ip', ip_address,
+          'voter_count', voter_count,
+          'vote_count', vote_count,
+          'unique_devices', device_count,
+          'risk_level', risk_level,
+          'targets', target_names
+        )), '[]'::json)
+        FROM (
+          SELECT 
+            v.ip_address,
+            COUNT(DISTINCT v.voter_id) as voter_count,
+            COUNT(v.id) as vote_count,
+            COUNT(DISTINCT v.user_agent) as device_count,
+            CASE 
+              WHEN COUNT(DISTINCT v.voter_id) >= 50 AND COUNT(DISTINCT v.user_agent) <= 3 THEN 'HIGH (Script Suspect)'
+              WHEN COUNT(DISTINCT v.voter_id) >= 100 THEN 'MEDIUM (High Volume IP)'
+              ELSE 'LOW (Shared IP)'
+            END as risk_level,
+            string_agg(DISTINCT vt.name, ', ') as target_names
+          FROM votes v
+          JOIN vote_targets vt ON v.target_id = vt.id
+          GROUP BY v.ip_address
+          HAVING COUNT(DISTINCT v.voter_id) >= 30
+          ORDER BY voter_count DESC
+        ) ip_audit
+      ),
+      'rapid_votes', (
+        SELECT COALESCE(json_agg(json_build_object(
+          'time_bucket', time_bucket,
+          'category', category,
+          'vote_count', vote_count
+        )), '[]'::json)
+        FROM (
+          SELECT 
+            to_char(created_at, 'YYYY-MM-DD HH24:MI') as time_bucket,
+            category,
+            COUNT(*) as vote_count
+          FROM votes
+          GROUP BY time_bucket, category
+          HAVING COUNT(*) >= 30
+          ORDER BY time_bucket DESC
+        ) rapid_audit
+      )
+    )
   );
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

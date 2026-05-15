@@ -109,9 +109,9 @@ export default function VoteAdmin({ filterCategory }: VoteAdminProps) {
         <>
           <PCCanvasColumn width="50%">
             {renderCard("s")}
-            {renderCard("e")}
+            {renderCard("o")}
           </PCCanvasColumn>
-          <PCCanvasColumn width="50%">{renderCard("o")}</PCCanvasColumn>
+          <PCCanvasColumn width="50%">{renderCard("e")}</PCCanvasColumn>
         </>
       )}
     </div>

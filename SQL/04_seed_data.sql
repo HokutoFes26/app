@@ -4,7 +4,8 @@ INSERT INTO app_settings (key, value_int, value_text) VALUES
 ('voting_enabled', 1, NULL),
 ('vote_start_at', 0, '2026-05-23 10:00:00+09'),
 ('vote_end_at', 0, '2026-05-24 14:00:00+09'),
-('poll_interval_ms', 30000, NULL)
+('poll_interval_ms', 30000, NULL),
+('bootht_common_password', NULL, '{{BOOTH_PASSWORD}}')
 ON CONFLICT (key) DO UPDATE SET
     value_text = EXCLUDED.value_text,
     value_int = CASE 

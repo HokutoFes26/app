@@ -75,11 +75,7 @@ div {
 p {
   margin: 1em 0;
 }
-a {
-  color: var(--main-color) !important;
-  text-decoration: none !important;
-  opacity: 1 !important;
-}
+
 a:hover {
   opacity: 0.8 !important;
 }

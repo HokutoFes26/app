@@ -132,6 +132,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
                 edit_reason: row.r,
               })),
             );
+          /* 
           if (allData.q)
             setQuestions(
               allData.q.map((row: any) => ({
@@ -142,6 +143,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
                 edit_reason: row.r,
               })),
             );
+          */
           if (allData.config) setConfig(allData.config);
         }
       }
@@ -234,7 +236,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       fetchData: async () => performRefresh(true),
       handlePost: () => {},
       askQuestion: async (text: string) => {
-        await askQuestion(text);
+        console.warn("[DataProvider] askQuestion is currently disabled");
+        // await askQuestion(text);
       },
       lastUpdated,
       isStallsLive,

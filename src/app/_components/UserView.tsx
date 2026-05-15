@@ -83,7 +83,7 @@ export default function UserView() {
       ),
       QA: (
         <Suspense key="qa" fallback={<FallbackLoader text="Loading Q&A..." />}>
-          <QAStatus />
+          {/* <QAStatus /> */}
         </Suspense>
       ),
       Lost: (

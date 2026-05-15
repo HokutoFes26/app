@@ -5,11 +5,13 @@ import { useTranslation } from "react-i18next";
 import { Input, Button } from "antd";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAppTime } from "@/contexts/TimeContext";
 import { useQAData } from "../hooks/useQAData";
 import styles from "./QAStatus.module.css";
 
 export default function QAStatus() {
   const { t } = useTranslation();
+  const { currentTime } = useAppTime();
   const {
     text,
     setText,
@@ -20,36 +22,54 @@ export default function QAStatus() {
     answeredQuestions,
     unansweredQuestions,
   } = useQAData();
-  
+
   const theme = useTheme();
   const isDark = theme?.isDarkMode || false;
+
+  const isEventDay = (currentTime.month() === 4 && (currentTime.date() === 23 || currentTime.date() === 24));
 
   return (
     <CardBase title={t("CardTitles.QA")}>
       <CardInside>
-        <div className={styles.inputContainer}>
-          <Input.TextArea
-            placeholder={t("QA.Placeholder")}
-            autoSize={{ minRows: 1, maxRows: 4 }}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            size="large"
-          />
-          <Button
-            type="primary"
-            onClick={handleAsk}
-            loading={loading}
-            disabled={isSuccess}
-            className={styles.sendBtn}
-            style={{
-              background: isSuccess ? "#52c41a" : isDark ? "#f0f0f0" : "#1f1f1f",
-              borderColor: isSuccess ? "#52c41a" : isDark ? "#f0f0f0" : "#1f1f1f",
-            }}
-            size="large"
-          >
-            {isSuccess ? t("QA.Sent") : t("QA.Send")}
-          </Button>
-        </div>
+        {isEventDay ? (
+          <div className={styles.inputContainer}>
+            <Input.TextArea
+              placeholder={t("QA.Placeholder")}
+              autoSize={{ minRows: 1, maxRows: 4 }}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              size="large"
+            />
+            <Button
+              type="primary"
+              onClick={handleAsk}
+              loading={loading}
+              disabled={isSuccess}
+              className={styles.sendBtn}
+              style={{
+                background: isSuccess ? "#52c41a" : isDark ? "#f0f0f0" : "#1f1f1f",
+                borderColor: isSuccess ? "#52c41a" : isDark ? "#f0f0f0" : "#1f1f1f",
+              }}
+              size="large"
+            >
+              {isSuccess ? t("QA.Sent") : t("QA.Send")}
+            </Button>
+          </div>
+        ) : (
+          <div className={styles.emptyText} style={{ textAlign: "left", color: "var(--text-color)" }}>
+            {t("QA.OutsideEvent")}
+            <div style={{ marginTop: "8px" }}>
+              <a 
+                href="https://hokutofes26.github.io/contact/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ color: "#1b7fea", textDecoration: "underline" }}
+              >
+                https://hokutofes26.github.io/contact/
+              </a>
+            </div>
+          </div>
+        )}
         <p className={styles.sectionTitle}>{t("QA.AnsweredSection")}</p>
 
         {isLoading ? (
@@ -83,9 +103,7 @@ export default function QAStatus() {
                 {unansweredQuestions.map((q, index) => (
                   <React.Fragment key={q.id}>
                     {index !== 0 && (
-                      <div className={styles.dividerPadding}>
-                        <Divider />
-                      </div>
+                      <Divider height="1px" margin="8px" />
                     )}
                     <div className={styles.waitingItem}>
                       <p className={styles.waitingQuestionText}>

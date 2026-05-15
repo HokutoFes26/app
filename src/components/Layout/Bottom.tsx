@@ -22,9 +22,8 @@ const NAV_CONFIG = {
   ],
   admin: [
     { key: "0", icon: NewspaperRoundedIcon, label: "News" },
-    { key: "1", icon: QuestionAnswerRoundedIcon, label: "Q & A" },
-    { key: "2", icon: SearchRoundedIcon, label: "Lost" },
-    { key: "3", icon: SettingsRoundedIcon, label: "Settings" },
+    { key: "1", icon: SearchRoundedIcon, label: "Lost" },
+    { key: "2", icon: SettingsRoundedIcon, label: "Settings" },
   ],
   booth: [
     { key: "0", icon: HomeRoundedIcon, label: "Main" },

@@ -94,7 +94,8 @@
     "FailureMsg": "Failed to send.",
     "AnsweredSection": "Answered questions",
     "WaitingSection": "Awaiting answer questions",
-    "NoData": "No answered questions"
+    "NoData": "No answered questions",
+    "OutsideEvent": "For questions outside the event dates (May 23, 24), please visit our official website."
   },
   "Event": {
     "Finished": "Finished",
@@ -136,8 +137,6 @@
   },
   "Settings": {
     "Dark": "Dark Theme",
-    "Language": "言語",
-    "Reset": "Reset App",
-    "Cache": "Delete Cache"
+    "Language": "言語"
   }
 }

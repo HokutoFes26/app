@@ -19,7 +19,7 @@ export const getVoterId = async () => {
   };
 
   let localId = localStorage.getItem("voter_id");
-  let cookieId = getCookie(COOKIE_NAME);
+  const cookieId = getCookie(COOKIE_NAME);
 
   if (!localId && cookieId) {
     localId = cookieId;
@@ -105,6 +105,18 @@ export const getVoteResults = async () => {
 
 export const exportVoteData = async () => {
   const { data, error } = await supabase.rpc("export_vote_data");
+  if (error) throw error;
+  return data;
+};
+
+export const getVoteResultsSummary = async () => {
+  const { data, error } = await supabase.rpc("get_vote_results_summary");
+  if (error) throw error;
+  return data;
+};
+
+export const auditSuspiciousVotes = async () => {
+  const { data, error } = await supabase.rpc("audit_suspicious_votes");
   if (error) throw error;
   return data;
 };

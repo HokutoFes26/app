@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import FullPageLoader from "@/components/Layout/FullPageLoader";
 import styles from "./page.module.css";
@@ -17,12 +17,22 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     isAuthenticating,
   } = useAdminAuth();
 
+  useEffect(() => {
+    const baseTitle = "北斗祭2026アプリ | 富山高専";
+    if (!document.title.startsWith("Admin | ")) {
+      document.title = `Admin | ${baseTitle}`;
+    }
+    return () => {
+      document.title = baseTitle;
+    };
+  }, [isAdmin, isStallAdmin]);
+
   if (isAuthenticating || isStallAdmin) {
     return <FullPageLoader />;
   }
 
   if (isAdmin) {
-    return <>{children}</>;
+    return <div className="admin-wrapper">{children}</div>;
   }
 
   return (

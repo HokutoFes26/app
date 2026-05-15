@@ -25,7 +25,6 @@ import styles from "./AdminView.module.css";
 const NewsManager = React.lazy(() => import("@/features/news/components/NewsManager"));
 const BoothManager = React.lazy(() => import("@/features/booth/components/BoothManager"));
 const LostManager = React.lazy(() => import("@/features/lost/components/LostManager"));
-const QAManager = React.lazy(() => import("@/features/qa/components/QAManager"));
 const MapModal = React.lazy(() => import("@/features/map/components/MapModal"));
 const NewsStatus = React.lazy(() => import("@/features/news/components/NewsStatus"));
 const VoteAdmin = React.lazy(() => import("@/features/vote/components/VoteAdmin"));
@@ -81,11 +80,13 @@ export default function AdminView() {
           <NewsManager />
         </Suspense>
       ),
+      /*
       QA: (
         <Suspense key="qa-mgr" fallback={<FallbackLoader />}>
           <QAManager />
         </Suspense>
       ),
+      */
       Lost: (
         <Suspense key="lost-mgr" fallback={<FallbackLoader />}>
           <LostManager />
@@ -94,11 +95,6 @@ export default function AdminView() {
       Booth: (
         <Suspense key="booth-mgr" fallback={<FallbackLoader />}>
           <BoothManager />
-        </Suspense>
-      ),
-      Vote: (
-        <Suspense key="vote-mgr" fallback={<FallbackLoader />}>
-          <VoteAdmin />
         </Suspense>
       ),
       QR: (
@@ -121,22 +117,29 @@ export default function AdminView() {
 
     if (isStallAdmin) {
       if (isMobile) {
-        return [[managers.Booth], [managers.Settings], [], []];
+        return [[managers.Booth], [managers.NewsStatus]];
       }
-      return [[managers.Booth], [managers.NewsStatus], []];
+      if (columns >= 3) {
+        return [[managers.Booth], [managers.NewsStatus], []];
+      }
+      return [
+        [managers.Booth],
+        [
+          React.cloneElement(managers.NewsStatus as React.ReactElement, { key: "news-status-col" }),
+        ],
+      ];
     }
 
     if (activeTab === "1") {
       if (isMobile) {
-        return [[managers.News], [managers.QA], [managers.Lost], [managers.Settings]];
+        return [[managers.News], [managers.Lost], [managers.Settings]];
       }
       if (columns >= 3) {
-        return [[managers.News], [managers.QA], [managers.Lost]];
+        return [[managers.News], [managers.Lost]];
       }
       return [
         [managers.News],
         [
-          React.cloneElement(managers.QA as React.ReactElement, { key: "qa-col" }),
           React.cloneElement(managers.Lost as React.ReactElement, { key: "lost-col" }),
         ],
       ];
@@ -150,7 +153,20 @@ export default function AdminView() {
           [<VoteAdmin key="other" filterCategory="o" />],
         ];
       }
-      return [[managers.Vote]];
+      if (columns >= 3) {
+        return [
+          [<VoteAdmin key="stall" filterCategory="s" />],
+          [<VoteAdmin key="exhibition" filterCategory="e" />],
+          [<VoteAdmin key="other" filterCategory="o" />],
+        ];
+      }
+      return [
+        [
+          <VoteAdmin key="stall" filterCategory="s" />,
+          <VoteAdmin key="exhibition" filterCategory="e" />,
+        ],
+        [<VoteAdmin key="other" filterCategory="o" />],
+      ];
     }
 
     if (activeTab === "4" || (isMobile && activeTab === "3")) {
@@ -247,15 +263,13 @@ export default function AdminView() {
           style={
             isMobile
               ? { width: `${layout.length * 100}%` }
-              : isStallAdmin
-                ? { justifyContent: "center" }
-                : activeTab === "3"
-                  ? { margin: 0, width: "100%" }
-                  : undefined
+              : activeTab === "4" || (isMobile && activeTab === "3")
+                ? { margin: 0, width: "100%" }
+                : undefined
           }
         >
           {layout.map((column, i) => (
-            <PCCanvasColumn key={i} width={isMobile ? "100%" : isStallAdmin ? "33.3%" : `${100 / layout.length}%`}>
+            <PCCanvasColumn key={i} width={isMobile ? "100%" : `${100 / layout.length}%`}>
               {column}
             </PCCanvasColumn>
           ))}
