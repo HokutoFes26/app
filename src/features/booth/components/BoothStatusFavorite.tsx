@@ -3,14 +3,10 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, SubList, Divider } from "@/components/Layout/CardComp";
-import { StatusLevel } from "@/features/booth/types";
-import { updateStallStatus } from "@/features/booth/api";;
-import { useRole } from "@/contexts/RoleContext";
 import { useData } from "@/contexts/DataContext";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import dayjs from "dayjs";
 import { useFavorites } from "@/features/booth/hooks/useFavorites";
-import StarOutlineRoundedIcon from "@mui/icons-material/StarOutlineRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import { TrafficLight, BoothTableHeader, commonStyles as cStyles } from "./BoothCommon";
 import styles from "./BoothStatusFavorite.module.css";
@@ -21,11 +17,10 @@ export default function BoothStatusFavorite() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const {
-    api: { fetchedData, isLoading, fetchData, lastUpdated, isStallsLive },
+    api: { fetchedData, isLoading, lastUpdated, isStallsLive },
   } = useData();
-  const { isAdmin, isStallAdmin, assignedStall } = useRole();
+  
   const allStatuses = fetchedData?.stalls || [];
-
   const { favorites, toggleFavorite, mounted } = useFavorites();
 
   const statuses = useMemo(() => {
@@ -42,32 +37,6 @@ export default function BoothStatusFavorite() {
     const params = new URLSearchParams(searchParams.toString());
     params.set("booth-info", stallName);
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const cycleStatus = (current: StatusLevel): StatusLevel => {
-    if (current === 0) return 1;
-    if (current === 1) return 2;
-    return 0;
-  };
-
-  const canEdit = (stallName: string) => {
-    if (isAdmin) return true;
-    if (isStallAdmin && assignedStall === stallName) return true;
-    return false;
-  };
-
-  const handleCrowdClick = async (stallName: string, currentLevel: StatusLevel) => {
-    if (!canEdit(stallName)) return;
-    const newLevel = cycleStatus(currentLevel);
-    await updateStallStatus(stallName, { crowdLevel: newLevel });
-    fetchData();
-  };
-
-  const handleStockClick = async (stallName: string, currentLevel: StatusLevel) => {
-    if (!canEdit(stallName)) return;
-    const newLevel = cycleStatus(currentLevel);
-    await updateStallStatus(stallName, { stockLevel: newLevel });
-    fetchData();
   };
 
   const LiveStatus = (
@@ -114,18 +83,10 @@ export default function BoothStatusFavorite() {
                   <span className={cStyles.stallDetails}>{t("Booth.Details")}</span>
                 </div>
                 <div className={cStyles.statusColumn}>
-                  <TrafficLight
-                    level={status.crowdLevel}
-                    disabled={!canEdit(status.stallName)}
-                    onClick={() => handleCrowdClick(status.stallName, status.crowdLevel)}
-                  />
+                  <TrafficLight level={status.crowdLevel} />
                 </div>
                 <div className={cStyles.statusColumn}>
-                  <TrafficLight
-                    level={status.stockLevel}
-                    disabled={!canEdit(status.stallName)}
-                    onClick={() => handleStockClick(status.stallName, status.stockLevel)}
-                  />
+                  <TrafficLight level={status.stockLevel} />
                 </div>
               </div>
             </React.Fragment>

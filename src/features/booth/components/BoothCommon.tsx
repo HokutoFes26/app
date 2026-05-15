@@ -24,7 +24,7 @@ export const TrafficLight = ({
   return (
     <div
       onClick={disabled ? undefined : onClick}
-      className={`${styles.trafficLight} ${disabled ? styles.trafficLightDisabled : styles.trafficLightClickable}`}
+      className={styles.trafficLight}
       style={{
         backgroundColor: colorMap[level],
         opacity: disabled ? 1 : 0.8,

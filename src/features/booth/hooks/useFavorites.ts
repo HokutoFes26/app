@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const DEFAULT_FAVORITES = ["焼きそば"];
+const DEFAULT_FAVORITES: string[] = [];
 
 export function useFavorites() {
   const [favorites, setFavorites] = useState<string[]>([]);
