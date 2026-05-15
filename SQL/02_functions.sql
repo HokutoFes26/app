@@ -8,7 +8,6 @@ BEGIN
     's', (SELECT COALESCE(json_agg(json_build_object('i', id, 'c', crowd_level, 'l', stock_level)), '[]'::json) FROM stalls_status),
     'n', (SELECT COALESCE(json_agg(json_build_object('i', id, 't', title, 'c', content, 'a', to_char(created_at AT TIME ZONE 'Asia/Tokyo', 'MMDDHH24MI'), 'r', edit_reason)), '[]'::json) FROM (SELECT * FROM news ORDER BY created_at DESC LIMIT 5) as news),
     'l', (SELECT COALESCE(json_agg(json_build_object('i', id, 'n', name, 'p', place, 'a', to_char(created_at AT TIME ZONE 'Asia/Tokyo', 'MMDDHH24MI'), 'r', edit_reason, 'f', photo_path)), '[]'::json) FROM (SELECT * FROM lost_items ORDER BY created_at DESC LIMIT 10) as lost_items),
-    -- 'q', (SELECT COALESCE(json_agg(json_build_object('i', id, 't', text, 'w', answer, 'a', to_char(created_at AT TIME ZONE 'Asia/Tokyo', 'MMDDHH24MI'), 'r', edit_reason)), '[]'::json) FROM (SELECT * FROM questions ORDER BY created_at DESC LIMIT 20) as questions),
     'config', (SELECT COALESCE(json_object_agg(key, value_int), '{}'::json) FROM app_settings)
   ) INTO result;
   RETURN result;
@@ -130,30 +129,6 @@ FROM vote_targets vt
 LEFT JOIN votes vo ON vt.id = vo.target_id
 GROUP BY vt.id, vt.category, vt.display_order
 ORDER BY vt.category, vote_count DESC, vt.display_order;
-
--- Block spam questions
-CREATE OR REPLACE FUNCTION fn_rate_limit_questions()
-RETURNS TRIGGER AS $$
-DECLARE
-    v_client_ip TEXT;
-BEGIN
-    v_client_ip := current_setting('request.headers', true)::json->>'x-forwarded-for';
-    IF v_client_ip IS NOT NULL AND v_client_ip ~ ',' THEN
-        v_client_ip := split_part(v_client_ip, ',', 1);
-    END IF;
-
-    IF (SELECT count(*) FROM questions WHERE (current_setting('request.headers', true)::json->>'x-forwarded-for') LIKE (v_client_ip || '%') AND created_at > now() - interval '1 minute') >= 5 THEN
-        RAISE EXCEPTION '短時間に多くの質問が投稿されています。しばらくお待ちください。';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
-DROP TRIGGER IF EXISTS tr_rate_limit_questions ON questions;
-CREATE TRIGGER tr_rate_limit_questions
-BEFORE INSERT ON questions
-FOR EACH ROW
-EXECUTE FUNCTION fn_rate_limit_questions();
 
 CREATE OR REPLACE FUNCTION export_vote_data()
 RETURNS json AS $$
