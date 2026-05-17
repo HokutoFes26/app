@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { MapContainer, ImageOverlay, useMap } from "react-leaflet";
+import React, { useEffect, useState, useMemo } from "react";
+import { MapContainer, ImageOverlay, useMap, Marker } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import styles from "./MapSection.module.css";
+import { MapPins } from "@/features/map/utils/MapPins";
 
 interface MapInstanceProps {
   activeIndex: number;
@@ -14,11 +15,12 @@ interface MapInstanceProps {
   toggleFullscreen: () => void;
   isFullscreen: boolean;
   isReady: boolean;
+  initialPlace?: string | null;
 }
 
 function MapController({ onFullscreen, isFullscreen }: { onFullscreen: () => void; isFullscreen: boolean }) {
   const map = useMap();
-  
+
   return (
     <div className={styles.controls}>
       <button className={styles.controlBtn} onClick={() => map.zoomIn()}>
@@ -42,6 +44,7 @@ export default function MapInstance({
   toggleFullscreen,
   isFullscreen,
   isReady,
+  initialPlace,
 }: MapInstanceProps) {
   const [canShowMap, setCanShowShowMap] = useState(false);
 
@@ -50,6 +53,11 @@ export default function MapInstance({
       setCanShowShowMap(true);
     }
   }, [isReady]);
+
+  const pinData = useMemo(() => {
+    if (!initialPlace) return null;
+    return MapPins[initialPlace] || null;
+  }, [initialPlace]);
 
   if (!canShowMap) return null;
 
@@ -72,6 +80,21 @@ export default function MapInstance({
       attributionControl={false}
     >
       {isReady && <ImageOverlay url={src} bounds={bounds} />}
+      {pinData && pinData.mapId === activeIndex && (
+        <Marker
+          position={[pinData.y, pinData.x]}
+          icon={L.divIcon({
+            className: "custom-pin",
+            html: `
+              <div class="pin-wrapper">
+                <div class="pin-head"></div>
+                <div class="pin-pulse"></div>
+              </div>
+            `,
+            iconSize: [0, 0],
+          })}
+        />
+      )}
       <MapController onFullscreen={toggleFullscreen} isFullscreen={isFullscreen} />
     </MapContainer>
   );

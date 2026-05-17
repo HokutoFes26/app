@@ -229,9 +229,9 @@
     "team": "国際ビジネス科4年",
     "place": "I5教室",
     "menu": [
-      { "content": "パンケーキ(2枚・ジャム付き)", "price": 650 },
-      { "content": "チョコタルト", "price": 250 },
-      { "content": "マドレーヌ", "price": 250 },
+      { "content": "パンケーキ(2枚・ジャム付き)", "price": 500 },
+      { "content": "チョコタルト", "price": 300 },
+      { "content": "マドレーヌ", "price": 300 },
       { "content": "目玉グミ", "price": 200 },
       { "content": "アイスティー", "price": 300 },
       { "content": "ミルクティー", "price": 300 },

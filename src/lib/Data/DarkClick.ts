@@ -27,7 +27,12 @@ export default function DarkClick(isDark: boolean) {
     root.style.setProperty("--bottom-nav-indicator-shadow", "#888");
     root.style.setProperty(
       "--header-grad",
-      "linear-gradient( to bottom,rgba(171, 61, 255, 0.5) 0%,rgba(171, 61, 255, 0.2) 25%,rgba(0, 0, 0, 0) 42%",
+      "url('/img/common/background_grad.jpg') no-repeat top / 100% auto",
+    );
+    root.style.setProperty("--header-filter", "saturate(2) brightness(1.5)");
+    root.style.setProperty(
+      "--header-overlay",
+      "linear-gradient(to bottom, hsl(0 0% 40% / 0.7), hsl(0 0% 60%))",
     );
     root.style.setProperty("--pop-accent-main", "#AEFF00");
     root.style.setProperty("--pop-accent-sub", "#FF37D0");
@@ -56,7 +61,12 @@ export default function DarkClick(isDark: boolean) {
     root.style.setProperty("--bottom-nav-indicator-shadow", "#000");
     root.style.setProperty(
       "--header-grad",
-      "linear-gradient( to bottom,rgba(9, 221, 154, 0.35) 0%,rgba(9, 221, 154, 0.2) 25%,rgba(0, 0, 0, 0) 42%",
+      "url('/img/common/background_grad.jpg') no-repeat top / 100% auto",
+    );
+    root.style.setProperty("--header-filter", "saturate(2) brightness(2.5)");
+    root.style.setProperty(
+      "--header-overlay",
+      "linear-gradient(to bottom, hsl(0 0% 100% / 0.75), #fff)",
     );
     root.style.setProperty("--pop-accent-main", "#09DD9A");
     root.style.setProperty("--pop-accent-sub", "#D95BF3");

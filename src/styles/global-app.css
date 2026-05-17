@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kosugi&family=Outfit:wght@100..900&display=swap");
 
+:root {
+  --header-grad: url("/img/common/background_grad.jpg") no-repeat top / 100% auto;
+  --header-filter: saturate(2) brightness(2.5);
+  --header-overlay: linear-gradient(to bottom, hsl(0 0% 100% / 0.75), #fff);
+}
+
 html {
   overflow: hidden;
 }
@@ -25,13 +31,9 @@ html {
   --bottom-nav: rgba(250, 250, 254, 0.6);
   --bottom-nav-shadow: rgba(240, 240, 240, 0) 0 0 0;
   --bottom-nav-indicator-bg: #444;
-  --bottom-nav-indicator-shadow: #000;
-  --header-grad: linear-gradient(
-    to bottom,
-    rgba(9, 221, 154, 0.35) 0%,
-    rgba(9, 221, 154, 0.2) 25%,
-    rgba(0, 0, 0, 0) 42%
-  );
+--bottom-nav-indicator-shadow: #000;
+  --header-grad: url("/img/common/background_grad.jpg") no-repeat top / 100% auto;
+  --header-filter: saturate(2) brightness(2.5);
   --pop-accent-main: #09dd9a;
   --pop-accent-main: #d95bf3;
   --scheme: light;
@@ -159,6 +161,36 @@ div,
   inset: 0;
   overflow: hidden;
   background-color: var(--mainCanvas-color);
+}
+
+.mainCanvas {
+  z-index: 0;
+}
+
+.mainCanvas::before,
+.mainCanvas::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50vh;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.5) 10%, transparent 90%);
+}
+
+.mainCanvas::before {
+  background: var(--header-grad);
+  filter: var(--header-filter);
+  background-size: cover;
+  background-position: top center;
+  z-index: -2;
+}
+
+.mainCanvas::after {
+  background: var(--header-overlay);
+  z-index: -1;
 }
 
 .canvas {

@@ -59,7 +59,6 @@ export function MapProvider({ children }: { children: ReactNode }) {
       {children}
       <div
         style={{
-          position: "fixed",
           inset: 0,
           backgroundColor: "rgba(0, 0, 0, 0.4)",
           backdropFilter: isAnyOpen ? "blur(8px)" : "blur(0px)",

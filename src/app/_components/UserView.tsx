@@ -230,12 +230,7 @@ export default function UserView() {
         <>
           <div className="canvas" id="canvas" style={{ width: `${layout.length * 100}%` }}>
             {layout.map((column, i) => (
-              <PCCanvasColumn
-                key={i}
-                style={i === 0 ? { background: "var(--header-grad)", backgroundColor: "var(--mainCanvas-color)" } : {}}
-              >
-                {column}
-              </PCCanvasColumn>
+              <PCCanvasColumn key={i}>{column}</PCCanvasColumn>
             ))}
           </div>
           <div className="bottomCanvas">

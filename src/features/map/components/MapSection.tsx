@@ -70,6 +70,7 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
               toggleFullscreen={toggleFullscreen}
               isFullscreen={isCurrentlyFullscreen}
               isReady={isReady}
+              initialPlace={initialPlace}
             />
             {!isReady && (
               <div className={styles.loadingOverlay}>
