@@ -95,7 +95,7 @@
     "place": "テント番号10",
     "menu": [
       { "content": "揚げパン", "price": 500 },
-      { "content": "フルーツ飴", "price": 800 },
+      { "content": "フルーツ飴", "price": 600 },
       { "content": "ラムネ", "price": 300 }
     ],
     "image": "/app/img/booth/水泳.webp"
@@ -204,7 +204,7 @@
     "team": "卓球部",
     "place": "テント番号21",
     "menu": [
-      { "content": "8個", "price": 300 },
+      { "content": "12個", "price": 400 },
       { "content": "15個", "price": 500 },
       { "content": "20個", "price": 600 }
     ],
