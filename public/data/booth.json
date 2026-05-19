@@ -105,7 +105,10 @@
     "name": "肉巻きおにぎり",
     "team": "電子情報工学科4年",
     "place": "テント番号11",
-    "menu": [{ "content": "肉巻きおにぎり", "price": 500 }],
+    "menu": [
+      { "content": "肉巻きおにぎり", "price": 500 },
+      { "content": "肉巻きおにぎりチーズ入り", "price": 500}
+    ],
     "image": "/img/booth/I4.webp"
   },
   {
