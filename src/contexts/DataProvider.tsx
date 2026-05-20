@@ -43,6 +43,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [isStallsLive, setIsStallsLive] = useState(false);
   const isStallsLiveRef = useRef(false);
 
+  const [isJSONLoaded, setIsJSONLoaded] = useState(false);
   const staticStallNameMap = useRef<Record<number | string, string>>({});
 
   useEffect(() => {
@@ -50,6 +51,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       data.forEach((s) => {
         if (s.id) staticStallNameMap.current[s.id] = s.name;
       });
+      setIsJSONLoaded(true);
     });
   }, []);
 
@@ -96,18 +98,23 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (allData.s) {
           setStalls(
-            allData.s.map((row: any) => {
-              const id = row.i;
-              const name = staticStallNameMap.current[id] || row.n || stallNameMap.current[id] || `Stall ${id}`;
-              if (row.n) stallNameMap.current[id] = row.n;
+            allData.s
+              .map((row: any) => {
+                const id = row.i;
+                const name = staticStallNameMap.current[id] || row.n || stallNameMap.current[id];
 
-              return {
-                id: id,
-                stallName: name,
-                crowdLevel: row.c,
-                stockLevel: row.l,
-              };
-            }),
+                if (!name) return null;
+
+                if (row.n) stallNameMap.current[id] = row.n;
+
+                return {
+                  id: id,
+                  stallName: name,
+                  crowdLevel: row.c,
+                  stockLevel: row.l,
+                };
+              })
+              .filter((s: StallStatus | null): s is StallStatus => s !== null),
           );
         }
         if (isFullRefresh) {
@@ -197,7 +204,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   }, [isSuspended]);
 
   useEffect(() => {
-    if (isInitialRefreshStarted.current) return;
+    if (isInitialRefreshStarted.current || !isJSONLoaded) return;
     const shouldFetchImmediately = isAdminPage || !isSuspended;
     if (!shouldFetchImmediately) return;
 
@@ -216,7 +223,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [isSuspended, config.poll_interval_ms]);
+  }, [isSuspended, config.poll_interval_ms, isJSONLoaded]);
 
   useEffect(() => {
     if (isSuspended) return;

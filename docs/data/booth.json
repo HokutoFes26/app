@@ -18,8 +18,8 @@
     "team": "富山高等専門学校後援会",
     "place": "テント番号3",
     "menu": [
-      { "content": "イカ焼き", "price": 0 },
-      { "content": "どんどん焼き", "price": 0 }
+      { "content": "イカ焼き", "price": 500 },
+      { "content": "どんどん焼き", "price": 200 }
     ],
     "image": "/app/img/booth/富山高等専門学校後援会.webp"
   },
@@ -29,9 +29,9 @@
     "team": "富山高等専門学校後援会",
     "place": "テント番号4",
     "menu": [
-      { "content": "おにぎり", "price": 0 },
-      { "content": "飲み物", "price": 0 },
-      { "content": "アイスクレープ", "price": 0 }
+      { "content": "おにぎり", "price": 150 },
+      { "content": "飲み物", "price": 160 },
+      { "content": "アイスクレープ", "price": 100 }
     ],
     "image": "/app/img/booth/富山高等専門学校後援会.webp"
   },
@@ -72,7 +72,7 @@
     "name": "焼きそば",
     "team": "テニス部",
     "place": "テント番号8",
-    "menu": [{ "content": "焼きそば", "price": 0 }],
+    "menu": [{ "content": "焼きそば", "price": 500 }],
     "image": "/app/img/booth/テニス.webp"
   },
   {
@@ -169,7 +169,7 @@
     "name": "フランクフルト",
     "team": "機関学同好会",
     "place": "テント番号17",
-    "menu": [{ "content": "フランクフルト", "price": 0 }],
+    "menu": [{ "content": "フランクフルト", "price": 300 }],
     "image": "/app/img/booth/機関学.webp"
   },
   {
