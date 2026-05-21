@@ -65,7 +65,7 @@ export default function ServerStatus() {
     }
 
     if (isFull) {
-      const tables = ["stalls_status", "news", "lost_items", "questions", "vote_targets", "votes"];
+      const tables = ["stalls_status", "news", "lost_items", "vote_targets", "votes"];
       for (const table of tables) {
         try {
           const { error } = await supabase.from(table).select("count").limit(1);

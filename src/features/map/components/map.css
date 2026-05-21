@@ -93,7 +93,7 @@
   border: 1px solid var(--border-color, #ddd);
   border-radius: 32px;
   overflow: hidden;
-  background-color: var(--mainCanvas-color, #f0f0f0);
+  background-color: #ebf0ec;
   display: flex;
   align-items: center;
   justify-content: center;

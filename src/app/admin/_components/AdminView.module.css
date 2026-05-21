@@ -4,6 +4,13 @@
   height: 100vh;
 }
 
+.adminView::before,
+.adminView::after,
+.adminView :global(.mainCanvas)::before,
+.adminView :global(.mainCanvas)::after {
+  display: none !important;
+}
+
 .header {
   background: var(--bg-color);
   border-bottom: 1px solid var(--border-color);

@@ -401,6 +401,7 @@ div,
   justify-content: space-evenly;
   inset: 0;
   margin-left: 40px;
+  max-width: 1700px;
 }
 .main,
 .sche {
@@ -558,7 +559,7 @@ div,
 .mapCard .maps-container {
   border-radius: 0 0 28px 28px !important;
   border: none !important;
-  background-color: transparent !important;
+  background-color: #ebf0ec
 }
 
 .mapCard .maps-nav-table {
@@ -590,7 +591,7 @@ div,
 }
 
 .leaflet-container {
-  background-color: var(--bg-color) !important;
+  background-color: #ebf0ec;
 }
 .edited-text {
   font-size: 0.9em !important;

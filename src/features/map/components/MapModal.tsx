@@ -27,7 +27,17 @@ export default function MapModal({ isOpen, onClose, targetPlace }: MapModalProps
 
         <div className="map-modal-body">
           {isOpen && (
-            <Suspense fallback={<div style={{ padding: "40px", textAlign: "center" }}>Loading Map...</div>}>
+            <Suspense fallback={
+              <div style={{ 
+                height: "500px", 
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "center",
+                color: "var(--text-sub-color)"
+              }}>
+                Loading Map...
+              </div>
+            }>
               <MapSection initialPlace={targetPlace} />
             </Suspense>
           )}

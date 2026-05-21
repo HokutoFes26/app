@@ -31,7 +31,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const isBoothModalOpen = !!searchParams.get("booth-info");
   const isVotePage = pathname?.startsWith("/vote");
   const isAdminPage = pathname?.includes("/admin") || pathname?.includes("/booth");
-  const isSuspended = (isAdminPage || isVotePage || isMapOpen || isBoothModalOpen);
+  const isSuspended = (isMapOpen || isBoothModalOpen);
 
   const [isLoading, setIsLoading] = useState(!isSuspended);
   const [stalls, setStalls] = useState<StallStatus[]>([]);
