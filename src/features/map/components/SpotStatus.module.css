@@ -89,7 +89,7 @@
 }
 
 .locIcon {
-  color: #fff;
+  color: var(--mainCanvas-color);
   font-size: 28px;
 }
 

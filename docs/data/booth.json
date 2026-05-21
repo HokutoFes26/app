@@ -190,7 +190,7 @@
     "name": "あんばやし",
     "team": "野球部",
     "place": "テント番号19",
-    "menu": [{ "content": "5本", "price": 300 }],
+    "menu": [{ "content": "5本", "price": 200 }],
     "image": "/app/img/booth/野球.webp"
   },
   {

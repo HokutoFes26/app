@@ -12,7 +12,7 @@
 .listContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   margin-top: 20px;
 }
 
@@ -23,6 +23,17 @@
   padding: 0 15px;
   background: var(--card-color);
   border-radius: 12px;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemTeam {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
 }
 
 .itemName {

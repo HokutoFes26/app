@@ -9,10 +9,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ListIcon from "@mui/icons-material/List";
-import AirplaneTicketOutlinedIcon from "@mui/icons-material/AirplaneTicketOutlined";
-import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 import { useBoothDetail } from "../hooks/useBoothDetail";
-import { useVisited } from "../hooks/useVisited";
 
 type ProductModalPropsMenu = {
   content: string;
@@ -48,9 +45,6 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
     handleShare,
     mapControl,
   } = useBoothDetail(item);
-
-  const { isVisited, toggleVisited } = useVisited();
-  const visited = isVisited(item.name);
 
   const isAccordion = (item.menu?.length ?? 0) >= 4;
 
@@ -139,24 +133,7 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
               )}
             </div>
             <div className={styles.actionButtons}>
-              <button
-                className={`${styles.shareBtn} ${visited ? styles.visitedBtn : ""}`}
-                style={{ color: `${!isDark ? (visited ? "#1f1f1f" : "#fff") : "1f1f1f"}` }}
-                onClick={() => toggleVisited(item.name)}
-              >
-                {visited ? (
-                  <>
-                    <AirplaneTicketIcon className={styles.detailIcon} style={{ color: "inherit" }} />
-                    {t("Booth.Visited")}
-                  </>
-                ) : (
-                  <>
-                    <AirplaneTicketOutlinedIcon className={styles.detailIcon} style={{ color: "inherit" }} />
-                    {t("Booth.MarkVisited")}
-                  </>
-                )}
-              </button>
-              <button className={styles.shareBtn} onClick={onShare}>
+              <button className={styles.shareBtn} onClick={onShare} style={{ width: "100%" }}>
                 <ShareOutlinedIcon className={styles.detailIcon} style={{ color: "inherit" }} />
                 {t("Booth.Share")}
               </button>

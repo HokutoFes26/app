@@ -8,7 +8,7 @@ import { VoteTarget, TimeStatus, checkVoteTime } from "@/features/vote/utils/vot
 export const useVoteData = () => {
   const { message } = App.useApp();
   const [targets, setTargets] = useState<VoteTarget[]>([]);
-  const [category, setCategory] = useState<string>("s");
+  const [category, setCategory] = useState<string>("e");
   const [loading, setLoading] = useState(true);
   const [votedItems, setVotedItems] = useState<Record<string, string>>({});
   const [votingId, setVotingId] = useState<string | null>(null);
@@ -18,13 +18,32 @@ export const useVoteData = () => {
     const fetchData = async () => {
       try {
         console.log("[Vote] Fetching targets and config...");
-        const [targetsRes, allData, voterId] = await Promise.all([
+        const [targetsRes, allData, voterId, boothRes, exhibitionsRes] = await Promise.all([
           loadJSON("vote"),
           fetchAllData(),
           getVoterId(),
+          loadJSON("booth"),
+          loadJSON("exhibitions"),
         ]);
 
-        setTargets(targetsRes || []);
+        const booths = boothRes || [];
+        const exhibitions = exhibitionsRes || [];
+
+        const enrichedTargets = (targetsRes || []).map((t: VoteTarget) => {
+          let teamName = "";
+          const targetName = t.name.trim();
+
+          if (t.category === "s") {
+            const booth = booths.find((b: any) => b.name.trim() === targetName);
+            if (booth) teamName = booth.team;
+          } else if (t.category === "e") {
+            const exhibition = exhibitions.find((e: any) => e.name.trim() === targetName);
+            if (exhibition) teamName = exhibition.team;
+          }
+          return { ...t, team: teamName };
+        });
+
+        setTargets(enrichedTargets);
 
         const startVal = allData.config?.vote_start_at;
         const endVal = allData.config?.vote_end_at;
@@ -70,11 +89,11 @@ export const useVoteData = () => {
     setVotingId(target.id);
     try {
       await submitVote(target.id, target.category);
-      
+
       const newVoted = { ...votedItems, [target.category]: target.id };
       setVotedItems(newVoted);
       localStorage.setItem("voted_items", JSON.stringify(newVoted));
-      
+
       message.success(`${target.name}に投票しました！`);
     } catch (e: any) {
       console.error("[Vote] Error:", e);

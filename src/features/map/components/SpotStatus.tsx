@@ -126,8 +126,8 @@ export default function SpotStatus() {
                         <span className={styles.locLabel}>{exhibition.place}</span>
                       </div>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span className={cStyles.stallDetails}>{t("Booth.Details")}</span>
                         <span className={styles.exhibitionTeam}>{exhibition.team}</span>
-                        <span className={cStyles.stallDetails} style={{ marginLeft: 0 }}>{t("Booth.Details")}</span>
                       </div>
                     </div>
                   </React.Fragment>

@@ -121,7 +121,7 @@ export default function ExhibitionStatus() {
                             width: "100%",
                           }}
                         >
-                          <span className={cStyles.stallDetails} style={{ marginLeft: 0 }}>
+                          <span className={cStyles.stallDetails}>
                             {t("Booth.Details")}
                           </span>
                           <span style={{ fontSize: "0.8em", color: "var(--text-sub-color)" }}>{exhibition.team}</span>

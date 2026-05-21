@@ -3,25 +3,25 @@
     "id": "1F_NW",
     "location": "校舎 1階 北西",
     "nearbyStalls": [],
-    "nearbyExhibitions": [8, 11, 13, 14]
+    "nearbyExhibitions": [5, 24, 25, 26]
   },
   {
     "id": "1F_NE",
     "location": "校舎 1階 北東",
-    "nearbyStalls": [1, 2, 16, 17, 18, 19],
-    "nearbyExhibitions": [23, 24, 25, 26]
+    "nearbyStalls": [1, 2, 3, 4, 5, 6],
+    "nearbyExhibitions": [1, 2, 3, 4]
   },
   {
     "id": "1F_SW",
     "location": "校舎 1階 南西",
-    "nearbyStalls": [18, 20],
-    "nearbyExhibitions": [7]
+    "nearbyStalls": [22, 23],
+    "nearbyExhibitions": [8]
   },
   {
     "id": "1F_SE",
     "location": "校舎 1階 南東",
-    "nearbyStalls": [3, 4, 5, 6, 7, 8],
-    "nearbyExhibitions": [10, 12, 1, 2, 3]
+    "nearbyStalls": [7, 8, 9, 18, 19, 20, 21],
+    "nearbyExhibitions": [6, 7, 9, 10, 11]
   },
   {
     "id": "2F_NW",
@@ -33,31 +33,31 @@
     "id": "2F_NE",
     "location": "校舎 2階 北東",
     "nearbyStalls": [],
-    "nearbyExhibitions": []
+    "nearbyExhibitions": [16]
   },
   {
     "id": "2F_SW",
     "location": "校舎 2階 南西",
     "nearbyStalls": [],
-    "nearbyExhibitions": [15]
+    "nearbyExhibitions": [12]
   },
   {
     "id": "2F_SE",
     "location": "校舎 2階 南東",
     "nearbyStalls": [],
-    "nearbyExhibitions": [4, 5, 6, 19]
+    "nearbyExhibitions": [13, 14, 15]
   },
   {
     "id": "3F_NW",
     "location": "校舎 3階 北西",
     "nearbyStalls": [],
-    "nearbyExhibitions": [20]
+    "nearbyExhibitions": [17]
   },
   {
     "id": "3F_NE",
     "location": "校舎 3階 北東",
     "nearbyStalls": [],
-    "nearbyExhibitions": [20]
+    "nearbyExhibitions": [17]
   },
   {
     "id": "3F_SW",
@@ -69,30 +69,30 @@
     "id": "3F_SE",
     "location": "校舎 3階 南東",
     "nearbyStalls": [],
-    "nearbyExhibitions": [9, 16, 22, 24]
+    "nearbyExhibitions": [18, 19, 20, 21]
   },
   {
     "id": "4F_W",
     "location": "校舎 4階 北西",
     "nearbyStalls": [],
-    "nearbyExhibitions": [18]
+    "nearbyExhibitions": [22]
   },
   {
     "id": "4F_E",
     "location": "校舎 4階 北東",
     "nearbyStalls": [],
-    "nearbyExhibitions": [18]
+    "nearbyExhibitions": [22]
   },
   {
     "id": "Library",
     "location": "図書館",
-    "nearbyStalls": [9, 10, 11, 12, 13, 14, 15],
+    "nearbyStalls": [10, 11, 12, 13, 14, 15, 16, 17],
     "nearbyExhibitions": []
   },
   {
     "id": "Nago",
     "location": "奈呉の浦会館",
-    "nearbyStalls": [15],
+    "nearbyStalls": [24],
     "nearbyExhibitions": []
   }
 ]

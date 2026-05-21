@@ -294,12 +294,12 @@ export default function SpotsDebugPage() {
               }}
             >
               <div className="qr-card-ui" style={{ textAlign: "center", width: "400px" }}>
-                <p style={{ fontWeight: "700", marginBottom: "20px", fontSize: "24px" }}>{selectedSpot.location}</p>
-                <CustomQRCode value={`${baseUrl}?spot=${selectedSpot.id}`} size={280} />
-                <div style={{ fontWeight: "500", fontSize: "1.2em", color: "#222", marginTop: "25px" }}>
+                <p style={{ fontWeight: "700", marginBottom: "20px", fontSize: "36px" }}>{selectedSpot.location}</p>
+                <CustomQRCode value={`${baseUrl}?spot=${selectedSpot.id}`} size={240} />
+                <div style={{ fontWeight: "500", fontSize: "1.6em", color: "#222", marginTop: "25px" }}>
                   スキャンして周囲を検索
                 </div>
-                <div style={{ marginTop: "8px", fontSize: "12px", color: "#888" }}>
+                <div style={{ marginTop: "12px", fontSize: "12px", color: "#888" }}>
                   {baseUrl}?spot={selectedSpot.id}
                 </div>
               </div>
@@ -320,9 +320,10 @@ export default function SpotsDebugPage() {
             <div className="print-card">
               <h1 className="print-title">{selectedSpot.location}</h1>
               <div className="print-qr-wrapper">
-                <CustomQRCode value={`${baseUrl}?spot=${selectedSpot.id}`} size={600} />
+                <CustomQRCode value={`${baseUrl}?spot=${selectedSpot.id}`} size={350} />
               </div>
               <div className="print-footer">
+                <div className="print-instruction" style={{ fontSize: "40pt", fontWeight: "bold", marginTop: "1cm" }}>スキャンして周囲を検索</div>
                 <div className="print-id">{selectedSpot.id}</div>
                 <div className="print-url">
                   {baseUrl}?spot={selectedSpot.id}
@@ -347,12 +348,12 @@ export default function SpotsDebugPage() {
             }}
           >
             <div style={{ textAlign: "center", width: "400px" }}>
-              <p style={{ fontWeight: "700", marginBottom: "20px", fontSize: "24px" }}>{spot.location}</p>
-              <CustomQRCode value={`${baseUrl}?spot=${spot.id}`} size={280} />
-              <div style={{ fontWeight: "500", fontSize: "1.2em", color: "#222", marginTop: "25px" }}>
+              <p style={{ fontWeight: "700", marginBottom: "20px", fontSize: "40px" }}>{spot.location}</p>
+              <CustomQRCode value={`${baseUrl}?spot=${spot.id}`} size={180} />
+              <div style={{ fontWeight: "500", fontSize: "1.6em", color: "#222", marginTop: "25px" }}>
                 スキャンして周囲を検索
               </div>
-              <div style={{ marginTop: "8px", fontSize: "12px", color: "#888" }}>
+              <div style={{ marginTop: "12px", fontSize: "12px", color: "#888" }}>
                 {baseUrl}?spot={spot.id}
               </div>
             </div>
@@ -412,26 +413,26 @@ export default function SpotsDebugPage() {
           }
 
           .print-title {
-            font-size: 56pt;
+            font-size: 72pt;
             font-weight: bold;
-            margin-bottom: 2cm;
+            margin-bottom: 1.5cm;
           }
 
           .print-layout.double .print-title {
-            font-size: 36pt;
+            font-size: 42pt;
           }
 
           .print-id {
-            font-size: 28pt;
+            font-size: 32pt;
             font-family: monospace;
             background: #f0f0f0;
             padding: 0.5cm 1cm;
-            margin-top: 1cm;
+            margin-top: 0.8cm;
             border-radius: 10px;
           }
 
           .print-url {
-            font-size: 12pt;
+            font-size: 18pt;
             color: #666;
             margin-top: 0.5cm;
           }

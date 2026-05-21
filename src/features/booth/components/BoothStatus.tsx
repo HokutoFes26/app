@@ -76,7 +76,9 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
                     </span>
                     {status.stallName}
                   </span>
-                  <span className={cStyles.stallDetails}>{t("Booth.Details")}</span>
+                  <span className={`${cStyles.stallDetails} ${cStyles.stallDetailsWithStar}`}>
+                    {t("Booth.Details")}
+                  </span>
                 </div>
                 <div className={cStyles.statusColumn}>
                   <TrafficLight

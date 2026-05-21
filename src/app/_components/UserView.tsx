@@ -18,7 +18,6 @@ import EventStatus from "@/features/event/components/EventStatus";
 import VoteStatus from "@/features/vote/components/VoteStatus";
 import BoothStatus from "@/features/booth/components/BoothStatus";
 import BoothStatusFavorite from "@/features/booth/components/BoothStatusFavorite";
-import VisitedCard from "@/features/booth/components/VisitedCard";
 import ExhibitionStatus from "@/features/event/components/ExhibitionStatus";
 import NewsStatus from "@/features/news/components/NewsStatus";
 import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
@@ -69,7 +68,6 @@ export default function UserView() {
       HotNews: hasHotNews ? <NewsStatus key="hotnews" onlyHot={true} hotTime={hotTime} /> : null,
       Events: <EventStatus key="events" />,
       Vote: <VoteStatus key="vote" />,
-      Visited: <VisitedCard key="visited" />,
       Exhibition: <ExhibitionStatus key="exhibition" />,
       BoothFav: <BoothStatusFavorite key="boothfav" />,
       Booth: <BoothStatus key="booth" />,

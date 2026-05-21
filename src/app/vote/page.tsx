@@ -53,9 +53,8 @@ export default function VotePage() {
                 value={category}
                 onChange={(val) => setCategory(val as string)}
                 options={[
-                  { label: "模擬店", value: "s" },
                   { label: "展示", value: "e" },
-                  { label: "その他", value: "o" },
+                  { label: "模擬店", value: "s" },
                 ]}
                 className={styles.segmented}
               />

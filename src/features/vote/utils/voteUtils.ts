@@ -2,6 +2,7 @@ export interface VoteTarget {
   id: string;
   category: string;
   name: string;
+  team?: string;
 }
 
 export interface TimeStatus {
