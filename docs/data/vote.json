@@ -14,8 +14,6 @@
   { "id": "43", "name": "ジオラマ展示", "category": "e" },
   { "id": "44", "name": "ロボット展示", "category": "e" },
   { "id": "01", "name": "ポップコーン", "category": "s" },
-  { "id": "02", "name": "イカ焼き・どんどん焼き", "category": "s" },
-  { "id": "03", "name": "おにぎり・飲み物・アイスクレープ", "category": "s" },
   { "id": "04", "name": "焼き鳥", "category": "s" },
   { "id": "05", "name": "たい焼き", "category": "s" },
   { "id": "06", "name": "たこ焼き", "category": "s" },
