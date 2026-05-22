@@ -7,6 +7,69 @@
 
 .newsContainer {
   position: relative;
+  overflow: hidden;
+  background-color: var(--card-color);
+  border-radius: 0;
+}
+
+.newsScrollWrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+.newsShadow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.newsShadow.visible {
+  opacity: 1;
+}
+
+.newsShadow.top {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent);
+}
+
+.newsShadow.bottom {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15), transparent);
+}
+
+.newsList {
+  display: flex;
+  flex-direction: column;
+  padding: 3% 6.5% 5%;
+}
+
+.newsList.scrollable {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.newsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.newsList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.newsList::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 10px;
+  border: 1px solid #fafafa;
+}
+
+.newsList::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
 }
 
 .newsItemContent {
