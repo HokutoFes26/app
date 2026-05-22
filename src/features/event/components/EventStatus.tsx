@@ -50,7 +50,11 @@ export default function EventStatus() {
   );
 
   return (
-    <CardBase title={t("CardTitles.EVENTS")} SubjectUpdated={FilterSwitcher}>
+    <CardBase
+      title={t("CardTitles.EVENTS")}
+      SubjectUpdated={FilterSwitcher}
+      disableTapAnimation={filterMode === "all"}
+    >
       <CardInside>
         <div className={styles.listContainer}>
           <AnimatePresence initial={false} mode="sync">
@@ -81,11 +85,17 @@ export default function EventStatus() {
                       transition: { duration: 0.1 },
                     }}
                     transition={{
-                      layout: {
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 40,
-                      },
+                      layout:
+                        filterMode === "all"
+                          ? {
+                              duration: 0.2,
+                              ease: "easeOut",
+                            }
+                          : {
+                              type: "spring",
+                              stiffness: 500,
+                              damping: 40,
+                            },
                       opacity: {
                         delay: enterDelay,
                         duration: isNewItem ? 0.25 : 0.08,

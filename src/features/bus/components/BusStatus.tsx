@@ -55,34 +55,39 @@ export default function BusStatus() {
   );
 
   return (
-    <CardBase title={t("CardTitles.BUS")} SubjectUpdated={FilterSwitcher}>
+    <CardBase
+      title={t("CardTitles.BUS")}
+      SubjectUpdated={FilterSwitcher}
+      disableTapAnimation={filterMode === "all"}
+    >
       <CardInside>
         <div className={styles.selectContainer}>
           <div className={styles.selectRow}>
             <span className={styles.selectLabel}>{t("Bus.From")}</span>
             <Select
-            value={fromStop}
-            options={stopOptions.filter((o) => o.value.includes("発"))}
-            onChange={setFromStop}
-            className={styles.selectField}
-            size="large"
-            placement="bottomLeft"
-            style={{ textAlign: "center" }}
-            styles={{ popup: { root: { textAlign: "center" } } }}
+              value={fromStop}
+              options={stopOptions.filter((o) => o.value.includes("発"))}
+              onChange={setFromStop}
+              className={styles.selectField}
+              size="large"
+              placement="bottomLeft"
+              style={{ textAlign: "center" }}
+              styles={{ popup: { root: { textAlign: "center" } } }}
             />
-            </div>
-            <div className={styles.selectRow}>
+          </div>
+          <div className={styles.selectRow}>
             <span className={styles.selectLabel}>{t("Bus.To")}</span>
             <Select
-            value={toStop}
-            options={stopOptions.filter((o) => o.value.includes("着"))}
-            onChange={setToStop}
-            className={styles.selectField}
-            size="large"
-            placement="bottomLeft"
-            style={{ textAlign: "center" }}
-            styles={{ popup: { root: { textAlign: "center" } } }}
-            />          </div>
+              value={toStop}
+              options={stopOptions.filter((o) => o.value.includes("着"))}
+              onChange={setToStop}
+              className={styles.selectField}
+              size="large"
+              placement="bottomLeft"
+              style={{ textAlign: "center" }}
+              styles={{ popup: { root: { textAlign: "center" } } }}
+            />
+          </div>
         </div>
 
         <div className={styles.listContainer}>
@@ -106,11 +111,17 @@ export default function BusStatus() {
                       transition: { duration: 0.08 },
                     }}
                     transition={{
-                      layout: {
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 40,
-                      },
+                      layout:
+                        filterMode === "all"
+                          ? {
+                              duration: 0.2,
+                              ease: "easeOut",
+                            }
+                          : {
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 40,
+                            },
                       opacity: {
                         delay: enterDelay,
                         duration: isNewItem ? 0.25 : 0.08,
