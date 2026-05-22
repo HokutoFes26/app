@@ -79,7 +79,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     }
     const isFullRefresh = forceFull || refreshCycle.current % FULL_REFRESH_FREQ === 0;
     const currentInterval = config.poll_interval_ms || FETCH_INTERVAL_MS;
-    const ttl = forceFull ? API_CACHE_TIME : (currentInterval - 1000);
+    const ttl = forceFull ? 0 : (currentInterval - 1000);
 
     if (!isFullRefresh && isStallsLiveRef.current) {
       console.log("[DataProvider] Skipping stalls-only polling (Realtime is active)");
