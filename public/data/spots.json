@@ -14,13 +14,13 @@
   {
     "id": "1F_SW",
     "location": "校舎 1階 南西",
-    "nearbyStalls": [22, 23],
+    "nearbyStalls": [21, 22],
     "nearbyExhibitions": [8]
   },
   {
     "id": "1F_SE",
     "location": "校舎 1階 南東",
-    "nearbyStalls": [7, 8, 9, 18, 19, 20, 21],
+    "nearbyStalls": [7, 8, 9, 17, 18, 19, 20],
     "nearbyExhibitions": [6, 7, 9, 10, 11]
   },
   {
@@ -33,7 +33,7 @@
     "id": "2F_NE",
     "location": "校舎 2階 北東",
     "nearbyStalls": [],
-    "nearbyExhibitions": [16]
+    "nearbyExhibitions": [17  ]
   },
   {
     "id": "2F_SW",
@@ -45,19 +45,19 @@
     "id": "2F_SE",
     "location": "校舎 2階 南東",
     "nearbyStalls": [],
-    "nearbyExhibitions": [13, 14, 15]
+    "nearbyExhibitions": [13, 14, 15, 16]
   },
   {
     "id": "3F_NW",
     "location": "校舎 3階 北西",
     "nearbyStalls": [],
-    "nearbyExhibitions": [17]
+    "nearbyExhibitions": [18]
   },
   {
     "id": "3F_NE",
     "location": "校舎 3階 北東",
     "nearbyStalls": [],
-    "nearbyExhibitions": [17]
+    "nearbyExhibitions": [18]
   },
   {
     "id": "3F_SW",
@@ -69,30 +69,30 @@
     "id": "3F_SE",
     "location": "校舎 3階 南東",
     "nearbyStalls": [],
-    "nearbyExhibitions": [18, 19, 20, 21]
+    "nearbyExhibitions": [19, 20, 21, 22]
   },
   {
     "id": "4F_W",
     "location": "校舎 4階 北西",
     "nearbyStalls": [],
-    "nearbyExhibitions": [22]
+    "nearbyExhibitions": [23]
   },
   {
     "id": "4F_E",
     "location": "校舎 4階 北東",
     "nearbyStalls": [],
-    "nearbyExhibitions": [22]
+    "nearbyExhibitions": [23]
   },
   {
     "id": "Library",
     "location": "図書館",
-    "nearbyStalls": [10, 11, 12, 13, 14, 15, 16, 17],
+    "nearbyStalls": [10, 11, 12, 13, 14, 15, 16],
     "nearbyExhibitions": []
   },
   {
     "id": "Nago",
     "location": "奈呉の浦会館",
-    "nearbyStalls": [24],
+    "nearbyStalls": [23],
     "nearbyExhibitions": []
   }
 ]
