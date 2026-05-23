@@ -70,9 +70,9 @@ BEGIN
     END IF;
     IF v_client_ip IS NULL THEN v_client_ip := p_voter_id; END IF;
 
-    SELECT MAX(created_at) INTO v_last_vote_time FROM votes WHERE voter_id = p_voter_id;
-    IF v_last_vote_time IS NOT NULL AND (now() - v_last_vote_time) < interval '5 seconds' THEN
-        RAISE EXCEPTION '連打は禁止されています。数秒後に再試行してください。';
+    SELECT MAX(created_at) INTO v_last_vote_time FROM votes WHERE voter_id = p_voter_id AND category = p_category;
+    IF v_last_vote_time IS NOT NULL AND (now() - v_last_vote_time) < interval '3 seconds' THEN
+        RAISE EXCEPTION '数秒後に再試行してください。';
     END IF;
 
     -- Vote execution

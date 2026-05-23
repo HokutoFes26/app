@@ -68,28 +68,32 @@ function RoleProviderInner({ children, initialRole = "user" }: { children: React
   }, []);
 
   useEffect(() => {
-    if (authAttempted.current) return;
-    authAttempted.current = true;
-
-    const checkSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        console.log("[RoleContext] Session valid.");
-      } else {
-        console.log("[RoleContext] No active session.");
-        if (!searchParams.get("booth") && !searchParams.get("id")) {
-          localStorage.removeItem("admin_auth");
-          setState({ role: "user", assignedStall: null });
-        }
+    const checkInitialSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        console.log("[RoleContext] No session on mount");
       }
       setIsAuthenticating(false);
     };
+    checkInitialSession();
 
-    checkSession();
-  }, [searchParams]);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log(`[RoleContext] Auth event: ${event}`);
+      
+      if (event === "SIGNED_OUT") {
+        localStorage.removeItem("admin_auth");
+        localStorage.removeItem("booth_auth");
+        localStorage.removeItem("assigned_stall");
+        setState({ role: "user", assignedStall: null });
+      } else if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
+        console.log("[RoleContext] Session confirmed/refreshed.");
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const value = {
     role: state.role,
