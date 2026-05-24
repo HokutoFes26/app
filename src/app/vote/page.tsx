@@ -55,10 +55,10 @@ export default function VotePage() {
 
               <p className={styles.votedStatusText}>
                 <div style={{display: "flex", alignItems: "center"}}>
-                {!votedEId ? <ErrorIcon className={styles.ErrorIcon}/> : <CheckCircleIcon className={styles.CheckIcon} />}展示: {!votedEId ? "まだ投票していません！" : `${votedEName || "不明な項目"}に投票しました！`}
+                {!votedEId ? <ErrorIcon className={styles.ErrorIcon}/> : <CheckCircleIcon className={styles.CheckIcon} />}展示: {!votedEId ? "投票していません！" : `${votedEName || "不明な項目"}`}
                 </div>
                 <div style={{display: "flex", alignItems: "center"}}>
-                {!votedSId ? <ErrorIcon className={styles.ErrorIcon} /> : <CheckCircleIcon className={styles.CheckIcon} />}模擬店: {!votedSId ? "まだ投票していません！" : `${votedSName || "不明な項目"}に投票しました！`}
+                {!votedSId ? <ErrorIcon className={styles.ErrorIcon} /> : <CheckCircleIcon className={styles.CheckIcon} />}模擬店: {!votedSId ? "投票していません！" : `${votedSName || "不明な項目"}`}
                 </div>
               </p>
               <Segmented
