@@ -44,7 +44,7 @@ export default function NewsStatus({ onlyHot = false, hotTime = 20 }: { onlyHot?
           <div className={styles.newsContainer}>
             <div className={styles.newsScrollWrapper}>
               <div
-                className={`${styles.newsList} ${processedNews.length >= 4 ? styles.scrollable : ""}`}
+                className={`${styles.newsList} ${processedNews.length >= 3 ? styles.scrollable : ""}`}
                 onScroll={handleNewsScroll}
                 ref={newsListRef}
               >
