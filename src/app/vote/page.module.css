@@ -72,11 +72,21 @@
 }
 
 .segmented {
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .votedStatusText {
   font-size: 18px;
   color: var(--text-color);
   text-align: center;
+}
+
+.ErrorIcon {
+  color: #ff4a56;
+  margin-right: 4px;
+}
+
+.CheckIcon {
+  color: #43aa83;
+  margin-right: 4px;
 }

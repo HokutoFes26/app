@@ -4,6 +4,8 @@ import React from "react";
 import { Segmented } from "antd";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ErrorIcon from '@mui/icons-material/Error';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useRouter } from "next/navigation";
 import { useVoteData } from "@/features/vote/hooks/useVoteData";
 import { VoteList } from "@/features/vote/components/VoteList";
@@ -21,9 +23,13 @@ export default function VotePage() {
     handleVote,
     filteredTargets,
     currentVotedId,
+    votedItems,
   } = useVoteData();
 
-  const currentVotedName = targets.find((t) => t.id === currentVotedId)?.name;
+  const votedEId = votedItems["e"];
+  const votedSId = votedItems["s"];
+  const votedEName = targets.find((t) => t.id === votedEId)?.name;
+  const votedSName = targets.find((t) => t.id === votedSId)?.name;
 
   return (
     <div className={styles.container}>
@@ -36,10 +42,10 @@ export default function VotePage() {
           <CardInside>
             <div className={styles.headerContainer}>
               <p className={styles.headerText}>
-                模擬店や展示に投票しよう！
+                展示や模擬店に 1 票ずつ投票しよう！
                 <br />
                 <span className={styles.warningText}>
-                  投票し直すことが可能です (最新の1票が有効になります)
+                  それぞれのカテゴリで投票し直すことが可能です (最新の1票が有効になります)
                 </span>
               </p>
 
@@ -47,6 +53,14 @@ export default function VotePage() {
                 <div className={styles.timeStatusContainer}>{timeStatus.message}</div>
               )}
 
+              <p className={styles.votedStatusText}>
+                <div style={{display: "flex", alignItems: "center"}}>
+                {!votedEId ? <ErrorIcon className={styles.ErrorIcon}/> : <CheckCircleIcon className={styles.CheckIcon} />}展示: {!votedEId ? "まだ投票していません！" : `${votedEName || "不明な項目"}に投票しました！`}
+                </div>
+                <div style={{display: "flex", alignItems: "center"}}>
+                {!votedEId ? <ErrorIcon className={styles.ErrorIcon} /> : <CheckCircleIcon className={styles.CheckIcon} />}模擬店: {!votedSId ? "まだ投票していません！" : `${votedSName || "不明な項目"}に投票しました！`}
+                </div>
+              </p>
               <Segmented
                 block
                 size="large"
@@ -59,9 +73,6 @@ export default function VotePage() {
                 className={styles.segmented}
               />
             </div>
-            <p className={styles.votedStatusText}>
-              {!currentVotedId ? "まだ投票していません！" : `${currentVotedName || "不明な項目"}に投票しました！`}
-            </p>
 
             <VoteList
               targets={filteredTargets}
