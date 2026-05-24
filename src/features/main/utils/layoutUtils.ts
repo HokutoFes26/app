@@ -4,14 +4,19 @@ export interface LayoutOptions {
   isMobile: boolean;
   columns: number;
   isStallAdmin: boolean;
+  hasVotedBoth?: boolean;
 }
 
 export const calculateLayout = (cards: Record<string, React.ReactNode>, options: LayoutOptions) => {
-  const { isMobile, columns, isStallAdmin } = options;
+  const { isMobile, columns, isStallAdmin, hasVotedBoth } = options;
 
   if (isMobile) {
+    const mainColumn = hasVotedBoth
+      ? [cards.Header, cards.Spot, cards.HotNews, cards.Events, cards.News, cards.Vote, cards.Lost]
+      : [cards.Header, cards.Spot, cards.HotNews, cards.Events, cards.Vote, cards.News, cards.Lost];
+
     return [
-      [cards.Header, cards.Spot, cards.HotNews, cards.Events, cards.News, cards.Vote, cards.Lost],
+      mainColumn,
       !isStallAdmin ? [cards.BoothFav, cards.Booth] : [],
       !isStallAdmin ? [cards.Exhibition] : [],
       [cards.InfoTitle, cards.Bus, cards.QA, cards.Homepage],

@@ -23,6 +23,16 @@ export const useUserView = () => {
   const isMapOpen = mapControl?.isMapOpen || false;
   const setIsMapOpen = (open: boolean) => (open ? mapControl?.openMap() : mapControl?.closeMap());
 
+  const hasVotedBoth = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      const voted = JSON.parse(localStorage.getItem("voted_items") || "{}");
+      return !!voted.e && !!voted.s;
+    } catch {
+      return false;
+    }
+  }, []);
+
   const news = fetchedData?.news || [];
   const hotTime = 20;
   
@@ -51,5 +61,6 @@ export const useUserView = () => {
     openMap: () => mapControl?.openMap(),
     isSettingsOpen,
     setIsSettingsOpen,
+    hasVotedBoth,
   };
 };

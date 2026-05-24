@@ -57,6 +57,7 @@ export default function UserView() {
     targetPlace,
     isSettingsOpen,
     setIsSettingsOpen,
+    hasVotedBoth,
   } = useUserView();
 
   const isMaintenance = fetchedData?.config?.maintenance_mode === 1;
@@ -97,8 +98,8 @@ export default function UserView() {
   );
 
   const layout = useMemo(() => {
-    return calculateLayout(cards, { isMobile, columns, isStallAdmin });
-  }, [cards, isMobile, columns, isStallAdmin]);
+    return calculateLayout(cards, { isMobile, columns, isStallAdmin, hasVotedBoth });
+  }, [cards, isMobile, columns, isStallAdmin, hasVotedBoth]);
 
   if (showMaintenance) {
     return (
