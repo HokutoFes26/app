@@ -25,6 +25,7 @@ import MapRoundedIcon from "@mui/icons-material/MapRounded";
 import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 import Homepage from "@/components/Layout/Homepage";
 import styles from "./UserView.module.css";
+import ClosedView from "@/app/_components/ClosedView";
 
 const BusStatus = React.lazy(() => import("@/features/bus/components/BusStatus"));
 const LostStatus = React.lazy(() => import("@/features/lost/components/LostStatus"));
@@ -41,6 +42,7 @@ export default function UserView() {
   const {
     api: { fetchedData },
   } = useData();
+  const [showClosedOverlay, setShowClosedOverlay] = React.useState(true);
   const {
     isMobile,
     columns,
@@ -133,6 +135,20 @@ export default function UserView() {
 
   return (
     <div className="mainCanvas">
+      <AnimatePresence>
+        {showClosedOverlay && (
+          <motion.div
+            key="closed-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ zIndex: 20000, position: "fixed", inset: 0 }}
+          >
+            <ClosedView onClose={() => setShowClosedOverlay(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Suspense fallback={null}>
         <MapModal isOpen={isMapOpen} onClose={() => setIsMapOpen(false)} targetPlace={targetPlace} />
         <BoothModalManager />

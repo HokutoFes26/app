@@ -18,14 +18,17 @@ export const useEventData = () => {
     loadJSON("events").then(setEventData);
   }, []);
 
-  const currentDate = currentTime.date();
   const getEventTime = (timeStr: string) => {
     return dayjs(currentTime.format("YYYY-MM-DD") + " " + timeStr);
   };
 
   const filteredEvents = useMemo(() => {
     if (!eventData) return [];
-    const dayKey = currentDate === 24 ? "day2" : "day1";
+    
+    const dateStr = currentTime.format("YYYY-MM-DD");
+    const dayKey = dateStr === "2026-05-23" ? "day1" : dateStr === "2026-05-24" ? "day2" : "";
+    if (!dayKey) return [];
+
     const events: Event[] = (eventData as any)[dayKey] || [];
     const oneHourLater = currentTime.add(1, "hour");
 
@@ -37,7 +40,7 @@ export const useEventData = () => {
       const isUpcoming = start.isAfter(currentTime) && (start.isBefore(oneHourLater) || start.isSame(oneHourLater));
       return isOngoing || isUpcoming;
     });
-  }, [currentTime, currentDate, filterMode, eventData]);
+  }, [currentTime, filterMode, eventData]);
 
   const isInHourRange = (e: Event) => {
     const start = getEventTime(e.start);

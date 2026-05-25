@@ -8,11 +8,14 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { loginAsStallAdmin } from "@/features/auth/api";
 import { BOOTH_IDS } from "@/constants/booth-ids";
 import styles from "./page.module.css";
+import { AnimatePresence, motion } from "framer-motion";
+import ClosedView from "@/app/_components/ClosedView";
 
 const AdminView = React.lazy(() => import("@/app/admin/_components/AdminView"));
 
 export default function BoothAdminPage() {
   const { setRole, isStallAdmin, isAdmin, assignedStall, isAuthenticating } = useRole();
+  const [showClosedOverlay, setShowClosedOverlay] = React.useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const searchParams = useSearchParams();
@@ -46,7 +49,7 @@ export default function BoothAdminPage() {
         console.error("[Booth Page] QR login failed:", loginErr);
         setError("ログインに失敗しました。QRコードが正しいか確認してください。");
       }
-      setLoading(false);
+      setLoading(true);
     };
 
     if (stallName && id && pwd) {
@@ -67,14 +70,42 @@ export default function BoothAdminPage() {
 
   if (isStallAdmin && assignedStall) {
     return (
-      <Suspense fallback={<FullPageLoader />}>
-        <AdminView />
-      </Suspense>
+      <div className={styles.container}>
+        <AnimatePresence>
+          {showClosedOverlay && (
+            <motion.div
+              key="closed-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{ zIndex: 20000, position: "fixed", inset: 0 }}
+            >
+              <ClosedView onClose={() => setShowClosedOverlay(false)} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <Suspense fallback={<FullPageLoader />}>
+          <AdminView />
+        </Suspense>
+      </div>
     );
   }
 
   return (
     <div className={styles.container}>
+      <AnimatePresence>
+        {showClosedOverlay && (
+          <motion.div
+            key="closed-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ zIndex: 20000, position: "fixed", inset: 0 }}
+          >
+            <ClosedView onClose={() => setShowClosedOverlay(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className={styles.inner}>
         <h3 className={styles.title}>アクセス制限</h3>
         <p className={styles.description}>

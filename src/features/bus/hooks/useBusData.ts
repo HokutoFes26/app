@@ -92,6 +92,7 @@ export const useBusData = () => {
     processRoute(busData.HongoToImizu, "to-imizu");
     processRoute(busData.ImizuToHongo, "to-hongo");
 
+    return [];
     return results.sort((a, b) => a.isoTime.localeCompare(b.isoTime));
   }, [busData, fromStop, toStop, nowTimeStr, oneHourLaterStr, filterMode, t]);
 

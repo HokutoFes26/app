@@ -10,9 +10,12 @@ import { useRouter } from "next/navigation";
 import { useVoteData } from "@/features/vote/hooks/useVoteData";
 import { VoteList } from "@/features/vote/components/VoteList";
 import styles from "./page.module.css";
+import { AnimatePresence, motion } from "framer-motion";
+import ClosedView from "@/app/_components/ClosedView";
 
 export default function VotePage() {
   const router = useRouter();
+  const [showClosedOverlay, setShowClosedOverlay] = React.useState(true);
   const {
     targets,
     category,
@@ -33,6 +36,20 @@ export default function VotePage() {
 
   return (
     <div className={styles.container}>
+      <AnimatePresence>
+        {showClosedOverlay && (
+          <motion.div
+            key="closed-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ zIndex: 20000, position: "fixed", inset: 0 }}
+          >
+            <ClosedView onClose={() => setShowClosedOverlay(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <button onClick={() => router.back()} className={styles.backBtn} aria-label="戻る">
         <ArrowBackIosNewIcon className={styles.backIcon} />
       </button>

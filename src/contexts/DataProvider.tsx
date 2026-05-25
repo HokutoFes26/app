@@ -163,44 +163,47 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    if (isSuspended) {
-      setIsStallsLive(false);
-      isStallsLiveRef.current = false;
-      return;
-    }
+    setIsStallsLive(false);
+    isStallsLiveRef.current = false;
+    return;
+    // if (isSuspended) {
+    //   setIsStallsLive(false);
+    //   isStallsLiveRef.current = false;
+    //   return;
+    // }
 
-    const stallChannel = supabase
-      .channel("stalls-changes")
-      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "stalls_status" }, (payload) => {
-        const updatedRow = payload.new as any;
-        setStalls((currentStalls) =>
-          currentStalls.map((s) =>
-            s.id === updatedRow.id
-              ? { ...s, crowdLevel: updatedRow.crowd_level, stockLevel: updatedRow.stock_level }
-              : s,
-          ),
-        );
-      })
-      .subscribe((status) => {
-        const isLive = status === "SUBSCRIBED";
-        setIsStallsLive(isLive);
-        isStallsLiveRef.current = isLive;
-      });
+    // const stallChannel = supabase
+    //   .channel("stalls-changes")
+    //   .on("postgres_changes", { event: "UPDATE", schema: "public", table: "stalls_status" }, (payload) => {
+    //     const updatedRow = payload.new as any;
+    //     setStalls((currentStalls) =>
+    //       currentStalls.map((s) =>
+    //         s.id === updatedRow.id
+    //           ? { ...s, crowdLevel: updatedRow.crowd_level, stockLevel: updatedRow.stock_level }
+    //           : s,
+    //       ),
+    //     );
+    //   })
+    //   .subscribe((status) => {
+    //     const isLive = status === "SUBSCRIBED";
+    //     setIsStallsLive(isLive);
+    //     isStallsLiveRef.current = isLive;
+    //   });
 
-    const tables = ["news"];
-    const otherChannels = tables.map((tableName) =>
-      supabase
-        .channel(`${tableName}-changes`)
-        .on("postgres_changes", { event: "*", schema: "public", table: tableName }, () => {
-          performRefresh(true);
-        })
-        .subscribe(),
-    );
+    // const tables = ["news"];
+    // const otherChannels = tables.map((tableName) =>
+    //   supabase
+    //     .channel(`${tableName}-changes`)
+    //     .on("postgres_changes", { event: "*", schema: "public", table: tableName }, () => {
+    //       performRefresh(true);
+    //     })
+    //     .subscribe(),
+    // );
 
-    return () => {
-      supabase.removeChannel(stallChannel);
-      otherChannels.forEach((ch) => supabase.removeChannel(ch));
-    };
+    // return () => {
+    //   supabase.removeChannel(stallChannel);
+    //   otherChannels.forEach((ch) => supabase.removeChannel(ch));
+    // };
   }, [isSuspended]);
 
   useEffect(() => {
@@ -210,28 +213,29 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
     isInitialRefreshStarted.current = true;
     performRefresh(true);
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        const now = Date.now();
-        const diff = now - lastFetchTime.current;
-        const currentInterval = config.poll_interval_ms || FETCH_INTERVAL_MS;
-        if (diff > currentInterval) {
-          if (!isSuspended) performRefresh(false);
-        }
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+    return;
+    // const handleVisibilityChange = () => {
+    //   if (document.visibilityState === "visible") {
+    //     const now = Date.now();
+    //     const diff = now - lastFetchTime.current;
+    //     const currentInterval = config.poll_interval_ms || FETCH_INTERVAL_MS;
+    //     if (diff > currentInterval) {
+    //       if (!isSuspended) performRefresh(false);
+    //     }
+    //   }
+    // };
+    // document.addEventListener("visibilitychange", handleVisibilityChange);
+    // return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, [isSuspended, config.poll_interval_ms, isJSONLoaded]);
 
   useEffect(() => {
-    if (isSuspended) return;
+    return;
+    // if (isSuspended) return;
 
-    const interval = config.poll_interval_ms || FETCH_INTERVAL_MS;
-    const jitter = Math.floor(Math.random() * 5000);
-    const timer = setInterval(() => performRefresh(), interval + jitter);
-    return () => clearInterval(timer);
+    // const interval = config.poll_interval_ms || FETCH_INTERVAL_MS;
+    // const jitter = Math.floor(Math.random() * 5000);
+    // const timer = setInterval(() => performRefresh(), interval + jitter);
+    // return () => clearInterval(timer);
   }, [isSuspended, config.poll_interval_ms]);
 
   const value: DataContextType = {

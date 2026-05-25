@@ -2,9 +2,13 @@
 本ウェブアプリでは、北斗祭での模擬店の混雑・在庫状況、イベントタイムテーブル、バスの発着時刻、落とし物情報、Q&Aをリアルタイムに更新し、スムーズにより楽しく回るためのWebアプリケーションです。  
 特設ホームページについては[このリポジトリ](https://github.com/HokutoFes26/HokutoFes26.github.io)を参照してください。
 
+### アナリティクス
+第18回 北斗祭での利用実績は[こちら](./Log_Data.md)を参照してください。
+
 ## 公開URL
 
 - ウェブアプリ : [https://hokutofes26.github.io/app](https://hokutofes26.github.io/app)
+- デモページ : [https://hokutofes26.github.io/app/demo](https://hokutofes26.github.io/app/demo)
 
 ## 外観
 
