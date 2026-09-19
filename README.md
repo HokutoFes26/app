@@ -7,7 +7,7 @@
 
 ### システムフレームワーク
 
-本アプリは、学園祭向けリアルタイム情報基盤 **[FesTime](https://github.com/rsu-Suba/FesTime)** をベースに構築されています。
+本アプリは、文化祭向けリアルタイム情報基盤 **[FesTime](https://github.com/rsu-Suba/FesTime)** をベースに構築されています。
 本リポジトリは FesTime のリファレンス実装（北斗祭での実運用例）として公開しています。導入を検討される方は、[FesTime プロジェクト本体](https://github.com/rsu-Suba/FesTime) を参照してください。
 
 このアプリの提供機能や技術的な詳細については、[FesTime フレームワークドキュメント](https://festime.suba.pro/guide/getting-started/) を参照してください。
