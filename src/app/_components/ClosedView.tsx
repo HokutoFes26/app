@@ -103,22 +103,6 @@ export default function ClosedView({ onClose }: ClosedViewProps) {
             >
               アプリの内容を見る
             </Button>
-            <Button
-              size="large"
-              href="https://hokutofes26.github.io/#lost"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                borderRadius: "999px",
-                height: "50px",
-                padding: "0 40px",
-                fontSize: "16px",
-                width: "min(250px, 70vw)",
-              }}
-            >
-              落とし物を確認する
-              <CallMadeRoundedIcon style={{fontSize: "0.9em"}} />
-            </Button>
           </div>
         )}
       </motion.div>

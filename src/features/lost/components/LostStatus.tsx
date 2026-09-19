@@ -27,18 +27,9 @@ export default function LostStatus() {
     <CardBase title={t("CardTitles.LOST_FOUND")}>
       <CardInside>
         <div className={styles.noDataContainer} style={{ textAlign: "center", padding: "10px 0" }}>
-          <p className={styles.noDataText} style={{ paddingBottom: "16px" }}>
-            {t("LostFound.MigratedNotice", "落とし物情報は公式ホームページへ移行しました。")}
+          <p className={styles.noDataText}>
+            落とし物はありません。
           </p>
-          <Button 
-            type="primary" 
-            href={"https://hokutofes26.github.io/#lost"} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            style={{ borderRadius: "999px" }}
-          >
-            {t("LostFound.ViewOnHomepage", "ホームページで確認する")}
-          </Button>
         </div>
         {/*
         {isLoading ? (
